@@ -7,7 +7,7 @@ Semi-bold 600
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600&display=swap');
 
 :root {
-  font: 18px 'Mulish', sans-serif;
+  font: 16px 'Mulish', sans-serif;
   --primary-blue: #2D9CDB;
   --primary-grey: #F7F8FC;
   --rounded: 5px;

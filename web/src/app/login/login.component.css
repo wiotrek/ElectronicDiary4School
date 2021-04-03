@@ -1,0 +1,40 @@
+@media (max-width: 500px) {
+    .container {
+        background-color: white;
+        width: 90vw;
+        height: auto;
+        margin: 0 5vw;
+        border-radius: var(--rounded);
+    }
+
+    h3.greeting {
+        width: 100%;
+        padding: 10% 0;
+        text-align: center;
+    }
+
+    form {
+        margin: 0 5%;
+    }
+
+    .form-group {
+        margin: 10% 0;
+    }
+
+    label {
+        font-size: 0.8rem;
+    }
+
+    input {
+        border: 0;
+        border-bottom: 2px solid var(--primary-blue);
+        border-radius: 0;
+    }
+
+    .center-button {
+        display: flex;
+        justify-content: space-around;
+        padding-bottom: 10vh;
+    }
+
+}

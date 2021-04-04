@@ -7,6 +7,7 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SharedModule } from './_modules/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

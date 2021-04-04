@@ -1,10 +1,9 @@
-/*
-Mulish
+/*Mulish
 Light 300
 Regular 400
-Semi-bold 600
-*/
+Semi-bold 600*/
 @import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;600&display=swap');
+@import "~bootstrap-icons/font/bootstrap-icons.css";
 
 :root {
   font: 16px 'Mulish', sans-serif;
@@ -22,3 +21,11 @@ Semi-bold 600
 body {
   background-color: var(--primary-grey);
 }
+
+
+@media (max-width: 800px) {
+  .bgForLoggingComponent {
+    background-color: var(--primary-blue);
+  }
+}
+

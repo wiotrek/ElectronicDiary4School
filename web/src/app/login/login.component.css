@@ -59,14 +59,17 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .left {
-        grid-column: 1;
-        background-color: var(--primary-blue);
-        color: white;
+    .block {
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
+    }
+
+    .left {
+        grid-column: 1;
+        background-color: var(--primary-blue);
+        color: white;
         border-radius: var(--rounded);
         animation: appear 2s ease-in-out .5s backwards;
     }
@@ -85,15 +88,11 @@
 
     .right {
         grid-column: 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
     }
 
     .right-elements {
         width: 100%;
-        margin: 2vh 5vh;
+        margin: 2vh 8vmin;
     }
 
     h3.greeting {
@@ -112,18 +111,10 @@
     }
 
     label {
-        font-size: 0.8rem;
-    }
-
-    input {
-        border: 0;
-        border-bottom: 2px solid var(--primary-blue);
-        border-radius: 0;
+        font-size: 1rem;
     }
 
     .center-button {
-        display: flex;
-        justify-content: space-around;
         padding-bottom: 0;
     }
 }

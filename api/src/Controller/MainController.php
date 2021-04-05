@@ -13,6 +13,7 @@ class MainController extends AbstractController
      */
     public function index(): Response
     {
+        // fdsfsd
         return new Response(content: '<h1>Welcome</h1>');
     }
 }

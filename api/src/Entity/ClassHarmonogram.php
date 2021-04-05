@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ClassHarmonogram
  *
- * @ORM\Table(name="class-harmonogram", indexes={@ORM\Index(name="class-harmonogram_class_fk", columns={"class_id"}), @ORM\Index(name="class-harmonogram_subject_fk", columns={"subject_id"})})
+ * @ORM\Table(name="class_harmonogram", indexes={@ORM\Index(name="class_harmonogram_class_fk", columns={"class_id"}), @ORM\Index(name="class_harmonogram_subject_fk", columns={"subject_id"})})
  * @ORM\Entity
  */
 class ClassHarmonogram
@@ -15,7 +15,7 @@ class ClassHarmonogram
     /**
      * @var int
      *
-     * @ORM\Column(name="class-harmonogram_id", type="integer", nullable=false)
+     * @ORM\Column(name="class_harmonogram_id", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
@@ -43,9 +43,9 @@ class ClassHarmonogram
     private $endTime;
 
     /**
-     * @var \Class
+     * @var \UserClass
      *
-     * @ORM\ManyToOne(targetEntity="Class")
+     * @ORM\ManyToOne(targetEntity="UserClass")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="class_id", referencedColumnName="class_id")
      * })

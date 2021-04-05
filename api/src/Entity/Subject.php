@@ -31,9 +31,9 @@ class Subject
     /**
      * @var string|null
      *
-     * @ORM\Column(name="type", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="type", type="string", length=20, nullable=true)
      */
-    private $type = 'NULL';
+    private $type;
 
 
 }

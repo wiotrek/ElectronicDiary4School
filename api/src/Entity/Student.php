@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Student
  *
- * @ORM\Table(name="student", indexes={@ORM\Index(name="student_user_fk", columns={"user_id"}), @ORM\Index(name="student_class_fk", columns={"class_id"}), @ORM\Index(name="student_role_fk", columns={"role_id"})})
+ * @ORM\Table(name="student", indexes={@ORM\Index(name="student_class_fk", columns={"class_id"}), @ORM\Index(name="student_role_fk", columns={"role_id"}), @ORM\Index(name="student_user_fk", columns={"user_id"})})
  * @ORM\Entity
  */
 class Student
@@ -22,9 +22,9 @@ class Student
     private $studentId;
 
     /**
-     * @var \Class
+     * @var \UserClass
      *
-     * @ORM\ManyToOne(targetEntity="Class")
+     * @ORM\ManyToOne(targetEntity="UserClass")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="class_id", referencedColumnName="class_id")
      * })

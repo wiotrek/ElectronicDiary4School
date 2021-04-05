@@ -22,9 +22,9 @@ class TeacherClass
     private $teacherClassId;
 
     /**
-     * @var \Class
+     * @var \UserClass
      *
-     * @ORM\ManyToOne(targetEntity="Class")
+     * @ORM\ManyToOne(targetEntity="UserClass")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="class_id", referencedColumnName="class_id")
      * })

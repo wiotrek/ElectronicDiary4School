@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * StudentMarks
  *
- * @ORM\Table(name="student_marks", indexes={@ORM\Index(name="student_marks_subject_fk", columns={"subject_id"}), @ORM\Index(name="student_marks_marks_fk", columns={"marks_id"}), @ORM\Index(name="student_marks_marks_type_fk", columns={"marks_type_id"}), @ORM\Index(name="student_marks_student_fk", columns={"student_id"})})
+ * @ORM\Table(name="student_marks", indexes={@ORM\Index(name="student_marks_marks_fk", columns={"marks_id"}), @ORM\Index(name="student_marks_marks_type_fk", columns={"marks_type_id"}), @ORM\Index(name="student_marks_student_fk", columns={"student_id"}), @ORM\Index(name="student_marks_subject_fk", columns={"subject_id"})})
  * @ORM\Entity
  */
 class StudentMarks
@@ -24,9 +24,9 @@ class StudentMarks
     /**
      * @var int|null
      *
-     * @ORM\Column(name="approach_number", type="integer", nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="approach_number", type="integer", nullable=true)
      */
-    private $approachNumber = NULL;
+    private $approachNumber;
 
     /**
      * @var string

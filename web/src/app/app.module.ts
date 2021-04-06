@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { TeacherComponent } from './teacher/teacher.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './_modules/shared/shared.module';
 
 @NgModule({
@@ -22,7 +22,9 @@ import { SharedModule } from './_modules/shared/shared.module';
     NgbModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    NgbDropdown
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

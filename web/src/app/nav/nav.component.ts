@@ -12,4 +12,9 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  person = {
+    name: 'Sylwia',
+    photoUrl: 'https://randomuser.me/api/portraits/women/60.jpg'
+  };
+
 }

@@ -1,0 +1,5 @@
+@media (min-width: 0) {
+    .container {
+        max-width: 98vmin;
+    }
+}

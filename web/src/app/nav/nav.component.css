@@ -25,6 +25,7 @@
     }
 
     .iconHome {
+        color: var(--primary-blue);
     }
 
     .greeting {

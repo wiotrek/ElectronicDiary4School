@@ -1,14 +1,3 @@
-<main>
-
-    <h4><a class="back" (click)="this.back()">Wróć</a> Wybierz przedmiot</h4>
-
-    <ul>
-        <li routerLink='/nauczyciel/lista-przedmiotow' *ngFor="let item of list; index as i">
-            <p>
-                <i ngClass={{this.icons[i]}} class="subjectIcon" [ngStyle]="{'color': this.iconColors[i]}">
-                </i>{{item}}
-            </p>
-        </li>
-    </ul>
-
-</main>
+<app-choice-card
+[dateFromParent]="dateToChild"
+></app-choice-card>

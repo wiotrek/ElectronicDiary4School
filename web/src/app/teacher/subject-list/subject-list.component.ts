@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { TeacherService } from 'src/app/_services/teacher.service';
+import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
 
 @Component({
   selector: 'app-subject-list',
@@ -9,10 +9,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
 })
 export class SubjectListComponent implements OnInit {
 
-  constructor(
-    private ts: TeacherService,
-    private location: Location
-  ) { }
+  dateToChild = {} as TeacherChoiceCard;
 
   list = [
     'polski',
@@ -26,16 +23,26 @@ export class SubjectListComponent implements OnInit {
     'fizyka'
   ];
 
-  icons: string[] = [];
-  iconColors: string[] = [];
+  // dateToChild = [
+  //   {
+  //     title: 'Wybierz przedmioty',
+  //     link: 'nauczyciel/lista-przedmiotow',
+  //     listToAdd: this.list,
+  //   }
+  // ];
+
+  constructor(
+    private location: Location
+  ) {
+    this.dateToChild.title = 'Wybierz przedmiot';
+    this.dateToChild.link = 'nauczyciel/lista-przedmiotow';
+    this.dateToChild.list = this.list;
+  }
 
   ngOnInit(): void {
-    this.icons = this.ts.defaultIcons.sort(() => Math.random() - 0.5);
-    this.iconColors = this.ts.randomColor.sort(() => Math.random() - 0.5);
   }
 
   back(): void {
     this.location.back();
   }
-
 }

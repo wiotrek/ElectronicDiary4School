@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -7,6 +8,11 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   styleUrls: ['./subject-list.component.css']
 })
 export class SubjectListComponent implements OnInit {
+
+  constructor(
+    private ts: TeacherService,
+    private location: Location
+  ) { }
 
   list = [
     'polski',
@@ -23,13 +29,13 @@ export class SubjectListComponent implements OnInit {
   icons: string[] = [];
   iconColors: string[] = [];
 
-  constructor(
-    private ts: TeacherService
-  ) { }
-
   ngOnInit(): void {
     this.icons = this.ts.defaultIcons.sort(() => Math.random() - 0.5);
     this.iconColors = this.ts.randomColor.sort(() => Math.random() - 0.5);
+  }
+
+  back(): void {
+    this.location.back();
   }
 
 }

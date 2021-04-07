@@ -2,7 +2,13 @@
 
     h4 {
         color: var(--primary-blue);
-        font-weight:600;
+        font-weight:500;
+    }
+
+    .back {
+        cursor: pointer;
+        padding: 0 10px;
+        border-right: 2px solid var(--line-grey);
     }
 
     ul {
@@ -22,7 +28,7 @@
         cursor: pointer;
     }
     
-    i {
+    .subjectIcon {
         color: var(--primary-blue);
         margin-right: 2px;
     }
@@ -51,7 +57,7 @@
         display: grid;
     }
     
-    i {
+    .subjectIcon {
         font-size: 3rem;
         display: flex;
         justify-content: center;

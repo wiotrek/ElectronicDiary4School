@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -11,7 +12,11 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ], 
   exports: [
-    FormsModule
+    FormsModule,
+    NgbModule
+  ],
+  providers: [
+    NgbDropdown
   ]
 })
 export class SharedModule { }

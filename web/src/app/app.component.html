@@ -1,5 +1,8 @@
-<app-nav
-*ngIf="!this.sites.includes(this.router.url)"
-></app-nav>
+<div class="container" *ngIf="userExist else login">
+    <app-nav></app-nav>
+    <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>
+<ng-template #login>
+    <app-login></app-login>
+</ng-template>

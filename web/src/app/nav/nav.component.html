@@ -1,14 +1,14 @@
 <nav>
     <ul>
-        <li><i class="bi bi-house-door-fill"></i></li>
-        <li>
-            <a>
-                <p class="greeting">Witaj, {{person.name}}</p>
-                <div class="dropdown-menu mt-3" ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <a routerLink='/member/edit' class="dropdown-item">Edit Profile</a>
-                    <div class="dropdown-divder"></div>
-                    <a class="dropdown-item">Logout</a>
-               </div>
+        <li><a class="iconHome"><i class="bi bi-house-door-fill"></i></a></li>
+        <li ngbDropdown>
+            <a id="dropdownBasic1" ngbDropdownToggle>
+                <p class="greeting" >
+                    Witaj, {{person.name}}</p>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <button class="logout" ngbDropdownItem>Wyloguj się</button>
+                </div>
+
                 <img src="{{person.photoUrl}}" alt="avatar">
             </a>
         </li>

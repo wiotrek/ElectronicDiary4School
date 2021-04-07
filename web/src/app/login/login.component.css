@@ -52,7 +52,7 @@
 
 }
 
-@media (min-width: 800px) {
+@media (min-width: 769px) {
 
     .container {
         display: grid;

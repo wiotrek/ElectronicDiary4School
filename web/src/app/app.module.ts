@@ -7,13 +7,17 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from './_modules/shared/shared.module';
+import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
+import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     LoginComponent,
-    TeacherComponent
+    TeacherComponent,
+    SubjectListComponent,
+    ChoiceCardComponent
   ],
   imports: [
     BrowserModule,

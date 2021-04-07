@@ -14,8 +14,4 @@ export class AccountService {
   constructor(
     private http: HttpClient
   ) { }
-
-  
-
-  
 }

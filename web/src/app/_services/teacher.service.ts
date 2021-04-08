@@ -20,7 +20,8 @@ export class TeacherService {
     'fa fa-tint',
     'fa fa-university',
     'fa fa-music',
-    'fa fa-bolt'
+    'fa fa-bolt',
+    'bi bi-joystick'
   ];
 
   randomColor = [

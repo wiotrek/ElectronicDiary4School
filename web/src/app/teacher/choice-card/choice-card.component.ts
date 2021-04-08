@@ -28,4 +28,7 @@ export class ChoiceCardComponent implements OnInit {
     this.location.back();
   }
 
+  createLink = (item: string) => {
+    return item.replace(' ', '-').toLowerCase();
+  }
 }

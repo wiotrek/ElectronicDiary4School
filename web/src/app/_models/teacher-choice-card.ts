@@ -1,5 +1,6 @@
 export interface TeacherChoiceCard {
     title: string;
-    link: string;
+    action: string;
+    hideBack?: boolean;
     list: string[];
 }

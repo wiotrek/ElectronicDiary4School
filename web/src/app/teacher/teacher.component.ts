@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TeacherChoiceCard } from '../_models/teacher-choice-card';
 
 @Component({
   selector: 'app-teacher',
@@ -7,7 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TeacherComponent implements OnInit {
 
-  constructor() { }
+  dateToChild = {} as TeacherChoiceCard;
+
+  list = [
+    'Rozpocznij lekcje'
+  ];
+
+  constructor(
+  ) {
+    this.dateToChild.title = 'Strona Główna';
+    this.dateToChild.action = 'wybrano';
+    this.dateToChild.hideBack = true;
+    this.dateToChild.list = this.list;
+  }
 
   ngOnInit(): void {
   }

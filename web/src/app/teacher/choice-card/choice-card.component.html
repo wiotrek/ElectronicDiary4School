@@ -1,10 +1,11 @@
 <main>
 
-    <h4><a class="back" (click)="this.back()">Wróć</a> {{dateFromParent.title}}</h4>
+    <h4><a class="back" *ngIf="!this.dateFromParent.hideBack" (click)="this.back()"
+        >Wróć</a> {{dateFromParent.title}}</h4>
 
     <ul>
-        <li routerLink={{dateFromParent.link}} *ngFor="let item of dateFromParent.list; index as i">
-            <p>
+        <li *ngFor="let item of dateFromParent.list; index as i">
+            <p routerLink={{this.createLink(item)}} >
                 <i ngClass={{this.icons[i]}} class="subjectIcon" [ngStyle]="{'color': this.iconColors[i]}">
                 </i>{{item}}
             </p>

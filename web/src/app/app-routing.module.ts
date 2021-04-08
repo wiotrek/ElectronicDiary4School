@@ -5,7 +5,7 @@ import { TeacherComponent } from './teacher/teacher.component';
 
 const routes: Routes = [
   { path: 'nauczyciel', component: TeacherComponent },
-  { path: 'nauczyciel/lista-przedmiotow', component: SubjectListComponent }
+  { path: 'nauczyciel/rozpocznij-lekcje', component: SubjectListComponent }
 ];
 
 @NgModule({

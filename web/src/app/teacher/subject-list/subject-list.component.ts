@@ -23,19 +23,10 @@ export class SubjectListComponent implements OnInit {
     'fizyka'
   ];
 
-  // dateToChild = [
-  //   {
-  //     title: 'Wybierz przedmioty',
-  //     link: 'nauczyciel/lista-przedmiotow',
-  //     listToAdd: this.list,
-  //   }
-  // ];
-
   constructor(
     private location: Location
   ) {
     this.dateToChild.title = 'Wybierz przedmiot';
-    this.dateToChild.link = 'nauczyciel/lista-przedmiotow';
     this.dateToChild.list = this.list;
   }
 

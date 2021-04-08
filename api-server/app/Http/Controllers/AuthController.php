@@ -17,10 +17,10 @@ class AuthController extends Controller
 
         // Return bad request if user not exist
         if (is_null($user->value('hash_pass')))
-            return new JsonResponse('nie ma takiego uzytkownika', 400);
+            return new JsonResponse('Nie poprawny identyfikator lub hasło', 400);
 
 
-        // Get user password
+        // Get user password from hash_pass column
         $userPassword = $user->value('hash_pass');
 
 
@@ -31,6 +31,9 @@ class AuthController extends Controller
         // Return token for login user
         if ($isPasswordCorrect)
             return new JsonResponse(Str::random(60), 200);
+        else
+            return new JsonResponse('Nie poprawny identyfikator lub hasło', 400);
+
 
     }
 }

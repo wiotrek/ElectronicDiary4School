@@ -30,3 +30,6 @@ body {
   }
 }
 
+a:visited {
+  color: inherit;
+}

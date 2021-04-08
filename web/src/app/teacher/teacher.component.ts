@@ -1,12 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TeacherChoiceCard } from '../_models/teacher-choice-card';
 
 @Component({
   selector: 'app-teacher',
-  templateUrl: './teacher.component.html',
-  styleUrls: ['./teacher.component.css']
+  template: `
+  <app-choice-card
+  [dateFromParent]="dateToChild"
+  ></app-choice-card>
+  `
 })
-export class TeacherComponent implements OnInit {
+export class TeacherComponent {
 
   dateToChild = {} as TeacherChoiceCard;
 
@@ -21,8 +24,4 @@ export class TeacherComponent implements OnInit {
     this.dateToChild.hideBack = true;
     this.dateToChild.list = this.list;
   }
-
-  ngOnInit(): void {
-  }
-
 }

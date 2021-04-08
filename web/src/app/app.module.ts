@@ -9,6 +9,7 @@ import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from './_modules/shared/shared.module';
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component';
+import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component
     LoginComponent,
     TeacherComponent,
     SubjectListComponent,
-    ChoiceCardComponent
+    ChoiceCardComponent,
+    ClassListComponent
   ],
   imports: [
     BrowserModule,

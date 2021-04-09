@@ -6,9 +6,13 @@ import { User } from '../_models/user';
   providedIn: 'root'
 })
 export class AccountService {
-
   private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
+
+  roles = [
+    {teacher: '/nauczyciel'},
+    {student: '/uczen'}
+  ];
 
   constructor() { }
 
@@ -18,7 +22,7 @@ export class AccountService {
       return 'Nie udalo sie';
     }
 
-    const logedUser: User = {username: 'Sylwia', token: 'dlugitoken123'};
+    const logedUser: User = {username: 'Sylwia', token: 'dlugitoken123', roles: ['teacher']};
     this.setCurrentUser(logedUser);
     window.location.reload();
   }

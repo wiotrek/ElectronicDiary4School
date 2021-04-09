@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
+import { AccountService } from '../_services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +7,11 @@ import { Component, ElementRef, OnInit } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  model:any  = {};
+  model: any = {};
 
   constructor(
-    private elementRef: ElementRef
+    private elementRef: ElementRef,
+    private accountService: AccountService
   ) {
    }
 
@@ -19,7 +21,8 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log(this.model);
+    const result = this.accountService.login(this.model);
+    console.log(result);
   }
 
 }

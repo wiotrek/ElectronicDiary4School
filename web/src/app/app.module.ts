@@ -10,6 +10,7 @@ import { SharedModule } from './_modules/shared/shared.module';
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ClassListComponent } from './teacher/subject-list/class-list/class-list
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
     SharedModule
   ],
   providers: [],

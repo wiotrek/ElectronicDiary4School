@@ -6,7 +6,8 @@
                 <p class="greeting" >
                     Witaj, {{person.name}}</p>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="logout" ngbDropdownItem>Wyloguj się</button>
+                    <button class="logout" (click)="logout()" 
+                    ngbDropdownItem>Wyloguj się</button>
                 </div>
 
                 <img src="{{person.photoUrl}}" alt="avatar">

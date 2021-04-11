@@ -5,25 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $student_id
- * @property int        $subject_id
- * @property int        $student_subject_id
+ * @property int        $marks_id
+ * @property string     $degree
  */
-class StudentSubject extends Model
+class Marks extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'student_subject';
+    protected $table = 'marks';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = 'student_subject_id';
+    protected $primaryKey = 'marks_id';
 
     /**
      * Attributes that should be mass-assignable.
@@ -31,9 +30,8 @@ class StudentSubject extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id',
-        'subject_id',
-        'student_subject_id'
+        'marks_id',
+        'degree'
     ];
 
     /**
@@ -51,9 +49,8 @@ class StudentSubject extends Model
      * @var array
      */
     protected $casts = [
-        'student_id' => 'int',
-        'subject_id' => 'int',
-        'student_subject_id' => 'int'
+        'marks_id' => 'int',
+        'degree' => 'string'
     ];
 
     /**

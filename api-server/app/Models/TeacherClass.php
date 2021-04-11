@@ -1,48 +1,80 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class TeacherClass
- * 
- * @property int|null $teacher_id
- * @property int|null $class_id
- * @property int $teacher_class_id
- * 
- * @property UserClass|null $user_class
- * @property Teacher|null $teacher
- *
- * @package App\Models
+ * @property int        $teacher_id
+ * @property int        $class_id
+ * @property int        $teacher_class_id
  */
 class TeacherClass extends Model
 {
-	protected $table = 'teacher_class';
-	protected $primaryKey = 'teacher_class_id';
-	public $timestamps = false;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'teacher_class';
 
-	protected $casts = [
-		'teacher_id' => 'int',
-		'class_id' => 'int'
-	];
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'teacher_class_id';
 
-	protected $fillable = [
-		'teacher_id',
-		'class_id'
-	];
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'teacher_id',
+        'class_id',
+        'teacher_class_id'
+    ];
 
-	public function user_class()
-	{
-		return $this->belongsTo(UserClass::class, 'class_id');
-	}
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
 
-	public function teacher()
-	{
-		return $this->belongsTo(Teacher::class);
-	}
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'teacher_id' => 'int',
+        'class_id' => 'int',
+        'teacher_class_id' => 'int'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
 }

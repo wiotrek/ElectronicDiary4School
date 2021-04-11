@@ -2,38 +2,48 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
     public function login(Request $request) {
 
-        // Get user from table by identifier
-        $user = DB::table('user')->where('identifier', '=', $request->identifier);
+        // Verify that credentials are correct
+        if (!Auth::attempt($request -> only('identifier', 'password'))){
+            return response([
+                'message' => 'Invalid credentials'
+            ], Response::HTTP_UNAUTHORIZED);
+        }
+
+        // If okay then create token with cookie for authenticated user
+        $user = Auth::user();
+        $token = $user->createToken('token')->plainTextToken;
+        $cookie = cookie('jwt', $token, 60 * 24);
 
 
-        // Return bad request if user not exist
-        if (is_null($user->value('hash_pass')))
-            return new JsonResponse('Nie poprawny identyfikator lub hasło', 400);
+        // return token
+        return response([
+            'message' => $token
+        ])->withCookie($cookie);
+
+    }
 
 
-        // Get user password from hash_pass column
-        $userPassword = $user->value('hash_pass');
+    public function logout () {
+        // Clear token
+        $cookie = Cookie::forget('jwt');
+
+        return response([
+            'message' => 'success'
+        ])->withCookie($cookie);
+    }
 
 
-        // The flag indicates if password is correct
-        $isPasswordCorrect = password_verify($request->password, $userPassword);
-
-
-        // Return token for login user
-        if ($isPasswordCorrect)
-            return new JsonResponse(Str::random(60), 200);
-        else
-            return new JsonResponse('Nie poprawny identyfikator lub hasło', 400);
-
-
+    // Tested preview authenticated user
+    public function user () {
+        return Auth::user();
     }
 }

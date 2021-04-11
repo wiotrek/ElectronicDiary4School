@@ -1,42 +1,80 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class MarksType
- * 
- * @property int $marks_type_id
- * @property string $mark_from
- * @property float $weights
- * 
- * @property Collection|StudentMark[] $student_marks
- *
- * @package App\Models
+ * @property int        $marks_type_id
+ * @property string     $mark_from
+ * @property float      $weights
  */
 class MarksType extends Model
 {
-	protected $table = 'marks_type';
-	protected $primaryKey = 'marks_type_id';
-	public $timestamps = false;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'marks_type';
 
-	protected $casts = [
-		'weights' => 'float'
-	];
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'marks_type_id';
 
-	protected $fillable = [
-		'mark_from',
-		'weights'
-	];
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'marks_type_id',
+        'mark_from',
+        'weights'
+    ];
 
-	public function student_marks()
-	{
-		return $this->hasMany(StudentMark::class);
-	}
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'marks_type_id' => 'int',
+        'mark_from' => 'string',
+        'weights' => 'float'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
 }

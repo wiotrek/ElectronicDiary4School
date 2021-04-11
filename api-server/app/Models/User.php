@@ -1,55 +1,95 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
- * Class User
- * 
- * @property int $user_id
- * @property string $first_name
- * @property string $last_name
- * @property string $identifier
- * @property boolean $hash_pass
- * @property boolean $salt_pass
- * 
- * @property Collection|Student[] $students
- * @property Collection|Teacher[] $teachers
- *
- * @package App\Models
+ * @property int        $user_id
+ * @property string     $first_name
+ * @property string     $last_name
+ * @property string     $identifier
+ * @property string     $hash_pass
+ * @property string     $password
  */
-class User extends Model
+class User extends Authenticatable
 {
-	protected $table = 'user';
-	protected $primaryKey = 'user_id';
-	public $timestamps = false;
+    use HasFactory, Notifiable, HasApiTokens;
 
-	protected $casts = [
-		'hash_pass' => 'boolean',
-		'salt_pass' => 'boolean'
-	];
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'user';
 
-	protected $fillable = [
-		'first_name',
-		'last_name',
-		'identifier',
-		'hash_pass',
-		'salt_pass'
-	];
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'user_id';
 
-	public function students()
-	{
-		return $this->hasMany(Student::class);
-	}
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id',
+        'first_name',
+        'last_name',
+        'identifier',
+        'hash_pass',
+        'salt_pass'
+    ];
 
-	public function teachers()
-	{
-		return $this->hasMany(Teacher::class);
-	}
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password'
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'user_id' => 'int',
+        'first_name' => 'string',
+        'last_name' => 'string',
+        'identifier' => 'string',
+        'hash_pass' => 'string',
+        'password' => 'string'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
 }

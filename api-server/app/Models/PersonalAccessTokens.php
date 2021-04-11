@@ -3,27 +3,32 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\PersonalAccessToken as SanctumPersonalAccessToken;
 
 /**
- * @property int        $student_id
- * @property int        $subject_id
- * @property int        $student_subject_id
+ * @property string     $tokenable_type
+ * @property string     $name
+ * @property string     $token
+ * @property string     $abilities
+ * @property int        $last_used_at
+ * @property int        $created_at
+ * @property int        $updated_at
  */
-class StudentSubject extends Model
+class PersonalAccessTokens extends SanctumPersonalAccessToken
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'student_subject';
+    protected $table = 'personal_access_tokens';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = 'student_subject_id';
+    protected $primaryKey = 'id';
 
     /**
      * Attributes that should be mass-assignable.
@@ -31,9 +36,14 @@ class StudentSubject extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id',
-        'subject_id',
-        'student_subject_id'
+        'tokenable_type',
+        'tokenable_id',
+        'name',
+        'token',
+        'abilities',
+        'last_used_at',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -51,9 +61,13 @@ class StudentSubject extends Model
      * @var array
      */
     protected $casts = [
-        'student_id' => 'int',
-        'subject_id' => 'int',
-        'student_subject_id' => 'int'
+        'tokenable_type' => 'string',
+        'name' => 'string',
+        'token' => 'string',
+        'abilities' => 'string',
+        'last_used_at' => 'timestamp',
+        'created_at' => 'timestamp',
+        'updated_at' => 'timestamp'
     ];
 
     /**
@@ -62,7 +76,7 @@ class StudentSubject extends Model
      * @var array
      */
     protected $dates = [
-
+        'last_used_at', 'created_at', 'updated_at'
     ];
 
     /**

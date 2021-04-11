@@ -22,5 +22,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 //TODO: Seperate Routes to differents php files as userapi - UserController
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/logowanie', [AuthController::class, 'login']);
+Route::get('/users', [UserController::class, 'index'] );
+Route::post('/logowanie', [AuthController::class, 'login'] );
+
+Route::middleware('auth:sanctum')->group(function() {
+
+    Route::get( '/user', [ AuthController::class, 'user' ] );
+    Route::post( '/logout', [ AuthController::class, 'logout' ] );
+
+});

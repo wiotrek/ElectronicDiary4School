@@ -1,42 +1,77 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Role
- * 
- * @property int $role_id
- * @property string $status
- * 
- * @property Collection|Student[] $students
- * @property Collection|Teacher[] $teachers
- *
- * @package App\Models
+ * @property int        $role_id
+ * @property string     $status
  */
 class Role extends Model
 {
-	protected $table = 'role';
-	protected $primaryKey = 'role_id';
-	public $timestamps = false;
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'role';
 
-	protected $fillable = [
-		'status'
-	];
+    /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'role_id';
 
-	public function students()
-	{
-		return $this->hasMany(Student::class);
-	}
+    /**
+     * Attributes that should be mass-assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'role_id',
+        'status'
+    ];
 
-	public function teachers()
-	{
-		return $this->hasMany(Teacher::class);
-	}
+    /**
+     * The attributes excluded from the model's JSON form.
+     *
+     * @var array
+     */
+    protected $hidden = [
+
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'role_id' => 'int',
+        'status' => 'string'
+    ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+
+    ];
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var boolean
+     */
+    public $timestamps = false;
+
+    // Scopes...
+
+    // Functions ...
+
+    // Relations ...
 }

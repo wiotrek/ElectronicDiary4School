@@ -13,6 +13,8 @@
         "laravel-doctrine/migrations": "^2.3",
         "laravel-doctrine/orm": "^1.7",
         "laravel/framework": "^8.12",
+        "laravel/passport": "^10.1",
+        "laravel/sanctum": "^2.9",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "reliese/laravel": "^1.1"
@@ -22,6 +24,7 @@
         "fakerphp/faker": "^1.9.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "kitloong/laravel-migrations-generator": "^4.4",
+        "laracademy/generators": "^3.1",
         "laravel/sail": "^1.0.1",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",

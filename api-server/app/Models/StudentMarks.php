@@ -5,25 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int        $student_marks_id
  * @property int        $student_id
+ * @property int        $marks_id
  * @property int        $subject_id
- * @property int        $student_subject_id
+ * @property int        $marks_type_id
+ * @property int        $approach_number
+ * @property string     $topic
+ * @property DateTime   $passing_date
  */
-class StudentSubject extends Model
+class StudentMarks extends Model
 {
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'student_subject';
+    protected $table = 'student_marks';
 
     /**
      * The primary key for the model.
      *
      * @var string
      */
-    protected $primaryKey = 'student_subject_id';
+    protected $primaryKey = 'student_marks_id';
 
     /**
      * Attributes that should be mass-assignable.
@@ -31,9 +36,14 @@ class StudentSubject extends Model
      * @var array
      */
     protected $fillable = [
+        'student_marks_id',
         'student_id',
+        'marks_id',
         'subject_id',
-        'student_subject_id'
+        'marks_type_id',
+        'approach_number',
+        'topic',
+        'passing_date'
     ];
 
     /**
@@ -51,9 +61,14 @@ class StudentSubject extends Model
      * @var array
      */
     protected $casts = [
+        'student_marks_id' => 'int',
         'student_id' => 'int',
+        'marks_id' => 'int',
         'subject_id' => 'int',
-        'student_subject_id' => 'int'
+        'marks_type_id' => 'int',
+        'approach_number' => 'int',
+        'topic' => 'string',
+        'passing_date' => 'datetime'
     ];
 
     /**
@@ -62,7 +77,7 @@ class StudentSubject extends Model
      * @var array
      */
     protected $dates = [
-
+        'passing_date'
     ];
 
     /**

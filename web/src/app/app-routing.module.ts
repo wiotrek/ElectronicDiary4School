@@ -12,9 +12,15 @@ const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [AuthGuard],
     children: [
-      { path: 'nauczyciel', component: TeacherComponent },
-      { path: 'nauczyciel/:choice', component: SubjectListComponent },
-      { path: 'nauczyciel/:choice/:subject', component: ClassListComponent, canActivate: [TeacherGuard] }
+      {
+        path: 'nauczyciel',
+        canActivate: [TeacherGuard],
+        children: [
+          { path: '', component: TeacherComponent },
+          { path: ':choice', component: SubjectListComponent },
+          { path: ':choice/:subject', component: ClassListComponent },
+        ]
+      }
     ]
   }
 ];

@@ -14,9 +14,7 @@ export class TeacherGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
     return this.accountService.currentUser$.pipe(
-      map((user: User | null) => {
-        return user?.roles.includes('teacher') ? true : false;
-      })
+      map((user: User | null) => user?.roles.includes('teacher') ? true : false)
     );
   }
 }

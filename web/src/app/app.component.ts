@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
   isUserExist(): any {
     let isTokenNull;
+    // tslint:disable-next-line: deprecation
     this.accountService.currentUser$.subscribe(res => {
       isTokenNull = res?.token === undefined
         || res?.token === null ? true : false;
@@ -51,7 +52,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  // check whether exist role, then redirec to specific component
+  // check whether exist role, then redirect to specific component
   setPropertySite(userRoles: string[]): void {
     this.accountService.roles.forEach(x => {
       if (Object.keys(x)[0] === userRoles[0]){

@@ -10,7 +10,7 @@ import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     CommonModule,
     FormsModule
-  ], 
+  ],
   exports: [
     FormsModule,
     NgbModule

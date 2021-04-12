@@ -1,6 +1,7 @@
 <nav>
     <ul>
-        <li><a class="iconHome"><i class="bi bi-house-door-fill"></i></a></li>
+        <li><a class="iconHome" href=''>
+            <i class="bi bi-house-door-fill"></i></a></li>
         <li ngbDropdown>
             <a id="dropdownBasic1" ngbDropdownToggle>
                 <p class="greeting" >
@@ -9,7 +10,6 @@
                     <button class="logout" (click)="logout()" 
                     ngbDropdownItem>Wyloguj się</button>
                 </div>
-
                 <img src="{{person.photoUrl}}" alt="avatar">
             </a>
         </li>

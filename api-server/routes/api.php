@@ -21,7 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-//TODO: Seperate Routes to differents php files as userapi - UserController
 Route::get('/users', [UserController::class, 'index'] );
 Route::post('/logowanie', [AuthController::class, 'login'] );
 

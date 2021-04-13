@@ -12,6 +12,7 @@ import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { FormsModule } from '@angular/forms';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
+import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ClassComponent } from './teacher/subject-list/class-list/class/class.co
     SubjectListComponent,
     ChoiceCardComponent,
     ClassListComponent,
-    ClassComponent
+    ClassComponent,
+    PresentListComponent
   ],
   imports: [
     BrowserModule,

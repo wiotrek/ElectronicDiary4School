@@ -20,7 +20,7 @@ export class ClassListComponent {
   ];
 
   constructor() {
-    this.dateToChild.title = 'Wybierz przedmiot';
+    this.dateToChild.title = 'Wybierz klase';
     this.dateToChild.list = this.list;
   }
 }

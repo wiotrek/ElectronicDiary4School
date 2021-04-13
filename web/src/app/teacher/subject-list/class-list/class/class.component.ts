@@ -14,7 +14,7 @@ export class ClassComponent {
   dateToChild = {} as TeacherChoiceCard;
 
   list = [
-    'Lista obecnosci',
+    'Lista obecności',
     'Oceny'
   ];
 

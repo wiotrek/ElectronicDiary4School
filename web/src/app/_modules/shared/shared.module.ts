@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -9,7 +10,8 @@ import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
   declarations: [],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
     FormsModule,

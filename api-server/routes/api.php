@@ -21,7 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-//TODO: Seperate Routes to differents php files as userapi - UserController
 Route::get('/users', [UserController::class, 'index'] );
 Route::post('/logowanie', [AuthController::class, 'login'] );
 
@@ -29,5 +28,6 @@ Route::middleware('auth:sanctum')->group(function() {
 
     Route::get( '/user', [ AuthController::class, 'user' ] );
     Route::post( '/logout', [ AuthController::class, 'logout' ] );
+    Route::get( '/subject', [ AuthController::class, 'getTeacherSubject' ] );
 
 });

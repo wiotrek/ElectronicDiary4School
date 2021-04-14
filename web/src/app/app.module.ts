@@ -8,7 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { SharedModule } from './_modules/shared/shared.module';
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
-import { ChoiceCardComponent } from './teacher/choice-card/choice-card.component';
+import { ChoiceCardComponent } from './choice-card/choice-card.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { FormsModule } from '@angular/forms';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';

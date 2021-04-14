@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
+import { ChoiceCard } from 'src/app/_models/choice-card';
 
 @Component({
   selector: 'app-subject-list',
@@ -11,7 +11,7 @@ import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
 })
 export class SubjectListComponent{
 
-  dateToChild = {} as TeacherChoiceCard;
+  dateToChild = {} as ChoiceCard;
 
   list = [
     'polski',

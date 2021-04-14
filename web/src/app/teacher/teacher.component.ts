@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeacherChoiceCard } from '../_models/teacher-choice-card';
+import { ChoiceCard } from '../_models/choice-card';
 
 @Component({
   selector: 'app-teacher',
@@ -11,7 +11,7 @@ import { TeacherChoiceCard } from '../_models/teacher-choice-card';
 })
 export class TeacherComponent {
 
-  dateToChild = {} as TeacherChoiceCard;
+  dateToChild = {} as ChoiceCard;
 
   list = [
     'Rozpocznij lekcje'

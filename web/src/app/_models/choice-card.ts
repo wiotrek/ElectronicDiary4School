@@ -1,4 +1,4 @@
-export interface TeacherChoiceCard {
+export interface ChoiceCard {
     title: string;
     action: string;
     hideBack?: boolean;

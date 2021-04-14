@@ -28,17 +28,23 @@ class AuthController extends Controller
 
 
         // Get school status of the login user
-        $teacher = Teacher::query()->where('user_id', '=', $user->getAuthIdentifier())->select('role_id')->get();
-        if ($teacher->isNotEmpty())
-            $role = Role::query()->where('role_id', '=', 1)->select('status')->get();
+        $teacherRole = Teacher::query()->where('user_id', '=', $user->getAuthIdentifier())->pluck('role_id')->first();
+        $studentRole = Student::query()->where('user_id', '=', $user->getAuthIdentifier())->pluck('role_id')->first();
+        if (!is_null($teacherRole))
+            $role = Role::query()->where('role_id', '=', $teacherRole)->pluck('status')->first();
         else
-            $role = Role::query()->where('role_id', '=', 2)->select('status')->get();
+            $role = Role::query()->where('role_id', '=', $studentRole)->pluck('status')->first();
+
+
+        // TODO: extend user table with url profile photo
+        $userProfile = "https://randomuser.me/api/portraits/women/60.jpg";
 
 
         // return token
         return response([
             'message' => $user,
-            'role' => $role
+            'role' => $role,
+            'profileUrl' => $userProfile
         ])->withCookie($cookie);
 
     }

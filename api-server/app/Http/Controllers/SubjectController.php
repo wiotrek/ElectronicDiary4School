@@ -27,10 +27,11 @@ class SubjectController extends Controller
                 -> where( 'teacher_id', '=', $teacherId[ 0 ] )
                 -> pluck( 'subject_id' );
 
-            // by subjects ids get list subject names
+            // by subjects ids get subject list
             $subjects = Subject ::query()
                 -> whereIn( 'subject_id', $subjectIds )
-                -> pluck( 'name' );
+                -> select( 'name', 'icon' )
+                -> get();
 
             return $subjects;
         }

@@ -1,80 +1,62 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $teacher_id
- * @property int        $user_id
- * @property int        $role_id
+ * Class Teacher
+ * 
+ * @property int $teacher_id
+ * @property int|null $user_id
+ * @property int|null $role_id
+ * 
+ * @property Role|null $role
+ * @property User|null $user
+ * @property Collection|TeacherClass[] $teacher_classes
+ * @property Collection|Subject[] $subjects
+ *
+ * @package App\Models
  */
 class Teacher extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'teacher';
+	protected $table = 'teacher';
+	protected $primaryKey = 'teacher_id';
+	public $timestamps = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'teacher_id';
+	protected $casts = [
+		'user_id' => 'int',
+		'role_id' => 'int'
+	];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'teacher_id',
-        'user_id',
-        'role_id'
-    ];
+	protected $fillable = [
+		'user_id',
+		'role_id'
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
+	public function role()
+	{
+		return $this->belongsTo(Role::class);
+	}
 
-    ];
+	public function user()
+	{
+		return $this->belongsTo(User::class);
+	}
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'teacher_id' => 'int',
-        'user_id' => 'int',
-        'role_id' => 'int'
-    ];
+	public function teacher_classes()
+	{
+		return $this->hasMany(TeacherClass::class);
+	}
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+	public function subjects()
+	{
+		return $this->belongsToMany(Subject::class, 'teacher_subject')
+					->withPivot('teacher_subject_id');
+	}
 }

@@ -9,30 +9,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class TeacherSubject
+ * Class SubjectClass
  * 
- * @property int|null $teacher_id
+ * @property int $subject_class_id
+ * @property int|null $class_id
  * @property int|null $subject_id
- * @property int $teacher_subject_id
  * 
  * @property Subject|null $subject
- * @property Teacher|null $teacher
+ * @property UserClass|null $user_class
  *
  * @package App\Models
  */
-class TeacherSubject extends Model
+class SubjectClass extends Model
 {
-	protected $table = 'teacher_subject';
-	protected $primaryKey = 'teacher_subject_id';
+	protected $table = 'subject_class';
+	protected $primaryKey = 'subject_class_id';
 	public $timestamps = false;
 
 	protected $casts = [
-		'teacher_id' => 'int',
+		'class_id' => 'int',
 		'subject_id' => 'int'
 	];
 
 	protected $fillable = [
-		'teacher_id',
+		'class_id',
 		'subject_id'
 	];
 
@@ -41,8 +41,8 @@ class TeacherSubject extends Model
 		return $this->belongsTo(Subject::class);
 	}
 
-	public function teacher()
+	public function user_class()
 	{
-		return $this->belongsTo(Teacher::class);
+		return $this->belongsTo(UserClass::class, 'class_id');
 	}
 }

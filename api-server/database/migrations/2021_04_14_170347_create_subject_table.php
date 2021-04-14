@@ -15,7 +15,8 @@ class CreateSubjectTable extends Migration
     {
         Schema::create('subject', function (Blueprint $table) {
             $table->integer('subject_id', true);
-            $table->string('name', 50);
+            $table->string('name', 50)->unique('subject_name_uindex');
+            $table->string('icon', 30)->nullable();
             $table->string('type', 20)->nullable()->default('NULL');
         });
     }

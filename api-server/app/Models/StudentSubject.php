@@ -1,80 +1,48 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $student_id
- * @property int        $subject_id
- * @property int        $student_subject_id
+ * Class StudentSubject
+ * 
+ * @property int|null $student_id
+ * @property int|null $subject_id
+ * @property int $student_subject_id
+ * 
+ * @property Student|null $student
+ * @property Subject|null $subject
+ *
+ * @package App\Models
  */
 class StudentSubject extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'student_subject';
+	protected $table = 'student_subject';
+	protected $primaryKey = 'student_subject_id';
+	public $timestamps = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'student_subject_id';
+	protected $casts = [
+		'student_id' => 'int',
+		'subject_id' => 'int'
+	];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'student_id',
-        'subject_id',
-        'student_subject_id'
-    ];
+	protected $fillable = [
+		'student_id',
+		'subject_id'
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
+	public function student()
+	{
+		return $this->belongsTo(Student::class);
+	}
 
-    ];
-
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'student_id' => 'int',
-        'subject_id' => 'int',
-        'student_subject_id' => 'int'
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+	public function subject()
+	{
+		return $this->belongsTo(Subject::class);
+	}
 }

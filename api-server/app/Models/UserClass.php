@@ -1,80 +1,60 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $class_id
- * @property int        $number
- * @property string     $identifier_number
+ * Class UserClass
+ * 
+ * @property int $class_id
+ * @property int $number
+ * @property string $identifier_number
+ * 
+ * @property Collection|ClassHarmonogram[] $class_harmonograms
+ * @property Collection|Student[] $students
+ * @property Collection|SubjectClass[] $subject_classes
+ * @property Collection|TeacherClass[] $teacher_classes
+ *
+ * @package App\Models
  */
 class UserClass extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'user_class';
+	protected $table = 'user_class';
+	protected $primaryKey = 'class_id';
+	public $timestamps = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'class_id';
+	protected $casts = [
+		'number' => 'int'
+	];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'class_id',
-        'number',
-        'identifier_number'
-    ];
+	protected $fillable = [
+		'number',
+		'identifier_number'
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
+	public function class_harmonograms()
+	{
+		return $this->hasMany(ClassHarmonogram::class, 'class_id');
+	}
 
-    ];
+	public function students()
+	{
+		return $this->hasMany(Student::class, 'class_id');
+	}
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'class_id' => 'int',
-        'number' => 'int',
-        'identifier_number' => 'string'
-    ];
+	public function subject_classes()
+	{
+		return $this->hasMany(SubjectClass::class, 'class_id');
+	}
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+	public function teacher_classes()
+	{
+		return $this->hasMany(TeacherClass::class, 'class_id');
+	}
 }

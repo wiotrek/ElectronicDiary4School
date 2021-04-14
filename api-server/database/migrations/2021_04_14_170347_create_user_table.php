@@ -18,9 +18,7 @@ class CreateUserTable extends Migration
             $table->string('first_name', 30);
             $table->string('last_name', 30);
             $table->string('identifier', 10)->unique('user_identifier_uindex');
-            $table->string('password', 30);
-            $table->binary('hash_pass');
-            $table->binary('salt_pass');
+            $table->string('password', 64)->nullable();
         });
     }
 

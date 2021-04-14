@@ -1,80 +1,72 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $subject_id
- * @property string     $name
- * @property string     $type
+ * Class Subject
+ * 
+ * @property int $subject_id
+ * @property string $name
+ * @property string|null $icon
+ * @property string|null $type
+ * 
+ * @property Collection|ClassHarmonogram[] $class_harmonograms
+ * @property Collection|StudentActivity[] $student_activities
+ * @property Collection|StudentMark[] $student_marks
+ * @property Collection|Student[] $students
+ * @property Collection|SubjectClass[] $subject_classes
+ * @property Collection|Teacher[] $teachers
+ *
+ * @package App\Models
  */
 class Subject extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'subject';
+	protected $table = 'subject';
+	protected $primaryKey = 'subject_id';
+	public $timestamps = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'subject_id';
+	protected $fillable = [
+		'name',
+		'icon',
+		'type'
+	];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'subject_id',
-        'name',
-        'type'
-    ];
+	public function class_harmonograms()
+	{
+		return $this->hasMany(ClassHarmonogram::class);
+	}
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
+	public function student_activities()
+	{
+		return $this->hasMany(StudentActivity::class);
+	}
 
-    ];
+	public function student_marks()
+	{
+		return $this->hasMany(StudentMark::class);
+	}
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'subject_id' => 'int',
-        'name' => 'string',
-        'type' => 'string'
-    ];
+	public function students()
+	{
+		return $this->belongsToMany(Student::class)
+					->withPivot('student_subject_id');
+	}
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
+	public function subject_classes()
+	{
+		return $this->hasMany(SubjectClass::class);
+	}
 
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+	public function teachers()
+	{
+		return $this->belongsToMany(Teacher::class, 'teacher_subject')
+					->withPivot('teacher_subject_id');
+	}
 }

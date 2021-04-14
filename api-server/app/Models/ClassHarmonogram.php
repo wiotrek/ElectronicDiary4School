@@ -1,91 +1,61 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int        $class_harmonogram_id
- * @property int        $class_id
- * @property int        $subject_id
- * @property Date       $date_meeting
- * @property DateTime   $start_time
- * @property DateTime   $end_time
+ * Class ClassHarmonogram
+ * 
+ * @property int $class_harmonogram_id
+ * @property int|null $class_id
+ * @property int|null $subject_id
+ * @property Carbon $date_meeting
+ * @property Carbon $start_time
+ * @property Carbon $end_time
+ * 
+ * @property UserClass|null $user_class
+ * @property Subject|null $subject
+ *
+ * @package App\Models
  */
 class ClassHarmonogram extends Model
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'class_harmonogram';
+	protected $table = 'class_harmonogram';
+	protected $primaryKey = 'class_harmonogram_id';
+	public $timestamps = false;
 
-    /**
-     * The primary key for the model.
-     *
-     * @var string
-     */
-    protected $primaryKey = 'class_harmonogram_id';
+	protected $casts = [
+		'class_id' => 'int',
+		'subject_id' => 'int'
+	];
 
-    /**
-     * Attributes that should be mass-assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'class_harmonogram_id',
-        'class_id',
-        'subject_id',
-        'date_meeting',
-        'start_time',
-        'end_time'
-    ];
+	protected $dates = [
+		'date_meeting',
+		'start_time',
+		'end_time'
+	];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = [
+	protected $fillable = [
+		'class_id',
+		'subject_id',
+		'date_meeting',
+		'start_time',
+		'end_time'
+	];
 
-    ];
+	public function user_class()
+	{
+		return $this->belongsTo(UserClass::class, 'class_id');
+	}
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'class_harmonogram_id' => 'int',
-        'class_id' => 'int',
-        'subject_id' => 'int',
-        'date_meeting' => 'date',
-        'start_time' => 'datetime',
-        'end_time' => 'datetime'
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'date_meeting',
-        'start_time',
-        'end_time'
-    ];
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var boolean
-     */
-    public $timestamps = false;
-
-    // Scopes...
-
-    // Functions ...
-
-    // Relations ...
+	public function subject()
+	{
+		return $this->belongsTo(Subject::class);
+	}
 }

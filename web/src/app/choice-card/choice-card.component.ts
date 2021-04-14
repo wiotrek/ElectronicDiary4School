@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
-import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
+import { ChoiceCard } from '../_models/choice-card';
 
 @Component({
   selector: 'app-choice-card',
@@ -9,7 +9,7 @@ import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
   styleUrls: ['./choice-card.component.css']
 })
 export class ChoiceCardComponent implements OnInit {
-  @Input() dateFromParent = {} as TeacherChoiceCard;
+  @Input() dateFromParent = {} as ChoiceCard;
 
   icons: string[] = [];
   iconColors: string[] = [];

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
+import { ChoiceCard } from 'src/app/_models/choice-card';
 
 @Component({
   selector: 'app-class',
@@ -11,7 +11,7 @@ import { TeacherChoiceCard } from 'src/app/_models/teacher-choice-card';
   `
 })
 export class ClassComponent {
-  dateToChild = {} as TeacherChoiceCard;
+  dateToChild = {} as ChoiceCard;
 
   list = [
     'Lista obecności',

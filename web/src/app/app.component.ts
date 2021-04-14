@@ -25,12 +25,12 @@ export class AppComponent implements OnInit {
     let isUser;
     // tslint:disable-next-line: deprecation
     this.accountService.currentUser$.subscribe(res => {
-      isUser = res?.identifier === undefined
-        || res?.identifier === null ? true : false;
+      isUser = res?.message.identifier === undefined
+        || res?.message.identifier === null ? true : false;
 
       //  if exist user role like teacher then set them
-      if (res?.roles !== undefined) {
-        this.setPropertySite(res?.roles);
+      if (res?.role !== undefined) {
+        this.setPropertySite(res?.role);
       }
     });
 
@@ -53,14 +53,8 @@ export class AppComponent implements OnInit {
   }
 
   // check whether exist role, then redirect to specific component
-  setPropertySite(userRoles: string[]): void {
-    this.accountService.roles.forEach(x => {
-      if (Object.keys(x)[0] === userRoles[0]){
-        const url = Object.values(x)[0]?.toString();
-        if (url !== undefined){
-          this.router.navigateByUrl(url);
-        }
-      }
-    });
+  setPropertySite(userRoles: string): void {
+    const url = this.accountService.roles[userRoles];
+    if (url) { this.router.navigateByUrl(url); }
   }
 }

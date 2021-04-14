@@ -2,24 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subject;
 use App\Models\Teacher;
-use Doctrine\ORM\QueryBuilder;
-use Illuminate\Http\Request;
+use App\Models\TeacherSubject;
 use Illuminate\Support\Facades\Auth;
 
 class SubjectController extends Controller
 {
-    public function getTeacherSubject ( Request $request ) {
+    public function getTeacherSubject () {
 
-        $teacher = Auth::user();
+        // get login user id
+        $userId = Auth::user()->getAuthIdentifier();
 
+        // get teacher id
+        $teacherId = Teacher::query()
+            ->where('user_id', '=', $userId)
+            ->pluck('teacher_id');
 
-        return $teacher->getAuthIdentifier();
-    }
+        // if founded then
+        if ($teacherId->count() != 0) {
 
-    public function findSubject ( $teacherId ) {
-        $teacher_id = Teacher::query()->where('teacher_id', '=', $teacherId)->select('user_id')->get();
+            // get all subject ids
+            $subjectIds = TeacherSubject ::query()
+                -> where( 'teacher_id', '=', $teacherId[ 0 ] )
+                -> pluck( 'subject_id' );
 
-        return $teacher_id;
+            // by subjects ids get list subject names
+            $subjects = Subject ::query()
+                -> whereIn( 'subject_id', $subjectIds )
+                -> pluck( 'name' );
+
+            return $subjects;
+        }
+
+        // null if teacher id not founded
+        return null;
     }
 }

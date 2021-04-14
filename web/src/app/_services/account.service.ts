@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -18,21 +19,14 @@ export class AccountService {
     {student: '/uczen'}
   ];
 
-  constructor(private http: HttpClient) { }
-  // login(model: any): any{
-
-  //   if (!(model.idenifier === 'a' && model.password === 'a')) {
-  //     return 'Nie udalo sie';
-  //   }
-
-  //   const logedUser: User = {username: 'Sylwia', token: 'dlugitoken123', roles: ['teacher']};
-  //   this.setCurrentUser(logedUser);
-  //   window.location.reload();
-  // }
+  constructor(
+    private http: HttpClient,
+    private jwtHelper: JwtHelperService
+    ) { }
 
   login(model: any): any{
     return this.http.post(this.baseUrl + 'logowanie', model).pipe(
-       map((res) => {     
+       map((res) => {
         //  const user: User = {
         //    identifier: response.message;
         //    t
@@ -44,7 +38,6 @@ export class AccountService {
        })
     );
   }
-
 
   setCurrentUser(user: User | null): void{
     // if (user){

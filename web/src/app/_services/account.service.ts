@@ -32,23 +32,26 @@ export class AccountService {
 
   login(model: any): any{
     return this.http.post(this.baseUrl + 'logowanie', model).pipe(
-       map((response) => {
-         const t = this.getDecodedToken(response);
-         const user = response as User;
-         if (user){
-           this.setCurrentUser(user);
-         }
+       map((res) => {     
+        //  const user: User = {
+        //    identifier: response.message;
+        //    t
+        //  }
+        //  const user = response as User;
+        //  if (user){
+        //    this.setCurrentUser(user);
+        //  }
        })
     );
   }
 
 
   setCurrentUser(user: User | null): void{
-    if (user){
-      user.roles = [];
-      const roles = this.getDecodedToken(user.token).role;
-      Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
-    }
+    // if (user){
+    //   user.roles = [];
+    //   const roles = this.getDecodedToken(user.token).role;
+    //   Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
+    // }
     // doesnt matter whether user is null or not
     // adding property to func next is really important
     localStorage.setItem('user', JSON.stringify(user));
@@ -58,9 +61,5 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
-  }
-
-  getDecodedToken(token: any): any {
-    return JSON.parse(atob(token.split('.')[1]));
   }
 }

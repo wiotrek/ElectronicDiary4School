@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { RecivedUser } from '../_models/recivedUser';
 
 @Injectable({
   providedIn: 'root'
@@ -15,38 +15,34 @@ export class AccountService {
   baseUrl = environment.apiUrl;
 
   roles = [
-    {teacher: '/nauczyciel'},
-    {student: '/uczen'}
+    { teacher: '/nauczyciel' },
+    { student: '/uczen' }
   ];
 
-  constructor(
-    private http: HttpClient,
-    private jwtHelper: JwtHelperService
-    ) { }
+  constructor(private http: HttpClient) { }
 
-  login(model: any): any{
+  login(model: any): any {
     return this.http.post(this.baseUrl + 'logowanie', model).pipe(
-       map((res) => {
-        //  const user: User = {
-        //    identifier: response.message;
-        //    t
-        //  }
-        //  const user = response as User;
-        //  if (user){
-        //    this.setCurrentUser(user);
-        //  }
-       })
+      map((res) => {
+
+        // recived date are other than User interface, so this date
+        // have themself interface
+        const recivedUser = res as RecivedUser;
+        const role = [recivedUser?.role[0]?.status.toLowerCase()];
+
+        const user: User = {
+          identifier: recivedUser?.message?.identifier,
+          name: recivedUser?.message?.first_name.toLowerCase(),
+          lastName: recivedUser?.message?.last_name.toLowerCase(),
+          roles: role
+        };
+
+        this.setCurrentUser(user);
+      })
     );
   }
 
-  setCurrentUser(user: User | null): void{
-    // if (user){
-    //   user.roles = [];
-    //   const roles = this.getDecodedToken(user.token).role;
-    //   Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
-    // }
-    // doesnt matter whether user is null or not
-    // adding property to func next is really important
+  setCurrentUser(user: User | null): void {
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }

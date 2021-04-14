@@ -8,7 +8,7 @@ import { AccountService } from '../_services/account.service';
 })
 export class NavComponent {
 
-  constructor(private accountService: AccountService) { }
+  constructor(public accountService: AccountService) { }
 
   person = {
     name: 'Sylwia',

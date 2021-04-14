@@ -21,10 +21,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.accountService.login(this.model).subscribe((res: any) => {
-      console.log(res);
-    }, (err: any) => {
-      console.log(err.error);
+    this.accountService.login(this.model).subscribe(
+      () => {
+        window.location.reload();
+      },
+      (err: any) => {
+      console.log(err?.error?.message);
     });
   }
 }

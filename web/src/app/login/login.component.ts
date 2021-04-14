@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private accountService: AccountService
+    private accountService: AccountService,
+    private toastr: ToastrService
   ) {
    }
 
@@ -26,7 +28,11 @@ export class LoginComponent implements OnInit {
         window.location.reload();
       },
       (err: any) => {
-      console.log(err?.error?.message);
+        this.model = {
+          identifier: '',
+          password: ''
+        };
+        this.toastr.error('Nie udało się zalogować');
     });
   }
 }

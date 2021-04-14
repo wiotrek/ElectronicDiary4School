@@ -21,8 +21,12 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    const result = this.accountService.login(this.model);
-    console.log(result);
+    this.accountService.login(this.model).subscribe(
+      () => {
+        window.location.reload();
+      },
+      (err: any) => {
+      console.log(err?.error?.message);
+    });
   }
-
 }

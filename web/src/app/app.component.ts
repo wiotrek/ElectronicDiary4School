@@ -22,11 +22,11 @@ export class AppComponent implements OnInit {
   }
 
   isUserExist(): any {
-    let isTokenNull;
+    let isUser;
     // tslint:disable-next-line: deprecation
     this.accountService.currentUser$.subscribe(res => {
-      isTokenNull = res?.token === undefined
-        || res?.token === null ? true : false;
+      isUser = res?.identifier === undefined
+        || res?.identifier === null ? true : false;
 
       //  if exist user role like teacher then set them
       if (res?.roles !== undefined) {
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     });
 
     // if token is null then user exist so return info about user
-    return !isTokenNull;
+    return !isUser;
   }
 
   // this spot we check localstorage and setting current user

@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { RecivedUser } from '../_models/recivedUser';
 
 @Injectable({
   providedIn: 'root'
@@ -8,23 +12,34 @@ import { User } from '../_models/user';
 export class AccountService {
   private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
+  baseUrl = environment.apiUrl;
 
   roles = [
-    {teacher: '/nauczyciel'},
-    {student: '/uczen'}
+    { teacher: '/nauczyciel' },
+    { student: '/uczen' }
   ];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  login(model: any): any{
+  login(model: any): any {
+    return this.http.post(this.baseUrl + 'logowanie', model).pipe(
+      map((res) => {
 
-    if (!(model.username === 'a' && model.password === 'a')) {
-      return 'Nie udalo sie';
-    }
+        // recived date are other than User interface, so this date
+        // have themself interface
+        const recivedUser = res as RecivedUser;
+        const role = [recivedUser?.role[0]?.status.toLowerCase()];
 
-    const logedUser: User = {username: 'Sylwia', token: 'dlugitoken123', roles: ['teacher']};
-    this.setCurrentUser(logedUser);
-    window.location.reload();
+        const user: User = {
+          identifier: recivedUser?.message?.identifier,
+          name: recivedUser?.message?.first_name.toLowerCase(),
+          lastName: recivedUser?.message?.last_name.toLowerCase(),
+          roles: role
+        };
+
+        this.setCurrentUser(user);
+      })
+    );
   }
 
   setCurrentUser(user: User | null): void {
@@ -36,5 +51,4 @@ export class AccountService {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
   }
-
 }

@@ -16,15 +16,15 @@
         <div class="form-group">
           <label for="login">Podaj swój Identyfikator:</label>
           <input type="text" class="form-control" name="identifier" [(ngModel)]="model.identifier" id="login"
-            placeholder="Identyfikator">
+            placeholder="Identyfikator" required ngModel>
         </div>
         <div class="form-group">
           <label for="password">Podaj swoje hasło:</label>
           <input type="password" class="form-control" name="password" [(ngModel)]="model.password" id="password"
-            placeholder="Hasło">
+            placeholder="Hasło" required ngModel>
         </div>
         <div class="center-button">
-          <button type="submit" class="btn btn-outline-primary">Zaloguj się</button>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="!loginForm.valid">Zaloguj się</button>
         </div>
       </form>
     </div>

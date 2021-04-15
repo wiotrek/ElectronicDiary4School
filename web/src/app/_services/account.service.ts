@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Dictionary } from '../_models/dictionary';
+import { DictionaryList } from '../_models/dictionary-list';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,11 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
 
-  roles: Dictionary<string> = {
+  // Why we have a 2 dictionary? because way dictionarylist sorting
+  // alphabetically list
+  roles: DictionaryList<string> = {
     teacher: '/nauczyciel',
-    student: '/uczen'
+    student: '/uczen',
   };
 
   constructor(private http: HttpClient) { }

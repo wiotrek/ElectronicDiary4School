@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChoiceCard } from '../_models/choice-card';
+import { Dictionary } from '../_models/dictionary';
 
 @Component({
   selector: 'app-teacher',
@@ -10,18 +11,25 @@ import { ChoiceCard } from '../_models/choice-card';
   `
 })
 export class TeacherComponent {
-
   dateToChild = {} as ChoiceCard;
 
-  list = [
-    'Rozpocznij lekcje'
+  // static list
+  list: Dictionary<string, string>[] = [
+    { key: 'Rozpocznij lekcje', value: 'bi bi-subtract' },
+    { key: 'Powiadomienia', value: 'bi bi-chat-dots' }
   ];
 
-  constructor(
-  ) {
-    this.dateToChild.title = 'Strona Główna';
-    this.dateToChild.action = 'wybrano';
-    this.dateToChild.hideBack = true;
-    this.dateToChild.list = this.list;
-  }
+  // colors for icons
+  colors = [
+    '#F4A460',
+    '#7FFFD4'
+  ];
+
+  constructor()
+  { this.dateToChild = {
+      title: 'Strona Główna',
+      list: this.list,
+      hideBack: true,
+      iconColors: this.colors
+    }; }
 }

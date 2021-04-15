@@ -1,3 +1,6 @@
-export interface Dictionary<T> {
-    [Key: string]: string;
+export interface Dictionary<K, V> {
+    key: K;
+    value: V;
 }
+// Why we have a 2 dictionary? because way dictionarylist sorting
+// alphabetically list

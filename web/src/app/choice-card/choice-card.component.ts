@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { TeacherService } from 'src/app/_services/teacher.service';
 import { ChoiceCard } from '../_models/choice-card';
 
 @Component({
@@ -11,7 +10,13 @@ import { ChoiceCard } from '../_models/choice-card';
 export class ChoiceCardComponent implements OnInit {
   @Input() dateFromParent = {} as ChoiceCard;
 
-  icons: string[] = [];
+  // current color icons doesnt matter whether color
+  // is from default color, whether come from dateFromParent
+  // beacause they will here
+  iconsColor: string[] = [];
+
+  // if parent component doesnt give color list, then
+  // colors will from this list
   defaultColors = [
     '#FFB6C1',
     '#90EE90',
@@ -27,23 +32,18 @@ export class ChoiceCardComponent implements OnInit {
     '#7FFFD4'
   ];
 
-  constructor(
-    private location: Location,
-    private ts: TeacherService
-  ) {}
+  constructor(private location: Location) {}
 
   // if iconColors doesnt exist then setting self default colors
   ngOnInit(): void {
-    this.icons = this.dateFromParent.iconColors ?
+    this.iconsColor = this.dateFromParent.iconColors ?
     this.dateFromParent?.iconColors.sort(() => Math.random() - 0.5)
     : this.defaultColors.sort(() => Math.random() - 0.5);
   }
 
-  back(): void {
-    this.location.back();
-  }
+  back = () => this.location.back();
 
-  createLink = (item: string) => {
-    return item.replace(' ', '-').toLowerCase().toString();
-  }
+  // replace all white space on dash
+  // between /{sign}/g is a sign which we want change
+  createLink = (item: string) => item.replace(/\s+/g, '-').toLowerCase();
 }

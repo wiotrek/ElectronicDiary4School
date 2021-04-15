@@ -24,14 +24,9 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.accountService.login(this.model).subscribe(
-      () => {
-        window.location.reload();
-      },
+      () => window.location.reload(),
       (err: any) => {
-        this.model = {
-          identifier: '',
-          password: ''
-        };
+        this.model = {identifier: '', password: ''};
         this.toastr.error('Nie udało się zalogować');
     });
   }

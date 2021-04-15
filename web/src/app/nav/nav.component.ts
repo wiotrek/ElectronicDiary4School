@@ -10,11 +10,6 @@ export class NavComponent {
 
   constructor(public accountService: AccountService) { }
 
-  person = {
-    name: 'Sylwia',
-    photoUrl: 'https://randomuser.me/api/portraits/women/60.jpg'
-  };
-
   logout(): void {
     this.accountService.logout();
     window.location.reload();

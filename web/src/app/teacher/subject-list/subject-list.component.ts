@@ -14,6 +14,7 @@ export class SubjectListComponent{
   dateToChild = {} as ChoiceCard;
 
   list: Dictionary<string, string>[] = [
+    { key: 'Wychowanie do życia w rodzinie', value: 'fa fa-paint-brush' },
     { key: 'Muzyka', value: 'bi bi-joystick' },
     { key: 'Polski', value: 'fa fa-etsy' },
     { key: 'Matematyka', value: 'bi bi-graph-up' },

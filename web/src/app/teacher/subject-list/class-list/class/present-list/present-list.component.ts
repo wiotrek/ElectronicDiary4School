@@ -16,8 +16,6 @@ export class PresentListComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  back(): void {
-    this.location.back();
-  }
+  back = () => this.location.back();
 
 }

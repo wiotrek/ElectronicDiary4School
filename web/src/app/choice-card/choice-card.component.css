@@ -33,6 +33,11 @@
         margin-right: 2px;
     }
 
+    span {
+        inline-size: 20vh;
+        overflow-wrap: break-word;
+    }
+
 }
 
 @media (min-width: 769px) {
@@ -62,6 +67,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        margin: 0;
+        padding: 5px;
+    }
+
+    span {
+        padding: 0 15px;
     }
 
 }

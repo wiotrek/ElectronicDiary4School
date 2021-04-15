@@ -1,6 +1,8 @@
+import { Dictionary } from './dictionary';
+
 export interface ChoiceCard {
     title: string;
-    action: string;
+    list: Dictionary<string, string>[];
     hideBack?: boolean;
-    list: string[];
+    iconColors?: string[];
 }

@@ -4,8 +4,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { RecivedUser } from '../_models/recivedUser';
-import { Dictionary } from '../_models/dictionary';
+import { DictionaryList } from '../_models/dictionary-list';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +14,11 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
 
-  roles: Dictionary<string> = {
+  // Why we have a 2 dictionary? because way dictionarylist sorting
+  // alphabetically list
+  roles: DictionaryList<string> = {
     teacher: '/nauczyciel',
-    student: '/uczen'
+    student: '/uczen',
   };
 
   constructor(private http: HttpClient) { }
@@ -26,19 +27,6 @@ export class AccountService {
     return this.http.post(this.baseUrl + 'logowanie', model).pipe(
       map((res) => {
         const user = res as User;
-        console.log(user);
-        // recived date are other than User interface, so this date
-        // have themself interface
-        // const recivedUser = res as RecivedUser;
-        // const role = [recivedUser?.role[0]?.status.toLowerCase()];
-
-        // const user: User = {
-        //   identifier: recivedUser?.message?.identifier,
-        //   name: recivedUser?.message?.first_name.toLowerCase(),
-        //   lastName: recivedUser?.message?.last_name.toLowerCase(),
-        //   roles: role
-        // };
-
         this.setCurrentUser(user);
       })
     );

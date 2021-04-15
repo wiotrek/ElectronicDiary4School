@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChoiceCard } from 'src/app/_models/choice-card';
+import { Dictionary } from 'src/app/_models/dictionary';
 
 @Component({
   selector: 'app-class-list',
@@ -10,17 +11,17 @@ import { ChoiceCard } from 'src/app/_models/choice-card';
   `
 })
 export class ClassListComponent {
-
   dateToChild = {} as ChoiceCard;
 
-  list = [
-    'Klasa 3D',
-    'Klasa 4B',
-    'Klasa 5C'
+  list: Dictionary<string, string>[] = [
+    { key: 'Klasa 4C', value: 'bi bi-suit-club' },
+    { key: 'Klasa 6D', value: 'bi bi-suit-diamond' },
+    { key: 'Klasa 7A', value: 'bi bi-suit-spade' },
   ];
 
-  constructor() {
-    this.dateToChild.title = 'Wybierz klase';
-    this.dateToChild.list = this.list;
-  }
+  constructor()
+  { this.dateToChild = {
+      title: 'Wybierz klase',
+      list: this.list
+    }; }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ChoiceCard } from 'src/app/_models/choice-card';
+import { Dictionary } from 'src/app/_models/dictionary';
 
 @Component({
   selector: 'app-class',
@@ -13,17 +14,23 @@ import { ChoiceCard } from 'src/app/_models/choice-card';
 export class ClassComponent {
   dateToChild = {} as ChoiceCard;
 
-  list = [
-    'Lista obecności',
-    'Oceny'
+  list: Dictionary<string, string>[] = [
+    { key: 'Lista obecności', value: 'bi bi-card-checklist' },
+    { key: 'Oceny', value: 'bi bi-file-earmark-spreadsheet' }
+  ];
+
+  colors = [
+    '#F4A460',
+    '#7FFFD4'
   ];
 
   constructor(
     private route: ActivatedRoute
-  ) {
-    this.dateToChild.title = this.getParam();
-    this.dateToChild.list = this.list;
-  }
+  ) { this.dateToChild = {
+      title: this.getParam(),
+      list: this.list,
+      iconColors: this.colors
+    }; }
 
   // take a param from link and set as title example 'Polski 3D'
   getParam(): string {

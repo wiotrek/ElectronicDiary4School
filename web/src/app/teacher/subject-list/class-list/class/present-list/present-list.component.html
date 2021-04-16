@@ -7,7 +7,7 @@
     <div class="acceptDate">
         <p>Potwierdź datę</p>
         <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="today = $event" name="dt"
-            class="form-control form-control-rounded text-center" #searchDate>
+            class="form-control form-control-rounded text-center" #searchDate required>
     </div>
 
     <div class="studentsList">
@@ -15,14 +15,14 @@
             <p>Uczeń/Uczennica</p>
             <p>Obecność</p>
         </div>
-        <form action="">
+        <form [formGroup]="form" (ngSubmit)="saveList()">
             <ul class="mainPresentList">
                 <li *ngFor="let student of this.studentsList; index as i">
-                    <label for="check-{{student.key}}-{{student.value}}">
-                        {{i+1}}. {{student.key.charAt(0)}}.{{student.value}}
+                    <label for="student">
+                        {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
                     </label>
-                    <input id="check-{{student.key}}-{{student.value}}" 
-                    type="checkbox" name="presentList" value="{{student}}">
+                    <input id="student" type="checkbox" [value]="student.userId" 
+                    (change)="onCheckboxChange($event)">
                 </li>
                 <button type="submit" class="btn btn-outline-success">Zapisz</button>
             </ul>

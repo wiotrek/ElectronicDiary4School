@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  @ViewChild('loginForm') loginForm: NgForm | undefined;
   model: any = {};
 
   constructor(
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
     this.accountService.login(this.model).subscribe(
       () => window.location.reload(),
       (err: any) => {
-        this.model = {identifier: '', password: ''};
+        this.loginForm?.reset();
         this.toastr.error('Nie udało się zalogować');
     });
   }

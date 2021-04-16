@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
   // step 2
   isUserExist(): void {
     let isExist = false;
+    // tslint:disable-next-line: deprecation
     this.accountService.currentUser$.subscribe(
       res => {
         isExist = !!res?.message.identifier;
@@ -53,6 +54,9 @@ export class AppComponent implements OnInit {
   // check whether exist role, then redirect to specific component
   setPropertySite(userRoles: string): void {
     const url = this.accountService.roles[userRoles];
-    if (!!url) { this.router.navigateByUrl(url); }
+
+    // if you want in peace write on some compomnent,
+    // then comment below
+    // if (!!url) { this.router.navigateByUrl(url); }
   }
 }

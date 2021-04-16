@@ -1,0 +1,145 @@
+@media (min-width: 0) {
+
+    h4 {
+        color: var(--primary-blue);
+        font-size: 1.3rem;
+        font-weight:400;
+    }
+
+    .back {
+        cursor: pointer;
+        padding: 0 10px;
+        border-right: 2px solid var(--line-grey);
+    }
+
+    .title {
+        padding: 0 15px;
+    }
+
+    .acceptDate {
+        padding: 10px 0;
+    }
+
+    .bi.bi-calendar-week {
+        display: none;
+    }
+
+    .acceptDate p {
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .descriptionP {
+        margin-top: 2vh;
+        font-size: .9rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mainPresentList {
+        list-style: none;
+    }
+
+    .mainPresentList li {
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    label {
+        margin: 0;
+        padding: 0;
+    }
+
+    .btn.btn-outline-success {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+
+    h4 {
+        font-size: 1.7rem;
+    }
+
+    .acceptDate {
+        margin: 2vh 5vh;
+        padding: 10px;
+        display: flex;
+        justify-content:stretch;
+        align-items: baseline;
+        font-size: 1.3rem;
+    }
+
+    .bi.bi-calendar-week {
+        display: inline;
+    }
+
+    .acceptDate p {
+        text-align: center;
+        font-weight: 600;
+        margin: 0 5px;
+    }
+
+    .acceptDate input {
+        cursor: pointer;
+        max-width: 10vh;
+        border: 0;
+        background-color: inherit;
+    }
+
+    .studentsList {
+        margin: 0 10vh;
+    }
+
+    .descriptionP {
+        margin-top: 1vh;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mainPresentList li {
+        overflow: hidden;
+        position: relative;
+        border: 1px solid var(--line-grey);
+        padding: 5px 10px;
+        transition: background-color .3s ease-in-out;
+        z-index: 1;
+    }
+
+    .mainPresentList li::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        background-color: var(--line-grey);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 100%;
+        transition: .3s ease-out;
+    }
+
+    .mainPresentList li:hover::after {
+        transform: translateX(100%);
+    }
+
+    .mainPresentList input {
+        cursor: pointer;
+    }
+
+    .centerButton {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn.btn-outline-success {
+        margin-top: 2vh;
+        width: 15vh;
+    }
+}

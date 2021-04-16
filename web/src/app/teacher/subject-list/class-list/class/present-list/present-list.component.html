@@ -1,15 +1,35 @@
 <main>
 
-    <h4><a class="back" (click)="this.back()"
-        >Wróć</a>{{title}}</h4>
+    <h4><a class="back" (click)="this.back()">Wróć</a>
+        <span class="title">{{title}}</span>
+    </h4>
 
-    <ul>
-        <!-- <li *ngFor="let item of dateFromParent.list; index as i">
-            <p routerLink={{this.createLink(item)}}>
-                <i ngClass={{this.icons[i]}} class="subjectIcon" [ngStyle]="{'color': this.iconColors[i]}">
-                </i>{{item}}
-            </p>
-        </li> -->
-    </ul>
+    <div class="acceptDate">
+        <i class="bi bi-calendar-week"></i>
+        <p>Potwierdź datę</p>
+        <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="today = $event" name="dt"
+            class="form-control form-control-rounded text-center" #searchDate required>
+    </div>
+
+    <div class="studentsList">
+        <div class="descriptionP">
+            <p>Uczeń/Uczennica</p>
+            <p>Obecność</p>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="saveList()">
+            <ul class="mainPresentList">
+                <li *ngFor="let student of this.studentsList; index as i">
+                    <label for="student">
+                        {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
+                    </label>
+                    <input id="student" type="checkbox" [value]="student.userId" 
+                    (change)="onCheckboxChange($event)">
+                </li>
+                <div class="centerButton">
+                    <button type="submit" class="btn btn-outline-success">Zapisz</button>
+                </div>
+            </ul>
+        </form>
+    </div>
 
 </main>

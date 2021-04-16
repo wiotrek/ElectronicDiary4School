@@ -12,6 +12,7 @@ import { ChoiceCardComponent } from './choice-card/choice-card.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PresentListComponent } from './teacher/subject-list/class-list/class/pr
     ChoiceCardComponent,
     ClassListComponent,
     ClassComponent,
-    PresentListComponent
+    PresentListComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,

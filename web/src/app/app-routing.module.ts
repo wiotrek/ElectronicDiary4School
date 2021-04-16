@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
@@ -28,10 +29,13 @@ const routes: Routes = [
               { path: ':subject/:class/lista-obecności', component: PresentListComponent }
             ]
           }
-        ]
-      }
-    ]
-  }
+        ],
+      },
+      { path: 'not-found', component: NotFoundComponent },
+      { path: '**', component: NotFoundComponent, pathMatch: 'full' }
+    ],
+  },
+  
 ];
 
 @NgModule({

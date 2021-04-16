@@ -42,7 +42,7 @@ export class PresentListComponent {
 
   back = () => this.location.back();
 
-  onCheckboxChange(e: any) {
+  onCheckboxChange(e: any): void {
     const studentPresent: FormArray = this.form.get('studentsPresent') as FormArray;
     if (e.target.checked) {
       studentPresent.push(new FormControl(e.target.value));
@@ -54,7 +54,6 @@ export class PresentListComponent {
 
   saveList(): void {
     console.log(this.form.value);
-    
   }
 
 }

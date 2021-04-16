@@ -3,7 +3,7 @@
     <h4><a class="back" *ngIf="!this.dateFromParent.hideBack" (click)="this.back()"
         >Wróć</a> {{dateFromParent.title}}</h4>
 
-    <ul>
+    <ul *ngIf="this.dateFromParent.list.length else lackResource">
         <li *ngFor="let item of dateFromParent.list; index as i">
             <p routerLink={{this.createLink(item.key)}}>
                 <i ngClass={{item.value}} class="subjectIcon" 
@@ -13,5 +13,9 @@
             </p>
         </li>
     </ul>
+
+    <ng-template #lackResource>
+        <h5>Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>
+    </ng-template>
 
 </main>

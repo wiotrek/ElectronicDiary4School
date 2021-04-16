@@ -29,6 +29,7 @@ export class TeacherComponent {
   { this.dateToChild = {
       title: 'Strona Główna',
       list: this.list,
+      lackResource: 'kart',
       hideBack: true,
       iconColors: this.colors
     }; }

@@ -22,6 +22,7 @@ export class ClassListComponent {
   constructor()
   { this.dateToChild = {
       title: 'Wybierz klase',
-      list: this.list
+      list: this.list,
+      lackResource: 'klas',
     }; }
 }

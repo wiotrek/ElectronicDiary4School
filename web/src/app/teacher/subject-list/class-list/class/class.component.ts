@@ -29,6 +29,7 @@ export class ClassComponent {
   ) { this.dateToChild = {
       title: this.getParam(),
       list: this.list,
+      lackResource: 'kart',
       iconColors: this.colors
     }; }
 

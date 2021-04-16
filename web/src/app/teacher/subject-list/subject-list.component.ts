@@ -24,6 +24,7 @@ export class SubjectListComponent{
   constructor()
   { this.dateToChild = {
       title: 'Wybierz przedmiot',
-      list: this.list
+      list: this.list,
+      lackResource: 'przedmiotów'
     }; }
 }

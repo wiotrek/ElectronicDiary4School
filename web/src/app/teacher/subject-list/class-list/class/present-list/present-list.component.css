@@ -32,14 +32,28 @@
         justify-content: space-between;
     }
 
-    ul {
+    .mainPresentList {
         list-style: none;
     }
 
-    li {
+    .mainPresentList li {
         background-color: white;
         border: 1px solid var(--primary-blue);
         padding: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    label {
+        margin: 0;
+        padding: 0;
+    }
+
+    .btn.btn-outline-success {
+        margin-top: 10px;
+        width: 100%;
     }
 
 }

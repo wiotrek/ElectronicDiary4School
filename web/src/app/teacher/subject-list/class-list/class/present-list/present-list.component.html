@@ -15,11 +15,18 @@
             <p>Uczeń/Uczennica</p>
             <p>Obecność</p>
         </div>
-
-        <ul>
-            <li *ngFor="let student of this.studentsList">
-                {{student.value}}</li>
-        </ul>
+        <form action="">
+            <ul class="mainPresentList">
+                <li *ngFor="let student of this.studentsList; index as i">
+                    <label for="check-{{student.key}}-{{student.value}}">
+                        {{i+1}}. {{student.key.charAt(0)}}.{{student.value}}
+                    </label>
+                    <input id="check-{{student.key}}-{{student.value}}" 
+                    type="checkbox" name="presentList" value="{{student}}">
+                </li>
+                <button type="submit" class="btn btn-outline-success">Zapisz</button>
+            </ul>
+        </form>
     </div>
 
 </main>

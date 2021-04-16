@@ -19,9 +19,7 @@ export class PresentListComponent implements OnInit {
     {key: 'Patrycja', value: 'Nowak'}
   ];
 
-  constructor(
-    private location: Location
-  ) {
+  constructor(private location: Location) {
     this.today = new Date();
    }
 

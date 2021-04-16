@@ -2,7 +2,8 @@
 
     h4 {
         color: var(--primary-blue);
-        font-weight:500;
+        font-size: 1.3rem;
+        font-weight:400;
     }
 
     .back {
@@ -74,5 +75,4 @@
     span {
         padding: 0 15px;
     }
-
 }

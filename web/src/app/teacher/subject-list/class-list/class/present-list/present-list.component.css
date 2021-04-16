@@ -20,6 +20,10 @@
         padding: 10px 0;
     }
 
+    .bi.bi-calendar-week {
+        display: none;
+    }
+
     .acceptDate p {
         text-align: center;
         font-weight: 600;
@@ -55,7 +59,6 @@
         margin-top: 10px;
         width: 100%;
     }
-
 }
 
 @media (min-width: 769px) {
@@ -64,33 +67,79 @@
         font-size: 1.7rem;
     }
 
-    ul {
+    .acceptDate {
+        margin: 2vh 5vh;
+        padding: 10px;
         display: flex;
-        flex-wrap: wrap;
+        justify-content:stretch;
+        align-items: baseline;
+        font-size: 1.3rem;
     }
 
-    li {
-        margin: 0 1vh;
-        min-width: 20vh;
+    .bi.bi-calendar-week {
+        display: inline;
     }
 
-    p {
-        padding: 0;
-        min-height: 10vh;
-        display: grid;
+    .acceptDate p {
+        text-align: center;
+        font-weight: 600;
+        margin: 0 5px;
     }
-    
-    .subjectIcon {
-        font-size: 3rem;
+
+    .acceptDate input {
+        cursor: pointer;
+        max-width: 10vh;
+        border: 0;
+        background-color: inherit;
+    }
+
+    .studentsList {
+        margin: 0 10vh;
+    }
+
+    .descriptionP {
+        margin-top: 1vh;
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .mainPresentList li {
+        overflow: hidden;
+        position: relative;
+        border: 1px solid var(--line-grey);
+        padding: 5px 10px;
+        transition: background-color .3s ease-in-out;
+        z-index: 1;
+    }
+
+    .mainPresentList li::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        background-color: var(--line-grey);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 100%;
+        transition: .3s ease-out;
+    }
+
+    .mainPresentList li:hover::after {
+        transform: translateX(100%);
+    }
+
+    .mainPresentList input {
+        cursor: pointer;
+    }
+
+    .centerButton {
         display: flex;
         justify-content: center;
-        align-items: center;
-        margin: 0;
-        padding: 5px;
     }
 
-    span {
-        padding: 0 15px;
+    .btn.btn-outline-success {
+        margin-top: 2vh;
+        width: 15vh;
     }
-
 }

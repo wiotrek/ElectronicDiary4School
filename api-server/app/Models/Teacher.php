@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property Role|null $role
  * @property User|null $user
+ * @property Collection|ClassHarmonogram[] $class_harmonograms
  * @property Collection|TeacherClass[] $teacher_classes
  * @property Collection|Subject[] $subjects
  *
@@ -47,6 +48,11 @@ class Teacher extends Model
 	public function user()
 	{
 		return $this->belongsTo(User::class);
+	}
+
+	public function class_harmonograms()
+	{
+		return $this->hasMany(ClassHarmonogram::class);
 	}
 
 	public function teacher_classes()

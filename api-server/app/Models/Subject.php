@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property Collection|ClassHarmonogram[] $class_harmonograms
  * @property Collection|StudentActivity[] $student_activities
  * @property Collection|StudentMark[] $student_marks
- * @property Collection|Student[] $students
  * @property Collection|SubjectClass[] $subject_classes
  * @property Collection|Teacher[] $teachers
  *
@@ -51,12 +50,6 @@ class Subject extends Model
 	public function student_marks()
 	{
 		return $this->hasMany(StudentMark::class);
-	}
-
-	public function students()
-	{
-		return $this->belongsToMany(Student::class)
-					->withPivot('student_subject_id');
 	}
 
 	public function subject_classes()

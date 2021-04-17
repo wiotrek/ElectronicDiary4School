@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $student_activity_id
  * @property int|null $student_id
  * @property int|null $subject_id
- * @property bool $active
+ * @property int $active
  * @property Carbon $date_active
  * 
  * @property Student|null $student
@@ -32,7 +32,7 @@ class StudentActivity extends Model
 	protected $casts = [
 		'student_id' => 'int',
 		'subject_id' => 'int',
-		'active' => 'bool'
+		'active' => 'int'
 	];
 
 	protected $dates = [

@@ -22,7 +22,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property User|null $user
  * @property Collection|StudentActivity[] $student_activities
  * @property Collection|Mark[] $marks
- * @property Collection|Subject[] $subjects
  *
  * @package App\Models
  */
@@ -68,11 +67,5 @@ class Student extends Model
 	{
 		return $this->belongsToMany(Mark::class, 'student_marks', 'student_id', 'marks_id')
 					->withPivot('student_marks_id', 'subject_id', 'marks_type_id', 'approach_number', 'topic', 'passing_date');
-	}
-
-	public function subjects()
-	{
-		return $this->belongsToMany(Subject::class)
-					->withPivot('student_subject_id');
 	}
 }

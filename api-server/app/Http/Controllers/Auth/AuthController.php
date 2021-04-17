@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\Teacher;
@@ -10,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
+/*
+ * Controller taking authenticated user to home page
+ * or back to login page after logout
+ */
 class AuthController extends Controller
 {
     public function login(Request $request) {
@@ -59,9 +64,4 @@ class AuthController extends Controller
         ])->withCookie($cookie);
     }
 
-
-    // Tested preview authenticated user
-    public function user () {
-        return Auth::user();
-    }
 }

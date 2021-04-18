@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Repositories\SubjectRepositoryInterface;
 
 class TeacherSubjectService {
@@ -33,6 +32,10 @@ class TeacherSubjectService {
 
         return $teachersSubjects;
 
+    }
+
+    public function getAllSubjects (  ) {
+        return $this->subjectRepository->readAll();
     }
 
     #endregion

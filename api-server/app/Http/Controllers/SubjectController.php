@@ -30,5 +30,9 @@ class SubjectController extends Controller
 
     }
 
+    public function showAllSubject (  ) {
+        return $this->subjectService->getAllSubjects();
+    }
+
     #endregion
 }

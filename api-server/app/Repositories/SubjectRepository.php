@@ -4,12 +4,17 @@
 namespace App\Repositories;
 
 
+use App\Helpers\KeyColumn;
+
 use App\Models\Subject;
+use App\Models\SubjectClass;
 use App\Models\Teacher;
 use App\Models\TeacherSubject;
+use App\Models\User;
+use App\Repositories\Base\BaseRepository;
 use Illuminate\Support\Facades\Auth;
 
-class SubjectRepository implements SubjectRepositoryInterface {
+class SubjectRepository extends BaseRepository implements SubjectRepositoryInterface {
 
     #region Public Methods
 
@@ -18,17 +23,20 @@ class SubjectRepository implements SubjectRepositoryInterface {
         $userId = Auth::user()->getAuthIdentifier();
 
         // get teacher id
-        $teacherId = Teacher::query()
-            ->where('user_id', '=', $userId)
-            ->pluck('teacher_id');
+        $teacherId = $this->findIdByOtherId(
+            $userId,
+            KeyColumn::name(User::class),
+            KeyColumn::name(Teacher::class),
+            Teacher::class);
 
         // if founded then
         if ($teacherId->count() != 0) {
 
             // get all subject ids
-            $subjectIds = TeacherSubject ::query()
-                -> where( 'teacher_id', '=', $teacherId[ 0 ] )
-                -> pluck( 'subject_id' );
+            $subjectIds = $this->findIdByOtherId($teacherId[0],
+                KeyColumn::name(Teacher::class),
+                KeyColumn::name(Subject::class),
+                TeacherSubject::class);
 
             // by subjects ids get subject list
             $subjects = Subject ::query()
@@ -42,6 +50,14 @@ class SubjectRepository implements SubjectRepositoryInterface {
         return null;
     }
 
+    // TODO For test - delete later
+    public function readAll () {
+
+//        return $this->findById(80, SubjectClass::class);
+        return $this->all(SubjectClass::class);
+    }
+
     #endregion
+
 
 }

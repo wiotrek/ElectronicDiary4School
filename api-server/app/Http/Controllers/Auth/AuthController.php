@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\KeyColumn;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\User;
+use App\Repositories\Base\BaseRepository;
+use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -17,6 +21,22 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AuthController extends Controller
 {
+    #region  Private Members
+
+    private $userRepository;
+
+    #endregion
+
+    #region DI Constructor
+
+    public function __construct (BaseRepositoryInterface $userRepository) {
+
+        $this->userRepository = $userRepository;
+
+    }
+
+    #endregion
+
     public function login(Request $request) {
 
         // Verify that credentials are correct
@@ -33,12 +53,12 @@ class AuthController extends Controller
 
 
         // Get school status of the login user
-        $teacherRole = Teacher::query()->where('user_id', '=', $user->getAuthIdentifier())->pluck('role_id')->first();
-        $studentRole = Student::query()->where('user_id', '=', $user->getAuthIdentifier())->pluck('role_id')->first();
+        $teacherRole =$this->userRepository->findByColumn($user->getAuthIdentifier(), "user_id", Teacher::class)->pluck('role_id')->first();
+        $studentRole = $this->userRepository->findByColumn($user->getAuthIdentifier(), "user_id", Student::class)->pluck('role_id')->first();
         if (!is_null($teacherRole))
-            $role = Role::query()->where('role_id', '=', $teacherRole)->pluck('status')->first();
+            $role = $this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first();
         else
-            $role = Role::query()->where('role_id', '=', $studentRole)->pluck('status')->first();
+            $role = $this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first();
 
 
         // TODO: extend user table with url profile photo

@@ -4,8 +4,6 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 
 Route::post('/logowanie', [AuthController::class, 'login'] );
+
+// TODO For test - delete later
+Route::get('allsubjects', [SubjectController::class, 'showAllSubject']);
 
 // TODO separate paths for teacher from paths for students by role which user is login with
 Route::middleware('auth:sanctum')->group(function() {

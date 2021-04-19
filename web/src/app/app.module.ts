@@ -13,6 +13,7 @@ import { ClassListComponent } from './teacher/subject-list/class-list/class-list
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { MarksListComponent } from './teacher/subject-list/class-list/class/marks-list/marks-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
     ClassListComponent,
     ClassComponent,
     PresentListComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MarksListComponent
   ],
   imports: [
     BrowserModule,

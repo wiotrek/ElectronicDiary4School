@@ -13,6 +13,9 @@ import { ClassListComponent } from './teacher/subject-list/class-list/class-list
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { MarksListComponent } from './teacher/subject-list/class-list/class/marks-list/marks-list.component';
+import { AuthInterceptor } from './_interceptors/auth.interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,14 +28,17 @@ import { NotFoundComponent } from './errors/not-found/not-found.component';
     ClassListComponent,
     ClassComponent,
     PresentListComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MarksListComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,13 +14,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
 export class SubjectListComponent{
   dateToChild = {} as ChoiceCard;
 
-  list: Dictionary<string, string>[] = [
-    { key: 'Wychowanie do życia w rodzinie', value: 'fa fa-paint-brush' },
-    { key: 'Muzyka', value: 'bi bi-joystick' },
-    { key: 'Polski', value: 'fa fa-etsy' },
-    { key: 'Matematyka', value: 'bi bi-graph-up' },
-    { key: 'Plastyka', value: 'fa fa-paint-brush' }
-  ];
+  list: Dictionary<string, string>[] = [];
 
   constructor(private teacherService: TeacherService){
     this.dateToChild = {
@@ -28,13 +22,13 @@ export class SubjectListComponent{
       list: this.list,
       lackResource: 'przedmiotów'
     };
+
     this.load();
   }
 
-  load() {
-    this.teacherService.getSubjects().subscribe((res: any) => {
-      console.log(res);
-    });
+  load(): void {
+    this.teacherService.getSubjects().subscribe((res: any) =>
+      res.forEach(({name, icon}: any) =>
+        this.list.push({key: name, value: icon})));
   }
-
 }

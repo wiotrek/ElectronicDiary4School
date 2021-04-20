@@ -16,18 +16,16 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
-    let token = '';
-    this.accountService.currentUser$.subscribe(res => token = res?.token || '');
+    let token: string | undefined;
+    // tslint:disable-next-line: deprecation
+    this.accountService.currentUser$.subscribe(res => token = res?.token);
 
     if (token) {
       request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
+      if (!request.headers.has('Content-Type')) {
+        request = request.clone({ headers: request.headers.set('Content-Type', 'application/json'), withCredentials: true });
+      }
     }
-
-    if (!request.headers.has('Content-Type')) {
-      request = request.clone({ headers: request.headers.set('Content-Type', 'application/json'), withCredentials: true });
-    }
-
     request = request.clone({ headers: request.headers.set('Accept', 'application/json'), withCredentials: true });
 
     return next.handle(request).pipe(

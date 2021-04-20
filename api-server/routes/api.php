@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Teacher Subjects
     Route::get( '/teacher/subjects', [ SubjectController::class, 'showTeacherSubject' ] );
 
-    // Teacher Classes
-    Route::get( '/teacher/subject={subject_id}/classes', [ ClassController::class, 'showTeacherClass' ] );
+    // Teacher Classes by Subject
+    Route::get( '/teacher/subject={subjectName}/classes', [ ClassController::class, 'showTeacherClassBySubject' ] );
 
 });

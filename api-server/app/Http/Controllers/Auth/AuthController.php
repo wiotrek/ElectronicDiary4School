@@ -69,7 +69,8 @@ class AuthController extends Controller
         return response([
             'message' => $user,
             'role' => $role,
-            'profileUrl' => $userProfile
+            'profileUrl' => $userProfile,
+            'token' => $token
         ])->withCookie($cookie);
 
     }

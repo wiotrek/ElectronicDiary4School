@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChoiceCard } from 'src/app/_models/choice-card';
 import { Dictionary } from 'src/app/_models/dictionary';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-class-list',
@@ -19,10 +20,17 @@ export class ClassListComponent {
     { key: 'Klasa 7A', value: 'bi bi-suit-spade' },
   ];
 
-  constructor()
+  constructor(private teacherService: TeacherService)
   { this.dateToChild = {
       title: 'Wybierz klase',
       list: this.list,
       lackResource: 'klas',
     }; }
+
+  load(): void {
+    this.teacherService.getSubjects().subscribe((res: any) =>
+      res.forEach(({name, icon}: any) =>
+        this.list.push({key: name, value: icon})));
+  }
+
 }

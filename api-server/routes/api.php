@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,5 +37,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Teacher Classes by Subject
     Route::get( '/teacher/subject={subjectName}/classes', [ ClassController::class, 'showTeacherClassBySubject' ] );
+
+    // Student activity
+    Route::post( '/student-active', [ StudentController::class, 'storeStudentActivity' ] );
 
 });

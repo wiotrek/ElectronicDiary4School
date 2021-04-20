@@ -27,9 +27,9 @@ class ClassController extends Controller
 
     #region Request Methods
 
-    public function showTeacherClass () {
+    public function showTeacherClass ($subject_id) {
 
-        foreach ($this->classService->getTeacherClasses() as $teacherClass) {
+        foreach ($this->classService->getTeacherClasses($subject_id) as $teacherClass) {
 
             // Init new object with data
             $teacherClasses = new TeacherClassResultApiModel();

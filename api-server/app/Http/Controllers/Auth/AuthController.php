@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Helpers\KeyColumn;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\User;
-use App\Repositories\Base\BaseRepository;
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,8 +50,8 @@ class AuthController extends Controller
 
 
         // Get school status of the login user
-        $teacherRole =$this->userRepository->findByColumn($user->getAuthIdentifier(), "user_id", Teacher::class)->pluck('role_id')->first();
-        $studentRole = $this->userRepository->findByColumn($user->getAuthIdentifier(), "user_id", Student::class)->pluck('role_id')->first();
+        $teacherRole =$this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Teacher::class)->pluck('role_id')->first();
+        $studentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Student::class)->pluck('role_id')->first();
         if (!is_null($teacherRole))
             $role = $this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first();
         else

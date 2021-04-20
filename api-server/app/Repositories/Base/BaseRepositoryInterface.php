@@ -6,6 +6,8 @@ namespace App\Repositories\Base;
 
 interface BaseRepositoryInterface {
 
+    public function getAuthId();
+
     /**
      * Select whatever from giving $modelName
      * @param $model string Eloquent model for retrieve data
@@ -36,5 +38,16 @@ interface BaseRepositoryInterface {
      * @return mixed
      */
     public function findByColumn($value, string $columnName, string $fromModel);
+
+    /**
+     * @param int $firstValue The value as right operand in first where clause
+     * @param int $secondValue The value as right operand in second where clause
+     * @param string $firstColumn The column by searching are data from
+     * @param string $secondColumn The column by searching are data from
+     * @param $fromModel
+     * @return mixed
+     * @see findByColumn is invoke if the first column is the same as second column
+     */
+    public function findByAndColumns(int $firstValue, int $secondValue, string $firstColumn, string $secondColumn, $fromModel);
 
 }

@@ -29,10 +29,17 @@ class BaseRepository implements BaseRepositoryInterface {
         return $fromModel::query()->where($columnName, '=', $value);
     }
 
+    public function findByAndColumns( $firstValue, $secondValue, $firstColumn, $secondColumn, $fromModel ) {
+        if ($firstColumn != $secondColumn)
+            return $fromModel::query()->where($firstColumn, '=', $firstValue)->where($secondColumn, '=', $secondValue);
+        else
+            return $this->findByColumn($firstValue, $firstColumn, $fromModel);
+    }
+
     /**
      * @return mixed Taking id of the login user
      */
-    protected function getAuthId() {
+    public function getAuthId() {
         return Auth::user()->getAuthIdentifier();
     }
 

@@ -4,8 +4,6 @@
 namespace App\Services;
 
 
-use App\DataModels\IconClass;
-use App\Icons\IconGenerator;
 use App\Repositories\ClassRepositoryInterface;
 
 class TeacherClassService {
@@ -26,8 +24,11 @@ class TeacherClassService {
 
     #region Implemented Methods
 
-    public function getTeacherClasses (  ) {
-        $teachersClasses = $this->classRepository->readTeacherClasses();
+    public function getTeacherClasses ( $subject_id ) {
+        if (!is_null($subject_id))
+            $teachersClasses = $this->classRepository->readTeacherClasses($subject_id);
+        else
+            return null;
 
         if (is_null($teachersClasses))
             return null;

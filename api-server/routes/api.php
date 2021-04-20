@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/logowanie', [AuthController::class, 'login'] );
 
-// TODO For test - delete later
-Route::get('allsubjects', [SubjectController::class, 'showAllSubject']);
 
 // TODO separate paths for teacher from paths for students by role which user is login with
 Route::middleware('auth:sanctum')->group(function() {
@@ -37,6 +35,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get( '/teacher/subjects', [ SubjectController::class, 'showTeacherSubject' ] );
 
     // Teacher Classes
-    Route::get( '/teacher/classes', [ ClassController::class, 'showTeacherClass' ] );
+    Route::get( '/teacher/subject={subject_id}/classes', [ ClassController::class, 'showTeacherClass' ] );
 
 });

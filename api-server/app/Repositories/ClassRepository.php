@@ -3,10 +3,8 @@
 
 namespace App\Repositories;
 
-use App\Helpers\KeyColumn;
 
-use App\Models\Teacher;
-use App\Models\TeacherClass;
+use App\Models\ClassHarmonogram;
 use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
 
@@ -14,7 +12,7 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 
     #region Public Methods
 
-    public function readTeacherClasses () {
+    public function readTeacherClasses ($subject_id) {
 
         // get teacher id
         $teacherId = $this->getTeacherId();
@@ -23,10 +21,14 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
         if ($teacherId->count() != 0) {
 
             // get all classes ids
-            $classesIds = $this->findIdByOtherId($teacherId[0],
-                KeyColumn::name(Teacher::class),
-                KeyColumn::name(UserClass::class),
-                TeacherClass::class);
+            $classesIds = $this->findByAndColumns(
+                $teacherId[0],
+                $subject_id,
+                'teacher_id',
+                'teacher_id',
+                ClassHarmonogram::class)
+                ->pluck('user_class_id');
+
 
             // by classes ids get objects of the classes list
             return UserClass::query()

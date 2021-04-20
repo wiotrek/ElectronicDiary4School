@@ -12,6 +12,7 @@ use App\Models\Teacher;
 use App\Models\TeacherSubject;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
 class SubjectRepository extends BaseRepository implements SubjectRepositoryInterface {

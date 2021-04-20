@@ -8,6 +8,7 @@ use App\Models\ClassHarmonogram;
 use App\Models\Subject;
 use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\ClassRepositoryInterface;
 
 class ClassRepository extends BaseRepository implements ClassRepositoryInterface {
 

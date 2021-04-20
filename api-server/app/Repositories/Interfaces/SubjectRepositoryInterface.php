@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Repositories;
-use App\Repositories\Base\BaseRepositoryInterface;
+namespace App\Repositories\Interfaces;
 
+use App\Repositories\Base\BaseRepositoryInterface;
 
 interface SubjectRepositoryInterface extends BaseRepositoryInterface {
 

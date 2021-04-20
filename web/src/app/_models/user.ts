@@ -7,4 +7,5 @@ export interface User {
     };
     role: string;
     profileUrl: string;
+    token: string;
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ChoiceCard } from 'src/app/_models/choice-card';
 import { Dictionary } from 'src/app/_models/dictionary';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-subject-list',
@@ -21,10 +22,19 @@ export class SubjectListComponent{
     { key: 'Plastyka', value: 'fa fa-paint-brush' }
   ];
 
-  constructor()
-  { this.dateToChild = {
+  constructor(private teacherService: TeacherService){
+    this.dateToChild = {
       title: 'Wybierz przedmiot',
       list: this.list,
       lackResource: 'przedmiotów'
-    }; }
+    };
+    this.load();
+  }
+
+  load() {
+    this.teacherService.getSubjects().subscribe((res: any) => {
+      console.log(res);
+    });
+  }
+
 }

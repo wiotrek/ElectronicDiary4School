@@ -39,6 +39,10 @@
         overflow-wrap: break-word;
     }
 
+    h5 {
+        margin-top: 2vh;
+    }
+
 }
 
 @media (min-width: 769px) {

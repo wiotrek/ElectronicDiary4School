@@ -55,6 +55,8 @@
 @media (min-width: 769px) {
 
     .container {
+        min-height: 80vmin;
+        margin-top: 10vmin;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
     }

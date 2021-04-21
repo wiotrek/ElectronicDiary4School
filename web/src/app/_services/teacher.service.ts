@@ -14,4 +14,8 @@ export class TeacherService {
     return this.http.get(this.baseUrl + 'teacher/subjects');
   }
 
+  getClasses(subjectName: string): any {
+    return this.http.get(this.baseUrl + `teacher/subject=${subjectName}/classes`);
+  }
+
 }

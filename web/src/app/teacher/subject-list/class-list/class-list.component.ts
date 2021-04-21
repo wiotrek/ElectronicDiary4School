@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ChoiceCard } from 'src/app/_models/choice-card';
 import { Dictionary } from 'src/app/_models/dictionary';
 import { TeacherService } from 'src/app/_services/teacher.service';
@@ -14,23 +15,36 @@ import { TeacherService } from 'src/app/_services/teacher.service';
 export class ClassListComponent {
   dateToChild = {} as ChoiceCard;
 
-  list: Dictionary<string, string>[] = [
-    { key: 'Klasa 4C', value: 'bi bi-suit-club' },
-    { key: 'Klasa 6D', value: 'bi bi-suit-diamond' },
-    { key: 'Klasa 7A', value: 'bi bi-suit-spade' },
-  ];
+  list: Dictionary<string, string>[] = [];
 
-  constructor(private teacherService: TeacherService)
-  { this.dateToChild = {
+  constructor(
+    private teacherService: TeacherService,
+    private route: ActivatedRoute
+  )
+  {
+    this.dateToChild = {
       title: 'Wybierz klase',
       list: this.list,
       lackResource: 'klas',
-    }; }
+    };
+    this.getParam();
+  }
 
-  load(): void {
-    this.teacherService.getSubjects().subscribe((res: any) =>
+  getParam(): void {
+    const getSubject = this.route.snapshot.paramMap.get('subject');
+    if (getSubject) {
+      let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+      subject = subject.replace(/-/g, ' ');
+      this.load(subject);
+    }
+    return;
+  }
+
+  load(subject: string): void {
+    this.teacherService.getClasses(subject).subscribe((res: any) => {
       res.forEach(({name, icon}: any) =>
-        this.list.push({key: name, value: icon})));
+      this.list.push({key: name, value: icon}));
+    }, (err: any) => console.log(err));
   }
 
 }

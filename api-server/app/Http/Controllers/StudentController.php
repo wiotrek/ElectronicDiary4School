@@ -3,33 +3,83 @@
 namespace App\Http\Controllers;
 
 use App\Models\StudentActivity;
+use App\Services\ClassService;
+use App\Services\StudentService;
+use App\Services\SubjectService;
+use App\WebModels\StudentActivityWebModel;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class StudentController extends Controller
 {
-    public function storeStudentActivity (Request $request) {
+    private $classService;
+    private $subjectService;
+    private $studentService;
 
-        foreach($request->all() as $req) {
+    public function __construct(ClassService $classService,
+                                SubjectService $subjectService,
+                                StudentService $studentService)
+    {
+        $this->classService = $classService;
+        $this->subjectService = $subjectService;
+        $this->studentService = $studentService;
+    }
 
-            $saveActive = new StudentActivity(
-                [
-                    'student_id' => $req['student_id'],
-                    'subject_id' => $req['subject_id'],
-                    'active' => $req['active'],
-                    'date_active' => $req['date_active'],
-                ]
-            );
 
-            if(!$saveActive -> save()){
-                response([
-                    'message' => 'Unsuccessfuly saved student activity with id '.$req['student_id'],
-                    Response::HTTP_BAD_REQUEST]
-                );
+    // Save student activity data to student_activity table
+    public function storeStudentActivity (Request $request, $subjectName, $date) {
+
+        // Create object for keep request data
+        $studentActivity = new StudentActivityWebModel;
+        $studentActivityToSave = new StudentActivity;
+
+
+        // Initialize data from request
+        $studentActivity->setStudentIdentifier($request->all());
+        $studentActivity->setSubjectName($subjectName);
+        $studentActivity->setDateActive($date);
+
+
+        // Load all students together with first student from request by his identifier
+        $studentIdsList = $this->classService->getStudentsIdFromClass($request[0]['student_identifier']);
+
+
+        // Get ids of becoming students from request
+        $idsOfActiveStudents = $this->classService->getIdsOfActiveStudents($studentActivity->getStudentIdentifier());
+
+
+        // Get id of subject which for active students are saving
+        $subjectId = $this->subjectService->getSubjectId($studentActivity->getSubjectName())[0];
+
+
+        // Go through all students from current class
+        foreach ( $studentIdsList as $studentId ) {
+
+            // Set default value
+            $isActive = 0;
+
+            // Stupid double loop
+            foreach( $idsOfActiveStudents as $activeStudentId ) {
+                foreach( $activeStudentId as $actStu ){
+                    if ( $actStu == $studentId ) {
+                        $isActive = 1;
+                    }
+                }
             }
+
+            // Collect all data for saving
+            $studentActivityToSave = new StudentActivity( [
+                'student_id' => $studentId,
+                'subject_id' => $subjectId,
+                'active' => $isActive,
+                'date_active' => $studentActivity -> getDateActive()
+            ] );
+
+            // Save active of current student on loop
+            $this -> studentService -> storeStudentActivity( $studentActivityToSave );
+
         }
 
-
+        //TODO: Create good response class
         return response([
             'message' => 'Student activities inserted'
         ] );

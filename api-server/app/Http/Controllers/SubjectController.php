@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\TeacherSubjectService;
+use App\Services\SubjectService;
 
 class SubjectController extends Controller
 {
@@ -14,7 +14,7 @@ class SubjectController extends Controller
 
     #region DI Constructor
 
-    public function __construct (TeacherSubjectService $subjectService) {
+    public function __construct ( SubjectService $subjectService) {
 
         $this->subjectService = $subjectService;
 

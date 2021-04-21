@@ -3,9 +3,10 @@
 
 namespace App\Services;
 
+use App\Models\Subject;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
 
-class TeacherSubjectService {
+class SubjectService {
 
     #region Private Members
 
@@ -21,7 +22,7 @@ class TeacherSubjectService {
 
     #endregion
 
-    #region Implemented Methods
+    #region Public Methods
 
     public function getTeacherSubjects (  ) {
 
@@ -33,6 +34,13 @@ class TeacherSubjectService {
         return $teachersSubjects;
 
     }
+
+
+    public function getSubjectId ( $subjectName ) {
+        return $this->subjectRepository->findByColumn($subjectName, 'name', Subject::class)
+            ->pluck('subject_id');
+    }
+
 
     public function getAllSubjects (  ) {
         return $this->subjectRepository->readAll();

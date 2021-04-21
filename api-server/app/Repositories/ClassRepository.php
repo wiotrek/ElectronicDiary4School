@@ -25,7 +25,7 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
                 $teacherId[0],
                 $subject_id,
                 'teacher_id',
-                'teacher_id',
+                'subject_id',
                 ClassHarmonogram::class)
                 ->pluck('user_class_id');
 

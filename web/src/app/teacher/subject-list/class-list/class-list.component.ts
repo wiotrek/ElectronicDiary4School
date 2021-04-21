@@ -33,7 +33,9 @@ export class ClassListComponent {
   getParam(): void {
     const getSubject = this.route.snapshot.paramMap.get('subject');
     if (getSubject) {
-      this.load(getSubject);
+      let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+      subject = subject.replace(/\s+/g, '-');
+      this.load(subject);
     }
     return;
   }

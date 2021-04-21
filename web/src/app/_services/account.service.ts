@@ -17,8 +17,8 @@ export class AccountService {
   // Why we have a 2 dictionary? because way dictionarylist sorting
   // alphabetically list
   roles: DictionaryList<string> = {
-    teacher: '/nauczyciel',
-    student: '/uczen',
+    Nauczyciel: '/nauczyciel',
+    Uczen: '/uczen',
   };
 
   constructor(private http: HttpClient) { }

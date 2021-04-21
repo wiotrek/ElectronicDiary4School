@@ -1,3 +1,12 @@
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @media (min-width: 0) {
 
     h4 {
@@ -21,7 +30,7 @@
         text-align: center;
     }
 
-    p {
+    .pCard {
         border: 1px solid var(--primary-blue);
         background: white;
         font-weight:600;
@@ -39,6 +48,11 @@
         overflow-wrap: break-word;
     }
 
+    h5 {
+        margin-top: 2vh;
+        animation: appear 1s ease-in-out .5s backwards;
+    }
+
 }
 
 @media (min-width: 769px) {
@@ -48,21 +62,47 @@
     }
 
     ul {
+        margin-top: 3vmin;
         display: flex;
         flex-wrap: wrap;
     }
 
     li {
         margin: 0 1vh;
-        min-width: 20vh;
+        min-width: 20vmin;
     }
 
-    p {
+    .pCard {
         padding: 0;
-        min-height: 10vh;
+        min-height: 12vmin;
         display: grid;
+        will-change: transform;
+        transition: transform .3s ease-in-out;
+    }
+
+    .pCard:hover {
+        transform: translateY(-10px);
     }
     
+    .pCard::after {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        border: 1px solid grey;
+        opacity: 0;
+        transition: opacity .5 ease-in-out;
+        will-change: opacity, transform;
+        transform: translateZ(0);
+    }
+
+    .pCard:hover::after {
+        opacity: 1;
+    }
+
     .subjectIcon {
         font-size: 3rem;
         display: flex;
@@ -73,6 +113,7 @@
     }
 
     span {
+        inline-size: 20vmin;
         padding: 0 15px;
     }
 }

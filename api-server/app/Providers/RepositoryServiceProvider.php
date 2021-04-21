@@ -5,9 +5,9 @@ namespace App\Providers;
 use App\Repositories\Base\BaseRepositoryInterface;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\ClassRepository;
-use App\Repositories\ClassRepositoryInterface;
+use App\Repositories\Interfaces\ClassRepositoryInterface;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\SubjectRepository;
-use App\Repositories\SubjectRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

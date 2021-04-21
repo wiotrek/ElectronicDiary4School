@@ -5,9 +5,7 @@ import { Dictionary } from 'src/app/_models/dictionary';
   selector: 'app-not-found',
   template: `
   <div class="container">
-    <h1>Nie znaleziono strony<i class="bi bi-emoji-frown"></i></h1>
-    <button class="btn btn-primary" routerLink='/'>Wróć do strony głównej</button>
-    <h2>lub wróć do:</h2>
+    <h1>Nie znaleziono strony <i class="bi bi-emoji-frown"></i></h1>
     <button class="btn btn-info" *ngFor="let site of sites" routerLink="{{site.value}}">
       Wróć do strony {{site.key}}</button>
   </div>`,

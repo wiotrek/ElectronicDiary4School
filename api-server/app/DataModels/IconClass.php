@@ -3,15 +3,13 @@
 
 namespace App\DataModels;
 
-
-use Doctrine\Common\Annotations\Annotation\Enum;
 use ReflectionClass;
 
 /**
  * Class IconClass List of defined class icons from font-awesome
  * @package App\DataModels
  */
-class IconClass extends Enum {
+class IconClass {
 
     #region Const Members
 

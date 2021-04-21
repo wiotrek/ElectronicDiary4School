@@ -1,5 +1,4 @@
 @media (min-width: 0) {
-
     nav {
         margin-bottom: 3vh;
     }
@@ -22,6 +21,10 @@
     a {
         display: block;
         cursor: pointer;
+    }
+
+    a:hover {
+        color: inherit;
     }
 
     .iconHome {
@@ -53,7 +56,14 @@
     }
 }
 
-@media (min-width: 500px) {
+@media (min-width: 769px) {
+    nav {
+        margin-bottom: 3vmin;
+    }
+
+    ul {
+        padding: 2vmin 0;
+    }
 
     li:first-child {
         padding: 0 40px;

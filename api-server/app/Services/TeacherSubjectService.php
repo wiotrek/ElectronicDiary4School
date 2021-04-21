@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-use App\Repositories\SubjectRepositoryInterface;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 
 class TeacherSubjectService {
 

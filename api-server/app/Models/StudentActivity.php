@@ -11,13 +11,13 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StudentActivity
- * 
+ *
  * @property int $student_activity_id
  * @property int|null $student_id
  * @property int|null $subject_id
  * @property int $active
  * @property Carbon $date_active
- * 
+ *
  * @property Student|null $student
  * @property Subject|null $subject
  *

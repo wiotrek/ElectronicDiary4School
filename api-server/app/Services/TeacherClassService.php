@@ -3,8 +3,7 @@
 
 namespace App\Services;
 
-
-use App\Repositories\ClassRepositoryInterface;
+use App\Repositories\Interfaces\ClassRepositoryInterface;
 
 class TeacherClassService {
 
@@ -24,9 +23,9 @@ class TeacherClassService {
 
     #region Implemented Methods
 
-    public function getTeacherClasses ( $subject_id ) {
-        if (!is_null($subject_id))
-            $teachersClasses = $this->classRepository->readTeacherClasses($subject_id);
+    public function getTeacherClasses ( $subjectName ) {
+        if (!is_null($subjectName))
+            $teachersClasses = $this->classRepository->readTeacherClasses($subjectName);
         else
             return null;
 

@@ -5,14 +5,16 @@ namespace App\Repositories;
 
 
 use App\Models\ClassHarmonogram;
+use App\Models\Subject;
 use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
+use App\Repositories\Interfaces\ClassRepositoryInterface;
 
 class ClassRepository extends BaseRepository implements ClassRepositoryInterface {
 
     #region Public Methods
 
-    public function readTeacherClasses ($subject_id) {
+    public function readTeacherClasses ($subjectName) {
 
         // get teacher id
         $teacherId = $this->getTeacherId();
@@ -20,10 +22,16 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
         // if founded then
         if ($teacherId->count() != 0) {
 
+            // Get subject id by arriving subject name from client
+            $subjectId = $this->findByColumn(
+                $subjectName,
+                'name',
+                Subject::class)->pluck('subject_id');
+
             // get all classes ids
             $classesIds = $this->findByAndColumns(
                 $teacherId[0],
-                $subject_id,
+                $subjectId,
                 'teacher_id',
                 'subject_id',
                 ClassHarmonogram::class)

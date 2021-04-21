@@ -33,17 +33,17 @@ export class ClassListComponent {
   getParam(): void {
     const getSubject = this.route.snapshot.paramMap.get('subject');
     if (getSubject) {
-      let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
-      subject = subject.replace(/-/g, ' ');
-      this.load(subject);
+      // let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+      // subject = subject.replace(/-/g, ' ');
+      this.load(getSubject);
     }
     return;
   }
 
   load(subject: string): void {
     this.teacherService.getClasses(subject).subscribe((res: any) => {
-      res.forEach(({name, icon}: any) =>
-      this.list.push({key: name, value: icon}));
+      res.forEach(({klasa, Icon}: any) =>
+      this.list.push({key: klasa, value: Icon}));
     }, (err: any) => console.log(err));
   }
 

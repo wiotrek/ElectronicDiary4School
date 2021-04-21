@@ -62,18 +62,19 @@
     }
 
     ul {
+        margin-top: 3vmin;
         display: flex;
         flex-wrap: wrap;
     }
 
     li {
         margin: 0 1vh;
-        min-width: 20vh;
+        min-width: 20vmin;
     }
 
     .pCard {
         padding: 0;
-        min-height: 10vh;
+        min-height: 12vmin;
         display: grid;
         will-change: transform;
         transition: transform .3s ease-in-out;
@@ -112,6 +113,7 @@
     }
 
     span {
+        inline-size: 20vmin;
         padding: 0 15px;
     }
 }

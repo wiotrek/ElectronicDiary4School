@@ -17,11 +17,8 @@ export class ClassListComponent {
 
   list: Dictionary<string, string>[] = [];
 
-  constructor(
-    private teacherService: TeacherService,
-    private route: ActivatedRoute
-  )
-  {
+  constructor(private teacherService: TeacherService,
+              private route: ActivatedRoute){
     this.dateToChild = {
       title: 'Wybierz klase',
       list: this.list,
@@ -37,7 +34,6 @@ export class ClassListComponent {
       subject = subject.replace(/\s+/g, '-');
       this.load(subject);
     }
-    return;
   }
 
   load(subject: string): void {

@@ -18,18 +18,9 @@ export class ChoiceCardComponent implements OnInit {
   // if parent component doesnt give color list, then
   // colors will from this list
   defaultColors = [
-    '#FFB6C1',
-    '#90EE90',
-    '#20B2AA',
-    '#87CEFA',
-    '#F0E68C',
-    '#FF6347',
-    '#D3D3D3',
-    '#E6E6FA',
-    '#87CEEB',
-    '#4682B4',
-    '#F4A460',
-    '#7FFFD4'
+    '#FFB6C1', '#90EE90', '#20B2AA', '#87CEFA',
+    '#F0E68C', '#FF6347', '#D3D3D3', '#E6E6FA',
+    '#87CEEB', '#4682B4', '#F4A460', '#7FFFD4'
   ];
 
   constructor(private location: Location) {}

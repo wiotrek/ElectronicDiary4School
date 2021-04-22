@@ -19,10 +19,7 @@ export class ClassComponent {
     { key: 'Oceny', value: 'bi bi-file-earmark-spreadsheet' }
   ];
 
-  colors = [
-    '#F4A460',
-    '#7FFFD4'
-  ];
+  colors = ['#F4A460', '#7FFFD4'];
 
   constructor(
     private route: ActivatedRoute
@@ -39,11 +36,10 @@ export class ClassComponent {
     const getSchoolClass = this.route.snapshot.paramMap.get('class');
 
     // really ugly code, maybe someone want make prettier this extract
-    if (!!getSubject && !!getSchoolClass) {
+    if (getSubject && getSchoolClass) {
       let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
       subject = subject.replace(/-/g, ' ');
-      const arrSchoolClass = getSchoolClass.split('-');
-      return `${subject} - ${arrSchoolClass[1].toUpperCase()}`;
+      return `${subject} - ${getSchoolClass}`;
     }
     return 'Wybierz:';
   }

@@ -1,10 +1,9 @@
+<!-- TODO loading spinner -->
+
 <div class="container" *ngIf="userExist else login">
     <app-nav></app-nav>
     <router-outlet></router-outlet>
 </div>
-
-<!-- TODO make a component reapleacment 
-    if appear error and doesnt redirect to suitable component -->
 
 <ng-template #login>
     <app-login></app-login>

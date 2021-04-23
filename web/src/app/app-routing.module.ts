@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
+import { MarksListComponent } from './teacher/subject-list/class-list/class/marks-list/marks-list.component';
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { TeacherComponent } from './teacher/teacher.component';
@@ -25,8 +26,14 @@ const routes: Routes = [
             children: [
               {path: '' , component: SubjectListComponent },
               { path: ':subject', component: ClassListComponent },
-              { path: ':subject/:class', component: ClassComponent },
-              { path: ':subject/:class/lista-obecności', component: PresentListComponent }
+              {
+                path: ':subject/:class',
+                children: [
+                  { path: '', component: ClassComponent },
+                  { path: 'lista-obecności', component:  PresentListComponent },
+                  { path: 'oceny', component: MarksListComponent }
+                ]
+              }
             ]
           }
         ],

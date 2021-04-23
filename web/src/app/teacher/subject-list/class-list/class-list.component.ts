@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChoiceCard } from 'src/app/_models/choice-card';
-import { Dictionary } from 'src/app/_models/dictionary';
+import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
+import { ListToCard } from 'src/app/_models/list-to-card';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -13,9 +13,9 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   `
 })
 export class ClassListComponent {
-  dateToChild = {} as ChoiceCard;
+  dateToChild = {} as DateToChoiceCard;
 
-  list: Dictionary<string, string>[] = [];
+  list: ListToCard[] = [];
 
   constructor(private teacherService: TeacherService,
               private route: ActivatedRoute){
@@ -42,7 +42,7 @@ export class ClassListComponent {
     this.teacherService.getClasses(subject).subscribe((res: any) => {
       // TODO change klasa on class, and Icon on icon
       res.forEach(({Klasa, Icon}: any) =>
-      this.list.push({key: Klasa, value: Icon}));
+      this.list.push({name: Klasa, icon: Icon}));
     }, (err: any) => console.log(err));
   }
 }

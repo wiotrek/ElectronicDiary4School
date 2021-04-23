@@ -12,9 +12,11 @@ import { formatDate } from '@angular/common';
 })
 export class PresentListComponent {
   form: FormGroup;
-  title = 'Lista obecności';
   today: Date;
   subject: string;
+  toChild = {
+    title: 'Lista obecności'
+  };
 
   // list which is getting from api to display
   studentsList: StudentPresentList[] = [

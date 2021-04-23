@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import { ChoiceCard } from '../_models/choice-card';
+import { DateToChoiceCard } from '../../_models/date-to-choice-card';
 
 @Component({
   selector: 'app-choice-card',
@@ -8,7 +7,8 @@ import { ChoiceCard } from '../_models/choice-card';
   styleUrls: ['./choice-card.component.css']
 })
 export class ChoiceCardComponent implements OnInit {
-  @Input() dateFromParent = {} as ChoiceCard;
+  @Input() dateFromParent = {} as DateToChoiceCard;
+  toChild = {};
 
   // current color icons doesnt matter whether color
   // is from default color, whether come from dateFromParent
@@ -23,16 +23,20 @@ export class ChoiceCardComponent implements OnInit {
     '#87CEEB', '#4682B4', '#F4A460', '#7FFFD4'
   ];
 
-  constructor(private location: Location) {}
+  constructor() {}
 
   // if iconColors doesnt exist then setting self default colors
   ngOnInit(): void {
     this.iconsColor = this.dateFromParent.iconColors ?
     this.dateFromParent?.iconColors.sort(() => Math.random() - 0.5)
     : this.defaultColors.sort(() => Math.random() - 0.5);
-  }
 
-  back = () => this.location.back();
+    // adding params to second navbar
+    this.toChild = {
+      hideBack: this.dateFromParent.hideBack,
+      title: this.dateFromParent.title
+    };
+  }
 
   // replace all white space on dash
   // between /{sign}/g is a sign which we want change

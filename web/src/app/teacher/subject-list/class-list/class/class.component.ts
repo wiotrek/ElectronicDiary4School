@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChoiceCard } from 'src/app/_models/choice-card';
-import { Dictionary } from 'src/app/_models/dictionary';
+import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
+import { ListToCard } from 'src/app/_models/list-to-card';
 
 @Component({
   selector: 'app-class',
@@ -12,11 +12,11 @@ import { Dictionary } from 'src/app/_models/dictionary';
   `
 })
 export class ClassComponent {
-  dateToChild = {} as ChoiceCard;
+  dateToChild = {} as DateToChoiceCard;
 
-  list: Dictionary<string, string>[] = [
-    { key: 'Lista obecności', value: 'bi bi-card-checklist' },
-    { key: 'Oceny', value: 'bi bi-file-earmark-spreadsheet' }
+  list: ListToCard[] = [
+    { name: 'Lista obecności', icon: 'bi bi-card-checklist' },
+    { name: 'Oceny', icon: 'bi bi-file-earmark-spreadsheet' }
   ];
 
   colors = ['#F4A460', '#7FFFD4'];

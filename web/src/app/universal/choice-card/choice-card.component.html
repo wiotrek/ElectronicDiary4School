@@ -1,0 +1,20 @@
+<main>
+
+    <app-second-nav [parent]="toChild"></app-second-nav>
+
+    <ul *ngIf="this.dateFromParent.list.length else lackResource">
+        <li *ngFor="let item of dateFromParent.list as ListToCard; index as i">
+            <p class="pCard" routerLink={{this.createLink(item.name)}}>
+                <i ngClass={{item.icon}} class="subjectIcon" 
+                [ngStyle]="{'color': this.iconsColor[i % this.iconsColor.length]}">
+                </i>
+                <span>{{item.name}}</span>
+            </p>
+        </li>
+    </ul>
+
+    <ng-template #lackResource>
+        <h5>Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>
+    </ng-template>
+
+</main>

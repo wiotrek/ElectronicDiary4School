@@ -1,0 +1,24 @@
+@media (min-width: 0) {
+
+    h4 {
+        color: var(--primary-blue);
+        font-size: 1.3rem;
+        font-weight:400;
+    }
+
+    .back {
+        cursor: pointer;
+        padding: 0 10px;
+        border-right: 2px solid var(--line-grey);
+    }
+
+    .title {
+        padding: 0 15px;
+    }
+}
+@media (min-width: 769px) {
+
+    h4 {
+        font-size: 1.7rem;
+    }
+}

@@ -38,8 +38,8 @@ class ClassController extends Controller
 
             // Expand response of current data to array
             $response[] = array(
-                'Klasa'=> $teacherClasses->getTeacherClass(),
-                'Icon' => $teacherClasses->getIconClass()
+                'name'=> $teacherClasses->getTeacherClass(),
+                'icon' => $teacherClasses->getIconClass()
             );
 
         }

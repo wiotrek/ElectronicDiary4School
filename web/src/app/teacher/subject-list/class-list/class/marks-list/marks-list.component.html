@@ -1,1 +1,42 @@
-<p>marks-list works!</p>
+<main>
+
+    <app-second-nav [parent]="toChild"></app-second-nav>
+
+    <div class="addMarks">
+        <a class="addMarksA">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
+    </div>
+
+    <div class="mainList">
+        <div class="descriptionP">
+            <p>Uczeń/Uczennica</p>
+        </div>
+
+        <ul class="studentList">
+            <li class="student" *ngFor="let item of list; index as i">
+                <p>{{i}} {{item.name}} {{item.lastname}}</p>
+            </li>
+        </ul>
+
+    </div>
+    <!-- <div class="studentsList">
+        <div class="descriptionP">
+            <p>Uczeń/Uczennica</p>
+            <p>Obecność</p>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="saveList()">
+            <ul class="mainPresentList">
+                <li *ngFor="let student of this.studentsList; index as i">
+                    <label for="student">
+                        {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
+                    </label>
+                    <input id="student" type="checkbox" [value]="student.userId" 
+                    (change)="onCheckboxChange($event)">
+                </li>
+                <div class="centerButton">
+                    <button type="submit" class="btn btn-outline-success">Zapisz</button>
+                </div>
+            </ul>
+        </form>
+    </div>  -->
+
+</main>

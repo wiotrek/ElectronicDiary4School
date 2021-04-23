@@ -1,0 +1,37 @@
+@media (min-width: 0) {
+
+    .addMarks {
+        padding: 10px 0;
+        text-align: center;
+        font-weight: 600;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        cursor: pointer;
+    }
+
+    .addMarksA {
+        color: black;
+    }
+
+    .descriptionP {
+        margin-top: 15px;
+        font-size: .9rem;
+    }
+
+    .student {
+        list-style: none;
+        padding: 5px 0;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        margin: 5px 0;
+    }
+
+    .student p {
+        align-self: center;
+    }
+
+}
+
+@media (min-width: 769px) {
+
+}

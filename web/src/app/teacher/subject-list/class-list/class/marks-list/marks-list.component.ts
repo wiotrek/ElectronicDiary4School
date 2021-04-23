@@ -6,6 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./marks-list.component.css']
 })
 export class MarksListComponent implements OnInit {
+  toChild = {
+    title: 'Oceny'
+  };
+
+  list = [
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+    {name: 'Piotr', lastname: 'Dupa'},
+  ]
 
   constructor() { }
 

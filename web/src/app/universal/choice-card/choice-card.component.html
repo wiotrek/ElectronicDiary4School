@@ -3,7 +3,7 @@
     <app-second-nav [parent]="toChild"></app-second-nav>
 
     <ul *ngIf="this.dateFromParent.list.length else lackResource">
-        <li *ngFor="let item of dateFromParent.list as ListToCard; index as i">
+        <li *ngFor="let item of dateFromParent.list; index as i">
             <p class="pCard" routerLink={{this.createLink(item.name)}}>
                 <i ngClass={{item.icon}} class="subjectIcon" 
                 [ngStyle]="{'color': this.iconsColor[i % this.iconsColor.length]}">

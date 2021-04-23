@@ -4,6 +4,7 @@
         color: var(--primary-blue);
         font-size: 1.3rem;
         font-weight:400;
+        margin-bottom: 20px;
     }
 
     .back {

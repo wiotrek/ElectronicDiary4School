@@ -39,6 +39,6 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get( '/teacher/subject={subjectName}/classes', [ ClassController::class, 'showTeacherClassBySubject' ] );
 
     // Student activity
-    Route::post( '/student-active', [ StudentController::class, 'storeStudentActivity' ] );
+    Route::post( '/student-active/{subject_name}/{date}', [ StudentController::class, 'storeStudentActivity' ] );
 
 });

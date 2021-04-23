@@ -40,12 +40,10 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
                 TeacherSubject::class);
 
             // by subjects ids get subject list
-            $subjects = Subject ::query()
+            return Subject ::query()
                 -> whereIn( 'subject_id', $subjectIds )
                 -> select( 'name', 'icon' )
                 -> get();
-
-            return $subjects;
         }
 
         return null;

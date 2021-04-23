@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\TeacherClassResultApiModel;
 use App\Icons\IconGenerator;
-use App\Services\TeacherClassService;
+use App\Services\ClassService;
 
 class ClassController extends Controller
 {
@@ -17,7 +17,7 @@ class ClassController extends Controller
 
     #region DI Constructor
 
-    public function __construct (TeacherClassService $classService) {
+    public function __construct ( ClassService $classService) {
 
         $this->classService = $classService;
 
@@ -38,7 +38,7 @@ class ClassController extends Controller
 
             // Expand response of current data to array
             $response[] = array(
-                'klasa'=> $teacherClasses->getTeacherClass(),
+                'Klasa'=> $teacherClasses->getTeacherClass(),
                 'Icon' => $teacherClasses->getIconClass()
             );
 

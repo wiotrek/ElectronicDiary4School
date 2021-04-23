@@ -39,10 +39,9 @@ export class ClassListComponent {
   }
 
   load(subject: string): void {
-    this.teacherService.getClasses(subject).subscribe((res: any) => {
-      // TODO change klasa on class, and Icon on icon
-      res.forEach(({Klasa, Icon}: any) =>
-      this.list.push({name: Klasa, icon: Icon}));
+    this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
+      res.forEach(({name, icon}: ListToCard) =>
+      this.list.push({name, icon}));
     }, (err: any) => console.log(err));
   }
 }

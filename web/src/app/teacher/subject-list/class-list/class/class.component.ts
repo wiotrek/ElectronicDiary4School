@@ -35,7 +35,6 @@ export class ClassComponent {
     const getSubject = this.route.snapshot.paramMap.get('subject');
     const getSchoolClass = this.route.snapshot.paramMap.get('class');
 
-    // really ugly code, maybe someone want make prettier this extract
     if (getSubject && getSchoolClass) {
       let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
       subject = subject.replace(/-/g, ' ');

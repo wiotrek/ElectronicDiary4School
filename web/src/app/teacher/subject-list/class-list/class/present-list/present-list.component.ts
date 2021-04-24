@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StudentPresentList } from 'src/app/_models/models_teacher/student-present-list';
 import { formatDate } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-present-list',
@@ -23,7 +24,8 @@ export class PresentListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private teacherService: TeacherService) {
+    private teacherService: TeacherService,
+    private toastr: ToastrService) {
     this.today = new Date();
 
     this.form = this.formBuilder.group({
@@ -47,9 +49,8 @@ export class PresentListComponent implements OnInit {
   // who are checked
   onCheckboxChange(e: any): void {
     const studentPresent: FormArray = this.form.get('studentsPresent') as FormArray;
-    if (e.target.checked) {
-      studentPresent.push(new FormControl(e.target.value));
-    } else {
+    if (e.target.checked) { studentPresent.push(new FormControl(e.target.value)); }
+    else {
       const index = studentPresent.controls.findIndex(x => x.value === e.target.value);
       studentPresent.removeAt(index);
     }
@@ -60,14 +61,12 @@ export class PresentListComponent implements OnInit {
     const correctDate = typeof this.today === 'string'
     ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
 
-    const getSubject = this.route.snapshot.paramMap.get('subject') || 'undefined';
-    const subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+    const subject = this.route.snapshot.paramMap.get('subject') || 'undefined';
 
     this.teacherService
       .sendPresentList(subject, correctDate, this.form.value.studentsPresent)
-      .subscribe(
-        () => console.log('udalo sie'),
-        (err: any) => console.log(err));
+      .subscribe(() => {
+        this.toastr.success('Obecność została zarejestrowana');
+      }, (err: any) => this.toastr.error('Nie udało się zarejestrować obecności'));
   }
-
 }

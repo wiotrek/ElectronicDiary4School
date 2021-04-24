@@ -20,9 +20,10 @@ interface ClassRepositoryInterface extends BaseRepositoryInterface {
     public function readStudentsByIdentifier( string $identifier);
 
     /**
-     * @param $class mixed The class containing number and number identifier like "5b" to get student list
-     * @return mixed The ids of all student from $class
+     * @param $number
+     * @param $numberIdentifier
+     * @return mixed
      */
-    public function readStudentsByClass ($class);
+    public function readStudentsByClass ( $number, $numberIdentifier );
 
 }

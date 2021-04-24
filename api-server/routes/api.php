@@ -41,4 +41,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Student activity
     Route::post( '/student-active/{subject_name}/{date}', [ StudentController::class, 'storeStudentActivity' ] );
 
+    // Student list for class
+    Route::get( '/students/class={class}', [ StudentController::class, 'showStudentsOfClass' ] );
+
 });

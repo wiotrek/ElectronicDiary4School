@@ -79,6 +79,15 @@ class ClassService {
         return $studentIds;
     }
 
+    /**
+     * @param $number
+     * @param $numberIdentifier
+     * @return mixed All students from class with details - identifier, first_name, last_name
+     */
+    public function getStudentListByClass ( $number, $numberIdentifier ) {
+        return $this->classRepository->readStudentsByClass($number, $numberIdentifier);
+    }
+
     #endregion
 
 }

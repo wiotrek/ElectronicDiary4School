@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseRepository implements BaseRepositoryInterface {
 
+    #region Implemented Methods
+
     public function all ( $model ) {
         return $model::get();
     }
@@ -35,6 +37,14 @@ class BaseRepository implements BaseRepositoryInterface {
         else
             return $this->findByColumn($firstValue, $firstColumn, $fromModel);
     }
+
+    public function findByMultipleValues ($values, string $columnName, $fromModel) {
+        return $fromModel::query()->whereIn($columnName, $values);
+    }
+
+    #endregion
+
+    #region Protected Methods
 
     /**
      * @return mixed Taking id of the login user
@@ -64,4 +74,6 @@ class BaseRepository implements BaseRepositoryInterface {
             KeyColumn::name(Student::class),
             Student::class);
     }
+
+    #endregion
 }

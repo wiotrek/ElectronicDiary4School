@@ -1,5 +1,5 @@
 export interface StudentPresentList {
-    userId: string;
+    identifier: string;
     name: string;
     lastname: string;
 }

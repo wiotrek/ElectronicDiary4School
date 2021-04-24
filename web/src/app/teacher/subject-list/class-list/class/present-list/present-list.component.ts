@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute } from '@angular/router';
 import { StudentPresentList } from 'src/app/_models/models_teacher/student-present-list';
 import { formatDate } from '@angular/common';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-present-list',
@@ -13,32 +14,25 @@ import { formatDate } from '@angular/common';
 export class PresentListComponent {
   form: FormGroup;
   today: Date;
-  subject: string;
   toChild = {
     title: 'Lista obecności'
   };
 
   // list which is getting from api to display
   studentsList: StudentPresentList[] = [
-    {userId: '123', name: 'Agnieszka', lastname: 'Antczak'},
-    {userId: '421', name: 'Marek', lastname: 'Nowak'},
-    {userId: '89', name: 'Mariola', lastname: 'Stasiak'},
-    {userId: '541', name: 'Jadwiga', lastname: 'Olczak'}
+    {identifier: '71646', name: 'Agnieszka', lastname: 'Antczak'},
+    {identifier: '52247', name: 'Marek', lastname: 'Nowak'},
+    {identifier: '20891', name: 'Mariola', lastname: 'Stasiak'},
   ];
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private teacherService: TeacherService) {
     this.today = new Date();
 
-    // subject name is getting from path
-    this.subject = this.route.snapshot.paramMap.get('subject') ?
-    this.route.snapshot.paramMap.get('subject')?.replace(/-/g, ' ') || 'error'
-    : 'error';
-
     this.form = this.formBuilder.group({
-      subject: new FormControl(this.subject, Validators.required),
       studentsPresent: this.formBuilder.array([])
     });
   }
@@ -62,15 +56,14 @@ export class PresentListComponent {
     const correctDate = typeof this.today === 'string'
     ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
 
-    // creating new object because exist problem with adding date
-    // directly to formGroup
-    const sendObject = {
-      subject: this.form.value.subject,
-      studentsPresent: this.form.value.studentsPresent,
-      lessonDate: correctDate
-    };
+    const getSubject = this.route.snapshot.paramMap.get('subject') || 'undefined';
+    const subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
 
-    console.log(sendObject);
+    this.teacherService
+      .sendPresentList(subject, correctDate, this.form.value.studentsPresent)
+      .subscribe(
+        () => console.log('udalo sie'),
+        (err: any) => console.log(err));
   }
 
 }

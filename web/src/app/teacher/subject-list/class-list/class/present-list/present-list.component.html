@@ -20,7 +20,7 @@
                     <label for="student">
                         {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
                     </label>
-                    <input id="student" type="checkbox" [value]="student.userId" 
+                    <input id="student" type="checkbox" [value]="student.identifier" 
                     (change)="onCheckboxChange($event)">
                 </li>
                 <div class="centerButton">

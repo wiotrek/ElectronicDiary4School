@@ -18,7 +18,7 @@
             <ul class="mainPresentList">
                 <li *ngFor="let student of this.studentsList; index as i">
                     <label for="student">
-                        {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
+                        {{i+1}}. {{student.first_name[0]}}.{{student.last_name}}
                     </label>
                     <input id="student" type="checkbox" [value]="student.identifier" 
                     (change)="onCheckboxChange($event)">

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StudentPresentList } from 'src/app/_models/models_teacher/student-present-list';
 import { formatDate } from '@angular/common';
@@ -11,7 +10,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   templateUrl: './present-list.component.html',
   styleUrls: ['./present-list.component.css']
 })
-export class PresentListComponent {
+export class PresentListComponent implements OnInit {
   form: FormGroup;
   today: Date;
   toChild = {
@@ -19,14 +18,9 @@ export class PresentListComponent {
   };
 
   // list which is getting from api to display
-  studentsList: StudentPresentList[] = [
-    {identifier: '71646', name: 'Agnieszka', lastname: 'Antczak'},
-    {identifier: '52247', name: 'Marek', lastname: 'Nowak'},
-    {identifier: '20891', name: 'Mariola', lastname: 'Stasiak'},
-  ];
+  studentsList: StudentPresentList[] = [];
 
   constructor(
-    private location: Location,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private teacherService: TeacherService) {
@@ -37,7 +31,17 @@ export class PresentListComponent {
     });
   }
 
-  back = () => this.location.back();
+  ngOnInit(): void {
+    this.getStudentsList();
+  }
+
+  getStudentsList(): void {
+    const getClassName = this.route.snapshot.paramMap.get('class') || 'undefined';
+
+    this.teacherService.getStudents(getClassName).subscribe(
+      (res: StudentPresentList[]) => this.studentsList = res,
+      (err: any) => console.log(err));
+  }
 
   // getting array students and in sequence adding values users
   // who are checked

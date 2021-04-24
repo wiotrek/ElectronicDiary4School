@@ -18,10 +18,12 @@ export class TeacherService {
     return this.http.get(this.baseUrl + `teacher/subject=${subjectName}/classes`);
   }
 
+  getStudents(className: string): any {
+    return this.http.get(this.baseUrl + `students/class=${className}`);
+  }
+
   sendPresentList(subject: string, date: string, students: string[]): any {
-    console.log(subject, ' ', date, ' ', students);
-    
-    // return this.http.post(this.baseUrl + `student-active/${subject}/${date}`, students);
+    return this.http.post(this.baseUrl + `student-active/${subject}/${date}`, students);
   }
 
 }

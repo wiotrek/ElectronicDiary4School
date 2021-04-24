@@ -67,7 +67,7 @@ class ClassService {
 
         foreach ( $studentIdentifiers as $studentIdentifier ) {
             $userId = $this->classRepository
-                ->findByColumn($studentIdentifier['student_identifier'], 'identifier', User::class)
+                ->findByColumn($studentIdentifier, 'identifier', User::class)
                 ->pluck('user_id');
 
             $studentId = $this->classRepository

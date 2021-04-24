@@ -30,7 +30,6 @@ class StudentController extends Controller
 
         // Create object for keep request data
         $studentActivity = new StudentActivityWebModel;
-        $studentActivityToSave = new StudentActivity;
 
 
         // Initialize data from request
@@ -40,7 +39,7 @@ class StudentController extends Controller
 
 
         // Load all students together with first student from request by his identifier
-        $studentIdsList = $this->classService->getStudentsIdFromClass($request[0]['student_identifier']);
+        $studentIdsList = $this->classService->getStudentsIdFromClass($request[0]);
 
 
         // Get ids of becoming students from request

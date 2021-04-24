@@ -84,4 +84,18 @@ class StudentController extends Controller
             'message' => 'Student activities inserted'
         ] );
     }
+
+
+    /**
+     * @param $class string The class contains identifier number and number
+     */
+    public function showStudentsOfClass ( $class ) {
+
+        // Split class request param by character index
+        $classNumber = $class[0];
+        $identiferClassNumber = $class[1];
+
+        // return student list
+        return $this->classService->getStudentListByClass($classNumber, $identiferClassNumber);
+    }
 }

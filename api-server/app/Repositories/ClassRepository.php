@@ -63,8 +63,31 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
         return ($students);
     }
 
-    public function readStudentsByClass ( $class ) {
-        // TODO: Implement readStudentsByClass() method.
+    public function readStudentsByClass ( $number, $numberIdentifier ) {
+
+        // Get class id by data from request
+        $class_id = $this->findByAndColumns(
+            $number,
+            $numberIdentifier,
+            'number',
+            'identifier_number',
+            UserClass::class
+        )->pluck('user_class_id');
+
+
+        // Get user ids of students from this class
+        $userIdsOfStdents = $this->
+                            findByColumn($class_id, 'user_class_id', Student::class)->
+                            pluck('user_id');
+
+
+        // For each user id get details
+        $students = $this->
+                    findByMultipleValues($userIdsOfStdents, 'user_id', User::class)->
+                    select('identifier', 'first_name', 'last_name')->
+                    get();
+
+        return $students;
     }
 
     #endregion

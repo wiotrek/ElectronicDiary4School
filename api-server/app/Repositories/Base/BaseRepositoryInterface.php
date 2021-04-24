@@ -50,4 +50,12 @@ interface BaseRepositoryInterface {
      */
     public function findByAndColumns(int $firstValue, int $secondValue, string $firstColumn, string $secondColumn, $fromModel);
 
+    /**
+     * @param $values mixed array of values to find data one by one
+     * @param $columnName string The column for detect if any value is exist
+     * @param $fromModel
+     * @return mixed
+     */
+    public function findByMultipleValues ($values, string $columnName, $fromModel);
+
 }

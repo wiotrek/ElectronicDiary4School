@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ChoiceCard } from 'src/app/_models/choice-card';
-import { Dictionary } from 'src/app/_models/dictionary';
+import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
+import { ListToCard } from 'src/app/_models/list-to-card';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -13,15 +13,12 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   `
 })
 export class ClassListComponent {
-  dateToChild = {} as ChoiceCard;
+  dateToChild = {} as DateToChoiceCard;
 
-  list: Dictionary<string, string>[] = [];
+  list: ListToCard[] = [];
 
-  constructor(
-    private teacherService: TeacherService,
-    private route: ActivatedRoute
-  )
-  {
+  constructor(private teacherService: TeacherService,
+              private route: ActivatedRoute){
     this.dateToChild = {
       title: 'Wybierz klase',
       list: this.list,
@@ -30,19 +27,21 @@ export class ClassListComponent {
     this.getParam();
   }
 
+  // getting subject name from path, then changes whitespace with dash
+  // and gives prepare subject to send to api
   getParam(): void {
     const getSubject = this.route.snapshot.paramMap.get('subject');
     if (getSubject) {
-      this.load(getSubject);
+      let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+      subject = subject.replace(/-/g, ' ');
+      this.load(subject);
     }
-    return;
   }
 
   load(subject: string): void {
-    this.teacherService.getClasses(subject).subscribe((res: any) => {
-      res.forEach(({klasa, Icon}: any) =>
-      this.list.push({key: klasa, value: Icon}));
+    this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
+      res.forEach(({name, icon}: ListToCard) =>
+      this.list.push({name, icon}));
     }, (err: any) => console.log(err));
   }
-
 }

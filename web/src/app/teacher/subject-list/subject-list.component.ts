@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ChoiceCard } from 'src/app/_models/choice-card';
-import { Dictionary } from 'src/app/_models/dictionary';
+import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
+import { ListToCard } from 'src/app/_models/list-to-card';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -12,9 +12,9 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   `
 })
 export class SubjectListComponent{
-  dateToChild = {} as ChoiceCard;
+  dateToChild = {} as DateToChoiceCard;
 
-  list: Dictionary<string, string>[] = [];
+  list: ListToCard[] = [];
 
   constructor(private teacherService: TeacherService){
     this.dateToChild = {
@@ -27,8 +27,8 @@ export class SubjectListComponent{
   }
 
   load(): void {
-    this.teacherService.getSubjects().subscribe((res: any) =>
-      res.forEach(({name, icon}: any) =>
-        this.list.push({key: name, value: icon})));
+    this.teacherService.getSubjects().subscribe((res: ListToCard[]) =>
+      res.forEach(({name, icon}: ListToCard) =>
+        this.list.push({name, icon})));
   }
 }

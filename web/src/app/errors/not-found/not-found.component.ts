@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Dictionary } from 'src/app/_models/dictionary';
+import { DictionaryList } from 'src/app/_models/dictionary-list';
 
 @Component({
   selector: 'app-not-found',
@@ -14,7 +14,7 @@ import { Dictionary } from 'src/app/_models/dictionary';
   ]
 })
 export class NotFoundComponent {
-  sites: Dictionary<string, string>[] = [
+  sites: DictionaryList<string>[] = [
     {key: 'nauczyciela', value: '/nauczyciel'},
     {key: 'ucznia', value: '/uczen'},
     {key: 'rodzica', value: '/rodzic'}

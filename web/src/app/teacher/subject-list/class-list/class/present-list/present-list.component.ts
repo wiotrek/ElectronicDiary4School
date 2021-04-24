@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StudentPresentList } from 'src/app/_models/models_teacher/student-present-list';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-present-list',
@@ -11,10 +12,13 @@ import { StudentPresentList } from 'src/app/_models/models_teacher/student-prese
 })
 export class PresentListComponent {
   form: FormGroup;
-  title = 'Lista obecności';
   today: Date;
   subject: string;
+  toChild = {
+    title: 'Lista obecności'
+  };
 
+  // list which is getting from api to display
   studentsList: StudentPresentList[] = [
     {userId: '123', name: 'Agnieszka', lastname: 'Antczak'},
     {userId: '421', name: 'Marek', lastname: 'Nowak'},
@@ -35,13 +39,14 @@ export class PresentListComponent {
 
     this.form = this.formBuilder.group({
       subject: new FormControl(this.subject, Validators.required),
-      lessonDate: new FormControl(this.today.toLocaleDateString(), Validators.required),
       studentsPresent: this.formBuilder.array([])
     });
   }
 
   back = () => this.location.back();
 
+  // getting array students and in sequence adding values users
+  // who are checked
   onCheckboxChange(e: any): void {
     const studentPresent: FormArray = this.form.get('studentsPresent') as FormArray;
     if (e.target.checked) {
@@ -53,7 +58,19 @@ export class PresentListComponent {
   }
 
   saveList(): void {
-    console.log(this.form.value);
+    // prevent default type - date
+    const correctDate = typeof this.today === 'string'
+    ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
+
+    // creating new object because exist problem with adding date
+    // directly to formGroup
+    const sendObject = {
+      subject: this.form.value.subject,
+      studentsPresent: this.form.value.studentsPresent,
+      lessonDate: correctDate
+    };
+
+    console.log(sendObject);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ChoiceCard } from '../_models/choice-card';
-import { Dictionary } from '../_models/dictionary';
+import { DateToChoiceCard } from '../_models/date-to-choice-card';
+import { ListToCard } from '../_models/list-to-card';
 
 @Component({
   selector: 'app-teacher',
@@ -11,12 +11,12 @@ import { Dictionary } from '../_models/dictionary';
   `
 })
 export class TeacherComponent {
-  dateToChild = {} as ChoiceCard;
+  dateToChild = {} as DateToChoiceCard;
 
   // static list
-  list: Dictionary<string, string>[] = [
-    { key: 'Rozpocznij lekcje', value: 'bi bi-subtract' },
-    { key: 'Powiadomienia', value: 'bi bi-chat-dots' }
+  list: ListToCard[] = [
+    { name: 'Rozpocznij lekcje', icon: 'bi bi-subtract' },
+    { name: 'Powiadomienia', icon: 'bi bi-chat-dots' }
   ];
 
   // colors for icons

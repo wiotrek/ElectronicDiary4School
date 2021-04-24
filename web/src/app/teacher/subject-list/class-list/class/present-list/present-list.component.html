@@ -1,8 +1,6 @@
 <main>
 
-    <h4><a class="back" (click)="this.back()">Wróć</a>
-        <span class="title">{{title}}</span>
-    </h4>
+    <app-second-nav [parent]="toChild"></app-second-nav>
 
     <div class="acceptDate">
         <i class="bi bi-calendar-week"></i>

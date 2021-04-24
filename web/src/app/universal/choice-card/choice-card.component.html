@@ -1,15 +1,14 @@
 <main>
 
-    <h4><a class="back" *ngIf="!this.dateFromParent.hideBack" (click)="this.back()"
-        >Wróć</a> {{dateFromParent.title}}</h4>
+    <app-second-nav [parent]="toChild"></app-second-nav>
 
     <ul *ngIf="this.dateFromParent.list.length else lackResource">
         <li *ngFor="let item of dateFromParent.list; index as i">
-            <p class="pCard" routerLink={{this.createLink(item.key)}}>
-                <i ngClass={{item.value}} class="subjectIcon" 
+            <p class="pCard" routerLink={{this.createLink(item.name)}}>
+                <i ngClass={{item.icon}} class="subjectIcon" 
                 [ngStyle]="{'color': this.iconsColor[i % this.iconsColor.length]}">
                 </i>
-                <span>{{item.key}}</span>
+                <span>{{item.name}}</span>
             </p>
         </li>
     </ul>

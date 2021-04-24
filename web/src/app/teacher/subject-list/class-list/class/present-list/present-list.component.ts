@@ -61,7 +61,9 @@ export class PresentListComponent implements OnInit {
     const correctDate = typeof this.today === 'string'
     ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
 
-    const subject = this.route.snapshot.paramMap.get('subject') || 'undefined';
+    const getSubject = this.route.snapshot.paramMap.get('subject') || 'undefined';
+    let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+    subject = subject.replace(/-/g, ' ');
 
     this.teacherService
       .sendPresentList(subject, correctDate, this.form.value.studentsPresent)

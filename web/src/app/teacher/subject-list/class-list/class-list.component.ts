@@ -17,8 +17,9 @@ export class ClassListComponent {
 
   list: ListToCard[] = [];
 
-  constructor(private teacherService: TeacherService,
-              private route: ActivatedRoute){
+  constructor(
+    private teacherService: TeacherService,
+    private route: ActivatedRoute){
     this.dateToChild = {
       title: 'Wybierz klase',
       list: this.list,
@@ -30,12 +31,10 @@ export class ClassListComponent {
   // getting subject name from path, then changes whitespace with dash
   // and gives prepare subject to send to api
   getParam(): void {
-    const getSubject = this.route.snapshot.paramMap.get('subject');
-    if (getSubject) {
-      let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
-      subject = subject.replace(/-/g, ' ');
-      this.load(subject);
-    }
+    const getSubject = this.route.snapshot.paramMap.get('subject') || '';
+    let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
+    subject = subject.replace(/-/g, ' ');
+    this.load(subject);
   }
 
   load(subject: string): void {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ApiModels\Base\ApiResponse;
+use App\ApiModels\Data\ApiCode;
 use App\Models\StudentActivity;
 use App\Services\ClassService;
 use App\Services\StudentService;
@@ -78,23 +80,23 @@ class StudentController extends Controller
 
         }
 
-        //TODO: Create good response class
-        return response([
-            'message' => 'Student activities inserted'
-        ] );
+
+        return ApiResponse::withSuccess(ApiCode::STORE_STUDENT_ACTIVE);
     }
 
 
     /**
      * @param $class string The class contains identifier number and number
      */
-    public function showStudentsOfClass ( $class ) {
+    public function showStudentsOfClass ( string $class ) {
 
         // Split class request param by character index
         $classNumber = $class[0];
-        $identiferClassNumber = $class[1];
+        $identifierClassNumber = $class[1];
+
+        $result = $this->classService->getStudentListByClass($classNumber, $identifierClassNumber);
 
         // return student list
-        return $this->classService->getStudentListByClass($classNumber, $identiferClassNumber);
+        return ApiResponse::withSuccess($result);
     }
 }

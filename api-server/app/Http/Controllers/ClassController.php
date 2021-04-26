@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\TeacherClassResultApiModel;
 use App\Icons\IconGenerator;
 use App\Services\ClassService;
@@ -44,10 +45,7 @@ class ClassController extends Controller
 
         }
 
-        return response(
-            json_encode($response)
-        );
-
+        return ApiResponse::withSuccess(json_encode($response));
     }
 
     #endregion

@@ -57,6 +57,6 @@ export class AppComponent implements OnInit {
 
     // if you want in peace write on some compomnent,
     // then comment below
-    if (!!url) { this.router.navigateByUrl(url); }
+    // if (url) { this.router.navigateByUrl(url); }
   }
 }

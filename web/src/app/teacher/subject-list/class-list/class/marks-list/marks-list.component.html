@@ -2,41 +2,42 @@
 
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <div class="addMarks">
-        <a class="addMarksA">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
+    <div class="add-marks">
+        <a class="add-marks__link">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
     </div>
 
-    <div class="mainList">
-        <div class="descriptionP">
-            <p>Uczeń/Uczennica</p>
-        </div>
+    <div class="main-list">
+        <p class="main-list__title">Uczeń/Uczennica</p>
 
-        <ul class="studentList">
-            <li class="student" *ngFor="let item of list; index as i">
-                <p>{{i}} {{item.name}} {{item.lastname}}</p>
+        <ul class="student-list">
+            <li class="student-list__item" *ngFor="let item of list; index as i">
+                
+                <div class="student-list__student-name">
+                    <p class="student-list__student-name-p">
+                        {{i+1}}. {{item.name[0]}}.{{item.lastname}}</p>
+                    <a class="student-list__student-name-a"
+                    (click)="this.editModeToggle(i)">
+                        Edytuj</a>
+                </div>
+
+                <ng-container
+                    *ngTemplateOutlet="editModeForIndex === i ? editMode : showCurrentMarks">
+                </ng-container>
+
+                <ng-template #showCurrentMarks>
+                    <p class="student-list__marks-p">
+                        {{item.marks}}
+                    </p>
+                </ng-template>
+
+                <ng-template #editMode>
+                    <p class="student-list__marks-p">
+                        {{item.name}}
+                    </p>
+                </ng-template>
             </li>
         </ul>
 
     </div>
-    <!-- <div class="studentsList">
-        <div class="descriptionP">
-            <p>Uczeń/Uczennica</p>
-            <p>Obecność</p>
-        </div>
-        <form [formGroup]="form" (ngSubmit)="saveList()">
-            <ul class="mainPresentList">
-                <li *ngFor="let student of this.studentsList; index as i">
-                    <label for="student">
-                        {{i+1}}. {{student.name.charAt(0)}}.{{student.lastname}}
-                    </label>
-                    <input id="student" type="checkbox" [value]="student.userId" 
-                    (change)="onCheckboxChange($event)">
-                </li>
-                <div class="centerButton">
-                    <button type="submit" class="btn btn-outline-success">Zapisz</button>
-                </div>
-            </ul>
-        </form>
-    </div>  -->
 
 </main>

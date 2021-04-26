@@ -1,33 +1,43 @@
 @media (min-width: 0) {
 
-    .addMarks {
+    .add-marks {
         padding: 10px 0;
         text-align: center;
         font-weight: 600;
         background-color: white;
         border: 1px solid var(--primary-blue);
         cursor: pointer;
+        margin-bottom: 25px;
     }
 
-    .addMarksA {
+    .add-marks__link {
         color: black;
     }
 
-    .descriptionP {
-        margin-top: 15px;
+    .main-list__title {
         font-size: .9rem;
     }
 
-    .student {
+    .student-list__item {
         list-style: none;
-        padding: 5px 0;
         background-color: white;
         border: 1px solid var(--primary-blue);
         margin: 5px 0;
+        padding: 10px;
     }
 
-    .student p {
-        align-self: center;
+    .student-list__student-name {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .student-list__student-name-a {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    .student-list__marks-p {
+        margin: 0;
     }
 
 }

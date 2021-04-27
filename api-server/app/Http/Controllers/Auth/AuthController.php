@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ApiModels\Base\ApiResponse;
+use App\ApiModels\Data\ApiCode;
+use App\ApiModels\UserProfileDetailsApiModel;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Student;
@@ -10,7 +13,6 @@ use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
-use Symfony\Component\HttpFoundation\Response;
 
 /*
  * Controller taking authenticated user to home page
@@ -36,39 +38,34 @@ class AuthController extends Controller
 
     public function login(Request $request) {
 
+        $userToReturn = new UserProfileDetailsApiModel;
+
         // Verify that credentials are correct
-        if (!Auth::attempt($request -> only('identifier', 'password'))){
-            return response([
-                'message' => 'Invalid credentials'
-            ], Response::HTTP_UNAUTHORIZED);
-        }
+        if (!Auth::attempt($request -> only('identifier', 'password')))
+            return ApiResponse::unAuthenticated(ApiCode::INCORRECT_CREDS);
+
 
         // If okay then create token with cookie for authenticated user
-        $user = Auth::user();
-        $token = $user->createToken('token')->plainTextToken;
-        $cookie = cookie('jwt', $token, 60 * 24);
+        $userToReturn->user = Auth::user();
+        $userToReturn->token = $userToReturn->user->createToken('token')->plainTextToken;
+        $cookie = cookie('jwt', $userToReturn->token, 60 * 24);
 
 
         // Get school status of the login user
         $teacherRole =$this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Teacher::class)->pluck('role_id')->first();
         $studentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Student::class)->pluck('role_id')->first();
         if (!is_null($teacherRole))
-            $role = $this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first();
+            $userToReturn->role = $this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first();
         else
-            $role = $this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first();
+            $userToReturn->role = $this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first();
 
 
         // TODO: extend user table with url profile photo
-        $userProfile = "https://randomuser.me/api/portraits/women/60.jpg";
+        $userToReturn->profileUrl = "https://randomuser.me/api/portraits/women/60.jpg";
 
 
-        // return token
-        return response([
-            'message' => $user,
-            'role' => $role,
-            'profileUrl' => $userProfile,
-            'token' => $token
-        ])->withCookie($cookie);
+        // return user
+        return ApiResponse::withSuccess($userToReturn)->withCookie($cookie);
 
     }
 
@@ -77,9 +74,7 @@ class AuthController extends Controller
         // Clear token
         $cookie = Cookie::forget('jwt');
 
-        return response([
-            'message' => 'success'
-        ])->withCookie($cookie);
+        return ApiResponse::withSuccess (null,ApiCode::LOGOUTOK)->withCookie($cookie);
     }
 
 }

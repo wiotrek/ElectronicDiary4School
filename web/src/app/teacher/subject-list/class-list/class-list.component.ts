@@ -13,7 +13,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   `
 })
 export class ClassListComponent {
-  dateToChild = {} as DateToChoiceCard;
+  dateToChild: DateToChoiceCard;
 
   list: ListToCard[] = [];
 

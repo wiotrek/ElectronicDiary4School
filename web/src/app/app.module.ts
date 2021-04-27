@@ -17,6 +17,7 @@ import { MarksListComponent } from './teacher/subject-list/class-list/class/mark
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SecondNavComponent } from './universal/second-nav/second-nav.component';
+import { EditMarksComponent } from './teacher/subject-list/class-list/class/marks-list/edit-marks/edit-marks.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SecondNavComponent } from './universal/second-nav/second-nav.component'
     PresentListComponent,
     NotFoundComponent,
     MarksListComponent,
-    SecondNavComponent
+    SecondNavComponent,
+    EditMarksComponent
   ],
   imports: [
     BrowserModule,

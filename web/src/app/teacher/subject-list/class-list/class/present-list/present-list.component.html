@@ -2,28 +2,28 @@
 
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <div class="acceptDate">
+    <div class="set-date">
         <i class="bi bi-calendar-week"></i>
-        <p>Potwierdź datę</p>
+        <p class="set-date__text">Potwierdź datę</p>
         <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="today = $event" name="dt"
-            class="form-control form-control-rounded text-center" #searchDate required>
+            class="set-date__input form-control form-control-rounded text-center" #searchDate required>
     </div>
 
-    <div class="studentsList">
-        <div class="descriptionP">
+    <div class="student-list">
+        <div class="student-list__description">
             <p>Uczeń/Uczennica</p>
             <p>Obecność</p>
         </div>
         <form [formGroup]="form" (ngSubmit)="saveList()">
-            <ul class="mainPresentList">
-                <li *ngFor="let student of this.studentsList; index as i">
-                    <label for="student">
+            <ul class="student-list__main-list">
+                <li class="student-list__main-list-loop" *ngFor="let student of this.studentsList; index as i">
+                    <label class="student-list__main-list-label" for="student">
                         {{i+1}}. {{student.first_name[0]}}.{{student.last_name}}
                     </label>
                     <input id="student" type="checkbox" [value]="student.identifier" 
                     (change)="onCheckboxChange($event)">
                 </li>
-                <div class="centerButton">
+                <div class="student-list__center-button">
                     <button type="submit" class="btn btn-outline-success">Zapisz</button>
                 </div>
             </ul>

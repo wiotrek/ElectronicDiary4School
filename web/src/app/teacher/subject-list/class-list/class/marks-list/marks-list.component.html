@@ -11,7 +11,7 @@
 
         <ul class="student-list">
             <li class="student-list__item" *ngFor="let item of list; index as i">
-                
+
                 <div class="student-list__student-name">
                     <p class="student-list__student-name-p">
                         {{i+1}}. {{item.name[0]}}.{{item.lastname}}</p>
@@ -31,7 +31,7 @@
                 </ng-template>
 
                 <ng-template #editMode>
-                    <app-edit-marks></app-edit-marks>
+                    <!-- <app-edit-marks></app-edit-marks> -->
                 </ng-template>
             </li>
         </ul>

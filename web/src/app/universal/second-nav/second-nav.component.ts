@@ -4,10 +4,10 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-second-nav',
   template: `
-  <h4>
-    <a class="back" *ngIf="!this.parent?.hideBack"
+  <h4 class="mini-nav">
+    <a class="mini-nav__back" *ngIf="!this.parent?.hideBack"
     (click)="this.back()">Wróć</a>
-    <span class="title">{{this.parent.title}}</span>
+    <span class="mini-nav__title">{{this.parent.title}}</span>
   </h4>
   `,
   styleUrls: ['./second-nav.component.css']

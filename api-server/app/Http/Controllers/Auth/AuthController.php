@@ -46,22 +46,22 @@ class AuthController extends Controller
 
 
         // If okay then create token with cookie for authenticated user
-        $userToReturn->user = Auth::user();
-        $userToReturn->token = $userToReturn->user->createToken('token')->plainTextToken;
-        $cookie = cookie('jwt', $userToReturn->token, 60 * 24);
+        $userToReturn->setUser(Auth::user());
+        $userToReturn->setToken($userToReturn->getUser()->createToken('token')->plainTextToken);
+        $cookie = cookie('jwt', $userToReturn->getToken(), 60 * 24);
 
 
         // Get school status of the login user
         $teacherRole =$this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Teacher::class)->pluck('role_id')->first();
         $studentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Student::class)->pluck('role_id')->first();
         if (!is_null($teacherRole))
-            $userToReturn->role = $this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first();
+            $userToReturn->setRole($this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first());
         else
-            $userToReturn->role = $this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first();
+            $userToReturn->setRole($this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first());
 
 
         // TODO: extend user table with url profile photo
-        $userToReturn->profileUrl = "https://randomuser.me/api/portraits/women/60.jpg";
+        $userToReturn->setProfileUrl("https://randomuser.me/api/portraits/women/60.jpg");
 
 
         // return user

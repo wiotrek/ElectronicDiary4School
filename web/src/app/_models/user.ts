@@ -1,5 +1,5 @@
 export interface User {
-    message: {
+    user: {
         user_id: number;
         first_name: string;
         last_name: string;

@@ -5,9 +5,9 @@
         <li ngbDropdown>
             <a id="dropdownBasic1" *ngIf="(accountService.currentUser$ | async) as user"  ngbDropdownToggle>
                 <p class="greeting" >
-                    Witaj, {{user.message.first_name}}</p>
+                    Witaj, {{user.user.first_name}}</p>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="logout" (click)="logout()" 
+                    <button class="logout" (click)="logout()"
                     ngbDropdownItem>Wyloguj się</button>
                 </div>
                 <img src="{{user.profileUrl}}" alt="avatar">

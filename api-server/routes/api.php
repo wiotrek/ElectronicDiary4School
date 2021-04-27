@@ -6,6 +6,8 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
+use App\Routes\ApiRoutes;
+use App\Routes\WebRoutes;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,28 +22,33 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/logowanie', [AuthController::class, 'login'] );
+Route::post(ApiRoutes::LOGIN, [AuthController::class, 'login'] );
 
 
 // TODO separate paths for teacher from paths for students by role which user is login with
 Route::middleware('auth:sanctum')->group(function() {
 
-    // User details
-    Route::get( '/user', [ UserController::class, 'user' ] );
-
-    // Logout
-    Route::post( '/logout', [ AuthController::class, 'logout' ] );
+    #region API
 
     // Teacher Subjects
-    Route::get( '/teacher/subjects', [ SubjectController::class, 'showTeacherSubject' ] );
+    Route::get( ApiRoutes::TEACHER_SUBJECT, [ SubjectController::class, 'showTeacherSubject' ] );
 
     // Teacher Classes by Subject
-    Route::get( '/teacher/subject={subjectName}/classes', [ ClassController::class, 'showTeacherClassBySubject' ] );
-
-    // Student activity
-    Route::post( '/student-active/{subject_name}/{date}', [ StudentController::class, 'storeStudentActivity' ] );
+    Route::get( ApiRoutes::TEACHER_CLASS_OF_SUBJECT, [ ClassController::class, 'showTeacherClassBySubject' ] );
 
     // Student list for class
-    Route::get( '/students/class={class}', [ StudentController::class, 'showStudentsOfClass' ] );
+    Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentsOfClass' ] );
+
+    #endregion
+
+    #region WEB
+
+    // Logout
+    Route::post( WebRoutes::LOGOUT, [ AuthController::class, 'logout' ] );
+
+    // Student activity
+    Route::post( WebRoutes::STUDENT_ACTIVE, [ StudentController::class, 'storeStudentActivity' ] );
+
+    #endregion
 
 });

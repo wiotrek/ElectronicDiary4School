@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // setting background color for body element
-    this.elementRef.nativeElement.ownerDocument.body.classList.add('bgForLoggingComponent');
+    this.elementRef.nativeElement.ownerDocument.body.classList.add('bg-logging');
   }
 
   login(): void {

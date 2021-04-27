@@ -12,7 +12,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   `
 })
 export class SubjectListComponent{
-  dateToChild = {} as DateToChoiceCard;
+  dateToChild: DateToChoiceCard;
 
   list: ListToCard[] = [];
 

@@ -1,6 +1,6 @@
 @media (min-width: 0) {
 
-    .acceptDate {
+    .set-date {
         padding: 10px 0;
     }
 
@@ -8,23 +8,23 @@
         display: none;
     }
 
-    .acceptDate p {
+    .set-date__text {
         text-align: center;
         font-weight: 600;
     }
 
-    .descriptionP {
+    .student-list__description {
         margin-top: 2vh;
         font-size: .9rem;
         display: flex;
         justify-content: space-between;
     }
 
-    .mainPresentList {
+    .student-list__main-list {
         list-style: none;
     }
 
-    .mainPresentList li {
+    .student-list__main-list-loop {
         background-color: white;
         border: 1px solid var(--primary-blue);
         padding: 5px;
@@ -34,7 +34,7 @@
         margin-top: 5px;
     }
 
-    label {
+    .student-list__main-list-label {
         margin: 0;
         padding: 0;
     }
@@ -47,7 +47,11 @@
 
 @media (min-width: 769px) {
 
-    .acceptDate {
+    input {
+        cursor: pointer;
+    }
+
+    .set-date {
         margin: 1vh 5vh;
         padding: 10px;
         display: flex;
@@ -60,31 +64,30 @@
         display: inline;
     }
 
-    .acceptDate p {
+    .set-date__text {
         text-align: center;
         font-weight: 600;
         margin: 0 5px;
     }
 
-    .acceptDate input {
-        cursor: pointer;
+    .set-date__input {
         max-width: 10vh;
         border: 0;
         background-color: inherit;
     }
 
-    .studentsList {
+    .student-list {
         margin: 0 10vh;
     }
 
-    .descriptionP {
+    .student-list__description {
         margin-top: 1vh;
         font-size: 1.2rem;
         display: flex;
         justify-content: space-between;
     }
 
-    .mainPresentList li {
+    .student-list__main-list-loop {
         overflow: hidden;
         position: relative;
         border: 1px solid var(--line-grey);
@@ -93,7 +96,7 @@
         z-index: 1;
     }
 
-    .mainPresentList li::after {
+    .student-list__main-list-loop::after {
         content: '';
         position: absolute;
         z-index: -1;
@@ -105,15 +108,11 @@
         transition: .3s ease-out;
     }
 
-    .mainPresentList li:hover::after {
+    .student-list__main-list-loop:hover::after {
         transform: translateX(100%);
     }
 
-    .mainPresentList input {
-        cursor: pointer;
-    }
-
-    .centerButton {
+    .student-list__center-button {
         display: flex;
         justify-content: center;
     }

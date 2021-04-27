@@ -11,7 +11,7 @@ import { ListToCard } from '../_models/list-to-card';
   `
 })
 export class TeacherComponent {
-  dateToChild = {} as DateToChoiceCard;
+  dateToChild: DateToChoiceCard;
 
   // static list
   list: ListToCard[] = [
@@ -20,10 +20,7 @@ export class TeacherComponent {
   ];
 
   // colors for icons
-  colors = [
-    '#F4A460',
-    '#7FFFD4'
-  ];
+  colors = ['#F4A460', '#7FFFD4'];
 
   constructor()
   { this.dateToChild = {

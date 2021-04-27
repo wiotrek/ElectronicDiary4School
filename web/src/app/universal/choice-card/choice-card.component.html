@@ -2,19 +2,20 @@
 
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <ul *ngIf="this.dateFromParent.list.length else lackResource">
-        <li *ngFor="let item of dateFromParent.list; index as i">
-            <p class="pCard" routerLink={{this.createLink(item.name)}}>
-                <i ngClass={{item.icon}} class="subjectIcon" 
+    <ul class="card-common" *ngIf="this.dateFromParent.list.length else lackResource">
+        <li class="card-common__li" *ngFor="let item of dateFromParent.list; index as i">
+            <p class="card-common__inner" routerLink={{this.createLink(item.name)}}>
+                <i class="card-common__icon" ngClass={{item.icon}}
                 [ngStyle]="{'color': this.iconsColor[i % this.iconsColor.length]}">
                 </i>
-                <span>{{item.name}}</span>
+                <span class="card-common__text">{{item.name}}</span>
             </p>
         </li>
     </ul>
 
     <ng-template #lackResource>
-        <h5>Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>
+        <h5 class="error">
+          Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>
     </ng-template>
 
 </main>

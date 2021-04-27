@@ -1,5 +1,6 @@
-@media (min-width: 0) {
-    .container {
-        max-width: 98vmin;
-    }
+@media (min-width: 769) {
+
+  .container {
+    max-width: 60vmax;
+  }
 }

@@ -12,7 +12,7 @@ import { ListToCard } from 'src/app/_models/list-to-card';
   `
 })
 export class ClassComponent {
-  dateToChild = {} as DateToChoiceCard;
+  dateToChild: DateToChoiceCard;
 
   list: ListToCard[] = [
     { name: 'Lista obecności', icon: 'bi bi-card-checklist' },

@@ -1,54 +1,38 @@
 @keyframes appear {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @media (min-width: 0) {
 
-    h4 {
-        color: var(--primary-blue);
-        font-size: 1.3rem;
-        font-weight:400;
-    }
-
-    .back {
-        cursor: pointer;
-        padding: 0 10px;
-        border-right: 2px solid var(--line-grey);
-    }
-
-    ul {
+    .card-common {
         margin-top: 3vh;
         list-style: none;
     }
 
-    li {
+    .card-common__li {
         text-align: center;
     }
 
-    .pCard {
+    .card-common__inner {
         border: 1px solid var(--primary-blue);
         background: white;
         font-weight:600;
         padding: 10px 0;
         cursor: pointer;
     }
-    
-    .subjectIcon {
+
+    .card-common__icon {
         color: var(--primary-blue);
         margin-right: 2px;
     }
 
-    span {
+    .card-common__text {
         inline-size: 20vh;
         overflow-wrap: break-word;
     }
 
-    h5 {
+    .error {
         margin-top: 2vh;
         animation: appear 1s ease-in-out .5s backwards;
     }
@@ -57,34 +41,30 @@
 
 @media (min-width: 769px) {
 
-    h4 {
-        font-size: 1.7rem;
-    }
-
-    ul {
+    .card-common {
         margin-top: 3vmin;
         display: flex;
         flex-wrap: wrap;
     }
 
-    li {
+    .card-common__li {
         margin: 0 1vh;
-        min-width: 20vmin;
+        min-width: 235px;
     }
 
-    .pCard {
+    .card-common__inner {
         padding: 0;
-        min-height: 12vmin;
+        min-height: 140px;
         display: grid;
         will-change: transform;
         transition: transform .3s ease-in-out;
     }
 
-    .pCard:hover {
+    .card-common__inner:hover {
         transform: translateY(-10px);
     }
-    
-    .pCard::after {
+
+    .card-common__inner::after {
         content: '';
         z-index: -1;
         position: absolute;
@@ -99,11 +79,11 @@
         transform: translateZ(0);
     }
 
-    .pCard:hover::after {
+    .card-common__inner:hover::after {
         opacity: 1;
     }
 
-    .subjectIcon {
+    .card-common__icon {
         font-size: 3rem;
         display: flex;
         justify-content: center;
@@ -112,8 +92,8 @@
         padding: 5px;
     }
 
-    span {
-        inline-size: 20vmin;
+    .card-common__text {
+        inline-size: 235px;
         padding: 0 15px;
     }
 }

@@ -1,8 +1,43 @@
-.marks__ones-mark {
-    display: flex;
-    justify-content: space-between;
-}
+@media (min-width: 0) {
 
-.marks__digit-input {
-    width: 50px;
+    input {
+        cursor: pointer;
+    }
+
+    p {
+        padding: 0;
+        margin: 0;
+    }
+
+    .marks {
+        margin: 0 5px;
+    }
+
+    .ones-mark {
+        padding: 15px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        border-bottom: 1px solid #DFE0EB;
+    }
+
+    .ones-mark:first-child {
+        border-top: 1px solid #DFE0EB;
+    }
+
+    .ones-mark__input-mark {
+        width: 50px;
+        margin-right: 20px;
+    }
+
+    .ones-mark__topic {
+        text-align: right;
+        margin-right: 20px;
+    }
+
+    .center-button {
+        padding: 15px 0;
+        display: flex;
+        justify-content: center;
+    }
 }

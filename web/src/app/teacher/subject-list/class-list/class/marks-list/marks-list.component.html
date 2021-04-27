@@ -17,7 +17,7 @@
                         {{i+1}}. {{item.name[0]}}.{{item.lastname}}</p>
                     <a class="student-list__student-name-a"
                     (click)="this.editModeToggle(i)">
-                        Edytuj</a>
+                    {{editModeForIndex === i ? 'Cofnij' : 'Edytuj'}}</a>
                 </div>
 
                 <ng-container

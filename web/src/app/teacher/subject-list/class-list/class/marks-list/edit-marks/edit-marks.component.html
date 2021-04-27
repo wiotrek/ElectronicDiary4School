@@ -1,19 +1,21 @@
 <div class="marks">
 
-    <div class="marks__ones-mark" *ngFor="let item of list">
-        
-        <div class="marks__digit">
-            <input class="marks__digit-input" min="1" max="6" step="1" type="number" 
-            value="{{item.marks}}">
-        </div>
+    <div class="ones-mark" *ngFor="let item of list">
 
-        <div class="marsk_kindOf">
-            {{item.kindOf}}
-        </div>
+        <input class="ones-mark__input-mark" min="1" max="6" step="1" type="number" 
+            id="mark" value="{{item.marks}}">
+
+        <label class="ones-mark__topic" for="mark">
+            <p>{{item.topic}}</p>
+        </label>
+        
+        <p class="ones-mark__kindOf">[{{item.kindOf[0]}}]</p>
 
     </div>
 
-    <button class="btn btn-outline-success">Aktualizuj</button>
+    <div class="center-button">
+        <button class="btn btn-outline-success">Aktualizuj</button>
+    </div>
 
 
 </div>

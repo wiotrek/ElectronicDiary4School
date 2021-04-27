@@ -1,0 +1,8 @@
+.marks__ones-mark {
+    display: flex;
+    justify-content: space-between;
+}
+
+.marks__digit-input {
+    width: 50px;
+}

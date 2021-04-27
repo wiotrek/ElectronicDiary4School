@@ -44,4 +44,23 @@
 
 @media (min-width: 769px) {
 
+    .add-marks {
+        font-size: 1.5rem;
+        font-weight: 500;
+        background-color: inherit;
+        border: 0;
+        display: inline-block;
+    }
+
+    .add-marks__link {
+        text-decoration: underline;
+    }
+
+    .main-list__title {
+        font-size: 1.3rem;
+    }
+
+    .student-list__item {
+        border: 0;
+    }
 }

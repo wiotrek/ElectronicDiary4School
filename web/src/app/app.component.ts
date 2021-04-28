@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     // tslint:disable-next-line: deprecation
     this.accountService.currentUser$.subscribe(
       res => {
-        isExist = !!res?.message.identifier;
+        isExist = !!res?.user.identifier;
         !!res?.role ? this.setPropertySite(res?.role)
         : isExist = false;
       });

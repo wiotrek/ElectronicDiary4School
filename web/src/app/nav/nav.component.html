@@ -7,12 +7,12 @@
         </li>
 
         <li class="right-side" ngbDropdown>
-            <a class="right-side__dropdown" id="dropdownBasic1" 
+            <a class="right-side__dropdown" id="dropdownBasic1"
             *ngIf="(accountService.currentUser$ | async) as user"  ngbDropdownToggle>
                 <p class="right-side__greeting" >
-                    Witaj, {{user.message.first_name}}</p>
+                    Witaj, {{user.user.first_name}}</p>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="right-side__logout" (click)="logout()" 
+                    <button class="right-side__logout" (click)="logout()"
                     ngbDropdownItem>Wyloguj się</button>
                 </div>
                 <img class="right-side__avatar" src="{{user.profileUrl}}" alt="avatar">

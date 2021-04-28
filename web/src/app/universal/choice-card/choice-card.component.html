@@ -5,7 +5,8 @@
     <ul class="card-common" *ngIf="this.dateFromParent.list.length else lackResource">
         <li class="card-common__li" *ngFor="let item of dateFromParent.list; index as i">
             <p class="card-common__inner" routerLink={{this.createLink(item.name)}}>
-                <i class="card-common__icon" ngClass={{item.icon}}
+                <i class="card-common__icon"
+                 [ngClass]="item.icon ? item.icon : 'bi bi-bookmark-plus'"
                 [ngStyle]="{'color': this.iconsColor[i % this.iconsColor.length]}">
                 </i>
                 <span class="card-common__text">{{item.name}}</span>

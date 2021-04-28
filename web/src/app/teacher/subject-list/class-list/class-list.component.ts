@@ -29,8 +29,8 @@ export class ClassListComponent {
   }
 
   load(): void {
-    const getSubject = this.route.snapshot.paramMap.get('subject') || '';
-    const subject = this.teacherService.delDashesAndUpperFirstLetter(getSubject);
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
 
     this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
       res.forEach(({name, icon}: ListToCard) =>

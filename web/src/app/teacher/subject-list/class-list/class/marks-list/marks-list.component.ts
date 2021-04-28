@@ -30,6 +30,8 @@ export class MarksListComponent implements OnInit {
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
 
+    console.log(subject);
+
     this.teacherService.getStudentsMarks(className, subject).subscribe(
       (res: StudentsMarks[]) => this.list = res,
       (err: any) => console.log(err));

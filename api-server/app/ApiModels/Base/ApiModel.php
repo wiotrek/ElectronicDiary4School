@@ -16,20 +16,20 @@ class ApiModel {
         $buildReturn = '{'."\n\t";
 
         // Get called child object
-        $c = static::class;
+        $calledChildObject = static::class;
 
         // Get properties of called object
-        $p = get_class_vars($c);
+        $propertiesChildObject = get_class_vars($calledChildObject);
 
         // For each property...
-        foreach ($p as $name => $value) {
+        foreach ($propertiesChildObject as $propertyName => $value) {
 
             // Build json depend on property is object
             if (is_object($value))
-                $buildReturn .= '"'.$name.'": '.$value.''.','."\n\t";
+                $buildReturn .= '"'.$propertyName.'": '.$value.''.','."\n\t";
             // or not
             else
-                $buildReturn .= '"'.$name.'": "'.$value.'"'.','."\n\t";
+                $buildReturn .= '"'.$propertyName.'": "'.$value.'"'.','."\n\t";
 
         }
 

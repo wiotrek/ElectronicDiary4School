@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentMark } from 'src/app/_models/models_teacher/student-mark';
+import { ActivatedRoute } from '@angular/router';
+import { StudentsMarks } from 'src/app/_models/models_teacher/students-marks';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-marks-list',
@@ -11,69 +13,26 @@ export class MarksListComponent implements OnInit {
     title: 'Oceny'
   };
   editModeForIndex = -1;
-  list: StudentMark[] = [
-    {
-      student: {
-      identifier: '1233',
-      first_name: 'Jan',
-      last_name: 'Kowlaski'
-      },
-      mark: [
-        {
-          mark: '3',
-          topic: 'Mnozenie i dzielenie',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '5',
-          topic: 'Dodawanie i odejmowanie',
-          kindOf: 'Kartkówka'
-        }
-      ]
-    },
-    {
-      student: {
-      identifier: '1233',
-      first_name: 'Jan',
-      last_name: 'Kowlaski'
-      },
-      mark: [
-        {
-          mark: '3',
-          topic: 'Mnozenie i dzielenie',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '5',
-          topic: 'Dodawanie i odejmowanie',
-          kindOf: 'Kartkówka'
-        }
-      ]
-    },
-    {
-      student: {
-      identifier: '1233',
-      first_name: 'Jan',
-      last_name: 'Kowlaski'
-      },
-      mark: [
-        {
-          mark: '3',
-          topic: 'Mnozenie i dzielenie',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '5',
-          topic: 'Dodawanie i odejmowanie',
-          kindOf: 'Kartkówka'
-        }
-      ]
-    }
-  ];
+  list: StudentsMarks[] = [];
 
-  constructor() { }
+  constructor(
+    private teacherService: TeacherService,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
+    this.getStudentsMarks();
+  }
+
+  getStudentsMarks(): void {
+    const className = this.route.snapshot.paramMap.get('class') || '';
+
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
+
+    this.teacherService.getStudentsMarks(className, subject).subscribe(
+      (res: StudentsMarks[]) => this.list = res,
+      (err: any) => console.log(err));
   }
 
   editModeToggle(ind: number): void {

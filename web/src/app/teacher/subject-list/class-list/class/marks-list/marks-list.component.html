@@ -15,7 +15,8 @@
                 <div class="student-list__student-name">
                     <p class="student-list__student-name-p">
                         {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
-                        <em class="student-list__student-index"><i class="bi bi-file-earmark-person"></i>
+                        <em class="student-list__student-index">
+                          <i class="bi bi-file-earmark-person"></i>
                           {{s.student.identifier}}</em>
                       </p>
                     <a class="student-list__student-name-a"
@@ -30,7 +31,7 @@
 
                 <ng-template #showCurrentMarks>
                     <p class="student-list__list-marks">
-                        <span *ngFor="let one of s.mark"
+                        <span *ngFor="let one of s.marks"
                         class="student-list__mark">{{one.mark}}</span>
                     </p>
                 </ng-template>

@@ -1,7 +1,7 @@
 import { MarkItem } from './mark-item';
 import { StudentPresentList } from './student-present-list';
 
-export interface StudentMark {
+export interface StudentsMarks {
     student: StudentPresentList;
-    mark: MarkItem[];
+    marks: MarkItem[];
 }

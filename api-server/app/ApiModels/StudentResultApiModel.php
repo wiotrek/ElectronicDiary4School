@@ -3,62 +3,64 @@
 
 namespace App\ApiModels;
 
+use App\ApiModels\Base\ApiModel;
+
 /**
  * Class StudentResultApiModel The result of student details via API
  * @package App\ApiModels\
  */
-class StudentResultApiModel {
+class StudentResultApiModel extends ApiModel {
 
     #region Private Members
 
-    private $identifier;
-    private $firstName;
-    private $lastName;
+    protected static $identifier;
+    protected static $first_name;
+    protected static $last_name;
 
     #endregion
 
     #region Get / Set
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getIdentifier () {
-        return $this -> identifier;
+    public static function getIdentifier () {
+        return self :: $identifier;
     }
 
     /**
-     * @param mixed $identifier
+     * @param string $identifier
      */
-    public function setIdentifier ( $identifier ): void {
-        $this -> identifier = $identifier;
+    public static function setIdentifier ( string $identifier ): void {
+        self :: $identifier = $identifier;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFirstName () {
-        return $this -> firstName;
+    public static function getFirstName () {
+        return self :: $first_name;
     }
 
     /**
-     * @param mixed $firstName
+     * @param string $first_name
      */
-    public function setFirstName ( $firstName ): void {
-        $this -> firstName = $firstName;
+    public static function setFirstName ( string $first_name ): void {
+        self :: $first_name = $first_name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLastName () {
-        return $this -> lastName;
+    public static function getLastName () {
+        return self :: $last_name;
     }
 
     /**
-     * @param mixed $lastName
+     * @param string $last_name
      */
-    public function setLastName ( $lastName ): void {
-        $this -> lastName = $lastName;
+    public static function setLastName ( string $last_name ): void {
+        self :: $last_name = $last_name;
     }
 
     #endregion

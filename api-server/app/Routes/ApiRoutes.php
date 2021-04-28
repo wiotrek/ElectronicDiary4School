@@ -21,6 +21,12 @@ class ApiRoutes {
 
     #endregion
 
+    #region Marks
+
+    public const MARKS_LIST_CLASS = '/teacher/subject={subjectName}/class={class}/marks';
+
+    #endregion
+
     #region Student
 
     public const STUDENTS_OF_CLASS = 'students/class={class}';

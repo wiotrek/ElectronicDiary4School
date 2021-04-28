@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\MarksController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
@@ -38,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Student list for class
     Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentsOfClass' ] );
+
+    Route::get(ApiRoutes::MARKS_LIST_CLASS, [ MarksController::class, 'studentMarksOfClassForSubject' ] );
 
     #endregion
 

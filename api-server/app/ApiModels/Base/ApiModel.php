@@ -24,17 +24,17 @@ class ApiModel {
         // For each property...
         foreach ($propertiesChildObject as $propertyName => $value) {
 
-            // Build json depend on property is object
+            // Build json depend on property is object, array or something else
             if (is_object($value))
-                $buildReturn .= '"'.$propertyName.'": '.$value.''.','."\n\t";
-            // or not
+                $buildReturn .= '"' . $propertyName . '": ' . $value . '' . ',' . "\n\t";
+            else if (is_array($value))
+                $buildReturn .= '"'.$propertyName.'"'.': ['.$value[0].']';
             else
-                $buildReturn .= '"'.$propertyName.'": "'.$value.'"'.','."\n\t";
+                $buildReturn .= '"' . $propertyName . '": "' . $value . '"' . ',' . "\n\t";
 
         }
 
-
-        // Return collected data as json object
+        // Return collected data as json style
         return substr($buildReturn, 0, -3 )."\n".'}';
     }
 

@@ -1,23 +1,23 @@
 <nav class="main-nav">
-    <ul class="main-nav__menu">
+  <ul class="main-nav__menu">
 
-        <li class="left-side">
-            <a class="left-side__icon" href=''>
-            <i class="bi bi-house-door-fill"></i></a>
-        </li>
+    <li class="left-side">
+      <a class="left-side__icon" href=''>
+        <i class="bi bi-house-door-fill"></i></a>
+    </li>
 
-        <li class="right-side" ngbDropdown>
-            <a class="right-side__dropdown" id="dropdownBasic1"
-            *ngIf="(accountService.currentUser$ | async) as user"  ngbDropdownToggle>
-                <p class="right-side__greeting" >
-                    Witaj, {{user.user.first_name}}</p>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button class="right-side__logout" (click)="logout()"
-                    ngbDropdownItem>Wyloguj się</button>
-                </div>
-                <img class="right-side__avatar" src="{{user.profileUrl}}" alt="avatar">
-            </a>
-        </li>
+    <li class="right-side" ngbDropdown>
+      <a class="right-side__dropdown" id="dropdownBasic1"
+         *ngIf="(accountService.currentUser$ | async) as user"  ngbDropdownToggle>
+        <p class="right-side__greeting" >
+          Witaj, {{user.user.first_name}}</p>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button class="right-side__logout" (click)="logout()"
+                  ngbDropdownItem>Wyloguj się</button>
+        </div>
+        <img class="right-side__avatar" src="{{user.profileUrl}}" alt="avatar">
+      </a>
+    </li>
 
-    </ul>
+  </ul>
 </nav>

@@ -34,7 +34,7 @@ class ApiModel {
 
         }
 
-        // Return collected data as json style
+        // Return collected data as json object
         return substr($buildReturn, 0, -3 )."\n".'}';
     }
 

@@ -25,19 +25,13 @@ export class ClassListComponent {
       list: this.list,
       lackResource: 'klas',
     };
-    this.getParam();
+    this.load();
   }
 
-  // getting subject name from path, then changes whitespace with dash
-  // and gives prepare subject to send to api
-  getParam(): void {
+  load(): void {
     const getSubject = this.route.snapshot.paramMap.get('subject') || '';
-    let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
-    subject = subject.replace(/-/g, ' ');
-    this.load(subject);
-  }
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(getSubject);
 
-  load(subject: string): void {
     this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
       res.forEach(({name, icon}: ListToCard) =>
       this.list.push({name, icon}));

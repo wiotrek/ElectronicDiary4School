@@ -31,17 +31,63 @@
         justify-content: space-between;
     }
 
+    .student-list__student-index {
+      display: none;
+    }
+
     .student-list__student-name-a {
         text-decoration: underline;
         cursor: pointer;
     }
 
-    .student-list__marks-p {
+    .student-list__list-marks {
         margin: 0;
     }
 
+    .student-list__mark::before {
+      content: ', ';
+    }
+
+    .student-list__mark:first-child::before {
+      content: '';
+    }
 }
 
 @media (min-width: 769px) {
 
+    .add-marks {
+        font-size: 1.5rem;
+        font-weight: 500;
+        background-color: inherit;
+        border: 0;
+        display: inline-block;
+    }
+
+    .add-marks__link {
+        text-decoration: underline;
+    }
+
+    .main-list__title {
+        font-size: 1.3rem;
+    }
+
+    .student-list__item {
+        border: 1px solid var(--line-grey);
+    }
+
+    .student-list__student-name-p {
+      font-size: 1.2rem;
+    }
+
+    .student-list__student-index {
+      display: inline;
+      color: var(--primary-blue);
+      font-style: normal;
+      margin-left: 10px;
+    }
+
+    .student-list__list-marks::before {
+      content: 'Oceny:';
+      margin-right: 10px;
+    }
 }

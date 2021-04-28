@@ -14,8 +14,6 @@ export class AccountService {
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
 
-  // Why we have a 2 dictionary? because way dictionarylist sorting
-  // alphabetically list
   roles: DictionaryList<string> = {
     Nauczyciel: '/nauczyciel',
     Uczen: '/uczen',

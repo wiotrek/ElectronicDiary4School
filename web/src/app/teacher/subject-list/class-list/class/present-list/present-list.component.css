@@ -71,7 +71,7 @@
     }
 
     .set-date__input {
-        max-width: 10vh;
+        max-width: 150px;
         border: 0;
         background-color: inherit;
     }

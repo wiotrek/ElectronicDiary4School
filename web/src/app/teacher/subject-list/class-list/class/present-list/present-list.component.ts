@@ -38,8 +38,9 @@ export class PresentListComponent implements OnInit {
   }
 
   getStudentsList(): void {
-    const getClassName = this.route.snapshot.paramMap.get('class') || 'undefined';
+    const getClassName = this.route.snapshot.paramMap.get('class') || '';
 
+    // tslint:disable-next-line: deprecation
     this.teacherService.getStudents(getClassName).subscribe(
       (res: StudentPresentList[]) => this.studentsList = res,
       (err: any) => console.log(err));
@@ -61,9 +62,8 @@ export class PresentListComponent implements OnInit {
     const correctDate = typeof this.today === 'string'
     ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
 
-    const getSubject = this.route.snapshot.paramMap.get('subject') || 'undefined';
-    let subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
-    subject = subject.replace(/-/g, ' ');
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
 
     this.teacherService
       .sendPresentList(subject, correctDate, this.form.value.studentsPresent)

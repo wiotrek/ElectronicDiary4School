@@ -34,7 +34,7 @@
 
     .error {
         margin-top: 2vh;
-        animation: appear 1s ease-in-out .5s backwards;
+        animation: appear 10s ease-in-out .5s backwards;
     }
 
 }

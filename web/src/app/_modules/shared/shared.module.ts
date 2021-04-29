@@ -5,6 +5,7 @@ import { NgbDropdown, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [],
@@ -14,12 +15,14 @@ import { ToastrModule } from 'ngx-toastr';
     ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    NgxSpinnerModule
   ],
   exports: [
     FormsModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   providers: [
     NgbDropdown

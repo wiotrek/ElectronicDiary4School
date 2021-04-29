@@ -26,6 +26,7 @@
     "bootstrap-icons": "^1.4.1",
     "font-awesome": "^4.7.0",
     "moment": "^2.29.1",
+    "ngx-spinner": "^11.0.1",
     "ngx-toastr": "^13.2.1",
     "open-iconic": "^1.1.1",
     "rxjs": "~6.6.0",

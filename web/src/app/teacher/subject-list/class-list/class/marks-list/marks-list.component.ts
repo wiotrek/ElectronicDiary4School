@@ -32,6 +32,7 @@ export class MarksListComponent implements OnInit {
 
     console.log(subject);
 
+    // tslint:disable-next-line: deprecation
     this.teacherService.getStudentsMarks(className, subject).subscribe(
       (res: StudentsMarks[]) => this.list = res,
       (err: any) => console.log(err));

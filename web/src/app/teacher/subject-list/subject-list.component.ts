@@ -27,6 +27,7 @@ export class SubjectListComponent{
   }
 
   load(): void {
+    // tslint:disable-next-line: deprecation
     this.teacherService.getSubjects().subscribe((res: ListToCard[]) =>
       res.forEach(({name, icon}: ListToCard) =>
         this.list.push({name, icon})));

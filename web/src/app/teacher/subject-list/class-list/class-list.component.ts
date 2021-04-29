@@ -32,6 +32,7 @@ export class ClassListComponent {
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
 
+    // tslint:disable-next-line: deprecation
     this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
       res.forEach(({name, icon}: ListToCard) =>
       this.list.push({name, icon}));

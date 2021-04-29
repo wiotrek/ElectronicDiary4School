@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { StudentsMarks } from '../_models/models_teacher/students-marks';
 import { ListToCard } from '../_models/list-to-card';
 import { StudentPresentList } from '../_models/models_teacher/student-present-list';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeacherService {
   baseUrl = environment.apiUrl;
+  listOfSubject: ListToCard[] = [];
+  listOfClass: ListToCard[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -20,13 +23,28 @@ export class TeacherService {
     return subject.replace(/-/g, ' ');
   }
 
+  // if early user got list of subject then this list is in cache
   getSubjects(): Observable<ListToCard[]> {
-    return this.http.get<ListToCard[]>(this.baseUrl + 'teacher/subjects');
+    if (this.listOfSubject.length >  0) { return of(this.listOfSubject); }
+    return this.http.get<ListToCard[]>(this.baseUrl + 'teacher/subjects').pipe(
+      map(subjects => {
+        this.listOfSubject = subjects;
+        return subjects;
+      })
+    );
   }
 
+  // if early user got list of classes then this list is in cache
   getClasses(subjectName: string): Observable<ListToCard[]> {
+    if (this.listOfClass.length > 0) { return of(this.listOfClass); }
+
     const path = `teacher/subject=${subjectName}/classes`;
-    return this.http.get<ListToCard[]>(this.baseUrl + path);
+    return this.http.get<ListToCard[]>(this.baseUrl + path).pipe(
+      map(classes => {
+        this.listOfClass = classes;
+        return classes;
+      })
+    );
   }
 
   getStudents(className: string): Observable<StudentPresentList[]> {

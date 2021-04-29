@@ -29,6 +29,18 @@ class StudentService {
         $this->studentRepository->saveStudentActivity($studentActivity);
     }
 
+    public function getStudentMarksBySubject ( $identifier, $subjectName ) {
+
+        // Get student marks by params
+        $marks = $this->studentRepository->readStudentMarksBySubject($identifier, $subjectName);
+
+        // Return empty array if no-one marks founded
+        if (is_null($marks))
+            return array();
+
+        return $marks;
+    }
+
     #endregion
 
 }

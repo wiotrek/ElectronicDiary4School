@@ -9,7 +9,7 @@ use App\ApiModels\Base\ApiModel;
  * Class StudentResultApiModel The result of student details via API
  * @package App\ApiModels\
  */
-class StudentResultApiModel extends ApiModel {
+class StudentResultApiModel {
 
     #region Private Members
 

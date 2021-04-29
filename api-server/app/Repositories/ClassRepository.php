@@ -4,9 +4,11 @@
 namespace App\Repositories;
 
 
+use App\Helpers\KeyColumn;
 use App\Models\ClassHarmonogram;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
@@ -28,21 +30,21 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
             $subjectId = $this->findByColumn(
                 $subjectName,
                 'name',
-                Subject::class)->pluck('subject_id');
+                Subject::class)->pluck(KeyColumn::fromModel(Subject::class));
 
             // get all classes ids
             $classesIds = $this->findByAndColumns(
                 $teacherId[0],
                 $subjectId,
-                'teacher_id',
-                'subject_id',
+                KeyColumn::fromModel(Teacher::class),
+                KeyColumn::fromModel(Subject::class),
                 ClassHarmonogram::class)
-                ->pluck('user_class_id');
+                ->pluck(KeyColumn::fromModel(UserClass::class));
 
 
             // by classes ids get objects of the classes list
             return UserClass::query()
-                -> whereIn( 'user_class_id', $classesIds )
+                -> whereIn( KeyColumn::fromModel(UserClass::class), $classesIds )
                 -> selectRaw( 'CONCAT(number, identifier_number) as klasa' )
                 -> get();
         }
@@ -52,13 +54,13 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 
     public function readStudentsByIdentifier ( string $identifier ) {
         $userId = $this->findByColumn($identifier, 'identifier', User::class)
-            ->pluck('user_id');
+            ->pluck(KeyColumn::fromModel(User::class));
 
-        $userClassId = $this->findByColumn($userId, 'user_id', Student::class)
-            ->pluck('user_class_id');
+        $userClassId = $this->findByColumn($userId, KeyColumn::fromModel(User::class), Student::class)
+            ->pluck(KeyColumn::fromModel(UserClass::class));
 
-        $students = $this->findByColumn($userClassId, 'user_class_id', Student::class)
-            ->pluck('student_id');
+        $students = $this->findByColumn($userClassId, KeyColumn::fromModel(UserClass::class), Student::class)
+            ->pluck(KeyColumn::fromModel(Student::class));
 
         return ($students);
     }
@@ -66,30 +68,27 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
     public function readStudentsByClass ( $number, $numberIdentifier ) {
 
         // Get class id by data from request
-        $class_id = $this->findByAndColumns(
-            $number,
-            $numberIdentifier,
-            'number',
-            'identifier_number',
-            UserClass::class
-        )->pluck('user_class_id');
+        $class_id = $this->getClassIdByIdentifierAndNumber($number, $numberIdentifier);
 
 
         // Get user ids of students from this class
         $userIdsOfStdents = $this->
-                            findByColumn($class_id, 'user_class_id', Student::class)->
-                            pluck('user_id');
+                            findByColumn($class_id, KeyColumn::fromModel(UserClass::class), Student::class)->
+                            pluck(KeyColumn::fromModel(User::class));
 
 
         // For each user id get details
-        $students = $this->
-                    findByMultipleValues($userIdsOfStdents, 'user_id', User::class)->
+        return $this->
+                    findByMultipleValues($userIdsOfStdents, KeyColumn::fromModel(User::class), User::class)->
                     select('identifier', 'first_name', 'last_name')->
                     get();
-
-        return $students;
     }
 
     #endregion
+
+    private function getClassIdByIdentifierAndNumber($number, $identifier) {
+        return $this->findByAndColumns($number, $identifier, 'number', 'identifier_number', UserClass::class)
+            ->pluck(KeyColumn::fromModel(UserClass::class));
+    }
 
 }

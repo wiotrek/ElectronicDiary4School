@@ -26,8 +26,8 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
         // get teacher id
         $teacherId = $this->findIdByOtherId(
             $userId,
-            KeyColumn::name(User::class),
-            KeyColumn::name(Teacher::class),
+            KeyColumn::fromModel(User::class),
+            KeyColumn::fromModel(Teacher::class),
             Teacher::class);
 
         // if founded then
@@ -35,8 +35,8 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
 
             // get all subject ids
             $subjectIds = $this->findIdByOtherId($teacherId[0],
-                KeyColumn::name(Teacher::class),
-                KeyColumn::name(Subject::class),
+                KeyColumn::fromModel(Teacher::class),
+                KeyColumn::fromModel(Subject::class),
                 TeacherSubject::class);
 
             // by subjects ids get subject list

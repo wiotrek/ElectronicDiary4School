@@ -19,7 +19,7 @@ class BaseRepository implements BaseRepositoryInterface {
 
 
     public function findById ( int $id, $model ) {
-        return $model::where(KeyColumn::name($model), '=', $id)->get();
+        return $model::where(KeyColumn::fromModel($model), '=', $id)->get();
     }
 
 
@@ -59,8 +59,8 @@ class BaseRepository implements BaseRepositoryInterface {
     protected function getTeacherId() {
         return $this->findIdByOtherId(
             $this->getAuthId(),
-            KeyColumn::name(User::class),
-            KeyColumn::name(Teacher::class),
+            KeyColumn::fromModel(User::class),
+            KeyColumn::fromModel(Teacher::class),
             Teacher::class);
     }
 
@@ -70,8 +70,8 @@ class BaseRepository implements BaseRepositoryInterface {
     protected function getStudentId() {
         return $this->findIdByOtherId(
             $this->getAuthId(),
-            KeyColumn::name(User::class),
-            KeyColumn::name(Student::class),
+            KeyColumn::fromModel(User::class),
+            KeyColumn::fromModel(Student::class),
             Student::class);
     }
 

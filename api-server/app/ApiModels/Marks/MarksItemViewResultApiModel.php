@@ -1,65 +1,65 @@
 <?php
 
 
-namespace App\ApiModels;
+namespace App\ApiModels\Marks;
 
 
-use App\ApiModels\Base\ApiModel;
-use App\ApiModels\Marks\Design\MarkListItem;
+use App\ApiModels\StudentResultApiModel;
 
 /**
  * The data-list of marks for a single student
  */
-class MarksItemViewResultApiModel extends ApiModel {
+class MarksItemViewResultApiModel {
 
-    #region Protected Static Properties
+    #region Protected Properties
 
     /**
      * Basic details about student
      */
-    protected static $student;
+    protected $student;
 
     /**
      * The list of the student marks
      */
-    protected static $mark;
+    protected $marks;
 
     #endregion
 
     #region Accessors
 
     /**
-     * @return mixed
+     * @return StudentResultApiModel
      */
-    public static function getStudent () {
-        return self :: $student;
+    public function getStudent () {
+        return $this->student;
     }
 
     /**
      * @param StudentResultApiModel $student
      */
-    public static function setStudent ( StudentResultApiModel $student ): void {
-        self :: $student = $student;
+    public function setStudent ( StudentResultApiModel $student ): void {
+        $this->student = array(
+            'first_name' => $student->getFirstName(),
+            'last_name' => $student->getLastName(),
+            'identifier' => $student->getIdentifier()
+        );
     }
 
     /**
      * @return mixed
      */
-    public static function getMark () {
-        return self :: $mark;
+    public function getMarks () {
+        return $this->marks;
     }
 
     /**
-     * @param MarkListItem $mark
+     * @param mixed $marks
      */
-    public static function setMark ( MarkListItem $mark ): void {
-        self :: $mark = $mark;
+    public function setMarks ( $marks ): void {
+        $this->marks = $marks;
     }
 
     #endregion
 
-    public function __toString () {
-        return self :: toString();
-    }
 
 }

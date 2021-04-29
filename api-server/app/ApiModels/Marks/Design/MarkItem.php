@@ -10,7 +10,7 @@ use App\ApiModels\Base\ApiModel;
  * Base details of the student mark value
  * TODO: Probably going to extend with date mark assign
  */
-class MarkItem extends ApiModel {
+class MarkItem   {
 
     #region Protected Static Properties
 
@@ -77,8 +77,8 @@ class MarkItem extends ApiModel {
 
     #endregion
 
-    public function __toString () {
-        return self :: toString();
-    }
+//    public function __toString () {
+//        return self :: toString();
+//    }
 
 }

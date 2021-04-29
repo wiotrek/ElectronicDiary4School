@@ -4,17 +4,14 @@
 namespace App\ApiModels\Marks;
 
 
-use App\ApiModels\Base\ApiModel;
-use App\ApiModels\MarksItemViewResultApiModel;
-
 /**
  * The list-data of all students with their marks
  */
-class MarksListViewResultApiModel extends ApiModel {
+class MarksListViewResultApiModel  {
 
     #region List Item Object
 
-    protected static $StudentMark;
+    protected $StudentMark;
 
     #endregion
 
@@ -23,21 +20,20 @@ class MarksListViewResultApiModel extends ApiModel {
     /**
      * @return mixed
      */
-    public static function getStudentMark () {
-        return self :: $StudentMark;
+    public function getStudentMark () {
+        return $this->StudentMark;
     }
 
     /**
      * @param MarksItemViewResultApiModel $StudentMark
      */
-    public static function setStudentMark ( MarksItemViewResultApiModel $StudentMark ): void {
-        self :: $StudentMark = $StudentMark;
+    public function setStudentMark ( MarksItemViewResultApiModel $StudentMark ): void {
+        $this->StudentMark[] = array(
+            'student' => $StudentMark->getStudent(),
+            'marks' => $StudentMark->getMarks()
+        );
     }
 
     #endregion
-
-    public function __toString () {
-        return self :: toString();
-    }
 
 }

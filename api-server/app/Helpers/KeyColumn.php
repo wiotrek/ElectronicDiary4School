@@ -11,7 +11,10 @@ class KeyColumn {
     // Alphabet of characters to finding capital in exploring name model
     const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-    public static function name ( $model ) {
+    /**
+     * @param $model mixed Relative path to Model name like App/Models/MarksType
+     */
+    public static function fromModel ( $model ) {
 
         // extract model class name with change first letter to lowercase
         $modelName = lcfirst(explode( '\\', $model )[2]);

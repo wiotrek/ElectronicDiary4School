@@ -5,12 +5,11 @@ namespace App\ApiModels\Marks;
 
 
 use App\ApiModels\Base\ApiModel;
-use App\ApiModels\MarksItemViewResultApiModel;
 
 /**
  * The list-data of all students with their marks
  */
-class MarksListViewResultApiModel extends ApiModel {
+class MarksListViewResultApiModel  {
 
     #region List Item Object
 
@@ -31,13 +30,16 @@ class MarksListViewResultApiModel extends ApiModel {
      * @param MarksItemViewResultApiModel $StudentMark
      */
     public static function setStudentMark ( MarksItemViewResultApiModel $StudentMark ): void {
-        self :: $StudentMark = $StudentMark;
+        self :: $StudentMark[] = array(
+            $StudentMark->getStudent(),
+            $StudentMark->getMark()
+        );
     }
 
     #endregion
 
-    public function __toString () {
-        return self :: toString();
-    }
+//    public function __toString () {
+//        return self :: toString();
+//    }
 
 }

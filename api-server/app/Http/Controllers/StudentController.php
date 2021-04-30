@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\Data\ApiCode;
+use App\ApiModels\Marks\MarksItemViewResultApiModel;
+use App\ApiModels\Marks\MarksListViewResultApiModel;
+use App\ApiModels\StudentResultApiModel;
 use App\Models\StudentActivity;
 use App\Services\ClassService;
 use App\Services\StudentService;
@@ -98,5 +101,44 @@ class StudentController extends Controller
 
         // return student list
         return ApiResponse::withSuccess($result);
+    }
+
+    public function showStudentMarksOfClassForSubject($subject, $class) {
+
+        // Collect all students with their marks
+        $studentsWithMarks = new MarksListViewResultApiModel();
+
+
+        // Get data from db by request
+        $result = $this->classService->getStudentListByClass($class[0], $class[1]);
+
+
+        // For each student with marks
+        foreach ( $result as $res ) {
+
+            // Create next Student
+            $students = new StudentResultApiModel();
+
+            // Create next single student with his marks
+            $studentWithMarks = new MarksItemViewResultApiModel();
+
+            // Initialize student with details
+            $students->setFirstName($res['first_name']);
+            $students->setLastName($res['last_name']);
+            $students->setIdentifier($res['identifier']);
+
+            // Get marks by current student identifier and subject
+            $markListItem = $this->studentService->getStudentMarksBySubject($students->getIdentifier(), $subject);
+
+            // Initialize student with marks
+            $studentWithMarks->setStudent($students);
+            $studentWithMarks->setMark($markListItem);
+
+            // Append next student with his marks to array of all students
+            $studentsWithMarks -> setStudentMark($studentWithMarks);
+        }
+
+
+        return ApiResponse::withSuccess($studentsWithMarks->getStudentMark());
     }
 }

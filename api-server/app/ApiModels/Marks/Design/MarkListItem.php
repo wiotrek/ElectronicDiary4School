@@ -8,11 +8,11 @@ use App\ApiModels\Base\ApiModel;
 /**
  * The list of marks for a @see MarkItem
  */
-class MarkListItem extends ApiModel{
+class MarkListItem {
 
     #region List Item Object
 
-    protected static $marks = array();
+    protected $marks = array();
 
     #endregion
 
@@ -21,21 +21,25 @@ class MarkListItem extends ApiModel{
     /**
      * @return array
      */
-    public static function getMarks () {
-        return self :: $marks;
+    public function getMarks () {
+        return $this->marks;
     }
 
     /**
-     * @param MarkItem $marks
+     * @param MarkItem $mark
      */
-    public static function setMarks ( MarkItem $marks ): void {
-        self :: $marks[] = $marks;
+    public function setMarks ( MarkItem $mark ): void {
+        $this->marks[] = array(
+            'mark' => $mark->getMark(),
+            'topic' => $mark->getTopic(),
+            'kindOf' => $mark->getKindOf()
+        );
     }
 
     #endregion
 
-    public function __toString () {
-        return self :: toString();
-    }
+//    public function __toString () {
+//        return self :: toString();
+//    }
 
 }

@@ -13,11 +13,10 @@ import { map } from 'rxjs/operators';
 export class TeacherService {
   baseUrl = environment.apiUrl;
   listOfSubject: ListToCard[] = [];
-  listOfClass: ListToCard[] = [];
+  listOfClassCache = new Map();
 
   constructor(private http: HttpClient) { }
 
-  // TODO: definetly the name change is needed
   delDashesAndUpperFirstLetter(getSubject: string): string {
     const subject = getSubject.charAt(0).toUpperCase() + getSubject.slice(1);
     return subject.replace(/-/g, ' ');
@@ -34,14 +33,18 @@ export class TeacherService {
     );
   }
 
-  // if early user got list of classes then this list is in cache
   getClasses(subjectName: string): Observable<ListToCard[]> {
-    if (this.listOfClass.length > 0) { return of(this.listOfClass); }
+
+    // getting object about name subjectName
+    const response = this.listOfClassCache.get(Object.values(subjectName).join('-'));
+
+    // check out this object in listOfClassCache if exist, then return him
+    if (response) { return of (response); }
 
     const path = `teacher/subject=${subjectName}/classes`;
     return this.http.get<ListToCard[]>(this.baseUrl + path).pipe(
       map(classes => {
-        this.listOfClass = classes;
+        this.listOfClassCache.set(Object.values(subjectName).join('-'), classes);
         return classes;
       })
     );

@@ -4,8 +4,6 @@
 namespace App\ApiModels\Marks;
 
 
-use App\ApiModels\Base\ApiModel;
-use App\ApiModels\Marks\Design\MarkListItem;
 use App\ApiModels\StudentResultApiModel;
 
 /**
@@ -13,17 +11,17 @@ use App\ApiModels\StudentResultApiModel;
  */
 class MarksItemViewResultApiModel {
 
-    #region Protected Static Properties
+    #region Protected Properties
 
     /**
      * Basic details about student
      */
-    protected static $student;
+    protected $student;
 
     /**
      * The list of the student marks
      */
-    protected static $mark;
+    protected $marks;
 
     #endregion
 
@@ -32,15 +30,15 @@ class MarksItemViewResultApiModel {
     /**
      * @return StudentResultApiModel
      */
-    public static function getStudent () {
-        return self :: $student;
+    public function getStudent () {
+        return $this->student;
     }
 
     /**
      * @param StudentResultApiModel $student
      */
-    public static function setStudent ( StudentResultApiModel $student ): void {
-        self :: $student = array(
+    public function setStudent ( StudentResultApiModel $student ): void {
+        $this->student = array(
             'first_name' => $student->getFirstName(),
             'last_name' => $student->getLastName(),
             'identifier' => $student->getIdentifier()
@@ -48,21 +46,20 @@ class MarksItemViewResultApiModel {
     }
 
     /**
-     * @return MarkListItem
+     * @return mixed
      */
-    public static function getMark () {
-        return self :: $mark;
+    public function getMarks () {
+        return $this->marks;
     }
 
     /**
-     * @param MarkListItem $mark
+     * @param mixed $marks
      */
-    public static function setMark ( MarkListItem $mark ): void {
-        self :: $mark = array(
-            'marks' => $mark->getMarks()
-        );
+    public function setMarks ( $marks ): void {
+        $this->marks = $marks;
     }
 
     #endregion
+
 
 }

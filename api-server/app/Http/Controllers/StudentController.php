@@ -110,35 +110,35 @@ class StudentController extends Controller
 
 
         // Get data from db by request
-        $result = $this->classService->getStudentListByClass($class[0], $class[1]);
+        $studentList = $this->classService->getStudentListByClass($class[0], $class[1]);
 
 
         // For each student with marks
-        foreach ( $result as $res ) {
+        foreach ( $studentList as $st ) {
 
             // Create next Student
-            $students = new StudentResultApiModel();
+            $student = new StudentResultApiModel();
 
             // Create next single student with his marks
             $studentWithMarks = new MarksItemViewResultApiModel();
 
             // Initialize student with details
-            $students->setFirstName($res['first_name']);
-            $students->setLastName($res['last_name']);
-            $students->setIdentifier($res['identifier']);
+            $student->setFirstName($st['first_name']);
+            $student->setLastName($st['last_name']);
+            $student->setIdentifier($st['identifier']);
 
             // Get marks by current student identifier and subject
-            $markListItem = $this->studentService->getStudentMarksBySubject($students->getIdentifier(), $subject);
+            $markListItem = $this->studentService->getStudentMarksBySubject($student->getIdentifier(), $subject);
 
             // Initialize student with marks
-            $studentWithMarks->setStudent($students);
-            $studentWithMarks->setMark($markListItem);
+            $studentWithMarks->setStudent($student);
+            $studentWithMarks->setMarks($markListItem);
 
             // Append next student with his marks to array of all students
             $studentsWithMarks -> setStudentMark($studentWithMarks);
         }
 
 
-        return ApiResponse::withSuccess($studentsWithMarks->getStudentMark());
+        return ApiResponse::withSuccess( $studentsWithMarks->getStudentMark() );
     }
 }

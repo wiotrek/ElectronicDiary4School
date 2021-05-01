@@ -54,7 +54,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             $topic = $mark['topic'];
             $markType = $this->findByColumn($mark['marks_type_id'], 'marks_type_id', MarksType::class)->pluck('mark_from');
 
-            $returndata[] = array(
+            $markList[] = array(
                 'mark' => $markValue[0],
                 'topic' => $topic,
                 'kindOf' => $markType[0]
@@ -62,7 +62,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
         }
 
-        return $returndata;
+        return $markList;
     }
 
 }

@@ -19,10 +19,14 @@
                           <i class="bi bi-file-earmark-person"></i>
                           {{s.student.identifier}}</em>
                       </p>
-                    <a class="student-list__student-name-a"
+                    <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">
                     {{editModeForIndex === i ? 'Cofnij' : 'Edytuj'}}</a>
+
+                    <ng-template #lackMarks>
+                        <span>Nie posiada ocen <i class="bi bi-emoji-frown"></i></span>
+                    </ng-template>
                 </div>
 
                 <ng-container

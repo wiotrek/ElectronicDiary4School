@@ -30,14 +30,14 @@
                 </ng-container>
 
                 <ng-template #showCurrentMarks>
-                    <p class="student-list__list-marks">
+                    <p class="student-list__list-marks" *ngIf="s.marks.length">
                         <span *ngFor="let one of s.marks"
                         class="student-list__mark">{{one.mark}}</span>
                     </p>
                 </ng-template>
 
                 <ng-template #editMode>
-                    <app-edit-marks></app-edit-marks>
+                    <app-edit-marks [getMarks]="s.marks"></app-edit-marks>
                 </ng-template>
             </li>
         </ul>

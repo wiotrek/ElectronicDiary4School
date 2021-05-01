@@ -35,6 +35,18 @@
         margin-right: 20px;
     }
 
+    .ones-mark__topic p::first-letter {
+        text-transform: capitalize;
+    }
+
+    .ones-mark__kindOf--mobile {
+        display: initial;
+    }
+
+    .ones-mark__kindOf--pc {
+        display:none;
+    }
+
     .center-button {
         padding: 15px 0;
         display: flex;
@@ -44,6 +56,12 @@
 
 @media (min-width: 769px) {
 
-    
+    .ones-mark__kindOf--mobile {
+        display: none;
+    }
+
+    .ones-mark__kindOf--pc {
+        display:initial;
+    }
 
 }

@@ -20,7 +20,8 @@
                           {{s.student.identifier}}</em>
                       </p>
                     <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
-                    (click)="this.editModeToggle(i)"
+                    (click)="this.editModeToggle(i);
+                    this.updateMark.identifier = s.student.identifier"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">
                     {{editModeForIndex === i ? 'Cofnij' : 'Edytuj'}}</a>
 
@@ -41,7 +42,9 @@
                 </ng-template>
 
                 <ng-template #editMode>
-                    <app-edit-marks [getMarks]="s.marks"></app-edit-marks>
+                    <app-edit-marks
+                    [getMarks]="s.marks"
+                    [suppliesToupdate]="updateMark"></app-edit-marks>
                 </ng-template>
             </li>
         </ul>

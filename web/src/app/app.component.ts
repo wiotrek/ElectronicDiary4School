@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     this.accountService.currentUser$.subscribe(
       res => {
         isExist = !!res?.user.identifier;
-        !!res?.role ? this.setPropertySite(res?.role)
+        !!res?.role ? this.setDirectSite(res?.role)
         : isExist = false;
       });
 
@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
 
   // step 3
   // check whether exist role, then redirect to specific component
-  setPropertySite(userRoles: string): void {
+  setDirectSite(userRoles: string): void {
     const url = this.accountService.roles[userRoles];
 
     // if you want in peace write on some compomnent,

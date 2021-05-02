@@ -41,7 +41,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
         $marks = $this->findByAndColumns($student_id[0], $subject_id,
                                          KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class), StudentMark::class)->
-                        select('marks_id', 'topic', 'marks_type_id')->get();
+                        select('student_marks_id', 'marks_id', 'topic', 'marks_type_id')->get();
 
 
         if (count($marks) === 0)
@@ -50,11 +50,13 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
         foreach ( $marks as $mark ) {
 
+            $student_mark_id = $mark['student_marks_id'];
             $markValue = $this->findByColumn($mark['marks_id'], 'marks_id', Mark::class)->pluck('degree');
             $topic = $mark['topic'];
             $markType = $this->findByColumn($mark['marks_type_id'], 'marks_type_id', MarksType::class)->pluck('mark_from');
 
             $markList[] = array(
+                'student_marks_id' => $student_mark_id,
                 'mark' => $markValue[0],
                 'topic' => $topic,
                 'kindOf' => $markType[0]

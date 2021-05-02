@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
 import { StudentsMarks } from '../_models/models_teacher/students-marks';
 import { ListToCard } from '../_models/list-to-card';
-import { StudentPresentList } from '../_models/models_teacher/student-present-list';
+import { Student } from '../_models/models_teacher/student';
 import { map } from 'rxjs/operators';
+import { UpdateMark } from '../_models/models_teacher/update-mark';
 
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,9 @@ export class TeacherService {
     );
   }
 
-  getStudents(className: string): Observable<StudentPresentList[]> {
+  getStudents(className: string): Observable<Student[]> {
     const path = `students/class=${className}`;
-    return this.http.get<StudentPresentList[]>(this.baseUrl + path);
+    return this.http.get<Student[]>(this.baseUrl + path);
   }
 
   sendPresentList(subject: string, date: string, students: string[]): any {
@@ -63,6 +64,11 @@ export class TeacherService {
   getStudentsMarks(subject: string, className: string): Observable<StudentsMarks[]> {
     const path = `teacher/subject=${subject}/class=${className}/marks`;
     return this.http.get<StudentsMarks[]>(this.baseUrl + path);
+  }
+
+  updateStudentMarks(updateMarksList: UpdateMark[]): any {
+    const path = 'teacher-marks/edit';
+    return this.http.put(this.baseUrl + path, updateMarksList);
   }
 
 }

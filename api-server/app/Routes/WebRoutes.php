@@ -12,4 +12,6 @@ class WebRoutes {
 
     public const STUDENT_ACTIVE = 'student-active/{subject_name}/{date}';
 
+    public const TEACHER_MARKS_EDIT = '/teacher-marks/edit';
+
 }

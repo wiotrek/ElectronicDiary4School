@@ -14,4 +14,6 @@ class ApiCode {
     public const STORE_STUDENT_ACTIVE = 'Student activities inserted successfully';
     public const LOGOUTOK = 'Logout with success';
 
+    public const MARKS_UPDATE_SUCCESS = 'Mark has updated successfully';
+
 }

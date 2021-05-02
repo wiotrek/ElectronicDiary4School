@@ -9,7 +9,7 @@ namespace App\Helpers;
 class KeyColumn {
 
     // Alphabet of characters to finding capital in exploring name model
-    const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    public const upperAlphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
     /**
      * @param $model mixed Relative path to Model name like App/Models/MarksType
@@ -20,7 +20,7 @@ class KeyColumn {
         $modelName = lcfirst(explode( '\\', $model )[2]);
 
         // find index in the model name when character is capital like studentSubject
-        $place = strcspn( $modelName,KeyColumn::upperAlphabet);
+        $place = strcspn( $modelName, self::upperAlphabet);
 
         // Does mean that modelName is one word
         if ($place == strlen($modelName))

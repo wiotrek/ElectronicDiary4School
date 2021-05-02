@@ -42,7 +42,8 @@
 
                 <ng-template #editMode>
                     <app-edit-marks
-                    [getMarks]="s.marks"></app-edit-marks>
+                    [getMarks]="s.marks"
+                    (closeEditMode)="editModeToggle($event)"></app-edit-marks>
                 </ng-template>
             </li>
         </ul>

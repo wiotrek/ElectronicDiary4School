@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StudentsMarks } from 'src/app/_models/models_teacher/students-marks';
+import { UpdateMark } from 'src/app/_models/models_teacher/update-mark';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class MarksListComponent implements OnInit {
   };
   editModeForIndex = -1;
   list: StudentsMarks[] = [];
+  updateMark = {} as UpdateMark;
 
   constructor(
     private teacherService: TeacherService,
@@ -29,6 +31,10 @@ export class MarksListComponent implements OnInit {
 
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
+
+    // params which are needed to possiblity update marks
+    this.updateMark.className = className;
+    this.updateMark.subjectName = subject;
 
     // tslint:disable-next-line: deprecation
     this.teacherService.getStudentsMarks(subject, className).subscribe(

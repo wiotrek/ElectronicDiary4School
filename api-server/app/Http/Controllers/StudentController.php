@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\Data\ApiCode;
+use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\MarksItemViewResultApiModel;
 use App\ApiModels\Marks\MarksListViewResultApiModel;
 use App\ApiModels\StudentResultApiModel;
@@ -11,6 +12,7 @@ use App\Models\StudentActivity;
 use App\Services\ClassService;
 use App\Services\StudentService;
 use App\Services\SubjectService;
+use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\StudentActivityWebModel;
 use Illuminate\Http\Request;
 
@@ -140,5 +142,25 @@ class StudentController extends Controller
 
 
         return ApiResponse::withSuccess( $studentsWithMarks->getStudentMark() );
+    }
+
+    public function editStudentMarks( Request $request ) {
+
+        // Initialize mark list with data
+        $marksListToEdit = new MarkListEdit();
+        $marksListToEdit->setMarkList($request->all());
+
+        // For each item of list
+        foreach ( $marksListToEdit->getMarkList() as $item ) {
+
+            // Initialize single mark of item list
+            $markItem = new MarkItem();
+            $markItem->setMark($item['mark']);
+            $markItem->setStudentMarksId($item['student_marks_id']);
+
+            $this->studentService->modifyStudentMarks($markItem);
+        }
+
+        return ApiResponse::withSuccess(null, ApiCode::MARKS_UPDATE_SUCCESS);
     }
 }

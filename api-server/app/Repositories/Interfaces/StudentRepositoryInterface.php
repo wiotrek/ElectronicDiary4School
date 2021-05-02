@@ -22,4 +22,18 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentMarksBySubject ( string $identifier, string $subjectName );
 
+    /**
+     * @param $studentMarkId int The primary key of the student_marks table
+     * @return mixed The mark id from marks table for this id
+     */
+    public function readStudentMarkByStudentMarkId ( int $studentMarkId );
+
+    /**
+     * @param $primaryKey int
+     * @param $primaryColumnName string
+     * @param $valueToUpdate mixed
+     * @return mixed
+     */
+    public function updateModel ( int $primaryKey, string $primaryColumnName, $valueToUpdate);
+
 }

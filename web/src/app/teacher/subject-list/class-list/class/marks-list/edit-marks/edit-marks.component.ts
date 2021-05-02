@@ -1,27 +1,35 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Marks } from 'src/app/_models/models_teacher/marks';
 import { UpdateMark } from 'src/app/_models/models_teacher/update-mark';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-edit-marks',
   templateUrl: './edit-marks.component.html',
   styleUrls: ['./edit-marks.component.css']
 })
-export class EditMarksComponent implements OnInit {
+export class EditMarksComponent {
   @Input() getMarks: Marks[] = [];
-  @Input() suppliesToupdate = {} as UpdateMark;
 
-  constructor() { }
+  constructor(
+    private teacherService: TeacherService,
+    private toastr: ToastrService) { }
 
-  ngOnInit(): void {}
+  update(): void {
+    const updatedMarks = this.getMarks.reduce((result: UpdateMark[], current: Marks): UpdateMark[] => {
+      result.push({student_marks_id: current.student_marks_id, mark: current.mark.toString()});
+      return result;
+    }, []);
 
-  show(): void {
-    const obj = {
-      mark: this.getMarks,
-      clas: this.suppliesToupdate.className,
-      sub: this.suppliesToupdate.subjectName,
-      id: this.suppliesToupdate.identifier
-    };
-    console.log(obj);
+    this.teacherService.updateStudentMarks(updatedMarks).subscribe(
+      (res: any) => {
+        this.toastr.success('Udało się');
+        console.log(res);
+      },
+      (err: any) => {
+        this.toastr.error('Nie udało sie');
+        console.log(err);
+      });
   }
 }

@@ -1,5 +1,4 @@
 export interface UpdateMark {
-    identifier: string;
-    className: string;
-    subjectName: string;
+    student_marks_id: number;
+    mark: string;
 }

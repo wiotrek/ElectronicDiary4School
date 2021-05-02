@@ -15,6 +15,11 @@ class MarkItem   {
     #region Protected Static Properties
 
     /**
+     * @var int The primary key value
+     */
+    protected static $student_marks_id;
+
+    /**
      * @var int The value
      */
     protected static $mark;
@@ -32,6 +37,20 @@ class MarkItem   {
     #endregion
 
     #region Accessors
+
+    /**
+     * @return int
+     */
+    public static function getStudentMarksId (): int {
+        return self ::$student_marks_id;
+    }
+
+    /**
+     * @param int $student_marks_id
+     */
+    public static function setStudentMarksId ( int $student_marks_id ): void {
+        self ::$student_marks_id = $student_marks_id;
+    }
 
     /**
      * @return int

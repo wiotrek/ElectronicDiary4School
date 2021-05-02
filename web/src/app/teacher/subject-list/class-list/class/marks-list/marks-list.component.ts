@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Marks } from 'src/app/_models/models_teacher/marks';
 import { StudentsMarks } from 'src/app/_models/models_teacher/students-marks';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
@@ -9,9 +10,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   styleUrls: ['./marks-list.component.css']
 })
 export class MarksListComponent implements OnInit {
-  toChild = {
-    title: 'Oceny'
-  };
+  toChild = { title: 'Oceny' };
   editModeForIndex = -1;
   list: StudentsMarks[] = [];
 
@@ -34,12 +33,18 @@ export class MarksListComponent implements OnInit {
     this.teacherService.getStudentsMarks(subject, className).subscribe(
       (res: StudentsMarks[]) => this.list = res,
       (err: any) => console.log(err));
+
   }
 
+  // opening card to edit mark
   editModeToggle(ind: number): void {
     this.editModeForIndex === ind
     ? this.editModeForIndex = -1
     : this.editModeForIndex = ind;
   }
 
+  // only way to copping array
+  sendJsonMarks(marks: Marks[]): string {
+    return JSON.stringify(marks);
+  }
 }

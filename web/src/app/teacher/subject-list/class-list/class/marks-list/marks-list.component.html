@@ -42,8 +42,9 @@
 
                 <ng-template #editMode>
                     <app-edit-marks
-                    [getMarks]="s.marks"
-                    (closeEditMode)="editModeToggle($event)"></app-edit-marks>
+                    [getMarksJson]="sendJsonMarks(s.marks)"
+                    (refreshList)="this.editModeToggle(-1); this.getStudentsMarks()"
+                    ></app-edit-marks>
                 </ng-template>
             </li>
         </ul>

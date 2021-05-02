@@ -14,9 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 export class PresentListComponent implements OnInit {
   form: FormGroup;
   today: Date;
-  toChild = {
-    title: 'Lista obecności'
-  };
+  toChild = { title: 'Lista obecności' };
 
   // list which is getting from api to display
   studentsList: Student[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Marks } from 'src/app/_models/models_teacher/marks';
 import { UpdateMark } from 'src/app/_models/models_teacher/update-mark';
@@ -9,14 +9,18 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   templateUrl: './edit-marks.component.html',
   styleUrls: ['./edit-marks.component.css']
 })
-export class EditMarksComponent {
-  @Input() getMarks: Marks[] = [];
-  // @Output() getMarksUpdate = new EventEmitter<Marks[]>();
-  @Output() closeEditMode = new EventEmitter();
+export class EditMarksComponent implements OnInit{
+  @Input() getMarksJson: any;
+  @Output() refreshList = new EventEmitter();
+  getMarks: Marks[] = [];
 
   constructor(
     private teacherService: TeacherService,
     private toastr: ToastrService) { }
+
+  ngOnInit(): void {
+    this.getMarks = JSON.parse(this.getMarksJson);
+  }
 
   update(): void {
     const updatedMarks = this.getMarks.reduce((result: UpdateMark[], current: Marks): UpdateMark[] => {
@@ -27,12 +31,7 @@ export class EditMarksComponent {
     this.teacherService.updateStudentMarks(updatedMarks).subscribe(
       () => {
         this.toastr.success('Ocena została zmieniona');
-        this.closeEditMode.emit(-1);
-      },
-      () => {
-        this.toastr.error('Nie udało się zaktualizować');
-        this.closeEditMode.emit(-1);
-      },
-      () => console.log('dupa'));
+        this.refreshList.emit(true);
+      }, () => this.toastr.error('Nie udało się zaktualizować'));
   }
 }

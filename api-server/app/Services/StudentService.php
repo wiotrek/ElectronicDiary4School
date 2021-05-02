@@ -4,7 +4,10 @@
 namespace App\Services;
 
 
+use App\ApiModels\Marks\Design\MarkItem;
+use App\Models\Mark;
 use App\Models\StudentActivity;
+use App\Models\StudentMark;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 
 class StudentService {
@@ -39,6 +42,35 @@ class StudentService {
             return array();
 
         return $marks;
+    }
+
+    /**
+     * Checking if any student mark was changing before put to database
+     * @param MarkItem $markItem The mark item of list from client
+     */
+    public function modifyStudentMarks ( MarkItem $markItem) {
+
+        // mark id from database represent by mark value from client
+        $markIdByMarkFromClient = $this->studentRepository->findByColumn( $markItem->getMark(), 'degree', Mark::class )->pluck('marks_id')[0];
+
+        // mark value from database represent by student marks id from client
+        $markFromDb = $this->studentRepository->readStudentMarkByStudentMarkId($markItem->getStudentMarksId())[0];
+
+        // mark id from database represent by mark value from database
+        $markIdFromDb = $this->studentRepository->findByColumn($markFromDb, 'degree', Mark::class)->pluck('marks_id')[0];
+
+        // update if change has detected
+        if ($markIdByMarkFromClient != $markIdFromDb && !is_null($markIdFromDb)){
+
+            // Get row to update
+            $markToUpdate = $this->studentRepository->findByColumn($markItem->getStudentMarksId(), 'student_marks_id', StudentMark::class)->first();
+
+            // change mark id value
+            $markToUpdate->marks_id = $markIdByMarkFromClient;
+
+            $this->studentRepository->updateModel($markItem->getStudentMarksId(), 'student_marks_id', $markToUpdate->marks_id);
+        }
+
     }
 
     #endregion

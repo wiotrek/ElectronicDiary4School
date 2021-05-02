@@ -67,4 +67,18 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $markList;
     }
 
+    public function readStudentMarkByStudentMarkId ( $studentMarkId ) {
+        $markId =  $this->findByColumn($studentMarkId, 'student_marks_id', StudentMark::class)
+            ->pluck('marks_id');
+
+        return $this->findByColumn($markId, 'marks_id', Mark::class)
+            -> pluck('degree');
+    }
+
+    public function updateModel ( $primaryKey, $primaryColumnName, $valueToUpdate) {
+        return StudentMark::query()->
+                            where($primaryColumnName, '=', $primaryKey)->
+                            update(['marks_id' => $valueToUpdate]);
+    }
+
 }

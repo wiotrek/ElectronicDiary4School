@@ -48,17 +48,18 @@ class StudentService {
      * Checking if any student mark was changing before put to database
      * @param MarkItem $markItem The mark item of list from client
      */
-    public function ModifyStudentMarks ( MarkItem $markItem) {
+    public function modifyStudentMarks ( MarkItem $markItem) {
 
-        // mark id represent by mark value from client
+        // mark id from database represent by mark value from client
         $markIdByMarkFromClient = $this->studentRepository->findByColumn( $markItem->getMark(), 'degree', Mark::class )->pluck('marks_id')[0];
 
-        // mark value from client
+        // mark value from database represent by student marks id from client
         $markFromDb = $this->studentRepository->readStudentMarkByStudentMarkId($markItem->getStudentMarksId())[0];
 
-        // mark id represent by mark value from database
+        // mark id from database represent by mark value from database
         $markIdFromDb = $this->studentRepository->findByColumn($markFromDb, 'degree', Mark::class)->pluck('marks_id')[0];
 
+        // update if change has detected
         if ($markIdByMarkFromClient != $markIdFromDb && !is_null($markIdFromDb)){
 
             // Get row to update

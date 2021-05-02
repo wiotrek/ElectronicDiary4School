@@ -75,12 +75,10 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             -> pluck('degree');
     }
 
-//    public function readStudentMarkById ( $primaryKey ) {
-//        return StudentMark::query()->
-//    }
-
     public function updateModel ( $primaryKey, $primaryColumnName, $valueToUpdate) {
-        return StudentMark::query()->where($primaryColumnName, '=', $primaryKey)->update(['marks_id' => $valueToUpdate]);
+        return StudentMark::query()->
+                            where($primaryColumnName, '=', $primaryKey)->
+                            update(['marks_id' => $valueToUpdate]);
     }
 
 }

@@ -3,11 +3,19 @@
 
 namespace App\WebModels\Marks;
 
+
 class MarkEdit {
 
     #region Private Members
 
+    /**
+     * @var int The primary key of the student_marks table
+     */
     private $student_marks_id;
+
+    /**
+     * @var string The mark value
+     */
     private $mark;
 
     #endregion
@@ -15,7 +23,7 @@ class MarkEdit {
     #region Accessors
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getStudentMarksId () {
         return $this -> student_marks_id;
@@ -29,7 +37,7 @@ class MarkEdit {
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMark () {
         return $this -> mark;

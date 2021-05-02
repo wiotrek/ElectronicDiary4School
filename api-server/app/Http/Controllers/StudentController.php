@@ -158,7 +158,7 @@ class StudentController extends Controller
             $markItem->setMark($item['mark']);
             $markItem->setStudentMarksId($item['student_marks_id']);
 
-            $this->studentService->ModifyStudentMarks($markItem);
+            $this->studentService->modifyStudentMarks($markItem);
         }
 
         return ApiResponse::withSuccess(null, ApiCode::MARKS_UPDATE_SUCCESS);

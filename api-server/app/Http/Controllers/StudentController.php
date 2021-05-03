@@ -132,6 +132,7 @@ class StudentController extends Controller
             // Get marks by current student identifier and subject
             $markListItem = $this->studentService->getStudentMarksBySubject($student->getIdentifier(), $subject);
 
+
             // Initialize student with marks
             $studentWithMarks->setStudent($student);
             $studentWithMarks->setMarks($markListItem);

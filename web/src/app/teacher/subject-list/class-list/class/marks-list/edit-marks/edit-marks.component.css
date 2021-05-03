@@ -28,6 +28,7 @@
     .ones-mark__input-mark {
         width: 50px;
         margin-right: 20px;
+        text-align: center;
     }
 
     .ones-mark__topic {

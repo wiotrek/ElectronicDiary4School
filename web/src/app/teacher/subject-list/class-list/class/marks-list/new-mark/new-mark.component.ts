@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Student } from 'src/app/_models/models_teacher/student';
 import { TeacherService } from 'src/app/_services/teacher.service';
@@ -14,6 +15,8 @@ export class NewMarkComponent implements OnInit {
     'Kartkówka', 'Sprawdzian', 'Odpowiedź ustna'
   ];
   list: Student[] = [];
+  @ViewChild('f') form: NgForm | undefined;
+  dupa = {} as dupa;
 
 
   constructor(
@@ -23,6 +26,7 @@ export class NewMarkComponent implements OnInit {
 
   ngOnInit(): void {
     this.getStudents();
+    this.setForm();
   }
 
   getStudents(): void {
@@ -34,4 +38,25 @@ export class NewMarkComponent implements OnInit {
       (err: any) => console.log(err));
   }
 
+  setForm(): void {
+    this.dupa.kindOf = 'Kartkówka';
+  }
+
+  onCheckboxChange(e: any, id: string): void {
+
+  }
+
+  addMarks(): void {
+    console.log(this.form?.value);
+  }
+
+}
+
+export interface dupa {
+  topic: string;
+  kindOf: string;
+  marks: {
+    identifier: string,
+    mark: number
+  };
 }

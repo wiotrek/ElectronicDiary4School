@@ -1,16 +1,17 @@
 <main>
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <form action="" *ngIf="list.length">
+    <form #f="ngForm" *ngIf="list.length" (ngSubmit)="addMarks()"
+    novalidate>
         <div class="general">
 
             <div class="topic">
                 <label class="topic__title" for="topic">Temat pracy</label>
-                <input type="text" name="topic" id="topic" 
+                <input type="text" name="topic" id="topic" [(ngModel)]="dupa.topic"
                 class="topic__input" placeholder="Temat pracy">
             </div>
         
-            <select name="kindOf" id="kindOf" class="typeofAssigment">
+            <select name="kindOf" id="kindOf" class="typeofAssigment" [(ngModel)]="dupa.kindOf">
                 <option *ngFor="let kindOf of typeofAssigment"
                 class="typeofAssigment__option"
                 [value]="kindOf">{{kindOf}}</option>
@@ -30,7 +31,7 @@
                         {{i+1}}. {{student.first_name[0]}}.{{student.last_name}}
                         <span class="students-list_names-span">{{student.identifier}}</span></p>
                     <input class="students-list__input" type="number" value="1"
-                    min="1" max="6" step="1">
+                    min="1" max="6" step="1" (change)="onCheckboxChange($event, student.identifier)">
                 </li>
             </ul>
 

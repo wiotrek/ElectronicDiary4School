@@ -66,8 +66,9 @@
         display: inline-block;
     }
 
-    .add-marks__link {
+    .add-marks__link:hover {
         text-decoration: underline;
+        opacity: .7;
     }
 
     .main-list__title {

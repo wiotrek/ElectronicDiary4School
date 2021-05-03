@@ -1,0 +1,69 @@
+@media (min-width: 0) {
+
+    .general {
+        margin-bottom: 25px;
+    }
+
+    .topic {
+        margin-bottom: 10px;
+    }
+
+    .topic__title {
+        display: none;
+    }
+
+    .topic__input {
+        padding: 10px 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: .9rem;
+        width: 100%;
+        border: 1px solid var(--primary-blue);
+    }
+
+    .typeofAssigment {
+        padding: 9px 0;
+        width: 100%;
+        text-align: center;
+        font-size: .9rem;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        -moz-appearance:none; /* Firefox */
+        -webkit-appearance:none; /* Safari and Chrome */
+        appearance:none;
+    }
+
+    .students-list__student {
+        list-style: none;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        margin: 5px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .students-list__names {
+        display: inline-block;
+        margin: 0;
+    }
+
+    .students-list_names-span {
+        color: var(--primary-blue);
+    }
+
+    .students-list__input {
+        width: 60px;
+        cursor: pointer;
+    }
+
+    .center-button {
+        margin-bottom: 25px;
+    }
+
+    .btn.btn-outline-success {
+        width: 100%;
+    }
+}

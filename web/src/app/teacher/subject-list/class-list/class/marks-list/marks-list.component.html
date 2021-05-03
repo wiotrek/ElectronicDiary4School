@@ -3,7 +3,8 @@
     <app-second-nav [parent]="toChild"></app-second-nav>
 
     <div class="add-marks">
-        <a class="add-marks__link">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
+        <a class="add-marks__link"
+        routerLink="nowa-ocena">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
     </div>
 
     <div class="main-list">
@@ -16,8 +17,8 @@
                     <p class="student-list__student-name-p">
                         {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
                         <em class="student-list__student-index">
-                          <i class="bi bi-file-earmark-person"></i>
-                          {{s.student.identifier}}</em>
+                          <i class="bi bi-file-earmark-person">
+                            </i> {{s.student.identifier}}</em>
                       </p>
                     <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"

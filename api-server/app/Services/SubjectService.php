@@ -41,11 +41,6 @@ class SubjectService {
             ->pluck('subject_id');
     }
 
-
-    public function getAllSubjects (  ) {
-        return $this->subjectRepository->readAll();
-    }
-
     #endregion
 
 }

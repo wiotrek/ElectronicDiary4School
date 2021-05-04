@@ -12,7 +12,10 @@ use App\Models\StudentActivity;
 use App\Services\ClassService;
 use App\Services\StudentService;
 use App\Services\SubjectService;
+use App\WebModels\Marks\MarkInsert;
 use App\WebModels\Marks\MarkListEdit;
+use App\WebModels\Marks\MarkListInsert;
+use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentActivityWebModel;
 use Illuminate\Http\Request;
 
@@ -162,5 +165,43 @@ class StudentController extends Controller
         }
 
         return ApiResponse::withSuccess(null, ApiCode::MARKS_UPDATE_SUCCESS);
+    }
+
+    public function insertStudentMark(Request $request) {
+
+        #region Web Models Declare
+
+        $markRevision = new MarkRevision;
+        $markListInsert = new MarkListInsert;
+
+        #endregion
+
+        #region Web Models Initialize
+
+        $markRevision->setSubject($request['name']);
+        $markRevision->setDate($request['date']);
+        $markRevision->setTopic($request['revision']['topic']);
+        $markRevision->setKindOf($request['revision']['kindOf']);
+
+        $markListInsert->setMarkRevision($markRevision);
+
+        #endregion
+
+        // Get all marks from request ...
+        $marks = $request->all()['marks'];
+
+        // ... for iterate through each
+        foreach ( $marks as $mark ) {
+            $markInsert = new MarkInsert;
+            $markInsert->setIdentifier($mark['identifier']);
+            $markInsert->setMark($mark['mark']);
+
+            // Append current mark to list of marks
+            $markListInsert->setMarks($markInsert);
+        }
+
+        $this->studentService->storeStudentMarks($markListInsert);
+
+        return ApiResponse::withSuccess(null, ApiCode::MARKS_INSERT_SUCCESS);
     }
 }

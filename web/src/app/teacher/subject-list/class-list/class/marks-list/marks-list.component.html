@@ -18,8 +18,8 @@
                         {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
                         <em class="student-list__student-index">
                           <i class="bi bi-file-earmark-person">
-                            </i> {{s.student.identifier}}</em>
-                      </p>
+                            </i> {{s.student.identifier}}</em></p>
+                    
                     <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">

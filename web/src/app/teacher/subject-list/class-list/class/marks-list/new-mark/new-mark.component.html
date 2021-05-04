@@ -1,45 +1,52 @@
 <main>
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <form #f="ngForm" *ngIf="list.length" (ngSubmit)="addMarks()"
-    novalidate>
+    <div class="show" *ngIf="list.length">
         <div class="general">
-
-            <div class="topic">
-                <label class="topic__title" for="topic">Temat pracy</label>
-                <input type="text" name="topic" id="topic" [(ngModel)]="dupa.topic"
-                class="topic__input" placeholder="Temat pracy">
-            </div>
-        
-            <select name="kindOf" id="kindOf" class="typeofAssigment" [(ngModel)]="dupa.kindOf">
-                <option *ngFor="let kindOf of typeofAssigment"
-                class="typeofAssigment__option"
-                [value]="kindOf">{{kindOf}}</option>
-            </select>
+            <form #f="ngForm" class="general__form" validated>
     
+                <div class="topic">
+                    <input type="text" name="topic" id="topic" [(ngModel)]="revision.topic" #topic
+                    [ngStyle]="{'border': f.invalid && (f.dirty || f.touched) ? '1px solid red' : ''}"
+                    class="topic__input" placeholder="Temat pracy" required>
+
+                </div>
+            
+                <select name="kindOf" id="kindOf" class="type-assigment" [(ngModel)]="revision.kindOf">
+                    <option *ngFor="let kindOf of typeofAssigment"
+                    class="type-assigment__option"
+                    [value]="kindOf">{{kindOf}}</option>
+                </select>
+    
+            </form>
         </div>
-
-
+    
+    
         <div class="main-list">
-
             <p class="main-list__title">Uczeń/Uczennica</p>
-
+    
             <ul class="students-list">
                 <li class="students-list__student"
                 *ngFor="let student of list; index as i">
-                    <p class="students-list__names">
-                        {{i+1}}. {{student.first_name[0]}}.{{student.last_name}}
-                        <span class="students-list_names-span">{{student.identifier}}</span></p>
-                    <input class="students-list__input" type="number" value="1"
-                    min="1" max="6" step="1" (change)="onCheckboxChange($event, student.identifier)">
+                    <p class="students-list__names--mobile"
+                    >{{i+1}}. {{student.student.first_name[0]}}.{{student.student.last_name}}
+                    <span class="students-list_names-span">{{student.student.identifier}}</span></p>
+                    
+                    <p class="students-list__names--pc"
+                    >{{i+1}}. {{student.student.first_name}} {{student.student.last_name}}
+                    <span class="students-list_names-span"><i class="bi bi-file-earmark-person"></i>
+                        {{student.student.identifier}}</span></p>
+                    
+                    <input class="students-list__input" type="number" [value]="student.mark"
+                    min="1" max="6" step="1" [(ngModel)]="student.mark">
                 </li>
             </ul>
-
+    
         </div>
-
+    
         <div class="center-button">
-            <input type="submit" class="btn btn-outline-success" value="Zapisz">
+            <input type="submit" class="btn btn-outline-success" value="Zapisz"
+            form="f" (click)="addMarks(topic)">
         </div>
-
-    </form>
+    </div>
 </main>

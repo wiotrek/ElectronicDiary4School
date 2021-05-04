@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
-import { StudentsMarks } from '../_models/models_teacher/students-marks';
+import { StudentsMarks } from '../_models/_teacher/marks/students-marks';
 import { ListToCard } from '../_models/list-to-card';
-import { Student } from '../_models/models_teacher/student';
+import { Student } from '../_models/_teacher/student';
 import { map } from 'rxjs/operators';
-import { UpdateMark } from '../_models/models_teacher/update-mark';
+import { UpdateMark } from '../_models/_teacher/marks/update-mark';
 
 @Injectable({
   providedIn: 'root'

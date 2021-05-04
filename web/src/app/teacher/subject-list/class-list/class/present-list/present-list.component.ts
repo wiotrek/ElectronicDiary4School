@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Student } from 'src/app/_models/models_teacher/student';
+import { Student } from 'src/app/_models/_teacher/student';
 import { formatDate } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
 import { ToastrService } from 'ngx-toastr';

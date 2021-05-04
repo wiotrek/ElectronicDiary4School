@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Marks } from 'src/app/_models/models_teacher/marks';
-import { UpdateMark } from 'src/app/_models/models_teacher/update-mark';
+import { Marks } from 'src/app/_models/_teacher/marks/marks';
+import { UpdateMark } from 'src/app/_models/_teacher/marks/update-mark';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({

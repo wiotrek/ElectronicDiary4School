@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { StudentPresentList } from 'src/app/_models/models_teacher/student-present-list';
+import { Student } from 'src/app/_models/_teacher/student';
 import { formatDate } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
 import { ToastrService } from 'ngx-toastr';
@@ -14,12 +14,10 @@ import { ToastrService } from 'ngx-toastr';
 export class PresentListComponent implements OnInit {
   form: FormGroup;
   today: Date;
-  toChild = {
-    title: 'Lista obecności'
-  };
+  toChild = { title: 'Lista obecności' };
 
   // list which is getting from api to display
-  studentsList: StudentPresentList[] = [];
+  studentsList: Student[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -38,11 +36,9 @@ export class PresentListComponent implements OnInit {
   }
 
   getStudentsList(): void {
-    const getClassName = this.route.snapshot.paramMap.get('class') || '';
-
     // tslint:disable-next-line: deprecation
-    this.teacherService.getStudents(getClassName).subscribe(
-      (res: StudentPresentList[]) => this.studentsList = res,
+    this.teacherService.getStudents(this.route.snapshot.paramMap.get('class') || '').subscribe(
+      (res: Student[]) => this.studentsList = res,
       (err: any) => console.log(err));
   }
 
@@ -58,6 +54,7 @@ export class PresentListComponent implements OnInit {
   }
 
   saveList(): void {
+
     // prevent default type - date
     const correctDate = typeof this.today === 'string'
     ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');

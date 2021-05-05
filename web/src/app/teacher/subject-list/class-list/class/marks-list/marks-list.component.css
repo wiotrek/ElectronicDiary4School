@@ -36,8 +36,11 @@
     }
 
     .student-list__student-name-a {
-        text-decoration: underline;
         cursor: pointer;
+    }
+
+    .student-list__student-name-a:hover {
+        text-decoration: underline;
     }
 
     .student-list__list-marks {
@@ -63,8 +66,9 @@
         display: inline-block;
     }
 
-    .add-marks__link {
+    .add-marks__link:hover {
         text-decoration: underline;
+        opacity: .7;
     }
 
     .main-list__title {

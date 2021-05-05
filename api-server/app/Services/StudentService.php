@@ -12,7 +12,6 @@ use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
-use Illuminate\Database\Eloquent\Model;
 
 class StudentService {
 
@@ -61,13 +60,14 @@ class StudentService {
     public function modifyStudentMarks ( MarkItem $markItem) {
 
         // mark id from database represent by mark value from client
-        $markIdByMarkFromClient = $this->markRepository->readMarkIdByDegree($markItem->getMark());
+        $markIdByMarkFromClient = $this->studentRepository->findByColumn( $markItem->getMark(), 'degree', Mark::class )->pluck('marks_id')[0];
 
         // mark value from database represent by student marks id from client
         $markFromDb = $this->studentRepository->readStudentMarkByStudentMarkId($markItem->getStudentMarksId())[0];
 
         // mark id from database represent by mark value from database
         $markIdFromDb = $this->markRepository->readMarkIdByDegree($markFromDb);
+
 
         // update if change has detected
         if ($markIdByMarkFromClient != $markIdFromDb && !is_null($markIdFromDb)){
@@ -116,7 +116,6 @@ class StudentService {
         }
 
     }
-
     #endregion
 
 }

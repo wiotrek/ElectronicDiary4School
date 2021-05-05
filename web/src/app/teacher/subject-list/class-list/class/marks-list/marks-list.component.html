@@ -3,7 +3,8 @@
     <app-second-nav [parent]="toChild"></app-second-nav>
 
     <div class="add-marks">
-        <a class="add-marks__link">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
+        <a class="add-marks__link"
+        routerLink="nowa-ocena">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
     </div>
 
     <div class="main-list">
@@ -16,13 +17,17 @@
                     <p class="student-list__student-name-p">
                         {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
                         <em class="student-list__student-index">
-                          <i class="bi bi-file-earmark-person"></i>
-                          {{s.student.identifier}}</em>
-                      </p>
-                    <a class="student-list__student-name-a"
+                          <i class="bi bi-file-earmark-person">
+                            </i> {{s.student.identifier}}</em></p>
+                    
+                    <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">
                     {{editModeForIndex === i ? 'Cofnij' : 'Edytuj'}}</a>
+
+                    <ng-template #lackMarks>
+                        <span>Nie posiada ocen <i class="bi bi-emoji-frown"></i></span>
+                    </ng-template>
                 </div>
 
                 <ng-container
@@ -30,14 +35,17 @@
                 </ng-container>
 
                 <ng-template #showCurrentMarks>
-                    <p class="student-list__list-marks">
+                    <p class="student-list__list-marks" *ngIf="s.marks.length">
                         <span *ngFor="let one of s.marks"
                         class="student-list__mark">{{one.mark}}</span>
                     </p>
                 </ng-template>
 
                 <ng-template #editMode>
-                    <app-edit-marks></app-edit-marks>
+                    <app-edit-marks
+                    [getMarksJson]="sendJsonMarks(s.marks)"
+                    (refreshList)="this.editModeToggle(-1); this.getStudentsMarks()"
+                    ></app-edit-marks>
                 </ng-template>
             </li>
         </ul>

@@ -1,0 +1,161 @@
+@media (min-width: 0) {
+
+    .general {
+        margin-bottom: 25px;
+    }
+
+    .topic {
+        margin-bottom: 7px;
+    }
+
+    .topic__input {
+        padding: 10px 0;
+        text-align: center;
+        font-weight: 500;
+        font-size: .9rem;
+        width: 100%;
+        border: 1px solid var(--primary-blue);
+    }
+
+    .type-assigment {
+        padding: 9px 0;
+        width: 100%;
+        text-align: center;
+        font-size: .9rem;
+        cursor: pointer;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        -moz-appearance:none; /* Firefox */
+        -webkit-appearance:none; /* Safari and Chrome */
+        appearance:none;
+    }
+
+    .students-list__student {
+        list-style: none;
+        background-color: white;
+        border: 1px solid var(--primary-blue);
+        margin: 5px 0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .students-list__names--mobile, .students-list__names--pc{
+        margin-bottom: 0;
+    }
+
+    .students-list__names--mobile {
+        display: inline-block;
+    }
+
+    .students-list__names--pc {
+        display: none;
+    }
+
+    .students-list_names-span {
+        margin-left: 10px;
+        color: var(--primary-blue);
+    }
+
+    .students-list__input {
+        width: 60px;
+        cursor: pointer;
+    }
+
+    .center-button {
+        margin-bottom: 25px;
+    }
+
+    .btn.btn-outline-success {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .general {
+        padding: 20px 0;
+        margin: 0 0 10px 0;
+    }
+
+    .general__form {
+        display: flex;
+        justify-content: center;
+    }
+
+    .topic {
+        margin-bottom: 0;
+        display: inline-block;
+    }
+
+    .topic__input {
+        padding: 5px 0;
+        font-size: 1.2rem;
+        width: 500px;
+        border: 0;
+        border-bottom: 1px solid var(--line-grey);
+    }
+
+    .type-assigment {
+        margin-left: 10px;
+        padding: 5px 0;
+        width: 200px;
+        font-size: 1.2rem;
+        border: 0;
+        border-bottom: 1px solid var(--line-grey);
+    }
+
+    .type-assigment:hover {
+        opacity: .7;
+    }
+
+    .main-list__title {
+        font-size: 1.2rem;
+    }
+
+    .students-list__student {
+        overflow: hidden;
+        position: relative;
+        transition: background-color .3s ease-in-out;
+        z-index: 1;
+        border: 1px solid var(--line-grey);
+    }
+
+    .students-list__student::after {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        background-color: var(--line-grey);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: 100%;
+        transition: .3s ease-out;
+    }
+
+    .students-list__student:hover::after {
+        transform: translateX(100%);
+    }
+
+    .students-list__names--mobile, .students-list__names--pc{
+        font-size: 1.1rem;
+    }
+    
+    .students-list__names--mobile {
+        display: none;
+    }
+
+    .students-list__names--pc {
+        display: inline-block;
+    }
+
+    .center-button {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn.btn-outline-success {
+        width: 200px;
+    }
+}

@@ -36,10 +36,8 @@ export class PresentListComponent implements OnInit {
   }
 
   getStudentsList(): void {
-    const getClassName = this.route.snapshot.paramMap.get('class') || '';
-
     // tslint:disable-next-line: deprecation
-    this.teacherService.getStudents(getClassName).subscribe(
+    this.teacherService.getStudents(this.route.snapshot.paramMap.get('class') || '').subscribe(
       (res: Student[]) => this.studentsList = res,
       (err: any) => console.log(err));
   }

@@ -1,3 +1,4 @@
+import { formatDate, Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -19,11 +20,12 @@ export class NewMarkComponent implements OnInit {
   list: StudentWithDefaultMark[] = [];
   revision = {} as Revision;
   typeofAssigment = [
-    'Kartkówka', 'Sprawdzian', 'Odpowiedź ustna'
+    'Sprawdzian', 'Kartkówka', 'Odpowiedź', 'Praca domowa'
   ];
 
   constructor(
     private route: ActivatedRoute,
+    private location: Location,
     private toastr: ToastrService,
     private teacherService: TeacherService
   ) { }
@@ -48,14 +50,24 @@ export class NewMarkComponent implements OnInit {
       }, (err: any) => console.log(err));
   }
 
+  // my own validation control,
+  // this way is simillar than using formbuilder - trust me
   checkValue($event: any): void {
+
+    // checking in array [1, 2..6]
     const isExist = [...Array(7).keys()].slice(1)
       .find(x => x === Number($event.target.value));
 
-    if (!isExist) { this.toastr.warning('Nie ma takiej oceny'); }
+    // if given mark is beyond range then setting mark = 1
+    if (!isExist) {
+      $event.target.value = 1;
+      this.toastr.warning('Nie ma takiej oceny');
+    }
   }
 
-  addMarks(el: HTMLElement): void {
+  save(el: HTMLElement): void {
+
+    // if topic have not been found then func return and scrool up
     if (this.form?.value?.topic === undefined
       || this.form?.value?.topic === '') {
       this.toastr.warning('Wprowadź temat');
@@ -63,14 +75,25 @@ export class NewMarkComponent implements OnInit {
       return;
     }
 
-    const objToSend: AddNewMarks = {
+    const getDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-Us');
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
+
+    // creating unecessery object to send on backend
+    const addNewMarks: AddNewMarks = {
       revision: this.form?.value as Revision,
       marks: this.list.reduce((total: any, current: StudentWithDefaultMark): any => {
         total.push({ identifier: current.student.identifier, mark: current.mark });
-        return total; }, [])
-    };
+        return total; }, []) };
 
-    console.log(objToSend);
+    this.teacherService.sendNewMark(subject, getDate, addNewMarks).subscribe(
+      () => {
+        console.log('udało się');
+        this.toastr.success('Ocena została dodana');
+        this.location.back();
+      }, (err: any) => {
+        console.log(err);
+        this.toastr.error('Niestety, nie udało się dodać oceny'); });
   }
 
 }

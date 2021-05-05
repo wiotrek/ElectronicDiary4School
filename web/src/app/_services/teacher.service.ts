@@ -7,6 +7,7 @@ import { ListToCard } from '../_models/list-to-card';
 import { Student } from '../_models/_teacher/student';
 import { map } from 'rxjs/operators';
 import { UpdateMark } from '../_models/_teacher/marks/update-mark';
+import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
 
 @Injectable({
   providedIn: 'root'
@@ -71,4 +72,8 @@ export class TeacherService {
     return this.http.put(this.baseUrl + path, updateMarksList);
   }
 
+  sendNewMark(subject: string, date: string, addNewMarks: AddNewMarks): any {
+    const path = `teacher-marks/insert/subject=${subject}/date=${date}`;
+    return this.http.post(this.baseUrl + path, addNewMarks);
+  }
 }

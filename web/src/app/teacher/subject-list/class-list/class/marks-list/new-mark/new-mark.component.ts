@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AddNewMarks } from 'src/app/_models/_teacher/marks/new-mark/add-new-marks';
 import { Revision } from 'src/app/_models/_teacher/marks/new-mark/revision';
 import { StudentWithDefaultMark } from 'src/app/_models/_teacher/marks/new-mark/student-with-default-mark';
-import { Student } from 'src/app/_models/_teacher/student';
+import { StudentsMarks } from 'src/app/_models/_teacher/marks/students-marks';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
@@ -19,6 +19,7 @@ export class NewMarkComponent implements OnInit {
   toChild = { title: 'Nowa ocena' };
   list: StudentWithDefaultMark[] = [];
   revision = {} as Revision;
+  subjectName: string;
   typeofAssigment = [
     'Sprawdzian', 'Kartkówka', 'Odpowiedź', 'Praca domowa'
   ];
@@ -28,7 +29,10 @@ export class NewMarkComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private teacherService: TeacherService
-  ) { }
+  ) {
+    this.subjectName = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
+  }
 
   ngOnInit(): void {
     this.revision.kindOf = 'Kartkówka';
@@ -37,15 +41,15 @@ export class NewMarkComponent implements OnInit {
 
   getStudents(): void {
 
-    // getting student list and added default mark = 1,
+    // getting studentMarks list and added default mark = 1,
     // which then teacher can change
     this.teacherService
-    // tslint:disable-next-line: deprecation
-    .getStudents(this.route.snapshot.paramMap.get('class') || '').subscribe(
-      (res: Student[]) => {
-        this.list = res.reduce((result: StudentWithDefaultMark[], current: Student)
+    .getStudentsMarks(this.subjectName,
+      this.route.snapshot.paramMap.get('class') || '').subscribe(
+      (res: StudentsMarks[]) => {
+        this.list = res.reduce((result: StudentWithDefaultMark[], current: StudentsMarks)
         : StudentWithDefaultMark[] => {
-          result.push({ student: current, mark: 1 });
+          result.push({ student: current.student, mark: 1 });
           return result; }, []);
       }, (err: any) => console.log(err));
   }
@@ -75,10 +79,6 @@ export class NewMarkComponent implements OnInit {
       return;
     }
 
-    const getDate = formatDate(new Date(), 'yyyy-MM-dd', 'en-Us');
-    const subject = this.teacherService.delDashesAndUpperFirstLetter(
-      this.route.snapshot.paramMap.get('subject') || '');
-
     // creating unecessery object to send on backend
     const addNewMarks: AddNewMarks = {
       revision: this.form?.value as Revision,
@@ -86,7 +86,8 @@ export class NewMarkComponent implements OnInit {
         total.push({ identifier: current.student.identifier, mark: current.mark });
         return total; }, []) };
 
-    this.teacherService.sendNewMark(subject, getDate, addNewMarks).subscribe(
+    this.teacherService.sendNewMark(this.subjectName,
+      formatDate(new Date(), 'yyyy-MM-dd', 'en-Us'), addNewMarks).subscribe(
       () => {
         console.log('udało się');
         this.toastr.success('Ocena została dodana');

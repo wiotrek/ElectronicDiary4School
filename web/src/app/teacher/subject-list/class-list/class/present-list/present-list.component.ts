@@ -5,6 +5,7 @@ import { Student } from 'src/app/_models/_teacher/student';
 import { formatDate } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
 import { ToastrService } from 'ngx-toastr';
+import { StudentsMarks } from 'src/app/_models/_teacher/marks/students-marks';
 
 @Component({
   selector: 'app-present-list',
@@ -35,11 +36,19 @@ export class PresentListComponent implements OnInit {
     this.getStudentsList();
   }
 
+  // getting students list from this same list like marks list
+  // further change list on list without marks
   getStudentsList(): void {
-    // tslint:disable-next-line: deprecation
-    this.teacherService.getStudents(this.route.snapshot.paramMap.get('class') || '').subscribe(
-      (res: Student[]) => this.studentsList = res,
-      (err: any) => console.log(err));
+    this.teacherService.getStudentsMarks(
+      this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || ''),
+      this.route.snapshot.paramMap.get('class') || '').subscribe(
+      (res: StudentsMarks[]) => {
+        this.studentsList = res.reduce((total: Student[], current: StudentsMarks)
+        : Student[] => {
+          total.push(current.student);
+          return total; }, []);
+      }, (err: any) => console.log(err));
   }
 
   // getting array students and in sequence adding values users

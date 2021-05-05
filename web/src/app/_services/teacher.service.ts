@@ -6,7 +6,7 @@ import { StudentsMarks } from '../_models/_teacher/marks/students-marks';
 import { ListToCard } from '../_models/list-to-card';
 import { Student } from '../_models/_teacher/student';
 import { map } from 'rxjs/operators';
-import { UpdateMark } from '../_models/_teacher/marks/update-mark';
+import { UpdateMark } from '../_models/_teacher/marks/update-marks/update-mark';
 import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class TeacherService {
   baseUrl = environment.apiUrl;
   listOfSubject: ListToCard[] = [];
   listOfClassCache = new Map();
+  listOfStudentsCache = new Map();
 
   constructor(private http: HttpClient) { }
 
@@ -52,6 +53,7 @@ export class TeacherService {
     );
   }
 
+  // this request will be deleted
   getStudents(className: string): Observable<Student[]> {
     const path = `students/class=${className}`;
     return this.http.get<Student[]>(this.baseUrl + path);

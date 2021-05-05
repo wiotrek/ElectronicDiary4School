@@ -48,6 +48,13 @@ export class NewMarkComponent implements OnInit {
       }, (err: any) => console.log(err));
   }
 
+  checkValue($event: any): void {
+    const isExist = [...Array(7).keys()].slice(1)
+      .find(x => x === Number($event.target.value));
+
+    if (!isExist) { this.toastr.warning('Nie ma takiej oceny'); }
+  }
+
   addMarks(el: HTMLElement): void {
     if (this.form?.value?.topic === undefined
       || this.form?.value?.topic === '') {

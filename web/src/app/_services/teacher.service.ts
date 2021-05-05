@@ -64,9 +64,23 @@ export class TeacherService {
     return this.http.post(this.baseUrl + path, students);
   }
 
-  getStudentsMarks(subject: string, className: string): Observable<StudentsMarks[]> {
+  getStudentsMarks(subject: string, className: string, update = false)
+  : Observable<StudentsMarks[]> {
+
+    const keyInMap = `${subject} ${className}`;
+
+    if (!update) {
+      const response = this.listOfClassCache.get(Object.values(keyInMap).join('-'));
+      if (response) { return of (response); }
+    }
+
     const path = `teacher/subject=${subject}/class=${className}/marks`;
-    return this.http.get<StudentsMarks[]>(this.baseUrl + path);
+    return this.http.get<StudentsMarks[]>(this.baseUrl + path).pipe(
+      map(studentsMarks => {
+        this.listOfClassCache.set(Object.values(keyInMap).join('-'), studentsMarks);
+        return studentsMarks;
+      })
+    );
   }
 
   updateStudentMarks(updateMarksList: UpdateMark[]): any {

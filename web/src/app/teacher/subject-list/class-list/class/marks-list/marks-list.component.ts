@@ -23,14 +23,14 @@ export class MarksListComponent implements OnInit {
     this.getStudentsMarks();
   }
 
-  getStudentsMarks(): void {
+  getStudentsMarks(update = false): void {
     const className = this.route.snapshot.paramMap.get('class') || '';
 
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
 
     // tslint:disable-next-line: deprecation
-    this.teacherService.getStudentsMarks(subject, className).subscribe(
+    this.teacherService.getStudentsMarks(subject, className, update).subscribe(
       (res: StudentsMarks[]) => this.list = res,
       (err: any) => console.log(err));
 

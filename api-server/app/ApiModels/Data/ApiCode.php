@@ -15,5 +15,6 @@ class ApiCode {
     public const LOGOUTOK = 'Logout with success';
 
     public const MARKS_UPDATE_SUCCESS = 'Mark has updated successfully';
+    public const MARKS_INSERT_SUCCESS = 'Mark has inserted successfully';
 
 }

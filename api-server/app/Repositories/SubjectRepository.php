@@ -49,14 +49,11 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
         return null;
     }
 
-    // TODO For test - delete later
-    public function readAll () {
-
-//        return $this->findById(80, SubjectClass::class);
-        return $this->all(SubjectClass::class);
+    public function readSubjectIdByName ( $subjectName ) {
+        return $this->findByColumn($subjectName, 'name', Subject::class)
+            ->pluck('subject_id');
     }
 
     #endregion
-
 
 }

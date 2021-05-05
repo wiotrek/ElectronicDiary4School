@@ -19,6 +19,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SecondNavComponent } from './universal/second-nav/second-nav.component';
 import { EditMarksComponent } from './teacher/subject-list/class-list/class/marks-list/edit-marks/edit-marks.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-list/new-mark/new-mark.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     NotFoundComponent,
     MarksListComponent,
     SecondNavComponent,
-    EditMarksComponent
+    EditMarksComponent,
+    NewMarkComponent
   ],
   imports: [
     BrowserModule,

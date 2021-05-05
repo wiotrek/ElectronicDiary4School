@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Marks } from 'src/app/_models/models_teacher/marks';
-import { StudentsMarks } from 'src/app/_models/models_teacher/students-marks';
+import { Marks } from 'src/app/_models/_teacher/marks/marks';
+import { StudentsMarks } from 'src/app/_models/_teacher/marks/students-marks';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({

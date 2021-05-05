@@ -1,5 +1,5 @@
 import { Marks } from './marks';
-import { Student } from './student';
+import { Student } from '../student';
 
 export interface StudentsMarks {
     student: Student;

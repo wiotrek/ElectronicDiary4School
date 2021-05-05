@@ -6,7 +6,7 @@ import { StudentsMarks } from '../_models/_teacher/marks/students-marks';
 import { ListToCard } from '../_models/list-to-card';
 import { Student } from '../_models/_teacher/student';
 import { map } from 'rxjs/operators';
-import { UpdateMark } from '../_models/_teacher/marks/update-mark';
+import { UpdateMark } from '../_models/_teacher/marks/update-marks/update-mark';
 import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
 
 @Injectable({
@@ -16,6 +16,7 @@ export class TeacherService {
   baseUrl = environment.apiUrl;
   listOfSubject: ListToCard[] = [];
   listOfClassCache = new Map();
+  listOfStudentsCache = new Map();
 
   constructor(private http: HttpClient) { }
 
@@ -52,6 +53,7 @@ export class TeacherService {
     );
   }
 
+  // this request will be deleted
   getStudents(className: string): Observable<Student[]> {
     const path = `students/class=${className}`;
     return this.http.get<Student[]>(this.baseUrl + path);
@@ -62,9 +64,23 @@ export class TeacherService {
     return this.http.post(this.baseUrl + path, students);
   }
 
-  getStudentsMarks(subject: string, className: string): Observable<StudentsMarks[]> {
+  getStudentsMarks(subject: string, className: string, update = false)
+  : Observable<StudentsMarks[]> {
+
+    const keyInMap = `${subject} ${className}`;
+
+    if (!update) {
+      const response = this.listOfClassCache.get(Object.values(keyInMap).join('-'));
+      if (response) { return of (response); }
+    }
+
     const path = `teacher/subject=${subject}/class=${className}/marks`;
-    return this.http.get<StudentsMarks[]>(this.baseUrl + path);
+    return this.http.get<StudentsMarks[]>(this.baseUrl + path).pipe(
+      map(studentsMarks => {
+        this.listOfClassCache.set(Object.values(keyInMap).join('-'), studentsMarks);
+        return studentsMarks;
+      })
+    );
   }
 
   updateStudentMarks(updateMarksList: UpdateMark[]): any {

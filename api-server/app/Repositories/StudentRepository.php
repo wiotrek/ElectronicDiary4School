@@ -21,8 +21,11 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         $activity -> save();
     }
 
-    public function readStudentIdByIdentifier($identifier) {
+    public function storeStudentMark ( StudentMark $studentMarkEloquent ) {
+        $studentMarkEloquent -> save();
+    }
 
+    public function readStudentIdByIdentifier($identifier) {
 
         $user_id = $this->findByColumn($identifier, 'identifier', User::class)
         ->pluck(KeyColumn::fromModel(User::class));

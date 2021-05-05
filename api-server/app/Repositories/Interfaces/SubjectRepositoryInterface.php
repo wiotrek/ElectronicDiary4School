@@ -9,6 +9,6 @@ interface SubjectRepositoryInterface extends BaseRepositoryInterface {
 
     public function readTeacherSubject ();
 
-    public function readAll();
+    public function readSubjectIdByName ( $subjectName );
 
 }

@@ -5,6 +5,7 @@ namespace App\Repositories\Interfaces;
 
 
 use App\Models\StudentActivity;
+use App\Models\StudentMark;
 use App\Repositories\Base\BaseRepositoryInterface;
 
 interface StudentRepositoryInterface extends BaseRepositoryInterface {
@@ -14,6 +15,18 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed
      */
     public function saveStudentActivity ( StudentActivity $activity );
+
+    /**
+     * @param StudentMark $studentMarkEloquent Model with data to store
+     * @return mixed
+     */
+    public function storeStudentMark ( StudentMark $studentMarkEloquent );
+
+    /**
+     * @param $identifier string User identifier
+     * @return int student_id from student table
+     */
+    public function readStudentIdByIdentifier( string $identifier );
 
     /**
      * @param $identifier string The student identifier

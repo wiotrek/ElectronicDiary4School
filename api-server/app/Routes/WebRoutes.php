@@ -14,4 +14,6 @@ class WebRoutes {
 
     public const TEACHER_MARKS_EDIT = '/teacher-marks/edit';
 
+    public const TEACHER_MARKS_INSERT = '/teacher-marks/insert/subject={name}/date={date}';
+
 }

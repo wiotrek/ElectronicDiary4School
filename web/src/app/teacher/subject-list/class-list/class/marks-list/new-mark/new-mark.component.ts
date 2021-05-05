@@ -1,7 +1,7 @@
 import { formatDate, Location } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AddNewMarks } from 'src/app/_models/_teacher/marks/new-mark/add-new-marks';
 import { Revision } from 'src/app/_models/_teacher/marks/new-mark/revision';
@@ -25,7 +25,7 @@ export class NewMarkComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private location: Location,
+    private router: Router,
     private toastr: ToastrService,
     private teacherService: TeacherService
   ) { }
@@ -90,7 +90,12 @@ export class NewMarkComponent implements OnInit {
       () => {
         console.log('udało się');
         this.toastr.success('Ocena została dodana');
-        this.location.back();
+
+        // result path is 'oceny?dodano=tak'
+        // and now in marks-list we can update studentslist
+        this.router.navigate(['../'], {
+          queryParams: { dodano: 'tak' },
+          relativeTo: this.route });
       }, (err: any) => {
         console.log(err);
         this.toastr.error('Niestety, nie udało się dodać oceny'); });

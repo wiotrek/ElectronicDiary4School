@@ -16,24 +16,29 @@ export class MarksListComponent implements OnInit {
 
   constructor(
     private teacherService: TeacherService,
-    private route: ActivatedRoute
-    ) { }
+    private route: ActivatedRoute ) { }
 
   ngOnInit(): void {
     this.getStudentsMarks();
   }
 
   getStudentsMarks(update = false): void {
-    const className = this.route.snapshot.paramMap.get('class') || '';
 
-    const subject = this.teacherService.delDashesAndUpperFirstLetter(
-      this.route.snapshot.paramMap.get('subject') || '');
+    // if teacher added new marks then studentslist will be refresh
+    if (!update) {
+      update = this.route.snapshot.queryParamMap.get('dodano') === 'tak'
+      ? true : false;
+    }
 
-    // tslint:disable-next-line: deprecation
-    this.teacherService.getStudentsMarks(subject, className, update).subscribe(
-      (res: StudentsMarks[]) => this.list = res,
-      (err: any) => console.log(err));
-
+    // params subject and class must be validation to string
+    // param update is optionaly
+    this.teacherService.getStudentsMarks(
+      this.teacherService.delDashesAndUpperFirstLetter(
+        this.route.snapshot.paramMap.get('subject') || ''),
+        this.route.snapshot.paramMap.get('class') || '', update)
+        .subscribe(
+          (res: StudentsMarks[]) => this.list = res,
+          (err: any) => console.log(err));
   }
 
   // opening card to edit mark

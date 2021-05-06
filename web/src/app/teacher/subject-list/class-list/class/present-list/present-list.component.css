@@ -1,5 +1,10 @@
 @media (min-width: 0) {
 
+    label {
+        margin: 0;
+        padding: 0;
+    }
+
     .set-date {
         padding: 10px 0;
     }
@@ -34,9 +39,12 @@
         margin-top: 5px;
     }
 
-    .student-list__main-list-label {
-        margin: 0;
-        padding: 0;
+    .student-list__main-list-label--mobile {
+        display: inline;
+    }
+    
+    .student-list__main-list-label--pc {
+        display: none;
     }
 
     .btn.btn-outline-success {
@@ -52,10 +60,9 @@
     }
 
     .set-date {
-        margin: 1vh 5vh;
+        margin: 1vh 0;
         padding: 10px;
-        display: flex;
-        justify-content:stretch;
+        display:inline-flex;
         align-items: baseline;
         font-size: 1.3rem;
     }
@@ -65,51 +72,49 @@
     }
 
     .set-date__text {
+        min-width: 150px;
+        font-size: 1.3rem;
         text-align: center;
         font-weight: 600;
         margin: 0 5px;
     }
 
     .set-date__input {
-        max-width: 150px;
+        font-size: 1.3rem;
+        min-width: 150px;
+        display: inline;
         border: 0;
         background-color: inherit;
     }
 
     .student-list {
-        margin: 0 10vh;
+        margin: 0;
     }
 
     .student-list__description {
         margin-top: 1vh;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         display: flex;
         justify-content: space-between;
     }
 
+    .student-list__main-list-label--mobile {
+        display: none;
+    }
+    
+    .student-list__main-list-label--pc {
+        display: inline;
+    }
+
+    .student-list__main-list-span--pc {
+        margin-left: 10px;
+        color: var(--primary-blue);
+    }
+
     .student-list__main-list-loop {
-        overflow: hidden;
-        position: relative;
+        font-size: 1.2rem;
         border: 1px solid var(--line-grey);
         padding: 5px 10px;
-        transition: background-color .3s ease-in-out;
-        z-index: 1;
-    }
-
-    .student-list__main-list-loop::after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        background-color: var(--line-grey);
-        width: 100%;
-        height: 100%;
-        top: 0;
-        right: 100%;
-        transition: .3s ease-out;
-    }
-
-    .student-list__main-list-loop:hover::after {
-        transform: translateX(100%);
     }
 
     .student-list__center-button {

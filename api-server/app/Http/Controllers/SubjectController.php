@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\ApiModels\Marks\MarksItemViewResultApiModel;
+use App\ApiModels\StudentResultApiModel;
 use App\Services\SubjectService;
 
 class SubjectController extends Controller
@@ -26,12 +28,16 @@ class SubjectController extends Controller
 
     public function showTeacherSubject () {
 
+        $student = new StudentResultApiModel();
+        $studentWithMarks = new MarksItemViewResultApiModel();
+
+        $student->setFirstName('first_name');
+        $student->setLastName('last_name');
+        $student->setIdentifier('identifier');
+
+        $studentWithMarks->setStudent($student);
+
         return $this->subjectService->getTeacherSubjects();
-
-    }
-
-    public function showAllSubject (  ) {
-        return $this->subjectService->getAllSubjects();
     }
 
     #endregion

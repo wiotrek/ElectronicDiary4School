@@ -4,8 +4,6 @@
 namespace App\ApiModels\Marks\Design;
 
 
-use App\ApiModels\Base\ApiModel;
-
 /**
  * Base details of the student mark value
  * TODO: Probably going to extend with date mark assign

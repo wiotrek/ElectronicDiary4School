@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\ApiModels\Base\ApiResponse;
+use App\ApiModels\TeacherClassListResultApiModel;
 use App\ApiModels\TeacherClassResultApiModel;
 use App\Icons\IconGenerator;
 use App\Services\ClassService;

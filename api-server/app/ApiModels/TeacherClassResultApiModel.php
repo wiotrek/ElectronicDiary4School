@@ -3,16 +3,18 @@
 
 namespace App\ApiModels;
 
+use App\Serialization\JsonBuilder\Parts\JsonObject;
+
 /**
  * Class TeacherClassResultApiModel The result of teacher class list details via API
  * @package App\ApiModels
  */
-class TeacherClassResultApiModel {
+class TeacherClassResultApiModel extends JsonObject {
 
     #region Private Members
 
-    private $teacherClass;
-    private $iconClass;
+    protected static $teacherClass;
+    protected static $iconClass;
 
     #endregion
 
@@ -22,30 +24,34 @@ class TeacherClassResultApiModel {
      * @return mixed
      */
     public function getTeacherClass (): string {
-        return $this -> teacherClass;
+        return self :: $teacherClass;
     }
 
     /**
      * @param mixed $teacherClass
      */
     public function setTeacherClass ( $teacherClass ): void {
-        $this -> teacherClass = $teacherClass;
+        self :: $teacherClass = $teacherClass;
     }
 
     /**
      * @return mixed
      */
     public function getIconClass () {
-        return $this -> iconClass;
+        return self :: $iconClass;
     }
 
     /**
      * @param mixed $iconClass
      */
     public function setIconClass ( $iconClass ): void {
-        $this -> iconClass = $iconClass;
+        self :: $iconClass = $iconClass;
     }
 
     #endregion
+
+    public function __toString () {
+        return self :: createJsonObject();
+    }
 
 }

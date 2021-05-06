@@ -4,10 +4,12 @@
 namespace App\ApiModels\Marks;
 
 
+use App\Serialization\JsonBuilder\Parts\JsonObject;
+
 /**
  * The list-data of all students with their marks
  */
-class MarksListViewResultApiModel  {
+class MarksListViewResultApiModel extends JsonObject {
 
     #region List Item Object
 
@@ -18,7 +20,7 @@ class MarksListViewResultApiModel  {
     #region Accessors
 
     /**
-     * @return mixed
+     * @return MarksItemViewResultApiModel
      */
     public function getStudentMark () {
         return $this->StudentMark;
@@ -28,12 +30,17 @@ class MarksListViewResultApiModel  {
      * @param MarksItemViewResultApiModel $StudentMark
      */
     public function setStudentMark ( MarksItemViewResultApiModel $StudentMark ): void {
-        $this->StudentMark[] = array(
+        $this->StudentMark[] = //$StudentMark->createJsonObject();
+            array(
             'student' => $StudentMark->getStudent(),
             'marks' => $StudentMark->getMarks()
         );
     }
 
     #endregion
+
+    public function __toString () {
+        return self :: createJsonObject();
+    }
 
 }

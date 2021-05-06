@@ -16,12 +16,12 @@ class MarksItemViewResultApiModel {
     /**
      * Basic details about student
      */
-    protected $student;
+    protected static $student;
 
     /**
      * The list of the student marks
      */
-    protected $marks;
+    protected static $marks;
 
     #endregion
 
@@ -30,15 +30,15 @@ class MarksItemViewResultApiModel {
     /**
      * @return StudentResultApiModel
      */
-    public function getStudent () {
-        return $this->student;
+    public static function getStudent () {
+        return self :: $student;
     }
 
     /**
      * @param StudentResultApiModel $student
      */
-    public function setStudent ( StudentResultApiModel $student ): void {
-        $this->student = array(
+    public static function setStudent ( StudentResultApiModel $student ): void {
+        self :: $student = array(
             'first_name' => $student->getFirstName(),
             'last_name' => $student->getLastName(),
             'identifier' => $student->getIdentifier()
@@ -48,18 +48,17 @@ class MarksItemViewResultApiModel {
     /**
      * @return mixed
      */
-    public function getMarks () {
-        return $this->marks;
+    public static function getMarks () {
+        return self :: $marks;
     }
 
     /**
      * @param mixed $marks
      */
-    public function setMarks ( $marks ): void {
-        $this->marks = $marks;
+    public static function setMarks ( $marks ): void {
+        self :: $marks = $marks;
     }
 
     #endregion
-
 
 }

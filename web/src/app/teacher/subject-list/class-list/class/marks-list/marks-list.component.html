@@ -19,7 +19,7 @@
                         <em class="student-list__student-index">
                           <i class="bi bi-file-earmark-person">
                             </i> {{s.student.identifier}}</em></p>
-                    
+
                     <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">
@@ -44,7 +44,7 @@
                 <ng-template #editMode>
                     <app-edit-marks
                     [getMarksJson]="sendJsonMarks(s.marks)"
-                    (refreshList)="this.editModeToggle(-1); this.getStudentsMarks()"
+                    (refreshList)="this.editModeToggle(-1); this.getStudentsMarks(true)"
                     ></app-edit-marks>
                 </ng-template>
             </li>

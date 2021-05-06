@@ -3,13 +3,13 @@
 
 namespace App\ApiModels;
 
-use App\ApiModels\Base\ApiModel;
+use App\Serialization\JsonBuilder\Parts\JsonObject;
 
 /**
  * Class StudentResultApiModel The result of student details via API
  * @package App\ApiModels\
  */
-class StudentResultApiModel {
+class StudentResultApiModel extends JsonObject {
 
     #region Private Members
 
@@ -64,5 +64,9 @@ class StudentResultApiModel {
     }
 
     #endregion
+
+    public function __toString () {
+        return self :: createJsonObject();
+    }
 
 }

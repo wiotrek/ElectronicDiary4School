@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function() {
     // Student list for class
     Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentsOfClass' ] );
 
+    // Student marks of specific class
     Route::get(ApiRoutes::MARKS_LIST_CLASS, [ StudentController::class, 'showStudentMarksOfClassForSubject' ] );
 
     #endregion
@@ -53,7 +54,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post( WebRoutes::STUDENT_ACTIVE, [ StudentController::class, 'storeStudentActivity' ] );
 
     // Edit marks by teacher
-    Route::put(WebRoutes::TEACHER_MARKS_EDIT, [StudentController::class, 'editStudentMarks']);
+    Route::put( WebRoutes::TEACHER_MARKS_EDIT, [StudentController::class, 'editStudentMarks'] );
+
+    // Insert marks by teacher
+    Route::post( WebRoutes::TEACHER_MARKS_INSERT, [StudentController::class, 'insertStudentMark'] );
 
     #endregion
 

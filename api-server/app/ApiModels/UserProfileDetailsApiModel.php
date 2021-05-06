@@ -3,12 +3,12 @@
 
 namespace App\ApiModels;
 
-use App\ApiModels\Base\ApiModel;
+use App\Serialization\JsonBuilder\Parts\JsonObject;
 
 /**
  * The result of a login request or get user profile details request via API
  */
-class UserProfileDetailsApiModel extends ApiModel {
+class UserProfileDetailsApiModel extends JsonObject {
 
     #region Static Protected Properties
 
@@ -95,7 +95,7 @@ class UserProfileDetailsApiModel extends ApiModel {
     #endregion
 
     public function __toString () {
-        return self :: toString();
+        return self :: createJsonObject();
     }
 
 }

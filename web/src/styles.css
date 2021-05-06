@@ -50,12 +50,12 @@ a:visited {
     width: 100%;
     height: 100%;
     top: 0;
-    right: 100%;
+    right: -100%;
     transition: .3s ease-out;
   }
 
   .global-animate-el-of-list:hover::after {
-    transform: translateX(100%);
+    transform: translateX(-100%);
   }
 
 }

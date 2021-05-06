@@ -20,7 +20,7 @@
     .type-assigment {
         padding: 9px 0;
         width: 100%;
-        text-align: center;
+        text-align-last: center;
         font-size: .9rem;
         cursor: pointer;
         background-color: white;
@@ -111,31 +111,12 @@
     }
 
     .main-list__title {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .students-list__student {
-        overflow: hidden;
-        position: relative;
-        transition: background-color .3s ease-in-out;
-        z-index: 1;
         border: 1px solid var(--line-grey);
-    }
-
-    .students-list__student::after {
-        content: '';
-        position: absolute;
-        z-index: -1;
-        background-color: var(--line-grey);
-        width: 100%;
-        height: 100%;
-        top: 0;
-        right: 100%;
-        transition: .3s ease-out;
-    }
-
-    .students-list__student:hover::after {
-        transform: translateX(100%);
+        font-size: 1.2rem;
     }
 
     .students-list__names--mobile, .students-list__names--pc{

@@ -8,6 +8,7 @@ use App\ApiModels\UserProfileDetailsApiModel;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\Student;
+use App\Models\StudentParent;
 use App\Models\Teacher;
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Http\Request;
@@ -54,10 +55,15 @@ class AuthController extends Controller
         // Get school status of the login user
         $teacherRole =$this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Teacher::class)->pluck('role_id')->first();
         $studentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Student::class)->pluck('role_id')->first();
+        $parentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", StudentParent::class)->pluck('role_id')->first();
+
+
         if (!is_null($teacherRole))
             $userToReturn->setRole($this->userRepository->findByColumn($teacherRole, 'role_id', Role::class)->pluck('status')->first());
-        else
+        else if (!is_null($studentRole))
             $userToReturn->setRole($this->userRepository->findByColumn($studentRole, 'role_id', Role::class)->pluck('status')->first());
+        else
+            $userToReturn->setRole($this->userRepository->findByColumn($parentRole, 'role_id', Role::class)->pluck('status')->first());
 
 
         // TODO: extend user table with url profile photo

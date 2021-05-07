@@ -17,6 +17,7 @@ use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentActivityWebModel;
+use DateTime;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -80,7 +81,8 @@ class StudentController extends Controller
                 'student_id' => $studentId,
                 'subject_id' => $subjectId,
                 'active' => $isActive,
-                'date_active' => $studentActivity -> getDateActive()
+                'date_active' => $studentActivity -> getDateActive(),
+                'time_active' => ( new \DateTime ) -> setTime(13, 10 ) // TODO: Issue #83
             ] );
 
             // Save active of current student on loop

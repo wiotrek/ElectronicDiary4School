@@ -11,7 +11,8 @@
         <p class="main-list__title">Uczeń/Uczennica</p>
 
         <ul class="student-list">
-            <li class="student-list__item global-animate-el-of-list"
+            <li class="student-list__item"
+            [ngClass]="{'global-animate-el-of-list': editModeForIndex !== i}"
             *ngFor="let s of list; index as i">
 
                 <div class="student-list__student-name">

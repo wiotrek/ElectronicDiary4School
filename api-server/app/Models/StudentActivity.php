@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StudentActivity
- *
+ * 
  * @property int $student_activity_id
  * @property int|null $student_id
  * @property int|null $subject_id
  * @property int $active
  * @property Carbon $date_active
- *
+ * @property Carbon $time_active
+ * 
  * @property Student|null $student
  * @property Subject|null $subject
  *
@@ -36,14 +37,16 @@ class StudentActivity extends Model
 	];
 
 	protected $dates = [
-		'date_active'
+		'date_active',
+		'time_active'
 	];
 
 	protected $fillable = [
 		'student_id',
 		'subject_id',
 		'active',
-		'date_active'
+		'date_active',
+		'time_active'
 	];
 
 	public function student()

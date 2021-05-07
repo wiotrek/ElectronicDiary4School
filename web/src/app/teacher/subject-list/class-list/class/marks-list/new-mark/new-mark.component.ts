@@ -49,9 +49,25 @@ export class NewMarkComponent implements OnInit {
       (res: StudentsMarks[]) => {
         this.list = res.reduce((result: StudentWithDefaultMark[], current: StudentsMarks)
         : StudentWithDefaultMark[] => {
-          result.push({ student: current.student, mark: 1 });
+          result.push({ student: current.student, mark: 1, select: true });
           return result; }, []);
       }, (err: any) => console.log(err));
+  }
+
+  // func which selected anyone students
+  selectToggle(): void {
+    const selectTrue = this.list.filter(x => x.select === true).length;
+
+    if (selectTrue === this.list.length) { this.list.forEach(x => x.select = false); }
+    else if (selectTrue === 0 ) { this.list.forEach(x => x.select = true); }
+    else { this.list.forEach(x => x.select = true); }
+    this.checkOrUncheckText();
+  }
+
+  // setting caption above student list
+  checkOrUncheckText(): string {
+    return this.list.filter(x => x.select === true).length === this.list.length
+    ? 'Odznacz wszystkich' : 'Zaznacz wszystkich';
   }
 
   // my own validation control,
@@ -79,11 +95,19 @@ export class NewMarkComponent implements OnInit {
       return;
     }
 
+    // if anyone student doesnt has mark then func return
+    if (!this.list.find(x => x.select === true)) {
+      this.toastr.warning('Żaden uczeń nie został przypisany!');
+      return;
+    }
+
     // creating unecessery object to send on backend
     const addNewMarks: AddNewMarks = {
       revision: this.form?.value as Revision,
       marks: this.list.reduce((total: any, current: StudentWithDefaultMark): any => {
-        total.push({ identifier: current.student.identifier, mark: current.mark });
+        if (current.select) {
+          total.push({ identifier: current.student.identifier, mark: current.mark });
+        }
         return total; }, []) };
 
     this.teacherService.sendNewMark(this.subjectName,

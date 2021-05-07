@@ -1,5 +1,9 @@
 @media (min-width: 0) {
 
+    input {
+        cursor: pointer;
+    }
+
     .general {
         margin-bottom: 25px;
     }
@@ -30,6 +34,19 @@
         appearance:none;
     }
 
+    .main-list__title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .main-list__selectToggle {
+        cursor: pointer;
+    }
+
+    .main-list__selectToggle:hover {
+        color: var(--primary-blue);
+    }
+
     .students-list__student {
         list-style: none;
         background-color: white;
@@ -39,6 +56,10 @@
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+    }
+
+    .students-list__student--bgSelect {
+        background-color: var(--primary-grey);
     }
 
     .students-list__names--mobile, .students-list__names--pc{
@@ -58,9 +79,17 @@
         color: var(--primary-blue);
     }
 
-    .students-list__input {
-        width: 60px;
-        cursor: pointer;
+    .students-list__checkbox {
+        align-items: baseline;
+
+    }
+
+    .students-list__checkbox {
+        margin-right: 10px;
+    }
+
+    .students-list__input-number {
+        width: 50px;
     }
 
     .center-button {

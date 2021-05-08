@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\Student;
 use App\Models\StudentParent;
 use App\Models\Teacher;
+use App\Models\User;
 use App\Repositories\Base\BaseRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,8 +67,12 @@ class AuthController extends Controller
             $userToReturn->setRole($this->userRepository->findByColumn($parentRole, 'role_id', Role::class)->pluck('status')->first());
 
 
-        // TODO: extend user table with url profile photo
-        $userToReturn->setProfileUrl("https://randomuser.me/api/portraits/women/60.jpg");
+        $profilePhoto = $this->userRepository->findByColumn($this->userRepository->getAuthId(), 'user_id', User::class)->pluck('profile_photo')->first();
+
+        if (is_null($profilePhoto))
+            $profilePhoto = './assets/profile-photos/man/1.jpg';
+
+        $userToReturn->setProfileUrl($profilePhoto);
 
 
         // return user

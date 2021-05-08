@@ -70,7 +70,8 @@ class AuthController extends Controller
         $profilePhoto = $this->userRepository->findByColumn($this->userRepository->getAuthId(), 'user_id', User::class)->pluck('profile_photo')->first();
 
         if (is_null($profilePhoto))
-            $profilePhoto = './assets/profile-photos/man/1.jpg';
+            $profilePhoto = 'https://randomuser.me/api/portraits/women/1.jpg';
+
 
         $userToReturn->setProfileUrl($profilePhoto);
 

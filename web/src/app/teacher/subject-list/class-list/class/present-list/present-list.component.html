@@ -5,7 +5,7 @@
     <div class="set-date">
         <i class="bi bi-calendar-week"></i>
         <p class="set-date__text">Potwierdź datę</p>
-        <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)" 
+        <input type="date" [ngModel]="choiceDay | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)"
             name="dt" [max]="today | date:'yyyy-MM-dd'"
             class="set-date__input form-control form-control-rounded text-center" #searchDate required></div>
 
@@ -16,7 +16,7 @@
         </div>
         <form [formGroup]="form" (ngSubmit)="saveList()">
             <ul class="student-list__main-list">
-                <li class="student-list__main-list-loop global-animate-el-of-list" 
+                <li class="student-list__main-list-loop global-animate-el-of-list"
                 *ngFor="let student of this.studentsList; index as i">
 
                     <label class="student-list__main-list-label--mobile">
@@ -27,7 +27,7 @@
                         <span class="student-list__main-list-span--pc"><i class="bi bi-file-earmark-person"></i>
                              {{student.identifier}}</span></label>
 
-                    <input id="student" type="checkbox" [value]="student.identifier" 
+                    <input id="student" type="checkbox" [value]="student.identifier"
                     (change)="onCheckboxChange($event)">
                 </li>
                 <div class="student-list__center-button">

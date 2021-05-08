@@ -17,7 +17,6 @@ use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentActivityWebModel;
-use DateTime;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller

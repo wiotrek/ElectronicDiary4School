@@ -51,6 +51,10 @@ export class PresentListComponent implements OnInit {
       }, (err: any) => console.log(err));
   }
 
+  settingDate($event: any): void {
+    this.today = $event;
+  }
+
   // getting array students and in sequence adding values users
   // who are checked
   onCheckboxChange(e: any): void {

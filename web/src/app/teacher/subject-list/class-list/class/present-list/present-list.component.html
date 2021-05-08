@@ -5,9 +5,9 @@
     <div class="set-date">
         <i class="bi bi-calendar-week"></i>
         <p class="set-date__text">Potwierdź datę</p>
-        <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="today = $event" name="dt"
-            class="set-date__input form-control form-control-rounded text-center" #searchDate required>
-    </div>
+        <input type="date" [ngModel]="today | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)" 
+            name="dt" [max]="today | date:'yyyy-MM-dd'"
+            class="set-date__input form-control form-control-rounded text-center" #searchDate required></div>
 
     <div class="student-list">
         <div class="student-list__description">

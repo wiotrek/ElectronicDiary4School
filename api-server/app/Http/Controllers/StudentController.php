@@ -10,6 +10,7 @@ use App\ApiModels\Marks\MarksListViewResultApiModel;
 use App\ApiModels\StudentResultApiModel;
 use App\Models\StudentActivity;
 use App\Services\ClassService;
+use App\Services\HarmonogramService;
 use App\Services\StudentService;
 use App\Services\SubjectService;
 use App\WebModels\Marks\MarkInsert;
@@ -17,6 +18,7 @@ use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentActivityWebModel;
+use Facade\FlareClient\Api;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -24,14 +26,17 @@ class StudentController extends Controller
     private $classService;
     private $subjectService;
     private $studentService;
+    private $harmonogramService;
 
-    public function __construct(ClassService $classService,
-                                SubjectService $subjectService,
-                                StudentService $studentService)
+    public function __construct( ClassService $classService,
+                                 SubjectService $subjectService,
+                                 StudentService $studentService,
+                                 HarmonogramService $dateService)
     {
         $this->classService = $classService;
         $this->subjectService = $subjectService;
         $this->studentService = $studentService;
+        $this->harmonogramService = $dateService;
     }
 
 
@@ -48,6 +53,7 @@ class StudentController extends Controller
         $studentActivity->setDateActive($date);
 
 
+        // TODO: Get students by class id
         // Load all students together with first student from request by his identifier
         $studentIdsList = $this->classService->getStudentsIdFromClass($request[0]);
 
@@ -59,6 +65,16 @@ class StudentController extends Controller
         // Get id of subject which for active students are saving
         $subjectId = $this->subjectService->getSubjectId($studentActivity->getSubjectName())[0];
 
+
+
+        // Get id of class by first identifier from request
+        $classId = $this->classService->getClassIdByIdentifier($request[0])[0];
+
+
+        // Get time from harmonogram to set start time lesson for active list
+        $timeActive = $this->harmonogramService->setTimeActive( $subjectId, $classId );
+        if ($timeActive == 0)
+            return ApiResponse::badRequest(ApiCode::NOTSTORE_STUDENT_ACTIVE);
 
         // Go through all students from current class
         foreach ( $studentIdsList as $studentId ) {
@@ -81,7 +97,7 @@ class StudentController extends Controller
                 'subject_id' => $subjectId,
                 'active' => $isActive,
                 'date_active' => $studentActivity -> getDateActive(),
-                'time_active' => ( new \DateTime ) -> setTime(13, 10 ) // TODO: Issue #83
+                'time_active' => $timeActive
             ] );
 
             // Save active of current student on loop

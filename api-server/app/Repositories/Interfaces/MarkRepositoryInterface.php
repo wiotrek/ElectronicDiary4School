@@ -4,7 +4,9 @@
 namespace App\Repositories\Interfaces;
 
 
-interface MarkRepositoryInterface {
+use App\Repositories\Base\BaseRepositoryInterface;
+
+interface MarkRepositoryInterface extends BaseRepositoryInterface {
 
     public function readMarkIdByDegree ( $degree );
 

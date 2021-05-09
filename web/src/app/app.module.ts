@@ -20,6 +20,7 @@ import { SecondNavComponent } from './universal/second-nav/second-nav.component'
 import { EditMarksComponent } from './teacher/subject-list/class-list/class/marks-list/edit-marks/edit-marks.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-list/new-mark/new-mark.component';
+import { ActivityListComponent } from './teacher/subject-list/class-list/class/present-list/activity-list/activity-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-
     MarksListComponent,
     SecondNavComponent,
     EditMarksComponent,
-    NewMarkComponent
+    NewMarkComponent,
+    ActivityListComponent
   ],
   imports: [
     BrowserModule,

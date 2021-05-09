@@ -9,32 +9,6 @@
             name="dt" [max]="today | date:'yyyy-MM-dd'"
             class="set-date__input form-control form-control-rounded text-center" #searchDate required></div>
 
-    <div class="student-list">
-        <div class="student-list__description">
-            <p>Uczeń/Uczennica</p>
-            <p>Obecność</p>
-        </div>
-        <form [formGroup]="form" (ngSubmit)="saveList()">
-            <ul class="student-list__main-list">
-                <li class="student-list__main-list-loop global-animate-el-of-list"
-                *ngFor="let student of this.studentsList; index as i">
 
-                    <label class="student-list__main-list-label--mobile">
-                        {{i+1}}. {{student.first_name[0]}}.{{student.last_name}}</label>
-
-                    <label class="student-list__main-list-label--pc" >
-                        {{i+1}}. {{student.first_name}} {{student.last_name}}
-                        <span class="student-list__main-list-span--pc"><i class="bi bi-file-earmark-person"></i>
-                             {{student.identifier}}</span></label>
-
-                    <input id="student" type="checkbox" [value]="student.identifier"
-                    (change)="onCheckboxChange($event)">
-                </li>
-                <div class="student-list__center-button">
-                    <button type="submit" class="btn btn-outline-success">Zapisz</button>
-                </div>
-            </ul>
-        </form>
-    </div>
 
 </main>

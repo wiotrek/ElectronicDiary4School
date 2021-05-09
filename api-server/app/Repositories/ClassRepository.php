@@ -65,6 +65,17 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
         return ($students);
     }
 
+    /**
+     * @param string $identifier The student identifier
+     */
+    public function readClassIdByStudentIdentifier ( string $identifier ) {
+        $userId = $this->findByColumn($identifier, 'identifier', User::class)
+            ->pluck(KeyColumn::fromModel(User::class));
+
+        return $this->findByColumn($userId, KeyColumn::fromModel(User::class), Student::class)
+            ->pluck(KeyColumn::fromModel(UserClass::class));
+    }
+
     public function readStudentsByClass ( $number, $numberIdentifier ) {
 
         // Get class id by data from request

@@ -88,6 +88,10 @@ class ClassService {
         return $this->classRepository->readStudentsByClass($number, $numberIdentifier);
     }
 
+    public function getClassIdByIdentifier($identifier) {
+        return $this->classRepository->readClassIdByStudentIdentifier($identifier);
+    }
+
     #endregion
 
 }

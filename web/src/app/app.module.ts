@@ -22,6 +22,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-list/new-mark/new-mark.component';
 import { ActivityListComponent } from './teacher/subject-list/class-list/class/present-list/activity-list/activity-list.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { AbsentListComponent } from './teacher/subject-list/class-list/class/present-list/absent-list/absent-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     SecondNavComponent,
     EditMarksComponent,
     NewMarkComponent,
-    ActivityListComponent
+    ActivityListComponent,
+    AbsentListComponent
   ],
   imports: [
     BrowserModule,

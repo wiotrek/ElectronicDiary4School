@@ -26,6 +26,10 @@
         margin-top: 5px;
     }
 
+    .student-list__main-list-loop--bgSelect {
+        background-color: inherit;
+    }
+
     .student-list__main-list-label--mobile {
         display: inline;
     }

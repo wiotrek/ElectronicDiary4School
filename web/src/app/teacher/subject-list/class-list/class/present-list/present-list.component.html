@@ -8,7 +8,7 @@
             <p class="set-date__text">Dzień:</p>
             <input type="date" [ngModel]="choiceDay | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)"
                 name="dt" [max]="today | date:'yyyy-MM-dd'"
-                class="set-date__input form-control form-control-rounded text-center" #searchDate required></div></div>
+                class="set-date__input form-control form-control-rounded text-center" #searchDate></div></div>
 
     <ng-container
             *ngTemplateOutlet="activityListBool ? 

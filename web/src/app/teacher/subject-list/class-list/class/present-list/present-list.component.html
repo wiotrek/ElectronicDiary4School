@@ -2,13 +2,20 @@
 
     <app-second-nav [parent]="toChild"></app-second-nav>
 
-    <div class="set-date">
-        <i class="bi bi-calendar-week"></i>
-        <p class="set-date__text">Potwierdź datę</p>
-        <input type="date" [ngModel]="choiceDay | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)"
-            name="dt" [max]="today | date:'yyyy-MM-dd'"
-            class="set-date__input form-control form-control-rounded text-center" #searchDate required></div>
+    <div class="display-block">
+        <div class="set-date">
+            <i class="bi bi-calendar-week"></i>
+            <p class="set-date__text">Dzień:</p>
+            <input type="date" [ngModel]="choiceDay | date:'yyyy-MM-dd'" (ngModelChange)="settingDate($event)"
+                name="dt" [max]="today | date:'yyyy-MM-dd'"
+                class="set-date__input form-control form-control-rounded text-center" #searchDate required></div></div>
 
+    <ng-container
+            *ngTemplateOutlet="activityListBool ? 
+            activityList : pastActivityList"></ng-container>
 
+    <ng-template #activityList><app-activity-list></app-activity-list></ng-template>
+
+    <ng-template #pastActivityList></ng-template>
 
 </main>

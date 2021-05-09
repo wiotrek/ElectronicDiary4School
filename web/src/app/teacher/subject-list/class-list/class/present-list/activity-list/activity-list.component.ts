@@ -3,7 +3,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StudentsMarks } from 'src/app/_models/_teacher/marks/students-marks';
 import { Student } from 'src/app/_models/_teacher/student';
+import { formatDate } from '@angular/common';
 import { TeacherService } from 'src/app/_services/teacher.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-activity-list',
@@ -19,8 +21,8 @@ export class ActivityListComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private teacherService: TeacherService,
-    private route: ActivatedRoute
-  ) {
+    private route: ActivatedRoute,
+    private toastr: ToastrService) {
     this.form = this.formBuilder.group({
       studentsPresent: this.formBuilder.array([])
     });
@@ -56,4 +58,15 @@ export class ActivityListComponent implements OnInit {
     }
   }
 
+  saveList(): void {
+    const subject = this.teacherService.delDashesAndUpperFirstLetter(
+      this.route.snapshot.paramMap.get('subject') || '');
+
+    this.teacherService
+      .sendPresentList(subject, formatDate(new Date(), 'yyyy-MM-dd', 'en-Us'),
+       this.form.value.studentsPresent)
+      .subscribe(() => {
+        this.toastr.success('Obecność została zarejestrowana');
+      }, (err: any) => this.toastr.error('Nie udało się zarejestrować obecności'));
+  }
 }

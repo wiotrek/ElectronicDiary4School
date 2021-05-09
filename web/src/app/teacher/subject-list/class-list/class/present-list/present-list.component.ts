@@ -15,6 +15,7 @@ import { StudentsMarks } from 'src/app/_models/_teacher/marks/students-marks';
 export class PresentListComponent implements OnInit {
   form: FormGroup;
   today: Date;
+  choiceDay: Date;
   toChild = { title: 'Lista obecności' };
 
   // list which is getting from api to display
@@ -26,6 +27,7 @@ export class PresentListComponent implements OnInit {
     private teacherService: TeacherService,
     private toastr: ToastrService) {
     this.today = new Date();
+    this.choiceDay = new Date();
 
     this.form = this.formBuilder.group({
       studentsPresent: this.formBuilder.array([])
@@ -52,7 +54,7 @@ export class PresentListComponent implements OnInit {
   }
 
   settingDate($event: any): void {
-    this.today = $event;
+    this.choiceDay = $event;
   }
 
   // getting array students and in sequence adding values users
@@ -69,8 +71,8 @@ export class PresentListComponent implements OnInit {
   saveList(): void {
 
     // prevent default type - date
-    const correctDate = typeof this.today === 'string'
-    ? this.today : formatDate(this.today, 'yyyy-MM-dd', 'en-Us');
+    const correctDate = typeof this.choiceDay === 'string'
+    ? this.choiceDay : formatDate(this.choiceDay, 'yyyy-MM-dd', 'en-Us');
 
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');

@@ -48,18 +48,9 @@
     }
 
     .students-list__student {
-        list-style: none;
-        background-color: white;
-        border: 1px solid var(--primary-blue);
-        margin: 5px 0;
-        padding: 10px;
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-    }
-
-    .students-list__student--bgSelect {
-        background-color: var(--primary-grey);
     }
 
     .students-list__names--mobile, .students-list__names--pc{
@@ -144,7 +135,6 @@
     }
 
     .students-list__student {
-        border: 1px solid var(--line-grey);
         font-size: 1.2rem;
     }
 

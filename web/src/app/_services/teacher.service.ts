@@ -4,10 +4,10 @@ import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
 import { StudentsMarks } from '../_models/_teacher/marks/students-marks';
 import { ListToCard } from '../_models/list-to-card';
-import { Student } from '../_models/_teacher/student';
 import { map } from 'rxjs/operators';
 import { UpdateMark } from '../_models/_teacher/marks/update-marks/update-mark';
 import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
+import { StudentActivity } from '../_models/_teacher/activity/student-activity';
 
 @Injectable({
   providedIn: 'root'
@@ -53,15 +53,14 @@ export class TeacherService {
     );
   }
 
-  // this request will be deleted
-  getStudents(className: string): Observable<Student[]> {
+  getStudentsActivity(className: string): Observable<StudentActivity[]> {
     const path = `students/class=${className}`;
-    return this.http.get<Student[]>(this.baseUrl + path);
+    return this.http.get<StudentActivity[]>(this.baseUrl + path);
   }
 
-  sendPresentList(subject: string, date: string, students: string[]): any {
-    const path = `student-active/${subject}/${date}`;
-    return this.http.post(this.baseUrl + path, students);
+  sendPresentList(subject: string, students: StudentActivity[]): any {
+    const path = `student-active/${subject}`;
+    return this.http.put(this.baseUrl + path, students);
   }
 
   getStudentsMarks(subject: string, className: string, update = false)

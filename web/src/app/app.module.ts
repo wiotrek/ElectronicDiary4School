@@ -20,6 +20,9 @@ import { SecondNavComponent } from './universal/second-nav/second-nav.component'
 import { EditMarksComponent } from './teacher/subject-list/class-list/class/marks-list/edit-marks/edit-marks.component';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-list/new-mark/new-mark.component';
+import { ActivityListComponent } from './teacher/subject-list/class-list/class/present-list/activity-list/activity-list.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { AbsentListComponent } from './teacher/subject-list/class-list/class/present-list/absent-list/absent-list.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +39,9 @@ import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-
     MarksListComponent,
     SecondNavComponent,
     EditMarksComponent,
-    NewMarkComponent
+    NewMarkComponent,
+    ActivityListComponent,
+    AbsentListComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +49,7 @@ import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-
     SharedModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true }
   ],

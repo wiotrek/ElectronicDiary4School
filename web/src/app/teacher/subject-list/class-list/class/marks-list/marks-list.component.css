@@ -18,40 +18,36 @@
         font-size: .9rem;
     }
 
-    .student-list__item {
-        list-style: none;
-        background-color: white;
-        border: 1px solid var(--primary-blue);
-        margin: 5px 0;
+    .students-list__student{
         padding: 10px;
     }
 
-    .student-list__student-name {
+    .students-list__student-name {
         display: flex;
         justify-content: space-between;
     }
 
-    .student-list__student-index {
+    .students-list__student-index {
       display: none;
     }
 
-    .student-list__student-name-a {
+    .students-list__student-name-a {
         cursor: pointer;
     }
 
-    .student-list__student-name-a:hover {
+    .students-list__student-name-a:hover {
         text-decoration: underline;
     }
 
-    .student-list__list-marks {
+    .students-list__list-marks {
         margin: 0;
     }
 
-    .student-list__mark::before {
+    .students-list__mark::before {
       content: ', ';
     }
 
-    .student-list__mark:first-child::before {
+    .students-list__mark:first-child::before {
       content: '';
     }
 }
@@ -75,22 +71,14 @@
         font-size: 1.3rem;
     }
 
-    .student-list__item {
-        border: 1px solid var(--line-grey);
-    }
-
-    .student-list__student-name-p {
-      font-size: 1.2rem;
-    }
-
-    .student-list__student-index {
+    .students-list__student-index {
       display: inline;
       color: var(--primary-blue);
       font-style: normal;
       margin-left: 10px;
     }
 
-    .student-list__list-marks::before {
+    .students-list__list-marks::before {
       content: 'Oceny:';
       margin-right: 10px;
     }

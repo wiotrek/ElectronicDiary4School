@@ -1,25 +1,26 @@
-<div class="student-list" *ngIf="this.list.length">
-  <div class="student-list__description">
+<div class="main-list" *ngIf="this.list.length">
+    
+    <div class="main-list__title">
       <p>Uczeń/Uczennica</p>
-      <p>Obecność</p>
-  </div>
-    <ul class="student-list__main-list">
-        <li class="student-list__main-list-loop global-animate-el-of-list"
-        [ngClass]="{'student-list__main-list-loop--bgSelect': !s.isActivity}"
+      <p>Obecność</p></div>
+
+    <ul class="students-list">
+        <li class="global-list-element global-animate-el-of-list students-list__student"
+        [ngClass]="{'global-list-element--unSelect': !s.isActivity}"
         *ngFor="let s of this.list; index as i">
 
-            <label class="student-list__main-list-label--mobile">
+            <label class="students-list__label--mobile">
                 {{i+1}}. {{s.student.first_name[0]}}.{{s.student.last_name}}</label>
 
-            <label class="student-list__main-list-label--pc" >
+            <label class="students-list__label--pc" >
                 {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
-                <span class="student-list__main-list-span--pc"><i class="bi bi-file-earmark-person"></i>
+                <span class="students-list__span--pc"><i class="bi bi-file-earmark-person"></i>
                     {{s.student.identifier}}</span></label>
 
             <input id="student" type="checkbox" [value]="s.isActivity"
             [(ngModel)]="s.isActivity">
         </li>
-        <div class="student-list__center-button">
+        <div class="students-list__center-button">
             <button type="submit" (click)="saveList()" class="btn btn-outline-success">Zapisz</button>
         </div>
     </ul>

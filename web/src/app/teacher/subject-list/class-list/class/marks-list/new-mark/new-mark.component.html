@@ -29,9 +29,9 @@
                 (click)="selectToggle()">{{checkOrUncheckText()}}</span></p>
 
             <ul class="students-list">
-                <li class="students-list__student global-animate-el-of-list"
+                <li class="global-list-element global-animate-el-of-list students-list__student"
                 *ngFor="let student of list; index as i"
-                [ngClass]="{'students-list__student--bgSelect': !student.select}">
+                [ngClass]="{'global-list-element--unSelect': !student.select}">
                     <p class="students-list__names--mobile"
                     >{{i+1}}. {{student.student.first_name[0]}}.{{student.student.last_name}}
                     <span class="students-list_names-span">{{student.student.identifier}}</span></p>

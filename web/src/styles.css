@@ -33,7 +33,29 @@ a:visited {
   }
 }
 
+@media (min-width: 0px) {
+
+  .global-list-element {
+    list-style: none;
+    background-color: white;
+    border: 1px solid var(--primary-blue);
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: .9rem;
+  }
+
+  .global-list-element--unSelect {
+    background-color: inherit;
+  }
+}
+
 @media (min-width: 769px) {
+
+  .global-list-element {
+    border: 1px solid var(--line-grey);
+    padding: 5px 10px;
+    font-size: 1.2rem;
+  }
 
   .global-animate-el-of-list {
     overflow: hidden;

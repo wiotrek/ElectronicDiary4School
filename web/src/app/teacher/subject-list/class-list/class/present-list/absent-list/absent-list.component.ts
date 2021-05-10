@@ -3,8 +3,23 @@ import { Student } from 'src/app/_models/_teacher/student';
 
 @Component({
   selector: 'app-absent-list',
-  templateUrl: './absent-list.component.html',
-  styleUrls: ['./absent-list.component.css']
+  template: `
+  <h2>Studenci którzy byli nieobecni</h2>
+    <ul>
+        <li class="global-list-element"
+        *ngFor="let s of absent">
+        <i class="bi bi-bookmark-x" [ngStyle]="{'color': '#ff0000'}"></i>
+         {{s.first_name}} {{s.last_name}}
+         <span [ngStyle]="{'color': 'var(--primary-blue)'}"> {{s.identifier}}</span></li></ul>
+
+    <h2>Studenci obecni</h2>
+    <ul>
+        <li class="global-list-element"
+        *ngFor="let s of active">
+        <i class="bi bi-check2-square" [ngStyle]="{'color': '#008000'}"></i>
+        {{s.first_name}} {{s.last_name}}
+        <span [ngStyle]="{'color': 'var(--primary-blue)'}"> {{s.identifier}}</span></li></ul>
+  `
 })
 export class AbsentListComponent implements OnInit {
   @Input() getDateFromParent: any;

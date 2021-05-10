@@ -5,36 +5,28 @@
         padding: 0;
     }
 
-    .student-list__description {
+    .main-list__title {
         margin-top: 2vh;
         font-size: .9rem;
         display: flex;
         justify-content: space-between;
     }
 
-    .student-list__main-list {
+    .students-list {
         list-style: none;
     }
 
-    .student-list__main-list-loop {
-        background-color: white;
-        border: 1px solid var(--primary-blue);
-        padding: 5px;
+    .students-list__student{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 5px;
     }
 
-    .student-list__main-list-loop--bgSelect {
-        background-color: inherit;
-    }
-
-    .student-list__main-list-label--mobile {
+    .students-list__label--mobile {
         display: inline;
     }
     
-    .student-list__main-list-label--pc {
+    .students-list__label--pc {
         display: none;
     }
 
@@ -50,37 +42,31 @@
         cursor: pointer;
     }
 
-    .student-list {
+    .main-list {
         margin: 0;
     }
 
-    .student-list__description {
+    .main-list__title {
         margin-top: 1vh;
         font-size: 1.3rem;
         display: flex;
         justify-content: space-between;
     }
 
-    .student-list__main-list-label--mobile {
+    .students-list__label--mobile {
         display: none;
     }
     
-    .student-list__main-list-label--pc {
+    .students-list__label--pc {
         display: inline;
     }
 
-    .student-list__main-list-span--pc {
+    .students-list__span--pc {
         margin-left: 10px;
         color: var(--primary-blue);
     }
 
-    .student-list__main-list-loop {
-        font-size: 1.2rem;
-        border: 1px solid var(--line-grey);
-        padding: 5px 10px;
-    }
-
-    .student-list__center-button {
+    .students-list__center-button {
         display: flex;
         justify-content: center;
     }

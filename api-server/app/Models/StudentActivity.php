@@ -14,13 +14,16 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $student_activity_id
  * @property int|null $student_id
+ * @property int|null $teacher_id
  * @property int|null $subject_id
  * @property int $active
+ * @property int|null $checked
  * @property Carbon $date_active
  * @property Carbon $time_active
  * 
  * @property Student|null $student
  * @property Subject|null $subject
+ * @property Teacher|null $teacher
  *
  * @package App\Models
  */
@@ -32,8 +35,10 @@ class StudentActivity extends Model
 
 	protected $casts = [
 		'student_id' => 'int',
+		'teacher_id' => 'int',
 		'subject_id' => 'int',
-		'active' => 'int'
+		'active' => 'int',
+		'checked' => 'int'
 	];
 
 	protected $dates = [
@@ -43,8 +48,10 @@ class StudentActivity extends Model
 
 	protected $fillable = [
 		'student_id',
+		'teacher_id',
 		'subject_id',
 		'active',
+		'checked',
 		'date_active',
 		'time_active'
 	];
@@ -57,5 +64,10 @@ class StudentActivity extends Model
 	public function subject()
 	{
 		return $this->belongsTo(Subject::class);
+	}
+
+	public function teacher()
+	{
+		return $this->belongsTo(Teacher::class);
 	}
 }

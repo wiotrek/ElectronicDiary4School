@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -13,7 +14,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\GenerateStudentActiveList::class
     ];
 
     /**
@@ -24,7 +25,46 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('08:00');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('08:55');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('09:45');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('10:35');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('11:40');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('12:45');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            at('13:35');
+
+
+        $schedule->command('generate:studentActiveList')->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY])->
+            at('14:25');
+
     }
 
     /**

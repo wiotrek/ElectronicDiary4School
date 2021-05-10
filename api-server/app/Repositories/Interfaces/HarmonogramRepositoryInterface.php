@@ -18,4 +18,12 @@ interface HarmonogramRepositoryInterface extends BaseRepositoryInterface {
      */
     public function isExistLesson ( int $classId, int $subjectId, string $day, string $startTime );
 
+    /**
+     * // Get all data needed to save on first time to student_activity table
+     * @param string $day Current translated name to polish of day
+     * @param string $time The current time with format H:i
+     * @return mixed teacher id, subject id, user class id
+     */
+    public function readTeachersWhichHaveLessonNow (string $day, string $time);
+
 }

@@ -28,4 +28,12 @@ class HarmonogramRepository extends BaseRepository implements HarmonogramReposit
 
         return $primaryKey[0];
     }
+
+    public function readTeachersWhichHaveLessonNow ($day, $time) {
+        return ClassHarmonogram::query()->where([
+            'date_meeting' => $day,
+            'start_time' => $time
+        ])->select('teacher_id', 'subject_id', 'user_class_id')->orderBy('teacher_id')->get();
+    }
+
 }

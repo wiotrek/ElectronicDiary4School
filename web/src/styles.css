@@ -27,13 +27,39 @@ a:visited {
   color: inherit;
 }
 
+
+/* re: logging component */
 @media (max-width: 800px) {
   .bg-logging {
     background-color: var(--primary-blue);
   }
 }
 
+
+/* global class */
+@media (min-width: 0px) {
+
+  .global-list-element {
+    list-style: none;
+    background-color: white;
+    border: 1px solid var(--primary-blue);
+    margin-top: 5px;
+    padding: 5px 10px;
+    font-size: .9rem;
+  }
+
+  .global-list-element--unSelect {
+    background-color: inherit;
+  }
+}
+
 @media (min-width: 769px) {
+
+  .global-list-element {
+    border: 1px solid var(--line-grey);
+    padding: 5px 10px;
+    font-size: 1.2rem;
+  }
 
   .global-animate-el-of-list {
     overflow: hidden;
@@ -57,5 +83,4 @@ a:visited {
   .global-animate-el-of-list:hover::after {
     transform: translateX(-100%);
   }
-
 }

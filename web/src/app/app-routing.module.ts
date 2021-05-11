@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { StudentComponent } from './student/student.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
 import { MarksListComponent } from './teacher/subject-list/class-list/class/marks-list/marks-list.component';
@@ -9,6 +10,7 @@ import { PresentListComponent } from './teacher/subject-list/class-list/class/pr
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { StudentGuard } from './_guards/student.guard';
 import { TeacherGuard } from './_guards/teacher.guard';
 
 const routes: Routes = [
@@ -43,7 +45,14 @@ const routes: Routes = [
               }
             ]
           }
-        ],
+        ]
+      },
+      {
+        path: 'uczen',
+        canActivate: [StudentGuard],
+        children: [
+          { path: '', component: StudentComponent }
+        ]
       },
       { path: 'not-found', component: NotFoundComponent },
       { path: '**', component: NotFoundComponent, pathMatch: 'full' }

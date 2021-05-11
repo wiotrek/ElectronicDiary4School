@@ -7,22 +7,22 @@
         routerLink="nowa-ocena">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
     </div>
 
-    <div class="main-list">
+    <div class="main-list" *ngIf="this.list else lackStudentsList">
         <p class="main-list__title">Uczeń/Uczennica</p>
 
-        <ul class="student-list">
-            <li class="student-list__item"
+        <ul class="students-list">
+            <li class="global-list-element students-list__student"
             [ngClass]="{'global-animate-el-of-list': editModeForIndex !== i}"
             *ngFor="let s of list; index as i">
 
-                <div class="student-list__student-name">
-                    <p class="student-list__student-name-p">
+                <div class="students-list__student-name">
+                    <p class="students-list__student-name-p">
                         {{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
-                        <em class="student-list__student-index">
+                        <em class="students-list__student-index">
                           <i class="bi bi-file-earmark-person">
                             </i> {{s.student.identifier}}</em></p>
 
-                    <a class="student-list__student-name-a" *ngIf="s.marks.length else lackMarks"
+                    <a class="students-list__student-name-a" *ngIf="s.marks.length else lackMarks"
                     (click)="this.editModeToggle(i)"
                     [ngStyle]="{'color': editModeForIndex === i ? 'initial' : '#428bca'}">
                     {{editModeForIndex === i ? 'Cofnij' : 'Edytuj'}}</a>
@@ -37,9 +37,9 @@
                 </ng-container>
 
                 <ng-template #showCurrentMarks>
-                    <p class="student-list__list-marks" *ngIf="s.marks.length">
+                    <p class="students-list__list-marks" *ngIf="s.marks.length">
                         <span *ngFor="let one of s.marks"
-                        class="student-list__mark">{{one.mark}}</span>
+                        class="students-list__mark">{{one.mark}}</span>
                     </p>
                 </ng-template>
 
@@ -53,5 +53,9 @@
         </ul>
 
     </div>
+
+    <ng-template #lackStudentsList>
+        <h2>Niestety, brak studentów do wyświetlenia</h2>
+    </ng-template>
 
 </main>

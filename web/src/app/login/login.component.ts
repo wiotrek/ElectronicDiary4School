@@ -1,6 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AccountService } from '../_services/account.service';
-import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -14,10 +13,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private elementRef: ElementRef,
-    private accountService: AccountService,
-    private toastr: ToastrService
-  ) {
-   }
+    private accountService: AccountService) {}
 
   ngOnInit(): void {
     // setting background color for body element
@@ -26,10 +22,6 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     this.accountService.login(this.model).subscribe(
-      () => window.location.reload(),
-      (err: any) => {
-        this.loginForm?.reset();
-        this.toastr.error('Nie udało się zalogować');
-    });
+      () => window.location.reload());
   }
 }

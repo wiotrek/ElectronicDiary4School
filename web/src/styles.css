@@ -27,12 +27,16 @@ a:visited {
   color: inherit;
 }
 
+
+/* re: logging component */
 @media (max-width: 800px) {
   .bg-logging {
     background-color: var(--primary-blue);
   }
 }
 
+
+/* global class */
 @media (min-width: 0px) {
 
   .global-list-element {
@@ -79,5 +83,4 @@ a:visited {
   .global-animate-el-of-list:hover::after {
     transform: translateX(-100%);
   }
-
 }

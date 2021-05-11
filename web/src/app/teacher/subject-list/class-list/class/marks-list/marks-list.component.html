@@ -7,7 +7,7 @@
         routerLink="nowa-ocena">Dodaj ocenę <i class="bi bi-pencil-fill"></i></a>
     </div>
 
-    <div class="main-list">
+    <div class="main-list" *ngIf="this.list else lackStudentsList">
         <p class="main-list__title">Uczeń/Uczennica</p>
 
         <ul class="students-list">
@@ -53,5 +53,9 @@
         </ul>
 
     </div>
+
+    <ng-template #lackStudentsList>
+        <h2>Niestety, brak studentów do wyświetlenia</h2>
+    </ng-template>
 
 </main>

@@ -112,18 +112,13 @@ export class NewMarkComponent implements OnInit {
 
     this.teacherService.sendNewMark(this.subjectName,
       formatDate(new Date(), 'yyyy-MM-dd', 'en-Us'), addNewMarks).subscribe(
+      () => this.toastr.success('Ocena została dodana'),
+      (err: any) => console.log(err),
       () => {
-        console.log('udało się');
-        this.toastr.success('Ocena została dodana');
-
         // result path is 'oceny?dodano=tak'
         // and now in marks-list we can update studentslist
         this.router.navigate(['../'], {
           queryParams: { dodano: 'tak' },
-          relativeTo: this.route });
-      }, (err: any) => {
-        console.log(err);
-        this.toastr.error('Niestety, nie udało się dodać oceny'); });
+          relativeTo: this.route }); });
   }
-
 }

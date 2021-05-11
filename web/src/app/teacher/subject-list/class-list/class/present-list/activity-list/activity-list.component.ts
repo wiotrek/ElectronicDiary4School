@@ -10,6 +10,7 @@ import { StudentActivity } from 'src/app/_models/_teacher/activity/student-activ
   styleUrls: ['./activity-list.component.css']
 })
 export class ActivityListComponent implements OnInit {
+  showList = true;
 
   // list which is getting from api to display
   list: StudentActivity[] = [];
@@ -34,7 +35,7 @@ export class ActivityListComponent implements OnInit {
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
 
-    this.teacherService.sendPresentList(subject, this.list)
-    .subscribe(() => this.toastr.success('Obecność została zarejestrowana'));
+    this.teacherService.sendPresentList(subject, this.list).subscribe(
+      () => this.toastr.success('Obecność została zarejestrowana'));
   }
 }

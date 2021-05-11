@@ -36,9 +36,7 @@ export class MarksListComponent implements OnInit {
       this.teacherService.delDashesAndUpperFirstLetter(
         this.route.snapshot.paramMap.get('subject') || ''),
         this.route.snapshot.paramMap.get('class') || '', update)
-        .subscribe(
-          (res: StudentsMarks[]) => this.list = res,
-          (err: any) => console.log(err));
+        .subscribe((res: StudentsMarks[]) => this.list = res);
   }
 
   // opening card to edit mark

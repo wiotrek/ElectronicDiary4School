@@ -1,4 +1,4 @@
-<div class="main-list" *ngIf="this.list.length">
+<div class="main-list" *ngIf="this.list else lackStudentsList">
     
     <div class="main-list__title">
       <p>Uczeń/Uczennica</p>
@@ -25,3 +25,7 @@
         </div>
     </ul>
 </div>
+
+<ng-template #lackStudentsList>
+    <h2>Niestety, brak studentów do wyświetlenia</h2>
+</ng-template>

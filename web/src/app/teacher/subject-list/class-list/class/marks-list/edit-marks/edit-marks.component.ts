@@ -29,9 +29,8 @@ export class EditMarksComponent implements OnInit{
     }, []);
 
     this.teacherService.updateStudentMarks(updatedMarks).subscribe(
-      () => {
-        this.toastr.success('Ocena została zmieniona');
-        this.refreshList.emit(true);
-      }, () => this.toastr.error('Nie udało się zaktualizować'));
+      () => this.toastr.success('Ocena została zmieniona'),
+      (err: any) => console.log(err),
+      () => this.refreshList.emit(true));
   }
 }

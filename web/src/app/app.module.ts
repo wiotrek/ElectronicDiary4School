@@ -23,6 +23,7 @@ import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-
 import { ActivityListComponent } from './teacher/subject-list/class-list/class/present-list/activity-list/activity-list.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { AbsentListComponent } from './teacher/subject-list/class-list/class/present-list/absent-list/absent-list.component';
+import { StudentComponent } from './student/student.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { AbsentListComponent } from './teacher/subject-list/class-list/class/pre
     EditMarksComponent,
     NewMarkComponent,
     ActivityListComponent,
-    AbsentListComponent
+    AbsentListComponent,
+    StudentComponent
   ],
   imports: [
     BrowserModule,

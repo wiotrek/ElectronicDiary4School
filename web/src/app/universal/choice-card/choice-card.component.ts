@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Card } from 'src/app/_models/_universal/card';
-import { DateToChoiceCard } from '../../_models/date-to-choice-card';
+import { DateToChoiceCard } from '../../_models/_universal/date-to-choice-card';
 
 @Component({
   selector: 'app-choice-card',

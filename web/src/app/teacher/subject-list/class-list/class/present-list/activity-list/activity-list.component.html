@@ -6,8 +6,8 @@
 
     <ul class="students-list">
         <li class="global-list-element global-animate-el-of-list students-list__student"
-        ngClass="{'global-list-element--unSelect': !s.isActivity}"
-        *ngFor="let student of this.list; index as i">
+        *ngFor="let student of this.list; index as i"
+        [ngClass]="{'global-list-element--unSelect': !student.isActive}">
 
             <label class="students-list__label--mobile">
                 {{i+1}}. {{student.student.first_name[0]}}.{{student.student.last_name}}</label>

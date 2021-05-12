@@ -21,14 +21,8 @@ export class ActivityListComponent implements OnInit {
     private toastr: ToastrService) {}
 
   ngOnInit(): void {
-    this.getStudentsList();
-  }
-
-  getStudentsList(): void {
     this.teacherService.getStudentsActivity(this.route.snapshot.paramMap.get('class') || '')
-      .subscribe(
-        (res: StudentActivity[]) => this.list = res,
-        (err: any) => console.log(err));
+      .subscribe((res: StudentActivity[]) => this.list = res);
   }
 
   saveList(): void {

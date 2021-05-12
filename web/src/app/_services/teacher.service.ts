@@ -3,18 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
 import { StudentsMarks } from '../_models/_teacher/marks/students-marks';
-import { ListToCard } from '../_models/list-to-card';
 import { map } from 'rxjs/operators';
 import { UpdateMark } from '../_models/_teacher/marks/update-marks/update-mark';
 import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
 import { StudentActivity } from '../_models/_teacher/activity/student-activity';
+import { Card } from '../_models/_universal/card';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TeacherService {
   baseUrl = environment.apiUrl;
-  listOfSubject: ListToCard[] = [];
+  listOfSubject: Card[] = [];
   listOfClassCache = new Map();
   listOfStudentsCache = new Map();
 
@@ -26,9 +26,9 @@ export class TeacherService {
   }
 
   // if early user got list of subject then this list is in cache
-  getSubjects(): Observable<ListToCard[]> {
+  getSubjects(): Observable<Card[]> {
     if (this.listOfSubject.length >  0) { return of(this.listOfSubject); }
-    return this.http.get<ListToCard[]>(this.baseUrl + 'teacher/subjects').pipe(
+    return this.http.get<Card[]>(this.baseUrl + 'teacher/subjects').pipe(
       map(subjects => {
         this.listOfSubject = subjects;
         return subjects;
@@ -36,7 +36,7 @@ export class TeacherService {
     );
   }
 
-  getClasses(subjectName: string): Observable<ListToCard[]> {
+  getClasses(subjectName: string): Observable<Card[]> {
 
     // getting object about name subjectName
     const response = this.listOfClassCache.get(Object.values(subjectName).join('-'));
@@ -45,7 +45,7 @@ export class TeacherService {
     if (response) { return of (response); }
 
     const path = `teacher/subject=${subjectName}/classes`;
-    return this.http.get<ListToCard[]>(this.baseUrl + path).pipe(
+    return this.http.get<Card[]>(this.baseUrl + path).pipe(
       map(classes => {
         this.listOfClassCache.set(Object.values(subjectName).join('-'), classes);
         return classes;

@@ -18,7 +18,7 @@ export class CardComponent {
   // function which redirect to specific place, if setting click mode
   routerlink = () => {
     if (this.dateCard.readonly) { return; }
-    const url = this.dateCard.description.replace(/\s+/g, '-').toLowerCase();
+    const url = this.dateCard.name.replace(/\s+/g, '-').toLowerCase();
     this.router.navigate([`${url}`], {relativeTo: this.route});
   }
 }

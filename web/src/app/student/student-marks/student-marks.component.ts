@@ -21,13 +21,13 @@ export class StudentMarksComponent implements OnInit {
     {
       caption: '75%',
       color: '#7FFFD4',
-      description: 'Twoja frekwencja',
+      name: 'Twoja frekwencja',
       readonly: true
     },
     {
       caption: '4.21',
       color: '#7FFFD4',
-      description: 'Twoja średnia',
+      name: 'Twoja średnia',
       readonly: true
     }
   ]

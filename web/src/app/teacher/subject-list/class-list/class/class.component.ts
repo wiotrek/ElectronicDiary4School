@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
+import { DateToChoiceCard } from 'src/app/_models/_universal/date-to-choice-card';
 import { Card } from 'src/app/_models/_universal/card';
 
 @Component({
@@ -11,8 +11,8 @@ export class ClassComponent {
   dateToChild: DateToChoiceCard;
 
   list: Card[] = [
-    { description: 'Lista obecności', icon: 'bi bi-card-checklist' },
-    { description: 'Oceny', icon: 'bi bi-file-earmark-spreadsheet' }
+    { name: 'Lista obecności', icon: 'bi bi-card-checklist' },
+    { name: 'Oceny', icon: 'bi bi-file-earmark-spreadsheet' }
   ];
 
   colors = ['#F4A460', '#7FFFD4'];

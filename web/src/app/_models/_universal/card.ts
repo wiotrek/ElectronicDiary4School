@@ -1,7 +1,7 @@
 export interface Card {
+    name: string;
     icon?: string;
     color?: string;
     caption?: string;
-    description: string;
     readonly?: boolean;
 }

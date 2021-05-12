@@ -7,6 +7,7 @@ use App\ApiModels\Data\ApiCode;
 use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\MarksItemViewResultApiModel;
 use App\ApiModels\Marks\MarksListViewResultApiModel;
+use App\ApiModels\StudentFrequencyResultApiModel;
 use App\ApiModels\StudentResultApiModel;
 use App\Models\StudentActivity;
 use App\Services\ClassService;
@@ -115,15 +116,37 @@ class StudentController extends Controller
      * @param $class string The class contains identifier number and number
      */
     public function showStudentsOfClass ( string $class ) {
+        $studentFrequencyList = new StudentFrequencyResultApiModel;
 
-        // Split class request param by character index
         $classNumber = $class[0];
         $identifierClassNumber = $class[1];
 
         $result = $this->classService->getStudentListByClass($classNumber, $identifierClassNumber);
 
+
+        foreach ( $result as $item ) {
+
+            $student = new StudentResultApiModel();
+            $student->setIdentifier($item['identifier']);
+            $student->setFirstName($item['first_name']);
+            $student->setLastName($item['last_name']);
+            $studentFrequencyList->setIsActive(true);
+
+            $studentFrequencyList->setStudent($student);
+
+            $toResponse[] = array(
+                'student' => array(
+                    'identifier' => $studentFrequencyList -> getStudent() -> getIdentifier(),
+                    'first_name' => $studentFrequencyList -> getStudent() -> getFirstName(),
+                    'last_name' => $studentFrequencyList -> getStudent() -> getLastName()
+                ),
+                'isActive' => $studentFrequencyList->getIsActive()
+            );
+        }
+
+
         // return student list
-        return ApiResponse::withSuccess($result);
+        return ApiResponse::withSuccess($toResponse);
     }
 
     public function showStudentMarksOfClassForSubject($subject, $class) {

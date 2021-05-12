@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post( WebRoutes::LOGOUT, [ AuthController::class, 'logout' ] );
 
     // Student activity
-    Route::post( WebRoutes::STUDENT_ACTIVE, [ StudentController::class, 'storeStudentActivity' ] );
+    Route::put( WebRoutes::STUDENT_ACTIVE, [ StudentController::class, 'storeStudentActivity' ] );
 
     // Edit marks by teacher
     Route::put( WebRoutes::TEACHER_MARKS_EDIT, [StudentController::class, 'editStudentMarks'] );

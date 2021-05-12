@@ -10,7 +10,7 @@ class WebRoutes {
 
     public const LOGOUT = '/logout';
 
-    public const STUDENT_ACTIVE = 'student-active/{subject_name}/{date}';
+    public const STUDENT_ACTIVE = 'student-active/{subject_name}';
 
     public const TEACHER_MARKS_EDIT = '/teacher-marks/edit';
 

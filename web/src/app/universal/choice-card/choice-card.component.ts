@@ -1,14 +1,30 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Card } from 'src/app/_models/_universal/card';
 import { DateToChoiceCard } from '../../_models/date-to-choice-card';
 
 @Component({
   selector: 'app-choice-card',
-  templateUrl: './choice-card.component.html',
-  styleUrls: ['./choice-card.component.css']
+  template: `
+  <main>
+  <app-second-nav [parent]="toSecondNav"></app-second-nav>
+
+  <div class="cards">
+      <app-card *ngFor="let item of this.dateFromParent.list; index as i"
+      [colorCard]="this.iconsColor[i % this.iconsColor.length]" [dateCard]="item"></app-card>
+  </div>
+
+  <ng-template #lackResource>
+      <h5 class="error">
+        Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>S
+  </ng-template>
+
+  </main>`,
+   styles: ['.error { margin-top: 2vh; animation: appear 10s ease-in-out .5s backwards }']
 })
 export class ChoiceCardComponent implements OnInit {
   @Input() dateFromParent = {} as DateToChoiceCard;
-  toChild = {};
+  dateToCard = {} as Card[];
+  toSecondNav = {};
 
   // current color icons doesnt matter whether color
   // is from default color, whether come from dateFromParent
@@ -23,22 +39,17 @@ export class ChoiceCardComponent implements OnInit {
     '#87CEEB', '#4682B4', '#F4A460', '#7FFFD4'
   ];
 
-  constructor() {}
-
-  // if iconColors doesnt exist then setting self default colors
   ngOnInit(): void {
-    this.iconsColor = this.dateFromParent.iconColors ?
-    this.dateFromParent?.iconColors.sort(() => Math.random() - 0.5)
-    : this.defaultColors.sort(() => Math.random() - 0.5);
 
     // adding params to second navbar
-    this.toChild = {
+    this.toSecondNav = {
       hideBack: this.dateFromParent.hideBack,
       title: this.dateFromParent.title
     };
-  }
 
-  // replace all white space on dash
-  // between /{sign}/g is a sign which we want change
-  createLink = (item: string) => item.replace(/\s+/g, '-').toLowerCase();
+    // if iconColors doesnt exist then setting self default colors
+    this.iconsColor = this.dateFromParent.iconColors ?
+    this.dateFromParent?.iconColors.sort(() => Math.random() - 0.5)
+    : this.defaultColors.sort(() => Math.random() - 0.5);
+  }
 }

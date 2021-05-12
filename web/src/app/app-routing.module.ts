@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { StudentMarksComponent } from './student/student-marks/student-marks.component';
 import { StudentComponent } from './student/student.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
@@ -51,7 +52,13 @@ const routes: Routes = [
         path: 'uczen',
         canActivate: [StudentGuard],
         children: [
-          { path: '', component: StudentComponent }
+          { path: '', component: StudentComponent },
+          {
+            path: 'sprawdź-oceny',
+            children: [
+              { path: '', component: StudentMarksComponent }
+            ]
+          }
         ]
       },
       { path: 'not-found', component: NotFoundComponent },

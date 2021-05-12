@@ -28,10 +28,7 @@ export class ActivityListComponent implements OnInit {
     const subject = this.teacherService.delDashesAndUpperFirstLetter(
       this.route.snapshot.paramMap.get('subject') || '');
 
-    console.log(this.list);
-
-
-    // this.teacherService.sendPresentList(subject, this.list).subscribe(
-    //   () => this.toastr.success('Obecność została zarejestrowana'));
+    this.teacherService.sendPresentList(subject, this.list).subscribe(
+      () => this.toastr.success('Obecność została zarejestrowana'));
   }
 }

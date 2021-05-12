@@ -33,6 +33,16 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $this->findIdByOtherId($user_id, KeyColumn::fromModel(User::class), KeyColumn::fromModel(Student::class), Student::class);
     }
 
+    public function readStudentActiveIdByStudentIdAndDate ( $studentId, $date, $time ) {
+        return StudentActivity::query()->
+        where([
+            'student_id' => $studentId,
+            'date_active' => $date,
+            'time_active' => $time
+        ])->
+        pluck(KeyColumn::fromModel(StudentActivity::class));
+    }
+
     public function readStudentMarksBySubject( $identifier, $subjectName) {
 
         $student_id = $this->readStudentIdByIdentifier($identifier);
@@ -78,10 +88,17 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             -> pluck('degree');
     }
 
-    public function updateModel ( $primaryKey, $primaryColumnName, $valueToUpdate) {
-        return StudentMark::query()->
-                            where($primaryColumnName, '=', $primaryKey)->
-                            update(['marks_id' => $valueToUpdate]);
+    public function updateStudentMarkModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
+        return $this->updateModel($primaryKey, $primaryColumnName, StudentMark::class)->
+            update(['marks_id' => $valueToUpdate]);
+    }
+
+    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
+        return $this->updateModel($primaryKey, $primaryColumnName, StudentActivity::class)->
+            update([
+                'active' => $valueToUpdate,
+                'checked' => 1
+            ]);
     }
 
 }

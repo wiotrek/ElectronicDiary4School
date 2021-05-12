@@ -18,8 +18,7 @@ use App\WebModels\Marks\MarkInsert;
 use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
-use App\WebModels\StudentActivityWebModel;
-use Facade\FlareClient\Api;
+use App\WebModels\StudentFrequencyWebModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -43,33 +42,14 @@ class StudentController extends Controller
 
 
     // Save student activity data to student_activity table
-    public function storeStudentActivity (Request $request, $subjectName, $date) {
-
-        // Create object for keep request data
-        $studentActivity = new StudentActivityWebModel;
-
-
-        // Initialize data from request
-        $studentActivity->setStudentIdentifier($request->all());
-        $studentActivity->setSubjectName($subjectName);
-        $studentActivity->setDateActive($date);
-
-
-        // TODO: Get students by class id
-        // Load all students together with first student from request by his identifier
-        $studentIdsList = $this->classService->getStudentsIdFromClass($request[0]);
-
-
-        // Get ids of becoming students from request
-        $idsOfActiveStudents = $this->classService->getIdsOfActiveStudents($studentActivity->getStudentIdentifier());
-
+    public function storeStudentActivity (Request $request, $subjectName) {
 
         // Get id of subject which for active students are saving
-        $subjectId = $this->subjectService->getSubjectId($studentActivity->getSubjectName())[0];
+        $subjectId = $this->subjectService->getSubjectId($subjectName)[0];
 
 
         // Get id of class by first identifier from request
-        $classId = $this->classService->getClassIdByIdentifier($request[0])[0];
+        $classId = $this->classService->getClassIdByIdentifier($request[0]['student']['identifier'])[0];
 
 
         // Get time from harmonogram to set start time lesson for active list
@@ -79,32 +59,18 @@ class StudentController extends Controller
 
 
         // Go through all students from current class
-        foreach ( $studentIdsList as $studentId ) {
+        foreach ( $request->all() as $frequencyItem ) {
 
-            // Set default value
-            $isActive = 0;
+            // Map current data to frequency model
+            $frequency = new StudentFrequencyWebModel;
+            $frequency -> setActive($frequencyItem['isActive']);
+            $frequency -> setStudentIdentifier($frequencyItem['student']['identifier']);
 
-            // Stupid double loop
-            foreach( $idsOfActiveStudents as $activeStudentId ) {
-                foreach( $activeStudentId as $actStu ){
-                    if ( $actStu == $studentId ) {
-                        $isActive = 1;
-                    }
-                }
-            }
+            $studentId = $this->classService->getStudentIdByIdentifier($frequency->getStudentIdentifier());
 
-            // Collect all data for saving
-            $studentActivityToSave = new StudentActivity( [
-                'student_id' => $studentId,
-                'subject_id' => $subjectId,
-                'active' => $isActive,
-                'date_active' => $studentActivity -> getDateActive(),
-                'time_active' => $timeActive
-            ] );
 
-            // Save active of current student on loop
-            $this -> studentService -> storeStudentActivity( $studentActivityToSave );
-
+            // Update student frequenty
+            $this->studentService->modifyStudentActive($studentId, $timeActive, $frequency->getActive());
         }
 
 

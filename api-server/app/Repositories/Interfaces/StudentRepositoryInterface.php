@@ -47,6 +47,14 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @param $valueToUpdate mixed
      * @return mixed
      */
-    public function updateModel ( int $primaryKey, string $primaryColumnName, $valueToUpdate);
+    public function updateStudentMarkModel ( int $primaryKey, string $primaryColumnName, $valueToUpdate);
+
+    /**
+     * @param $primaryKey
+     * @param $primaryColumnName
+     * @param $valueToUpdate
+     * @return mixed
+     */
+    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate );
 
 }

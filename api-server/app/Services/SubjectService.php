@@ -41,6 +41,12 @@ class SubjectService {
             ->pluck('subject_id');
     }
 
+
+    //TODO: Create Singleton Session class contains all information about login user
+    public function getTeacherId ( ) {
+        return $this->subjectRepository->getTeacherId();
+    }
+
     #endregion
 
 }

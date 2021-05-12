@@ -6,19 +6,23 @@ namespace App\Services;
 use App\Models\Student;
 use App\Models\User;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
+use App\Repositories\StudentRepository;
 
 class ClassService {
 
     #region Private Members
 
     private $classRepository;
+    private $studentRepository;
 
     #endregion
 
     #region DI Constructor
 
-    public function __construct (ClassRepositoryInterface $classRepository) {
+    public function __construct (ClassRepositoryInterface $classRepository,
+                                 StudentRepository $studentRepository) {
         $this->classRepository = $classRepository;
+        $this->studentRepository = $studentRepository;
     }
 
     #endregion
@@ -90,6 +94,10 @@ class ClassService {
 
     public function getClassIdByIdentifier($identifier) {
         return $this->classRepository->readClassIdByStudentIdentifier($identifier);
+    }
+
+    public function getStudentIdByIdentifier ( $identifier ) {
+        return $this->studentRepository->readStudentIdByIdentifier($identifier);
     }
 
     #endregion

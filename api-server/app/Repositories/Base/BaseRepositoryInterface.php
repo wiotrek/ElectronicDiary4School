@@ -8,6 +8,16 @@ interface BaseRepositoryInterface {
 
     public function getAuthId();
 
+    public function getTeacherId ();
+
+    /**
+     * @param $primaryKey int Primary key of specific model to identify which row is updating
+     * @param $primaryColumnName string The name for primary key of the specific model
+     * @param $fromModel mixed Eloquent model to update
+     * @return mixed
+     */
+    public function updateModel ( int $primaryKey, string $primaryColumnName, $fromModel);
+
     /**
      * Select whatever from giving $modelName
      * @param $model string Eloquent model for retrieve data

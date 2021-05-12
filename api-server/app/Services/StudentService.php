@@ -5,7 +5,9 @@ namespace App\Services;
 
 
 use App\ApiModels\Marks\Design\MarkItem;
+use App\Helpers\KeyColumn;
 use App\Models\Mark;
+use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
@@ -41,6 +43,7 @@ class StudentService {
         $this->studentRepository->saveStudentActivity($studentActivity);
     }
 
+
     public function getStudentMarksBySubject ( $identifier, $subjectName ) {
 
         // Get student marks by params
@@ -52,6 +55,7 @@ class StudentService {
 
         return $marks;
     }
+
 
     /**
      * Checking if any student mark was changing before put to database
@@ -78,10 +82,11 @@ class StudentService {
             // change mark id value
             $markToUpdate->marks_id = $markIdByMarkFromClient;
 
-            $this->studentRepository->updateModel($markItem->getStudentMarksId(), 'student_marks_id', $markToUpdate->marks_id);
+            $this->studentRepository->updateStudentMarkModel($markItem->getStudentMarksId(), 'student_marks_id', $markToUpdate->marks_id);
         }
 
     }
+
 
     public function storeStudentMarks ( MarkListInsert $mlInsert ) {
 
@@ -115,6 +120,23 @@ class StudentService {
             $this->studentRepository->storeStudentMark($studentMark);
         }
 
+    }
+
+
+    /**
+     * @param $studentId int The value of the primary key from Student table
+     * @param $timeActive string The current time which lesson during now
+     * @param $isActive bool The flag indicates that student is present or not
+     */
+    public function modifyStudentActive ( int $studentId, string $timeActive, bool $isActive ) {
+        $studentActiveId = $this->studentRepository->readStudentActiveIdByStudentIdAndDate($studentId, date('Y-m-d'), $timeActive)[0];
+
+        // Get specific student active
+        $studentActiveToUpdate = $this->studentRepository->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentActivity::class)->first();
+        // Set new value for this student
+        $studentActiveToUpdate->active = $isActive;
+
+        $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
     }
     #endregion
 

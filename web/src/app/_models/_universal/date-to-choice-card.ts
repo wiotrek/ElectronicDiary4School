@@ -1,4 +1,4 @@
-import { Card } from './_universal/card';
+import { Card } from './card';
 
 export interface DateToChoiceCard {
     title: string;

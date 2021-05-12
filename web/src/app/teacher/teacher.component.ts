@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DateToChoiceCard } from '../_models/date-to-choice-card';
+import { DateToChoiceCard } from '../_models/_universal/date-to-choice-card';
 import { Card } from '../_models/_universal/card';
 
 @Component({
@@ -11,8 +11,8 @@ export class TeacherComponent {
 
   // static list
   list: Card[] = [
-    { description: 'Rozpocznij lekcje', icon: 'bi bi-subtract'},
-    { description: 'Powiadomienia', icon: 'bi bi-chat-dots'}
+    { name: 'Rozpocznij lekcje', icon: 'bi bi-subtract'},
+    { name: 'Powiadomienia', icon: 'bi bi-chat-dots'}
   ];
 
   // colors for icons

@@ -1,22 +1,18 @@
 import { Component } from '@angular/core';
 import { DateToChoiceCard } from '../_models/date-to-choice-card';
-import { ListToCard } from '../_models/list-to-card';
+import { Card } from '../_models/_universal/card';
 
 @Component({
   selector: 'app-teacher',
-  template: `
-  <app-choice-card
-  [dateFromParent]="dateToChild"
-  ></app-choice-card>
-  `
+  template: `<app-choice-card [dateFromParent]="dateToChild"></app-choice-card>`
 })
 export class TeacherComponent {
   dateToChild: DateToChoiceCard;
 
   // static list
-  list: ListToCard[] = [
-    { name: 'Rozpocznij lekcje', icon: 'bi bi-subtract' },
-    { name: 'Powiadomienia', icon: 'bi bi-chat-dots' }
+  list: Card[] = [
+    { description: 'Rozpocznij lekcje', icon: 'bi bi-subtract'},
+    { description: 'Powiadomienia', icon: 'bi bi-chat-dots'}
   ];
 
   // colors for icons

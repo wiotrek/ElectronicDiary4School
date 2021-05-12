@@ -1,8 +1,8 @@
-import { ListToCard } from './list-to-card';
+import { Card } from './_universal/card';
 
 export interface DateToChoiceCard {
     title: string;
-    list: ListToCard[];
+    list: Card[];
     lackResource: string;
     hideBack?: boolean;
     iconColors?: string[];

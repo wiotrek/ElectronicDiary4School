@@ -2,20 +2,17 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DateToChoiceCard } from 'src/app/_models/date-to-choice-card';
 import { ListToCard } from 'src/app/_models/list-to-card';
+import { Card } from 'src/app/_models/_universal/card';
 import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-class-list',
-  template: `
-  <app-choice-card
-  [dateFromParent]="dateToChild"
-  ></app-choice-card>
-  `
+  template: `<app-choice-card [dateFromParent]="dateToChild"></app-choice-card>`
 })
 export class ClassListComponent {
   dateToChild: DateToChoiceCard;
 
-  list: ListToCard[] = [];
+  list: Card[] = [];
 
   constructor(
     private teacherService: TeacherService,
@@ -34,8 +31,8 @@ export class ClassListComponent {
 
     // tslint:disable-next-line: deprecation
     this.teacherService.getClasses(subject).subscribe((res: ListToCard[]) => {
-      res.forEach(({name, icon}: ListToCard) =>
-      this.list.push({name, icon}));
+      res.forEach(({name, icon}) =>
+      this.list.push({description: name, icon}));
     }, (err: any) => console.log(err));
   }
 }

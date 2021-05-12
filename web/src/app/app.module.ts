@@ -24,6 +24,8 @@ import { ActivityListComponent } from './teacher/subject-list/class-list/class/p
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { AbsentListComponent } from './teacher/subject-list/class-list/class/present-list/absent-list/absent-list.component';
 import { StudentComponent } from './student/student.component';
+import { StudentMarksComponent } from './student/student-marks/student-marks.component';
+import { CardComponent } from './universal/card/card.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { StudentComponent } from './student/student.component';
     NewMarkComponent,
     ActivityListComponent,
     AbsentListComponent,
-    StudentComponent
+    StudentComponent,
+    StudentMarksComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,

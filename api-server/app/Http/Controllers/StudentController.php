@@ -19,6 +19,7 @@ use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentActivityWebModel;
 use Facade\FlareClient\Api;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -66,7 +67,6 @@ class StudentController extends Controller
         $subjectId = $this->subjectService->getSubjectId($studentActivity->getSubjectName())[0];
 
 
-
         // Get id of class by first identifier from request
         $classId = $this->classService->getClassIdByIdentifier($request[0])[0];
 
@@ -75,6 +75,7 @@ class StudentController extends Controller
         $timeActive = $this->harmonogramService->setTimeActive( $subjectId, $classId );
         if ($timeActive == 0)
             return ApiResponse::badRequest(ApiCode::NOTSTORE_STUDENT_ACTIVE);
+
 
         // Go through all students from current class
         foreach ( $studentIdsList as $studentId ) {

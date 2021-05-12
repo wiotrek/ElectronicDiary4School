@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class StudentParent
  * 
  * @property int $student_parent_id
+ * @property int $user_id
  * @property int $student_id
  * @property int $role_id
  * 
@@ -26,11 +27,13 @@ class StudentParent extends Model
 	public $timestamps = false;
 
 	protected $casts = [
+		'user_id' => 'int',
 		'student_id' => 'int',
 		'role_id' => 'int'
 	];
 
 	protected $fillable = [
+		'user_id',
 		'student_id',
 		'role_id'
 	];

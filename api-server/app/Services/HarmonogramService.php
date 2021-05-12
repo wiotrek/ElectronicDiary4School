@@ -5,8 +5,11 @@ namespace App\Services;
 
 use App\DataModels\StartTimeLesson;
 use App\Helpers\DayTranslate;
+use App\Models\Student;
+use App\Models\StudentActivity;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\HarmonogramRepository;
+use App\Repositories\StudentRepository;
 use DateTime;
 
 // Manager date for stored correct time of the students activity
@@ -15,6 +18,7 @@ class HarmonogramService extends BaseRepository {
     #region Private Members
 
     private $harmonogramRepository;
+    private $studentRepository;
 
     // The flag indicate teacher check active list in correct time
     private $isCanSet = false;
@@ -32,13 +36,15 @@ class HarmonogramService extends BaseRepository {
 
     #region Default Constructor
 
-    public function __construct (HarmonogramRepository $harmonogramRepository) {
+    public function __construct (HarmonogramRepository $harmonogramRepository,
+                                 StudentRepository $studentRepository) {
         // Init current day with translated name to polish
         $this->day = ( new DayTranslate ) -> fromEngToPl(date('l'));
         // Init current time with format hour (00-24) and minutes (00-60)
         $this->time = date('H:i');
 
         $this->harmonogramRepository = $harmonogramRepository;
+        $this->studentRepository = $studentRepository;
     }
 
     #endregion
@@ -61,6 +67,48 @@ class HarmonogramService extends BaseRepository {
 
        return $this->startTime;
 
+    }
+
+    /**
+     * Saving list of activity students list to checking by teacher
+     * with default checked status equal 0
+     */
+    public function initStudentActivityToCheck ( $date, $time ) {
+
+        // Init data
+        $getData = $this->harmonogramRepository->readTeachersWhichHaveLessonNow (( new DayTranslate ) -> fromEngToPl(date('l')), date('H:i'));
+        $active = 0;
+        $checked = 0;
+
+        // For each row from harmonogram
+        foreach ( $getData as $data ) {
+
+            // Init main data
+            $teacherId = $data['teacher_id'];
+            $subjectId = $data['subject_id'];
+            $userClassId = $data['user_class_id'];
+
+            // Get student ids of current review class id
+            $studentIds = $this->harmonogramRepository->findIdByOtherId($userClassId, 'user_class_id', 'student_id', Student::class);
+
+            // For each student
+            foreach ( $studentIds as $studentId ) {
+
+                // Create single row of student_activity table
+                $studentActivity = new StudentActivity([
+                    'student_id' => $studentId,
+                    'subject_id' => $subjectId,
+                    'teacher_id' => $teacherId,
+                    'active' => $active,
+                    'checked' => $checked,
+                    'date_active' => $date,
+                    'time_active' => $time
+                ]);
+
+                $this->studentRepository->saveStudentActivity($studentActivity);
+            }
+
+        }
     }
 
     #endregion

@@ -8,6 +8,7 @@ import { UpdateMark } from '../_models/_teacher/marks/update-marks/update-mark';
 import { AddNewMarks } from '../_models/_teacher/marks/new-mark/add-new-marks';
 import { StudentActivity } from '../_models/_teacher/activity/student-activity';
 import { Card } from '../_models/_universal/card';
+import { StudentActivityObj } from '../_models/_teacher/activity/student-activity-obj';
 
 @Injectable({
   providedIn: 'root'
@@ -53,9 +54,9 @@ export class TeacherService {
     );
   }
 
-  getStudentsActivity(className: string): Observable<StudentActivity[]> {
+  getStudentsActivity(className: string): Observable<StudentActivityObj> {
     const path = `students/class=${className}`;
-    return this.http.get<StudentActivity[]>(this.baseUrl + path);
+    return this.http.get<StudentActivityObj>(this.baseUrl + path);
   }
 
   sendPresentList(subject: string, students: StudentActivity[]): any {

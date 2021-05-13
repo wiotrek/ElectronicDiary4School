@@ -1,17 +1,23 @@
 <?php
 
 
-namespace App\ApiModels;
+namespace App\ApiModels\Frequency;
 
-//TODO: Add readonly fields depend on sending time - is teacher lesson now or not
+use App\ApiModels\StudentResultApiModel;
+
 class StudentFrequencyResultApiModel extends StudentResultApiModel {
 
     #region Private Members
 
+    /**
+     * @var StudentResultApiModel The specific student with details
+     */
     protected static $student;
+
+    /**
+     * @var bool The flag indicates that student was active or not
+     */
     protected static $isActive;
-    protected static $date;
-    protected static $readonly;
 
     #endregion
 
@@ -28,7 +34,11 @@ class StudentFrequencyResultApiModel extends StudentResultApiModel {
      * @param StudentResultApiModel $student
      */
     public static function setStudent ( StudentResultApiModel $student ): void {
-        self :: $student = $student;
+        self :: $student = array(
+            'first_name' => $student->getFirstName(),
+            'last_name' => $student->getLastName(),
+            'identifier' => $student->getIdentifier()
+        );
     }
 
     /**
@@ -43,34 +53,6 @@ class StudentFrequencyResultApiModel extends StudentResultApiModel {
      */
     public static function setIsActive ( bool $isActive ): void {
         self :: $isActive = $isActive;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getDate () {
-        return self :: $date;
-    }
-
-    /**
-     * @param string $date
-     */
-    public static function setDate ( string $date ): void {
-        self :: $date = $date;
-    }
-
-    /**
-     * @return bool
-     */
-    public static function getReadonly () {
-        return self :: $readonly;
-    }
-
-    /**
-     * @param bool $readonly
-     */
-    public static function setReadonly ( bool $readonly ): void {
-        self :: $readonly = $readonly;
     }
 
     #endregion

@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\Data\ApiCode;
+use App\ApiModels\Frequency\StudentFrequencyListResultApiModel;
+use App\ApiModels\Frequency\StudentFrequencyResultApiModel;
 use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\MarksItemViewResultApiModel;
 use App\ApiModels\Marks\MarksListViewResultApiModel;
-use App\ApiModels\StudentFrequencyResultApiModel;
 use App\ApiModels\StudentResultApiModel;
-use App\Models\StudentActivity;
 use App\Services\ClassService;
 use App\Services\HarmonogramService;
 use App\Services\StudentService;
@@ -19,7 +19,6 @@ use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentFrequencyWebModel;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -82,37 +81,51 @@ class StudentController extends Controller
      * @param $class string The class contains identifier number and number
      */
     public function showStudentsOfClass ( string $class ) {
-        $studentFrequencyList = new StudentFrequencyResultApiModel;
+        // Init list for collect student items with them active
+        $studentFrequencyList = new StudentFrequencyListResultApiModel;
 
+        // what the class
         $classNumber = $class[0];
         $identifierClassNumber = $class[1];
 
-        $result = $this->classService->getStudentListByClass($classNumber, $identifierClassNumber);
+        // Retrieve students from request class
+        $studentListFromDB = $this->classService->getStudentListByClass($classNumber, $identifierClassNumber);
+
+        // Init base information
+        $studentFrequencyList -> setReadOnly(false);
+        $studentFrequencyList -> setDate(date('Y-m-d'));
 
 
-        foreach ( $result as $item ) {
+        foreach ( $studentListFromDB as $studentItemFromDB ) {
+            $studentFrequency = new StudentFrequencyResultApiModel;
 
+            // student setails
             $student = new StudentResultApiModel();
-            $student->setIdentifier($item['identifier']);
-            $student->setFirstName($item['first_name']);
-            $student->setLastName($item['last_name']);
-            $studentFrequencyList->setIsActive(true);
+            $student->setIdentifier($studentItemFromDB['identifier']);
+            $student->setFirstName($studentItemFromDB['first_name']);
+            $student->setLastName($studentItemFromDB['last_name']);
 
-            $studentFrequencyList->setStudent($student);
 
-            $toResponse[] = array(
-                'student' => array(
-                    'identifier' => $studentFrequencyList -> getStudent() -> getIdentifier(),
-                    'first_name' => $studentFrequencyList -> getStudent() -> getFirstName(),
-                    'last_name' => $studentFrequencyList -> getStudent() -> getLastName()
-                ),
-                'isActive' => $studentFrequencyList->getIsActive()
-            );
+            // student active information
+            $studentFrequency->setIsActive(false);
+            $studentFrequency->setStudent($student);
+
+
+            // collect data
+            $studentFrequencyList->setStudentListActivity($studentFrequency);
+            $studentListToDisplay[] = $studentFrequencyList->getStudentListActivity();
+
         }
 
+        // summary active students list information
+        $response = array(
+            'readOnly' => $studentFrequencyList -> getReadOnly(),
+            'date' => $studentFrequencyList -> getDate(),
+            'StudentActivity' => $studentListToDisplay
+        );
 
         // return student list
-        return ApiResponse::withSuccess($toResponse);
+        return ApiResponse::withSuccess($response);
     }
 
     public function showStudentMarksOfClassForSubject($subject, $class) {

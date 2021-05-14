@@ -11,11 +11,14 @@ use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 
 class StudentRepository extends BaseRepository implements StudentRepositoryInterface {
+
+    #region Saving
 
     public function saveStudentActivity ( StudentActivity $activity ) {
         $activity -> save();
@@ -24,6 +27,27 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
     public function storeStudentMark ( StudentMark $studentMarkEloquent ) {
         $studentMarkEloquent -> save();
     }
+
+    #endregion
+
+    #region Updating
+
+    public function updateStudentMarkModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
+        return $this->updateModel($primaryKey, $primaryColumnName, StudentMark::class)->
+        update(['marks_id' => $valueToUpdate]);
+    }
+
+    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
+        return $this->updateModel($primaryKey, $primaryColumnName, StudentActivity::class)->
+        update([
+            'active' => $valueToUpdate,
+            'checked' => 1
+        ]);
+    }
+
+    #endregion
+
+    #region Reading
 
     public function readStudentIdByIdentifier($identifier) {
 
@@ -88,17 +112,18 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             -> pluck('degree');
     }
 
-    public function updateStudentMarkModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
-        return $this->updateModel($primaryKey, $primaryColumnName, StudentMark::class)->
-            update(['marks_id' => $valueToUpdate]);
+    public function readStudentActive ( int $studentId, int $subjectId, string $date ) {
+        $teacherId = $this->getTeacherId()[0];
+
+        return StudentActivity::query()->
+            where([
+                KeyColumn::fromModel(Student::class) => $studentId,
+                KeyColumn::fromModel(Teacher::class) => $teacherId,
+                KeyColumn::fromModel(Subject::class) => $subjectId,
+                'date_active' => $date
+        ])->pluck('active')->first();
     }
 
-    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate ) {
-        return $this->updateModel($primaryKey, $primaryColumnName, StudentActivity::class)->
-            update([
-                'active' => $valueToUpdate,
-                'checked' => 1
-            ]);
-    }
+    #endregion
 
 }

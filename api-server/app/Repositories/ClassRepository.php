@@ -79,7 +79,7 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
     public function readStudentsByClass ( $number, $numberIdentifier ) {
 
         // Get class id by data from request
-        $class_id = $this->getClassIdByIdentifierAndNumber($number, $numberIdentifier);
+        $class_id = $this->readClassIdByIdentifierAndNumber($number, $numberIdentifier);
 
 
         // Get user ids of students from this class
@@ -95,11 +95,11 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
                     get();
     }
 
-    #endregion
-
-    private function getClassIdByIdentifierAndNumber($number, $identifier) {
+    public function readClassIdByIdentifierAndNumber($number, $identifier) {
         return $this->findByAndColumns($number, $identifier, 'number', 'identifier_number', UserClass::class)
             ->pluck(KeyColumn::fromModel(UserClass::class));
     }
+
+    #endregion
 
 }

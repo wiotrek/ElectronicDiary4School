@@ -79,23 +79,38 @@ class StudentController extends Controller
 
     /**
      * @param $class string The class contains identifier number and number
+     * @param $subjectName string The subject that student was active for
+     * @param $date string The date contain information about student frequenties
      */
-    public function showStudentsOfClass ( string $class ) {
+    public function showStudentFrequenty ( string $class, string $subjectName, string $date ) {
         // Init list for collect student items with them active
         $studentFrequencyList = new StudentFrequencyListResultApiModel;
+
 
         // what the class
         $classNumber = $class[0];
         $identifierClassNumber = $class[1];
 
+
+        // Get id of subject which for active students are displaying
+        $subjectId = $this->subjectService->getSubjectId($subjectName)[0];
+        $classId = $this->classService->getClassIdByClassName($classNumber, $identifierClassNumber)[0];
+
+
+        // Check if teacher can update students frequenty
+        $timeActive = $this->harmonogramService->setTimeActive( $subjectId, $classId );
+        if ($timeActive == 0)
+            $studentFrequencyList -> setReadOnly(true);
+        else
+            $studentFrequencyList -> setReadOnly(false);
+
+
+        // Set date from request
+        $studentFrequencyList -> setDate($date);
+
+
         // Retrieve students from request class
         $studentListFromDB = $this->classService->getStudentListByClass($classNumber, $identifierClassNumber);
-
-        // Init base information
-        $studentFrequencyList -> setReadOnly(false);
-        $studentFrequencyList -> setDate(date('Y-m-d'));
-
-
         foreach ( $studentListFromDB as $studentItemFromDB ) {
             $studentFrequency = new StudentFrequencyResultApiModel;
 
@@ -105,9 +120,15 @@ class StudentController extends Controller
             $student->setFirstName($studentItemFromDB['first_name']);
             $student->setLastName($studentItemFromDB['last_name']);
 
+            $isActive = $this->studentService->getStudentActivityByStudentIdentifier($student->getIdentifier(), $subjectId, $date);
+
+            // If no one founding return bad request message
+            if (is_null($isActive))
+                return ApiResponse::badRequest(ApiCode::STUDENT_ACTIVE_NOT_FOUND);
+
 
             // student active information
-            $studentFrequency->setIsActive(false);
+            $studentFrequency->setIsActive($isActive);
             $studentFrequency->setStudent($student);
 
 

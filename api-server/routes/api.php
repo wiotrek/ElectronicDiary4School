@@ -38,7 +38,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get( ApiRoutes::TEACHER_CLASS_OF_SUBJECT, [ ClassController::class, 'showTeacherClassBySubject' ] );
 
     // Student list for class
-    Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentsOfClass' ] );
+    Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentFrequenty' ] );
 
     // Student marks of specific class
     Route::get(ApiRoutes::MARKS_LIST_CLASS, [ StudentController::class, 'showStudentMarksOfClassForSubject' ] );

@@ -29,7 +29,7 @@ class ApiRoutes {
 
     #region Student
 
-    public const STUDENTS_OF_CLASS = 'students/class={class}';
+    public const STUDENTS_OF_CLASS = 'students/class={class}/subject={subject}/date={date}';
 
     #endregion
 }

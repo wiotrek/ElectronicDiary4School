@@ -31,4 +31,6 @@ interface ClassRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readClassIdByStudentIdentifier ( string $identifier );
 
+    public function readClassIdByIdentifierAndNumber($number, $identifier);
+
 }

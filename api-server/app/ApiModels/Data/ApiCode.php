@@ -18,5 +18,6 @@ class ApiCode {
     public const MARKS_INSERT_SUCCESS = 'Mark has inserted successfully';
 
     public const NOTSTORE_STUDENT_ACTIVE = 'Cannot store student activities. Probably incorrect time for this subject or class or incorrect day';
+    public const STUDENT_ACTIVE_NOT_FOUND = 'Not register student frequency at this date';
 
 }

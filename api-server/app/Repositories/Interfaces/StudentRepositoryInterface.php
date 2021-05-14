@@ -10,6 +10,8 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface StudentRepositoryInterface extends BaseRepositoryInterface {
 
+    #region Saving
+
     /**
      * @param $activity StudentActivity Model with data to store
      * @return mixed
@@ -21,6 +23,30 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed
      */
     public function storeStudentMark ( StudentMark $studentMarkEloquent );
+
+    #endregion
+
+    #region Updating
+
+    /**
+     * @param $primaryKey int
+     * @param $primaryColumnName string
+     * @param $valueToUpdate mixed
+     * @return mixed
+     */
+    public function updateStudentMarkModel ( int $primaryKey, string $primaryColumnName, $valueToUpdate);
+
+    /**
+     * @param $primaryKey
+     * @param $primaryColumnName
+     * @param $valueToUpdate
+     * @return mixed
+     */
+    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate );
+
+    #endregion
+
+    #region Reading
 
     /**
      * @param $identifier string User identifier
@@ -42,19 +68,13 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
     public function readStudentMarkByStudentMarkId ( int $studentMarkId );
 
     /**
-     * @param $primaryKey int
-     * @param $primaryColumnName string
-     * @param $valueToUpdate mixed
-     * @return mixed
+     * @param int $studentId
+     * @param int $subjectId
+     * @param string $date
+     * @return mixed The is active column value from specific founding row
      */
-    public function updateStudentMarkModel ( int $primaryKey, string $primaryColumnName, $valueToUpdate);
+    public function readStudentActive ( int $studentId, int $subjectId, string $date );
 
-    /**
-     * @param $primaryKey
-     * @param $primaryColumnName
-     * @param $valueToUpdate
-     * @return mixed
-     */
-    public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate );
+    #endregion
 
 }

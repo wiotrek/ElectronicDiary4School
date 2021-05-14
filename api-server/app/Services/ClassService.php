@@ -100,6 +100,10 @@ class ClassService {
         return $this->studentRepository->readStudentIdByIdentifier($identifier);
     }
 
+    public function getClassIdByClassName ( $number, $identifier ) {
+        return $this->classRepository->readClassIdByIdentifierAndNumber($number, $identifier);
+    }
+
     #endregion
 
 }

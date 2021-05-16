@@ -150,6 +150,10 @@ class StudentService {
     }
 
 
+    public function getStudentSubject ( ) {
+        return $this->studentRepository->readStudentSubjects();
+    }
+
     #endregion
 
 }

@@ -75,6 +75,11 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentActive ( int $studentId, int $subjectId, string $date );
 
+    /**
+     * @return mixed List of subjects which student have
+     */
+    public function readStudentSubjects ();
+
     #endregion
 
 }

@@ -246,4 +246,8 @@ class StudentController extends Controller
 
         return ApiResponse::withSuccess(null, ApiCode::MARKS_INSERT_SUCCESS);
     }
+
+    public function studentSubjects () {
+        return ApiResponse::withSuccess($this->studentService->getStudentSubject());
+    }
 }

@@ -31,5 +31,7 @@ class ApiRoutes {
 
     public const STUDENTS_OF_CLASS = 'students/class={class}/subject={subject}/date={date}';
 
+    public const STUDENT_SUBJECTS = 'student/subjects';
+
     #endregion
 }

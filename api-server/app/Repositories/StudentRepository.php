@@ -11,10 +11,13 @@ use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Models\Subject;
+use App\Models\SubjectClass;
 use App\Models\Teacher;
 use App\Models\User;
+use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
+use Defuse\Crypto\Key;
 
 class StudentRepository extends BaseRepository implements StudentRepositoryInterface {
 
@@ -124,6 +127,17 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ])->pluck('active')->first();
     }
 
-    #endregion
+    public function readStudentSubjects () {
 
+        $userClassId = $this->findIdByOtherId($this->getStudentId(), 'student_id', 'user_class_id', Student::class)->first();
+        $subjectClassIds = $this->findIdByOtherId($userClassId, 'user_class_id', 'subject_id', SubjectClass::class);
+
+        foreach ( $subjectClassIds as $subjectClassId ) {
+            $subjectName[] = $this->findByColumn($subjectClassId, 'subject_id', Subject::class)->pluck('name')[0];
+        }
+
+        return $subjectName;
+    }
+
+    #endregion
 }

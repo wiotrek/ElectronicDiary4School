@@ -250,4 +250,12 @@ class StudentController extends Controller
     public function studentSubjects () {
         return ApiResponse::withSuccess($this->studentService->getStudentSubject());
     }
+
+    public function showMarksOfEachSubject (  ) {
+
+        $subjectWithMarks = $this->studentService->getStudentMarksOfEachSubject();
+
+        return response($subjectWithMarks);
+    }
+
 }

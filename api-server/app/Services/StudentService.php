@@ -5,6 +5,8 @@ namespace App\Services;
 
 
 use App\ApiModels\Marks\Design\MarkItem;
+use App\ApiModels\Marks\Design\MarkWithTagItem;
+use App\ApiModels\SubjectWithMarksResultApiModel;
 use App\Helpers\KeyColumn;
 use App\Models\Mark;
 use App\Models\Student;
@@ -132,7 +134,7 @@ class StudentService {
     public function getStudentMarksBySubject ( $identifier, $subjectName ) {
 
         // Get student marks by params
-        $marks = $this->studentRepository->readStudentMarksBySubject($identifier, $subjectName);
+        $marks = $this->studentRepository->readStudentMarksBySubjectAndIdentifier($identifier, $subjectName);
 
         // Return empty array if no-one marks founded
         if (is_null($marks))
@@ -152,6 +154,54 @@ class StudentService {
 
     public function getStudentSubject ( ) {
         return $this->studentRepository->readStudentSubjects();
+    }
+
+
+    public function getStudentMarksOfEachSubject(  ) {
+
+        // This list contain all subject which student have
+        $subjectList = $this->getStudentSubject();
+
+
+        foreach ( $subjectList as $subject ) {
+
+           $subjectWithMarks = new SubjectWithMarksResultApiModel();
+           $subjectWithMarks->setSubjectName($subject);
+
+
+            // getting all marks from current subject
+            $marks = $this->studentRepository->readStudentMarksBySubject($subject);
+
+
+            // get data from this list of marks which contain at least one mark
+            if (count($marks) > 0 && !is_null($marks)) {
+                foreach ( $marks as $mark ) {
+
+                    $markWithTag = new MarkWithTagItem();
+
+                    // for current mark get value and tag name
+                    $degree = $this->markRepository->readDegreeByMarkId($mark['marks_id']);
+                    $tag = $this->markRepository->readMarkFromByMarkTypeId($mark['marks_type_id']);
+
+                    // set mark details
+                    $markWithTag->setMarkValue($degree);
+                    $markWithTag->setTagName($tag[0]);
+
+                    // expand current mark to list of marks for current subject
+                    $subjectWithMarks->setMarks($markWithTag);
+                }
+            }
+
+            // collect data from current subject iterate
+            $result[] =  array(
+                'subject' => $subjectWithMarks->getSubjectName(),
+                'marks' => $subjectWithMarks->getMarks() == null ? 'brak' : $subjectWithMarks->getMarks()
+            );
+
+        }
+
+
+        return $result;
     }
 
     #endregion

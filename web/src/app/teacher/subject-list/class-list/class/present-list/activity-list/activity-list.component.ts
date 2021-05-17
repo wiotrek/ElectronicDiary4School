@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeacherService } from 'src/app/_services/teacher.service';
 import { ToastrService } from 'ngx-toastr';
 import { StudentActivity } from 'src/app/_models/_teacher/activity/student-activity';
-import { StudentActivityObj } from 'src/app/_models/_teacher/activity/student-activity-obj';
 
 @Component({
   selector: 'app-activity-list',
@@ -11,25 +10,14 @@ import { StudentActivityObj } from 'src/app/_models/_teacher/activity/student-ac
   styleUrls: ['./activity-list.component.css']
 })
 export class ActivityListComponent implements OnInit {
-  readOnly = false;
-  date = '';
-
-  // list which is getting from api to display
-  list: StudentActivity[] = [];
+  @Input() list = {} as StudentActivity[];
 
   constructor(
     private teacherService: TeacherService,
     private route: ActivatedRoute,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.teacherService
-    .getStudentsActivity(this.route.snapshot.paramMap.get('class') || '')
-      .subscribe((res: StudentActivityObj) => {
-        this.readOnly = res.readOnly;
-        this.date = res.date;
-        this.list = res.StudentActivity;
-      });
   }
 
   saveList(): void {

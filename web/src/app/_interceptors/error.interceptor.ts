@@ -20,7 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (err) {
           switch (err.status) {
             case 400:
-              this.toastr.error('Brak autoryzacji');
+              this.toastr.error('Brak danych');
               break;
             case 401:
               this.toastr.error('Brak autoryzacji');

@@ -54,8 +54,9 @@ export class TeacherService {
     );
   }
 
-  getStudentsActivity(className: string): Observable<StudentActivityObj> {
-    const path = `students/class=${className}`;
+  getStudentsActivity(className: string, subjectName: string, date: string)
+  : Observable<StudentActivityObj> {
+    const path = `students/class=${className}/subject=${subjectName}/date=${date}`;
     return this.http.get<StudentActivityObj>(this.baseUrl + path);
   }
 

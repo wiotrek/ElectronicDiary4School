@@ -10,12 +10,16 @@
                 name="dt" [max]="today | date:'yyyy-MM-dd'"
                 class="set-date__input form-control form-control-rounded text-center" #searchDate></div></div>
 
-    <ng-container
-            *ngTemplateOutlet="activityListBool ? 
-            activityList : absentList"></ng-container>
+    <ng-container [ngSwitch]="chosenList">
+        <ng-container *ngSwitchCase="0"><app-activity-list [list]="studentsList"></app-activity-list></ng-container>
+        <ng-container *ngSwitchCase="1"><app-absent-list [list]="studentsList"></app-absent-list></ng-container>
 
-    <ng-template #activityList><app-activity-list></app-activity-list></ng-template>
+        <ng-container *ngSwitchCase="2">
+            <h2>Brak tego wydarzenia w harmonogramie</h2>
+        </ng-container>
 
-    <ng-template #absentList><app-absent-list [getDateFromParent]="choiceDay"></app-absent-list></ng-template>
+    </ng-container>
 
+
+    
 </main>

@@ -1,4 +1,4 @@
-<div class="main-list" *ngIf="this.list else lackStudentsList">
+<div class="main-list">
 
     <div class="main-list__title">
       <p>Uczeń/Uczennica</p>
@@ -17,7 +17,7 @@
                 <span class="students-list__span--pc"><i class="bi bi-file-earmark-person"></i>
                     {{student.student.identifier}}</span></label>
 
-            <input type="checkbox" [value]="student.isActive" [(ngModel)]="student.isActive">
+            <input type="checkbox" [value]="student.isActive" [(ngModel)]="student.isActive" disabled>
         </li>
         <div class="students-list__center-button">
             <button type="submit" (click)="saveList()" class="btn btn-outline-success">Zapisz</button>
@@ -25,6 +25,3 @@
     </ul>
 </div>
 
-<ng-template #lackStudentsList>
-    <h2>Niestety, brak studentów do wyświetlenia</h2>
-</ng-template>

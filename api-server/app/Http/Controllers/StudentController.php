@@ -10,6 +10,7 @@ use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\MarksItemViewResultApiModel;
 use App\ApiModels\Marks\MarksListViewResultApiModel;
 use App\ApiModels\StudentResultApiModel;
+use App\ApiModels\Subject\SubjectApiModel;
 use App\Services\ClassService;
 use App\Services\HarmonogramService;
 use App\Services\StudentService;
@@ -65,7 +66,7 @@ class StudentController extends Controller
             $frequency -> setActive($frequencyItem['isActive']);
             $frequency -> setStudentIdentifier($frequencyItem['student']['identifier']);
 
-            $studentId = $this->classService->getStudentIdByIdentifier($frequency->getStudentIdentifier());
+            $studentId = $this->classService->getStudentIdByIdentifier($frequency->getStudentIdentifier())[0];
 
 
             // Update student frequenty
@@ -248,7 +249,32 @@ class StudentController extends Controller
     }
 
     public function studentSubjects () {
-        return ApiResponse::withSuccess($this->studentService->getStudentSubject());
+
+        // Data from DB
+        $result = $this->studentService->getStudentSubject();
+
+
+        // TODO: Change behaviour if no data found
+        if  (is_null($result))
+            return ApiResponse::badRequest(ApiCode::STUDENT_SUBJECTS_NOT_FOUND);
+
+
+        foreach ( $result as $item ) {
+
+            // Of course result contain exactly key-value pair what I'm doing here but i prefer have control with ...
+            $subjectApiModel = new SubjectApiModel();
+            $subjectApiModel->setName($item['name']);
+            $subjectApiModel->setIcon($item['icon']);
+
+            //... setting key
+            $response[] = array(
+                'name' => $subjectApiModel->getName(),
+                'icon' => $subjectApiModel->getIcon(),
+            );
+
+        }
+
+        return ApiResponse::withSuccess($response);
     }
 
     public function showMarksOfEachSubject (  ) {

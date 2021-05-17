@@ -4,48 +4,59 @@
 namespace App\ApiModels;
 
 
-use App\ApiModels\Marks\Design\MarkWithTagItem;
+use App\ApiModels\Marks\Design\MarkItem;
+use App\ApiModels\Subject\SubjectDetailsApiModel;
 
 /**
  * Class SubjectWithMarksResultApiModel The api model represent list of marks for specific subject
  */
 class SubjectWithMarksResultApiModel {
 
-    private $subjectName;
+    /**
+     * @var SubjectDetailsApiModel
+     */
+    private $subjectDetails;
 
     /**
-     * @var MarkWithTagItem
+     * @var MarkItem
      */
     private $marks;
 
     /**
-     * @return string
+     * @return SubjectDetailsApiModel
      */
-    public function getSubjectName () {
-        return $this -> subjectName;
+    public function getSubjectDetails () {
+        return $this -> subjectDetails;
     }
 
     /**
-     * @param string $subjectName
+     * @param SubjectDetailsApiModel $subjectDetails
      */
-    public function setSubjectName ( string $subjectName ): void {
-        $this -> subjectName = $subjectName;
+    public function setSubjectDetails ( SubjectDetailsApiModel $subjectDetails ): void {
+        $this -> subjectDetails = array(
+            'name' => $subjectDetails -> getName(),
+            'icon' => $subjectDetails -> getIcon(),
+            'avg' => $subjectDetails -> getMarksAverage(),
+            'position' => $subjectDetails -> getPosition()
+        );;
     }
 
     /**
-     * @return MarkWithTagItem
+     * @return MarkItem
      */
     public function getMarks () {
         return $this -> marks;
     }
 
     /**
-     * @param MarkWithTagItem $marks
+     * @param MarkItem $marks
      */
-    public function setMarks ( MarkWithTagItem $marks ): void {
+    public function setMarks ( MarkItem $marks ): void {
         $this -> marks[] = array(
-            'mark' => $marks -> getMarkValue(),
-            'tag' => $marks -> getTagName()
+            'mark' => $marks -> getMark(),
+            'topic' => $marks -> getTopic(),
+            'date' => $marks -> getDate(),
+            'kindOf' => $marks -> getKindOf()
         );
     }
 

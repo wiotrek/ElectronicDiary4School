@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Helpers\KeyColumn;
 
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\SubjectClass;
 use App\Models\Teacher;
@@ -47,6 +48,17 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
         }
 
         return null;
+    }
+
+    public function readStudentSubjects () {
+
+        $userClassId = $this->findIdByOtherId($this->getStudentId(), 'student_id', 'user_class_id', Student::class)->first();
+        $subjectClassIds = $this->findIdByOtherId($userClassId, 'user_class_id', 'subject_id', SubjectClass::class);
+
+        return Subject ::query()
+            -> whereIn( 'subject_id', $subjectClassIds )
+            -> select( 'name', 'icon' )
+            -> get();
     }
 
     public function readSubjectIdByName ( $subjectName ) {

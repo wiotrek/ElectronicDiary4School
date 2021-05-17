@@ -71,7 +71,7 @@ class BaseRepository implements BaseRepositoryInterface {
     /**
      * @return mixed Taking student id by id of the login user
      */
-    protected function getStudentId() {
+    public function getStudentId() {
         return $this->findIdByOtherId(
             $this->getAuthId(),
             KeyColumn::fromModel(User::class),

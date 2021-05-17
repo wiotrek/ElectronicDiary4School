@@ -67,7 +67,7 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentMarkByStudentMarkId ( int $studentMarkId );
 
-    public function readStudentMarksBySubject (string $subjectName);
+    public function readStudentMarksBySubjectName ( string $subjectName, int $studentId);
 
     /**
      * @param int $studentId
@@ -76,11 +76,6 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed The is active column value from specific founding row
      */
     public function readStudentActive ( int $studentId, int $subjectId, string $date );
-
-    /**
-     * @return mixed List of subjects which student have
-     */
-    public function readStudentSubjects ();
 
     #endregion
 

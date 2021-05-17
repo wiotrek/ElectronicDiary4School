@@ -16,4 +16,6 @@ interface MarkRepositoryInterface extends BaseRepositoryInterface {
 
     public function readMarkFromByMarkTypeId ( int $markTypeId );
 
+    public function readWeightMarkByMarkFrom ( string $markFrom );
+
 }

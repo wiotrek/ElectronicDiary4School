@@ -153,7 +153,8 @@ class StudentService {
 
 
     public function getStudentSubject ( ) {
-        return $this->studentRepository->readStudentSubjects();
+
+        return $this->subjectRepository->readStudentSubjects();
     }
 
 
@@ -166,7 +167,7 @@ class StudentService {
         foreach ( $subjectList as $subject ) {
 
            $subjectWithMarks = new SubjectWithMarksResultApiModel();
-           $subjectWithMarks->setSubjectName($subject);
+           $subjectWithMarks->setSubjectDetails($subject);
 
 
             // getting all marks from current subject
@@ -194,7 +195,7 @@ class StudentService {
 
             // collect data from current subject iterate
             $result[] =  array(
-                'subject' => $subjectWithMarks->getSubjectName(),
+                'subject' => $subjectWithMarks->getSubjectDetails(),
                 'marks' => $subjectWithMarks->getMarks() == null ? 'brak' : $subjectWithMarks->getMarks()
             );
 

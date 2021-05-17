@@ -6,7 +6,6 @@ namespace App\ApiModels\Marks\Design;
 
 /**
  * Base details of the student mark value
- * TODO: Probably going to extend with date mark assign
  */
 class MarkItem   {
 
@@ -31,6 +30,11 @@ class MarkItem   {
      * @var string The king of mark from what student have mark
      */
     protected static $kindOf;
+
+    /**
+     * @var string The passing date for specific mark
+     */
+    protected static $date;
 
     #endregion
 
@@ -90,6 +94,20 @@ class MarkItem   {
      */
     public static function setKindOf ( string $kindOf ): void {
         self :: $kindOf = $kindOf;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDate (): string {
+        return self ::$date;
+    }
+
+    /**
+     * @param string $date
+     */
+    public static function setDate ( string $date ): void {
+        self ::$date = $date;
     }
 
     #endregion

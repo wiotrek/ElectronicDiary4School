@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Card } from 'src/app/_models/_universal/card';
+import { StudentService } from 'src/app/_services/student.service';
 
 @Component({
   selector: 'app-student-marks',
@@ -9,12 +10,18 @@ import { Card } from 'src/app/_models/_universal/card';
 export class StudentMarksComponent implements OnInit {
   toChild = {  title: 'Twoje oceny' };
   toHeader: Card[];
+  toList = {} as Card[];
 
-  constructor() {
+  constructor(private studentService: StudentService) {
     this.toHeader = this.fillHeader();
    }
 
   ngOnInit(): void {
+    this.studentService.getSubjects().subscribe(
+      (res: any) => {
+        res.foreach((x: any) => this.toList.push({name: x}));
+      }
+      );
   }
 
   fillHeader = () => [

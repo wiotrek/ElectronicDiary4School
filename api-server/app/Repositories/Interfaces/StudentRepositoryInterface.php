@@ -67,7 +67,7 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentMarkByStudentMarkId ( int $studentMarkId );
 
-    public function readStudentMarksBySubject (string $subjectName);
+    public function readStudentMarksBySubjectName ( string $subjectName);
 
     /**
      * @param int $studentId

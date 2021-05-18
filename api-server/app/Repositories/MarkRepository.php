@@ -27,5 +27,8 @@ class MarkRepository extends BaseRepository implements MarkRepositoryInterface {
         return $this->findByColumn($markTypeId, 'marks_type_id', MarksType::class)->pluck('mark_from')[0];
     }
 
+    public function readWeightMarkByMarkFrom ( $markFrom ) {
+        return $this->findByColumn($markFrom, 'mark_from', MarksType::class)->pluck('weights')[0];
+    }
 
 }

@@ -127,12 +127,11 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ])->pluck('active')->first();
     }
 
-    public function readStudentMarksBySubject ( $subjectName ) {
+    public function readStudentMarksBySubjectName ( $subjectName ) {
 
-        // subject if of becoming subject name
+        // subject id of becoming subject name
         $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
         pluck(KeyColumn::fromModel(Subject::class))[0];
-
 
         // get list of marks for subject student have
         if (!is_null($subjectId)) {
@@ -140,7 +139,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             where( [
                 'student_id' => $this -> getStudentId(),
                 'subject_id' => $subjectId,
-            ] ) -> select( 'marks_id', 'marks_type_id' ) -> get();
+            ] ) -> select( 'marks_id', 'marks_type_id', 'topic', 'passing_date' ) -> get();
         }
 
         return $marks;

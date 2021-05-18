@@ -23,31 +23,31 @@ class SubjectDetailsApiModel extends SubjectApiModel {
     #region Accessors
 
     /**
-     * @return float
+     * @return float | null
      */
     public function getMarksAverage () {
         return $this -> marksAverage;
     }
 
     /**
-     * @param float $marksAverage
+     * @param float | null $marksAverage
      */
-    public function setMarksAverage ( float $marksAverage ): void {
+    public function setMarksAverage ( ?float $marksAverage ): void {
         $this -> marksAverage = $marksAverage;
     }
 
     /**
-     * @return int
+     * @return int | null
      */
     public function getPosition () {
-        return $this -> marksAverageOfClass;
+        return $this -> position;
     }
 
     /**
-     * @param int $marksAverageOfClass
+     * @param int | null $position
      */
-    public function setPosition ( int $marksAverageOfClass ): void {
-        $this -> marksAverageOfClass = $marksAverageOfClass;
+    public function setPosition ( ?int $position ): void {
+        $this -> position = $position;
     }
 
     #endregion

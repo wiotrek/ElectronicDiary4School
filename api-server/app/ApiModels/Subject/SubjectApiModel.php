@@ -30,14 +30,14 @@ class SubjectApiModel {
     }
 
     /**
-     * @return string|null
+     * @return string | null
      */
     public function getIcon () {
         return $this -> icon;
     }
 
     /**
-     * @param string|null $icon
+     * @param string | null $icon
      */
     public function setIcon ( ?string $icon ): void {
         $this -> icon = $icon;

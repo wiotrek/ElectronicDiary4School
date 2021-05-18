@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\Design\MarkWithTagItem;
+use App\ApiModels\Subject\SubjectDetailsApiModel;
 use App\ApiModels\SubjectWithMarksResultApiModel;
 use App\Helpers\KeyColumn;
 use App\Models\Mark;
@@ -166,43 +167,77 @@ class StudentService {
 
         foreach ( $subjectList as $subject ) {
 
-           $subjectWithMarks = new SubjectWithMarksResultApiModel();
-           $subjectWithMarks->setSubjectDetails($subject);
+            $subjectDetails = new SubjectDetailsApiModel();
+            $subjectWithMarks = new SubjectWithMarksResultApiModel();
 
 
             // getting all marks from current subject
-            $marks = $this->studentRepository->readStudentMarksBySubject($subject);
+            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name']);
 
 
             // get data from this list of marks which contain at least one mark
             if (count($marks) > 0 && !is_null($marks)) {
                 foreach ( $marks as $mark ) {
 
-                    $markWithTag = new MarkWithTagItem();
+                    $markItem = new MarkItem();
 
                     // for current mark get value and tag name
                     $degree = $this->markRepository->readDegreeByMarkId($mark['marks_id']);
-                    $tag = $this->markRepository->readMarkFromByMarkTypeId($mark['marks_type_id']);
+                    $kindOf = $this->markRepository->readMarkFromByMarkTypeId($mark['marks_type_id']);
 
                     // set mark details
-                    $markWithTag->setMarkValue($degree);
-                    $markWithTag->setTagName($tag[0]);
+                    $markItem->setMark($degree);
+                    $markItem->setKindOf($kindOf);
+                    $markItem->setDate(substr($mark['passing_date'], 0, 10));
+                    $markItem->setTopic($mark['topic']);
 
                     // expand current mark to list of marks for current subject
-                    $subjectWithMarks->setMarks($markWithTag);
+                    $subjectWithMarks->setMarks($markItem);
                 }
             }
+
+            // set subject details
+            $subjectDetails->setName($subject['name']);
+            $subjectDetails->setIcon($subject['icon']);
+            $subjectDetails->setMarksAverage($this->computeAverageMarks($subjectWithMarks->GetMarks()));
+            // TODO: Position
+
+
+            $subjectWithMarks->setSubjectDetails($subjectDetails);
+
 
             // collect data from current subject iterate
             $result[] =  array(
                 'subject' => $subjectWithMarks->getSubjectDetails(),
-                'marks' => $subjectWithMarks->getMarks() == null ? 'brak' : $subjectWithMarks->getMarks()
+                'marks' => $subjectWithMarks->getMarks() == null ? 'brak' : $subjectWithMarks->getMarks(),
             );
 
         }
 
 
         return $result;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    public function computeAverageMarks ( $marks ) {
+
+        $avg = 0.0;
+        $weightSum = 0;
+
+        if (!is_null($marks)) {
+            foreach ( $marks as $mark ) {
+
+                $weight = $this->markRepository->readWeightMarkByMarkFrom( $mark['kindOf']);
+                $avg += $mark['mark'] * $weight;
+                $weightSum += $weight;
+
+            }
+        }
+
+        return $weightSum == 0 ? null : round(($avg / $weightSum), 2);
     }
 
     #endregion

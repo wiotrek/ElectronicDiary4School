@@ -7,7 +7,7 @@
 
     <div class="card-common__upward">
       <p class="card-common__caption" *ngIf="dateCard?.caption else icon"
-      [ngStyle]="{'color': this.colorCard}">{{dateCard?.caption}}</p>
+      [ngStyle]="{'color': dateCard.color ? dateCard.color : colorCard}">{{dateCard?.caption}}</p>
       <ng-template #icon>
         <i class="card-common__icon"
         ngClass="{{dateCard.icon ? dateCard.icon : 'bi bi-patch-question'}}"

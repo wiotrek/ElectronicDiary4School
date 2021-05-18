@@ -10,7 +10,7 @@ import { StudentService } from 'src/app/_services/student.service';
 })
 export class StudentMarksComponent implements OnInit {
   editModeForIndex = -1;
-  toChild = {  title: 'Twoje oceny' };
+  toChild = {  title: 'Wszystkie oceny' };
   toHeader: Card[];
   list: Subjects[];
 
@@ -31,14 +31,14 @@ export class StudentMarksComponent implements OnInit {
   fillHeader = (): Card[] => [
     {
       caption: '4.21',
-      color: '#7FFFD4',
+      color: '#F4A460',
       name: 'Twoja średnia',
       readonly: true,
       listViewOff: true
     },
     {
       caption: '5',
-      color: '#7FFFD4',
+      color: '#F4A460',
       name: 'Twoja pozycja w klasie',
       readonly: true,
       listViewOff: true

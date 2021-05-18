@@ -30,4 +30,8 @@
         padding: 0 10px;
     }
 
+    .subject-list__details {
+        font-weight: 400;
+    }
+
 }

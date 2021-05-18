@@ -1,0 +1,19 @@
+<main>
+    <app-second-nav [parent]="toChild"></app-second-nav>
+
+    <div class="header">
+        <app-card *ngFor="let item of toHeader" [dateCard]="item"></app-card>
+    </div>
+
+    <div class="main-list">
+
+        <ul class="subject-list">
+            <li class="global-list-element"
+            *ngFor="let subject of list; index as i">
+
+            </li>
+        </ul>
+
+    </div>
+
+</main>

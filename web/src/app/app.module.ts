@@ -27,6 +27,7 @@ import { StudentComponent } from './student/student.component';
 import { StudentMarksComponent } from './student/student-marks/student-marks.component';
 import { CardComponent } from './universal/card/card.component';
 import { DetailsMarkComponent } from './student/student-marks/details-mark/details-mark.component';
+import { StudentActivityComponent } from './student/student-activity/student-activity.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DetailsMarkComponent } from './student/student-marks/details-mark/detai
     StudentComponent,
     StudentMarksComponent,
     CardComponent,
-    DetailsMarkComponent
+    DetailsMarkComponent,
+    StudentActivityComponent
   ],
   imports: [
     BrowserModule,

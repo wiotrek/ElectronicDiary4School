@@ -32,9 +32,21 @@
     .readonly {
         cursor: not-allowed;
     }
+
+    .list-view {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 @media (min-width: 769px) {
+
+    .list-view {
+        display: auto;
+        justify-content: auto;
+        align-items: auto;
+    }
 
     .card-common {
         display: inline-block;

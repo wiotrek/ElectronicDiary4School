@@ -11,8 +11,7 @@ import { StudentActivity } from 'src/app/_models/_teacher/activity/student-activ
         <p>{{i+1}}. {{s.student.first_name}} {{s.student.last_name}}
         <span [ngStyle]="{'color': 'var(--primary-blue)'}"> {{s.student.identifier}}</span></p>
         <i [ngClass]="s.isActive ? 'fa fa-check'  : 'fa fa-times'"
-        [ngStyle]="{'color': s.isActive ? '#7FFFD4' : '#CD5C5C'}"></i>
-        </li></ul>
+        [ngStyle]="{'color': s.isActive ? '#7FFFD4' : '#CD5C5C'}"></i></li></ul>
   `,
   styles: [
     'p {display: inline; margin: 0; padding: 0}',

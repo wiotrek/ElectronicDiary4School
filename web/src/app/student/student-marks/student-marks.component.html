@@ -5,7 +5,31 @@
         <app-card *ngFor="let item of toHeader" [dateCard]="item"></app-card>
     </div>
 
-    <app-card *ngFor="let card of toList" 
-    [dateCard]="card"></app-card>
+    <div class="main-list">
+
+        <ul class="subject-list">
+            <li class="global-list-element"
+            [ngClass]="{'global-animate-el-of-list': editModeForIndex !== i}"
+            *ngFor="let subject of list; index as i">
+
+                <div class="subject-list__subject">
+                    <div class="subject-list__subject-name">
+                        <i ngClass="{{subject.details.icon ? subject.details.icon : 'bi bi-patch-question'}}"
+                        [ngStyle]="{'color': '#F4A460'}"></i>
+                        <p class="subject-list__subject-name-p">{{subject.details.name}}</p>
+                        <p class="subject-list__subject-name-p" 
+                        [ngStyle]="{'color': 'var(--primary-blue'}">{{subject.details.avg}}</p></div>
+                    
+                    <a class="subject-list__details" 
+                    (click)="this.editModeToggle(i)">{{editModeForIndex === i ? 'Cofnij' : 'Szczegóły'}}</a>
+                </div>
+
+                <app-details-mark *ngIf="editModeForIndex === i" [position]="subject?.details?.position" 
+                [marks]="subject.marks"></app-details-mark>
+
+            </li>
+        </ul>
+
+    </div>
 
 </main>

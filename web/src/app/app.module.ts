@@ -26,6 +26,7 @@ import { AbsentListComponent } from './teacher/subject-list/class-list/class/pre
 import { StudentComponent } from './student/student.component';
 import { StudentMarksComponent } from './student/student-marks/student-marks.component';
 import { CardComponent } from './universal/card/card.component';
+import { DetailsMarkComponent } from './student/student-marks/details-mark/details-mark.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { CardComponent } from './universal/card/card.component';
     AbsentListComponent,
     StudentComponent,
     StudentMarksComponent,
-    CardComponent
+    CardComponent,
+    DetailsMarkComponent
   ],
   imports: [
     BrowserModule,

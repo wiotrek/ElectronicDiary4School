@@ -1,0 +1,39 @@
+@media (min-width: 0) {
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .marks {
+        padding: 15px 0;
+    }
+
+    .ones-mark__p--mobile {
+        display: flex;
+        justify-content: space-around;
+        border-top: 2px solid var(--line-grey);
+        padding: 5px 0;
+    }
+
+    .ones-mark__p--pc {
+        display: none;
+    }
+}
+@media (min-width: 769px) {
+
+    .ones-mark__p--mobile {
+        display: none;
+    }
+
+    .ones-mark__p--pc {
+        display: flex;
+        justify-content: space-between;
+        border-top: 2px solid var(--line-grey);
+        padding: 10px 0;
+    }
+
+    .ones-mark__p--pc:first-child {
+        border-top: 0;
+    }
+}

@@ -1,0 +1,33 @@
+@media (min-width: 0) {
+
+    p {
+        padding: 0;
+        margin: 0;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    .header {
+        border-bottom: 2px solid var(--line-grey);
+        padding-bottom: 20px;
+        margin-bottom: 20px;
+    }
+
+    .main-list__title {
+        font-size: .9rem;
+    }
+
+    .subject-list__subject{
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .subject-list__subject-name-p {
+        display: inline;
+        padding: 0 10px;
+    }
+
+}

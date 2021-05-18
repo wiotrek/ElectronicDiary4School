@@ -1,5 +1,9 @@
-<div class="card-common" ngClass="{{dateCard.readonly ? 'readonly' : 'clickMode'}}"
-(click)="routerlink()">
+<div class="card-common" 
+[ngClass]="{
+  'list-view': !dateCard.listViewOff, 
+  'readonly': dateCard.readonly,
+  'clickMode': !dateCard.readonly}"
+  (click)="routerlink()">
 
     <div class="card-common__upward">
       <p class="card-common__caption" *ngIf="dateCard?.caption else icon"

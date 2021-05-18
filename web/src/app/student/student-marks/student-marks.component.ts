@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subjects } from 'src/app/_models/_student/marks/subjects';
 import { Card } from 'src/app/_models/_universal/card';
 import { StudentService } from 'src/app/_services/student.service';
 
@@ -8,35 +9,129 @@ import { StudentService } from 'src/app/_services/student.service';
   styleUrls: ['./student-marks.component.css']
 })
 export class StudentMarksComponent implements OnInit {
+  editModeForIndex = -1;
   toChild = {  title: 'Twoje oceny' };
   toHeader: Card[];
-  toList = {} as Card[];
+  list: Subjects[];
 
   constructor(private studentService: StudentService) {
     this.toHeader = this.fillHeader();
+    this.list = this.fillList();
    }
 
   ngOnInit(): void {
-    this.studentService.getSubjects().subscribe(
-      (res: any) => {
-        res.foreach((x: any) => this.toList.push({name: x}));
-      }
-      );
   }
 
-  fillHeader = () => [
-    {
-      caption: '75%',
-      color: '#7FFFD4',
-      name: 'Twoja frekwencja',
-      readonly: true
-    },
+  editModeToggle(ind: number): void {
+    this.editModeForIndex === ind
+    ? this.editModeForIndex = -1
+    : this.editModeForIndex = ind;
+  }
+
+  fillHeader = (): Card[] => [
     {
       caption: '4.21',
       color: '#7FFFD4',
       name: 'Twoja średnia',
-      readonly: true
+      readonly: true,
+      listViewOff: true
+    },
+    {
+      caption: '5',
+      color: '#7FFFD4',
+      name: 'Twoja pozycja w klasie',
+      readonly: true,
+      listViewOff: true
     }
   ]
+
+  fillList = (): Subjects[] => [
+    {
+      details: {
+        name: 'Matematyka',
+        avg: '4,21',
+        position: 3
+      },
+      marks: [
+        {
+          mark: '4',
+          topic: 'Mnożenie i dasd asd asd dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Kartkówka'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        }
+      ]
+    },
+    {
+      details: {
+        name: 'Matematyka',
+        icon: 'bi bi-alarm',
+        avg: '4,21',
+        position: 3
+      },
+      marks: [
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        }
+      ]
+    },
+    {
+      details: {
+        name: 'Matematyka',
+        icon: 'bi bi-alarm',
+        avg: '4,21',
+        position: 3
+      },
+      marks: [
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        },
+        {
+          mark: '4',
+          topic: 'Mnożenie i dzielenie',
+          date: '2021-04-12',
+          kindOf: 'Sprawdzian'
+        }
+      ]
+    }
+  ]
+
+
+
 
 }

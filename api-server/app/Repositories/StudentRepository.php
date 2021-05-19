@@ -127,7 +127,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ])->pluck('active')->first();
     }
 
-    public function readStudentMarksBySubjectName ( $subjectName ) {
+    public function readStudentMarksBySubjectName ( $subjectName, $studentId ) {
 
         // subject id of becoming subject name
         $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
@@ -137,7 +137,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         if (!is_null($subjectId)) {
             $marks = StudentMark ::query() ->
             where( [
-                'student_id' => $this -> getStudentId(),
+                'student_id' => $studentId,
                 'subject_id' => $subjectId,
             ] ) -> select( 'marks_id', 'marks_type_id', 'topic', 'passing_date' ) -> get();
         }

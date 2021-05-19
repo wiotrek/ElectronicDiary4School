@@ -37,16 +37,16 @@ class SubjectDetailsApiModel extends SubjectApiModel {
     }
 
     /**
-     * @return int | null
+     * @return float
      */
     public function getPosition () {
         return $this -> position;
     }
 
     /**
-     * @param int | null $position
+     * @param string | int | null $position
      */
-    public function setPosition ( ?int $position ): void {
+    public function setPosition ( $position ): void {
         $this -> position = $position;
     }
 

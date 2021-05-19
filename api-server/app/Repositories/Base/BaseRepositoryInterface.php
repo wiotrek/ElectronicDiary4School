@@ -10,6 +10,8 @@ interface BaseRepositoryInterface {
 
     public function getTeacherId ();
 
+    public function getStudentId ();
+
     /**
      * @param $primaryKey int Primary key of specific model to identify which row is updating
      * @param $primaryColumnName string The name for primary key of the specific model

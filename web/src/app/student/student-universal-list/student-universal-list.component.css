@@ -30,8 +30,11 @@
         padding: 0 10px;
     }
 
+    .subject-list__subject-name-p--blue {
+        color: var(--primary-blue);
+    }
+
     .subject-list__details {
         font-weight: 400;
     }
-
 }

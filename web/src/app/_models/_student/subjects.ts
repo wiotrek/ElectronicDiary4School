@@ -1,7 +1,8 @@
-import { Marks } from './marks';
+import { Marks } from './marks/marks';
 import { SubjectDetails } from './subject-details';
 
 export interface Subjects {
     details: SubjectDetails;
-    marks: Marks[];
+    marks?: Marks[];
+    days?: string[];
 }

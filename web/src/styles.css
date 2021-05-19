@@ -45,7 +45,7 @@ a:visited {
     border: 1px solid var(--primary-blue);
     margin-top: 5px;
     padding: 5px 10px;
-    font-size: .9rem;
+    font-size: 1rem;
   }
 
   .global-list-element--unSelect {

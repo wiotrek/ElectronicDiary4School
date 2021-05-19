@@ -3,4 +3,6 @@ export interface SubjectDetails {
     icon?: string;
     avg?: string;
     position?: number;
+    countAbandoned?: number;
+    abandoned?: string[];
 }

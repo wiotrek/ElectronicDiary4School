@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { StudentActivity } from 'src/app/_models/_teacher/activity/student-activity';
 
 @Component({

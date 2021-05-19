@@ -1,0 +1,31 @@
+<div class="element">
+    <p class="ones-element__p--pc">Pozycja na tle grupy: {{parent?.details?.position}} 
+        <span *ngIf="parent?.details?.countAbandoned">Liczba opuszczonych dni: {{parent?.details?.countAbandoned}}</span></p>
+    
+    <div *ngIf="parent?.marks else abandonedDays">
+
+        <div class="ones-element"  *ngFor="let mark of parent?.marks">
+            <p class="ones-element__p--mobile">{{mark.mark}} - {{mark.kindOf}}</p>
+            <p class="ones-element__p--pc">
+              <span>ocena: {{mark.mark}}</span>
+              <span>{{mark.topic}}</span>
+              <span>{{mark.kindOf}} {{mark.date}}</span>
+            </p>
+        </div>
+
+    </div>
+
+    <ng-template #abandonedDays>
+
+        <div class="ones-element"  *ngFor="let element of parent?.days">
+            <p class="ones-element__p--mobile">
+                <i class="fa fa-times"></i> {{element}}</p>
+            <p class="ones-element__p--pc ones-element__p--center">
+                <span class="ones-element__span--pc"
+                ><i class="fa fa-times"></i> {{element}}</span>
+            </p>
+        </div>
+
+    </ng-template>
+
+</div>

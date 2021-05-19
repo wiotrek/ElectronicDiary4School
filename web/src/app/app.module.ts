@@ -24,10 +24,11 @@ import { ActivityListComponent } from './teacher/subject-list/class-list/class/p
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { AbsentListComponent } from './teacher/subject-list/class-list/class/present-list/absent-list/absent-list.component';
 import { StudentComponent } from './student/student.component';
-import { StudentMarksComponent } from './student/student-marks/student-marks.component';
+import { StudentMarksComponent } from './student/student-marks.component';
 import { CardComponent } from './universal/card/card.component';
-import { DetailsMarkComponent } from './student/student-marks/details-mark/details-mark.component';
-import { StudentActivityComponent } from './student/student-activity/student-activity.component';
+import { StudentActivityComponent } from './student/student-activity.component';
+import { StudentUniversalListComponent } from './student/student-universal-list/student-universal-list.component';
+import { StudentUniversalDetailComponent } from './student/student-universal-list/student-universal-detail/student-universal-detail.component';
 
 @NgModule({
   declarations: [
@@ -50,8 +51,9 @@ import { StudentActivityComponent } from './student/student-activity/student-act
     StudentComponent,
     StudentMarksComponent,
     CardComponent,
-    DetailsMarkComponent,
-    StudentActivityComponent
+    StudentActivityComponent,
+    StudentUniversalListComponent,
+    StudentUniversalDetailComponent
   ],
   imports: [
     BrowserModule,

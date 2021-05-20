@@ -225,7 +225,7 @@ class StudentService {
 
                 if ($frequency['active'] == 0) {
                     $countAbandoned++;
-                    $subjectWithFrequency -> setDays( $frequency[ 'date_active' ] );
+                    $subjectWithFrequency -> setDays( substr($frequency[ 'date_active' ], 0, 10) );
                 }
             }
 

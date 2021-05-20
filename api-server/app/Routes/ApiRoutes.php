@@ -17,15 +17,10 @@ class ApiRoutes {
     #region Teacher
 
     public const TEACHER_SUBJECT = '/teacher/subjects';
+
     public const TEACHER_CLASS_OF_SUBJECT = 'teacher/subject={subjectName}/classes';
 
-    #endregion
-
-    #region Marks
-
     public const MARKS_LIST_CLASS = '/teacher/subject={subjectName}/class={class}/marks';
-
-    public const MARKS_OF_EACH_SUBJECT = '/student/subjects/marks';
 
     #endregion
 
@@ -34,6 +29,10 @@ class ApiRoutes {
     public const STUDENTS_OF_CLASS = 'students/class={class}/subject={subject}/date={date}';
 
     public const STUDENT_SUBJECTS = 'student/subjects';
+
+    public const MARKS_OF_EACH_SUBJECT = '/student/subjects/marks';
+
+    public const FREQUENCY_OF_EACH_SUBJECT = '/student/subjects/frequencies';
 
     #endregion
 }

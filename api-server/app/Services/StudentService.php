@@ -7,6 +7,7 @@ namespace App\Services;
 use App\ApiModels\Marks\Design\MarkItem;
 use App\ApiModels\Marks\Design\MarkWithTagItem;
 use App\ApiModels\Subject\SubjectDetailsApiModel;
+use App\ApiModels\SubjectWithFrequencyResultApiModel;
 use App\ApiModels\SubjectWithMarksResultApiModel;
 use App\Helpers\KeyColumn;
 use App\Models\Mark;
@@ -204,6 +205,56 @@ class StudentService {
         return $result;
     }
 
+    public function getStudentFrequencyOfEachSubject () {
+
+        // This list contain all subject which student have
+        $subjectList = $this->getStudentSubject();
+
+        foreach ( $subjectList as $subject ) {
+            $countAbandoned = 0;
+
+            $subjectDetails = new SubjectDetailsApiModel();
+            $subjectWithFrequency = new SubjectWithFrequencyResultApiModel();
+
+
+            // getting all frequency from current subject
+            $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subject['name'], $this->studentRepository->getStudentId());
+
+            foreach ( $frequencies as $frequency ) {
+
+
+                if ($frequency['active'] == 0) {
+                    $countAbandoned++;
+                    $subjectWithFrequency -> setDays( $frequency[ 'date_active' ] );
+                }
+            }
+
+            $frequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
+
+            // set subject details
+            $subjectDetails->setName($subject['name']);
+            $subjectDetails->setIcon($subject['icon']);
+            $subjectDetails->setFrequency($frequency.'%');
+            $subjectDetails->setCountAbandoned($countAbandoned);
+            $subjectDetails->setPosition($this->computePositionOfFrequency($subjectDetails->getName(), $frequency));
+
+
+            $subjectWithFrequency->setSubjectDetails($subjectDetails);
+
+
+            // collect data from current subject iterate
+            $result[] =  array(
+                'subject' => $subjectWithFrequency->getSubjectDetails(),
+                'days' => $subjectWithFrequency->getDays() == null ? null : $subjectWithFrequency->getDays()
+            );
+
+        }
+
+
+        return $result;
+
+    }
+
     #endregion
 
     #region Private Methods
@@ -233,6 +284,10 @@ class StudentService {
         return $subjectWithMarks->getMarks();
     }
 
+    private function computeFrequencyPercent($amountOfflineDays, $amount){
+        return $amountOfflineDays > 0 ? (1 - ($amountOfflineDays / $amount)) * 100 : 100;
+    }
+
     private function computeAverageMarks ( $marks ) {
 
         $avg = 0.0;
@@ -249,6 +304,56 @@ class StudentService {
         }
 
         return $weightSum == 0 ? null : round(($avg / $weightSum), 2);
+    }
+
+    private function computePositionOfFrequency ( $subjectName, ?float $studentFrequency ) {
+
+        // get class id in which login student is
+        $studentIdentifier = $this->studentRepository->
+        findByColumn($this->studentRepository->getAuthId(), 'user_id', User::class)->
+        pluck('identifier')[0];
+
+        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+
+
+        // get list of all students from above class id
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // for each student get all frequencies
+        foreach ( $studentList as $student ) {
+
+            $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subjectName, $student);
+            $countAbandoned = 0;
+
+            // Count all offline days that current student was absent
+            foreach ( $frequencies as $frequency ) {
+
+                if ($frequency['active'] == 0) {
+                    $countAbandoned++;
+                }
+
+            }
+
+            $percentFrequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
+            $percentFrequencies[] = array($percentFrequency);
+
+        }
+
+        // sort frequencies in descending way
+        arsort($percentFrequencies);
+
+
+        // get position where student percent frequencies is equal avg in array
+        $count = 1;
+        foreach ($percentFrequencies as $key => $value) {
+
+            if ( $studentFrequency == $value[0] ) {  $position = $count; break; }
+            $count++;
+
+        }
+
+        return $position;
     }
 
     private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg ) {
@@ -281,15 +386,17 @@ class StudentService {
         }
 
 
-        // sort array in descending way
+        // sort average marks in descending way
         arsort($averageMarks);
 
 
         // get position where student avg marks is equal avg in array
         $count = 1;
         foreach ($averageMarks as $key => $value) {
-            if ( $studentAvg == $value[ 0 ] )
+            if ( $studentAvg == $value[ 0 ] ) {
                 $position = $count;
+                break;
+            }
 
             $count++;
         }

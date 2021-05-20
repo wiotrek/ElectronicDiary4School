@@ -145,5 +145,23 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $marks;
     }
 
+    public function readStudentFrequencyBySubjectName ( string $subjectName, $studentId ){
+        // subject id of becoming subject name
+        $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
+        pluck(KeyColumn::fromModel(Subject::class))[0];
+
+        // get list of frequency for subject student have
+        if (!is_null($subjectId)) {
+            $frequency = StudentActivity ::query() ->
+            where( [
+                'student_id' => $studentId,
+                'subject_id' => $subjectId,
+                'checked' => 1
+            ] ) -> select( 'active', 'date_active' ) -> orderByDesc('date_active') -> get();
+        }
+
+        return $frequency;
+    }
+
     #endregion
 }

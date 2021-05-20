@@ -44,8 +44,11 @@ Route::middleware('auth:sanctum')->group(function() {
     // Subjects list of the specific student
     Route::get(ApiRoutes::STUDENT_SUBJECTS, [StudentController::class, 'studentSubjects']);
 
-    // For each student subject listed marks with tag for each mark as [S] or something else
+    // For each student subject listed marks
     Route::get(ApiRoutes::MARKS_OF_EACH_SUBJECT, [StudentController::class, 'showMarksOfEachSubject']);
+
+    // For each student subject listed frequency days
+    Route::get(ApiRoutes::FREQUENCY_OF_EACH_SUBJECT, [StudentController::class, 'showFrequencyOfEachSubject']);
 
 
     #endregion

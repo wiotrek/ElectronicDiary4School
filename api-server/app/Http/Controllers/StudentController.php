@@ -281,7 +281,14 @@ class StudentController extends Controller
 
         $subjectWithMarks = $this->studentService->getStudentMarksOfEachSubject();
 
-        return response($subjectWithMarks);
+        return ApiResponse::withSuccess($subjectWithMarks);
+    }
+
+    public function showFrequencyOfEachSubject () {
+
+        $subjectWithFrequency = $this->studentService->getStudentFrequencyOfEachSubject();
+
+        return ApiResponse::withSuccess($subjectWithFrequency);
     }
 
 }

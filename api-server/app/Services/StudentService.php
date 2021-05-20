@@ -5,11 +5,16 @@ namespace App\Services;
 
 
 use App\ApiModels\Marks\Design\MarkItem;
+use App\ApiModels\Marks\Design\MarkWithTagItem;
+use App\ApiModels\Subject\SubjectDetailsApiModel;
+use App\ApiModels\SubjectWithMarksResultApiModel;
 use App\Helpers\KeyColumn;
 use App\Models\Mark;
 use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
+use App\Models\User;
+use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
@@ -23,6 +28,7 @@ class StudentService {
     private $studentRepository;
     private $subjectRepository;
     private $markRepository;
+    private $classRepository;
 
     #endregion
 
@@ -30,10 +36,12 @@ class StudentService {
 
     public function __construct (StudentRepositoryInterface $studentRepository,
                                  SubjectRepository $subjectRepository,
-                                 MarkRepository $markRepository) {
+                                 MarkRepository $markRepository,
+                                 ClassRepositoryInterface $classRepository) {
         $this->studentRepository = $studentRepository;
         $this->subjectRepository = $subjectRepository;
         $this->markRepository = $markRepository;
+        $this->classRepository = $classRepository;
     }
 
     #endregion
@@ -132,7 +140,7 @@ class StudentService {
     public function getStudentMarksBySubject ( $identifier, $subjectName ) {
 
         // Get student marks by params
-        $marks = $this->studentRepository->readStudentMarksBySubject($identifier, $subjectName);
+        $marks = $this->studentRepository->readStudentMarksBySubjectAndIdentifier($identifier, $subjectName);
 
         // Return empty array if no-one marks founded
         if (is_null($marks))
@@ -151,7 +159,143 @@ class StudentService {
 
 
     public function getStudentSubject ( ) {
-        return $this->studentRepository->readStudentSubjects();
+
+        return $this->subjectRepository->readStudentSubjects();
+    }
+
+
+    public function getStudentMarksOfEachSubject(  ) {
+
+        // This list contain all subject which student have
+        $subjectList = $this->getStudentSubject();
+
+
+        foreach ( $subjectList as $subject ) {
+
+            $subjectDetails = new SubjectDetailsApiModel();
+            $subjectWithMarks = new SubjectWithMarksResultApiModel();
+
+
+            // getting all marks from current subject
+            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name'], $this->studentRepository->getStudentId());
+            // Translate marks for api model to studentMarks
+            $studentMarks = $this->getStudentMarks($marks);
+
+
+            // set subject details
+            $subjectDetails->setName($subject['name']);
+            $subjectDetails->setIcon($subject['icon']);
+            $subjectDetails->setMarksAverage($this->computeAverageMarks($studentMarks));
+            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage() ));
+
+
+            $subjectWithMarks->setSubjectDetails($subjectDetails);
+
+
+            // collect data from current subject iterate
+            $result[] =  array(
+                'subject' => $subjectWithMarks->getSubjectDetails(),
+                'marks' => $studentMarks == null ? 'brak' : $studentMarks
+            );
+
+        }
+
+
+        return $result;
+    }
+
+    #endregion
+
+    #region Private Methods
+
+    private function getStudentMarks($marks){
+        $subjectWithMarks = new SubjectWithMarksResultApiModel();
+        if (count($marks) > 0 && !is_null($marks)) {
+            foreach ( $marks as $mark ) {
+
+                $markItem = new MarkItem();
+
+                // for current mark get value and tag name
+                $degree = $this->markRepository->readDegreeByMarkId($mark['marks_id']);
+                $kindOf = $this->markRepository->readMarkFromByMarkTypeId($mark['marks_type_id']);
+
+                // set mark details
+                $markItem->setMark($degree);
+                $markItem->setKindOf($kindOf);
+                $markItem->setDate(substr($mark['passing_date'], 0, 10));
+                $markItem->setTopic($mark['topic']);
+
+                // expand current mark to list of marks for current subject
+                $subjectWithMarks->setMarks($markItem);
+            }
+        }
+
+        return $subjectWithMarks->getMarks();
+    }
+
+    private function computeAverageMarks ( $marks ) {
+
+        $avg = 0.0;
+        $weightSum = 0;
+
+        if (!is_null($marks)) {
+            foreach ( $marks as $mark ) {
+
+                $weight = $this->markRepository->readWeightMarkByMarkFrom( $mark['kindOf']);
+                $avg += $mark['mark'] * $weight;
+                $weightSum += $weight;
+
+            }
+        }
+
+        return $weightSum == 0 ? null : round(($avg / $weightSum), 2);
+    }
+
+    private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg ) {
+
+        if (is_null($studentAvg))
+            return 'brak ocen';
+
+
+        // get class id in which login student is
+        $studentIdentifier = $this->studentRepository->
+            findByColumn($this->studentRepository->getAuthId(), 'user_id', User::class)->
+            pluck('identifier')[0];
+
+        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+
+
+        // get list of all students from above class id
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // for each student get all marks
+        foreach ( $studentList as $student ) {
+            $marks = $this->studentRepository->readStudentMarksBySubjectName($subjectName, $student);
+
+            // invoke computeAverageMarks method
+            $studentMarks = $this->getStudentMarks($marks);
+            $avgStudentMarks = $this->computeAverageMarks($studentMarks);
+
+            $averageMarks[] = array($avgStudentMarks);
+        }
+
+
+        // sort array in descending way
+        arsort($averageMarks);
+
+
+        // get position where student avg marks is equal avg in array
+        $count = 1;
+        foreach ($averageMarks as $key => $value) {
+            if ( $studentAvg == $value[ 0 ] )
+                $position = $count;
+
+            $count++;
+        }
+
+
+        return $position;
     }
 
     #endregion

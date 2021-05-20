@@ -36,6 +36,8 @@ class SubjectService {
     }
 
 
+
+
     public function getSubjectId ( $subjectName ) {
         return $this->subjectRepository->findByColumn($subjectName, 'name', Subject::class)
             ->pluck('subject_id');

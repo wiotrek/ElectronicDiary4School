@@ -6,7 +6,6 @@ namespace App\ApiModels\Marks\Design;
 
 /**
  * Base details of the student mark value
- * TODO: Probably going to extend with date mark assign
  */
 class MarkItem   {
 
@@ -15,22 +14,27 @@ class MarkItem   {
     /**
      * @var int The primary key value
      */
-    protected static $student_marks_id;
+    private $student_marks_id;
 
     /**
      * @var int The value
      */
-    protected static $mark;
+    private $mark;
 
     /**
      * @var string The mark title for what student have mark
      */
-    protected static $topic;
+    private $topic;
 
     /**
      * @var string The king of mark from what student have mark
      */
-    protected static $kindOf;
+    private $kindOf;
+
+    /**
+     * @var string The passing date for specific mark
+     */
+    private $date;
 
     #endregion
 
@@ -39,57 +43,71 @@ class MarkItem   {
     /**
      * @return int
      */
-    public static function getStudentMarksId (): int {
-        return self ::$student_marks_id;
+    public function getStudentMarksId (): int {
+        return $this -> student_marks_id;
     }
 
     /**
      * @param int $student_marks_id
      */
-    public static function setStudentMarksId ( int $student_marks_id ): void {
-        self ::$student_marks_id = $student_marks_id;
+    public function setStudentMarksId ( int $student_marks_id ): void {
+        $this -> student_marks_id = $student_marks_id;
     }
 
     /**
      * @return int
      */
-    public static function getMark () {
-        return self :: $mark;
+    public function getMark () {
+        return $this -> mark;
     }
 
     /**
      * @param int $mark
      */
-    public static function setMark ( int $mark ): void {
-        self :: $mark = $mark;
+    public function setMark ( int $mark ): void {
+        $this -> mark = $mark;
     }
 
     /**
      * @return string
      */
-    public static function getTopic () {
-        return self :: $topic;
+    public function getTopic () {
+        return $this -> topic;
     }
 
     /**
      * @param string $topic
      */
-    public static function setTopic ( string $topic ): void {
-        self :: $topic = $topic;
+    public function setTopic ( string $topic ): void {
+        $this -> topic = $topic;
     }
 
     /**
      * @return string
      */
-    public static function getKindOf () {
-        return self :: $kindOf;
+    public function getKindOf () {
+        return $this -> kindOf;
     }
 
     /**
      * @param string $kindOf
      */
-    public static function setKindOf ( string $kindOf ): void {
-        self :: $kindOf = $kindOf;
+    public function setKindOf ( string $kindOf ): void {
+        $this -> kindOf = $kindOf;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate (): string {
+        return $this -> date;
+    }
+
+    /**
+     * @param string $date
+     */
+    public function setDate ( string $date ): void {
+        $this -> date = $date;
     }
 
     #endregion

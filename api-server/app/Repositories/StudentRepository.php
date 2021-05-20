@@ -70,7 +70,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         pluck(KeyColumn::fromModel(StudentActivity::class));
     }
 
-    public function readStudentMarksBySubject( $identifier, $subjectName) {
+    public function readStudentMarksBySubjectAndIdentifier( $identifier, $subjectName) {
 
         $student_id = $this->readStudentIdByIdentifier($identifier);
 
@@ -127,16 +127,22 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ])->pluck('active')->first();
     }
 
-    public function readStudentSubjects () {
+    public function readStudentMarksBySubjectName ( $subjectName, $studentId ) {
 
-        $userClassId = $this->findIdByOtherId($this->getStudentId(), 'student_id', 'user_class_id', Student::class)->first();
-        $subjectClassIds = $this->findIdByOtherId($userClassId, 'user_class_id', 'subject_id', SubjectClass::class);
+        // subject id of becoming subject name
+        $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
+        pluck(KeyColumn::fromModel(Subject::class))[0];
 
-        foreach ( $subjectClassIds as $subjectClassId ) {
-            $subjectName[] = $this->findByColumn($subjectClassId, 'subject_id', Subject::class)->pluck('name')[0];
+        // get list of marks for subject student have
+        if (!is_null($subjectId)) {
+            $marks = StudentMark ::query() ->
+            where( [
+                'student_id' => $studentId,
+                'subject_id' => $subjectId,
+            ] ) -> select( 'marks_id', 'marks_type_id', 'topic', 'passing_date' ) -> get();
         }
 
-        return $subjectName;
+        return $marks;
     }
 
     #endregion

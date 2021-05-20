@@ -3,10 +3,8 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
-use App\Http\Controllers\MarksController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\UserController;
 use App\Routes\ApiRoutes;
 use App\Routes\WebRoutes;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +43,10 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Subjects list of the specific student
     Route::get(ApiRoutes::STUDENT_SUBJECTS, [StudentController::class, 'studentSubjects']);
+
+    // For each student subject listed marks with tag for each mark as [S] or something else
+    Route::get(ApiRoutes::MARKS_OF_EACH_SUBJECT, [StudentController::class, 'showMarksOfEachSubject']);
+
 
     #endregion
 

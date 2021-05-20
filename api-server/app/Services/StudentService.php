@@ -195,7 +195,7 @@ class StudentService {
             // collect data from current subject iterate
             $result[] =  array(
                 'subject' => $subjectWithMarks->getSubjectDetails(),
-                'marks' => $studentMarks == null ? 'brak' : $studentMarks
+                'marks' => $studentMarks == null ? null : $studentMarks
             );
 
         }

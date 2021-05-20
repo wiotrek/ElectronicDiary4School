@@ -17,7 +17,7 @@
                 <span class="students-list__span--pc"><i class="bi bi-file-earmark-person"></i>
                     {{student.student.identifier}}</span></label>
 
-            <input type="checkbox" [value]="student.isActive" [(ngModel)]="student.isActive" disabled>
+            <input type="checkbox" [value]="student.isActive" [(ngModel)]="student.isActive">
         </li>
         <div class="students-list__center-button">
             <button type="submit" (click)="saveList()" class="btn btn-outline-success">Zapisz</button>

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
-import { StudentMarksComponent } from './student/student-marks/student-marks.component';
+import { StudentActivityComponent } from './student/student-activity.component';
+import { StudentMarksComponent } from './student/student-marks.component';
 import { StudentComponent } from './student/student.component';
 import { ClassListComponent } from './teacher/subject-list/class-list/class-list.component';
 import { ClassComponent } from './teacher/subject-list/class-list/class/class.component';
@@ -57,6 +58,12 @@ const routes: Routes = [
             path: 'sprawdź-oceny',
             children: [
               { path: '', component: StudentMarksComponent }
+            ]
+          },
+          {
+            path: 'zobacz-frekwencje',
+            children: [
+              { path: '', component: StudentActivityComponent }
             ]
           }
         ]

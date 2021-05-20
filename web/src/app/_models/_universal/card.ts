@@ -4,4 +4,5 @@ export interface Card {
     color?: string;
     caption?: string;
     readonly?: boolean;
+    listViewOff?: boolean;
 }

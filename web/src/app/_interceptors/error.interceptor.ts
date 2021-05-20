@@ -8,11 +8,14 @@ import {
 import { Observable, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private toastr: ToastrService) {}
+  constructor(
+    private toastr: ToastrService,
+    private router: Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
@@ -27,6 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               break;
             case 500:
               this.toastr.error('Wystąpił błąd z serverem');
+              this.router.navigate(['not-found']);
               break;
 
             default:

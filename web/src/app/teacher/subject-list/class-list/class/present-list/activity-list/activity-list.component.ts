@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeacherService } from 'src/app/_services/teacher.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,16 +9,13 @@ import { StudentActivity } from 'src/app/_models/_teacher/activity/student-activ
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent implements OnInit {
+export class ActivityListComponent {
   @Input() list = {} as StudentActivity[];
 
   constructor(
     private teacherService: TeacherService,
     private route: ActivatedRoute,
     private toastr: ToastrService) { }
-
-  ngOnInit(): void {
-  }
 
   saveList(): void {
     const subject = this.teacherService.delDashesAndUpperFirstLetter(

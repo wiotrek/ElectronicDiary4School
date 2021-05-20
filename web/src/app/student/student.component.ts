@@ -16,7 +16,7 @@ export class StudentComponent {
   ];
 
   // colors for icons
-  colors = ['#F4A460'];
+  colors = ['#66CDAA'];
 
   constructor()
   { this.dateToChild = {

@@ -1,9 +1,13 @@
-<div class="card-common" ngClass="{{dateCard.readonly ? 'readonly' : 'clickMode'}}"
-(click)="routerlink()">
+<div class="card-common" 
+[ngClass]="{
+  'list-view': !dateCard.listViewOff, 
+  'readonly': dateCard.readonly,
+  'clickMode': !dateCard.readonly}"
+  (click)="routerlink()">
 
     <div class="card-common__upward">
       <p class="card-common__caption" *ngIf="dateCard?.caption else icon"
-      [ngStyle]="{'color': this.colorCard}">{{dateCard?.caption}}</p>
+      [ngStyle]="{'color': dateCard.color ? dateCard.color : colorCard}">{{dateCard?.caption}}</p>
       <ng-template #icon>
         <i class="card-common__icon"
         ngClass="{{dateCard.icon ? dateCard.icon : 'bi bi-patch-question'}}"

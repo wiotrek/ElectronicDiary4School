@@ -38,7 +38,7 @@ class SubjectWithMarksResultApiModel {
             'icon' => $subjectDetails -> getIcon(),
             'avg' => $subjectDetails -> getMarksAverage(),
             'position' => $subjectDetails -> getPosition()
-        );;
+        );
     }
 
     /**

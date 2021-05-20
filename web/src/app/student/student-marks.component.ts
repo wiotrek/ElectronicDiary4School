@@ -14,26 +14,27 @@ export class StudentMarksComponent implements OnInit {
 
   secondNav = {  title: 'Oceny' };
   toHeader: Card[];
-  list: Subjects[];
+  list = {} as Subjects[];
   themeColor = '#F4A460';
 
   constructor(private studentService: StudentService) {
     this.toHeader = this.fillHeader();
-    this.list = this.fillList();
-
-    this.toUniversal = {
-      nav: this.secondNav,
-      header: this.toHeader.reduce((total: Card[], curr: Card): Card[] => {
-        curr.color = this.themeColor;
-        total.push(curr);
-        return total; }, []),
-      mainList: this.list,
-      color: this.themeColor
-    };
 
    }
 
   ngOnInit(): void {
+
+    this.toUniversal.nav = this.secondNav;
+    this.toUniversal.header = this.toHeader
+      .reduce((total: Card[], curr: Card): Card[] => {
+        curr.color = this.themeColor;
+        total.push(curr);
+        return total; }, []),
+
+    this.toUniversal.color = this.themeColor;
+
+    this.studentService.getSubjects()
+      .subscribe((res: Subjects[]) => this.toUniversal.mainList = res);
   }
 
 
@@ -51,94 +52,4 @@ export class StudentMarksComponent implements OnInit {
       listViewOff: true
     }
   ]
-
-  fillList = (): Subjects[] => [
-    {
-      details: {
-        name: 'Matematyka',
-        avg: '4,21',
-        position: 3
-      },
-      marks: [
-        {
-          mark: '4',
-          topic: 'Mnożenie i dasd asd asd dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Kartkówka'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        }
-      ]
-    },
-    {
-      details: {
-        name: 'Matematyka',
-        icon: 'bi bi-alarm',
-        avg: '4,21',
-        position: 3
-      },
-      marks: [
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        }
-      ]
-    },
-    {
-      details: {
-        name: 'Matematyka',
-        icon: 'bi bi-alarm',
-        avg: '4,21',
-        position: 3
-      },
-      marks: [
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        },
-        {
-          mark: '4',
-          topic: 'Mnożenie i dzielenie',
-          date: '2021-04-12',
-          kindOf: 'Sprawdzian'
-        }
-      ]
-    }
-  ]
-
-
-
-
 }

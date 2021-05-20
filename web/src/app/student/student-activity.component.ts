@@ -32,7 +32,7 @@ export class StudentActivityComponent {
 
   fillList = (): Subjects[] => [
     {
-      details: {
+      subject: {
         name: 'Matematyka',
         icon: 'bi bi-patch-question',
         avg: '96%',
@@ -46,7 +46,7 @@ export class StudentActivityComponent {
       ]
     },
     {
-      details: {
+      subject: {
         name: 'Matematyka',
         icon: 'bi bi-patch-question',
         avg: '96%',
@@ -60,7 +60,7 @@ export class StudentActivityComponent {
       ]
     },
     {
-      details: {
+      subject: {
         name: 'Matematyka',
         icon: 'bi bi-patch-question',
         avg: '96%',

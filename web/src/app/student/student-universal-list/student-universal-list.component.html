@@ -14,13 +14,13 @@
             
                 <div class="subject-list__subject">
                     <div class="subject-list__subject-name">
-                        <i ngClass="{{subject.details.icon ? subject.details.icon : 'bi bi-patch-question'}}"
+                        <i ngClass="{{subject.subject.icon ? subject.subject.icon : 'bi bi-patch-question'}}"
                         [ngStyle]="{'color': dateFromParent?.color}"></i>
-                        <p class="subject-list__subject-name-p">{{subject.details.name}}</p>
+                        <p class="subject-list__subject-name-p">{{subject.subject.name}}</p>
                         <p class="subject-list__subject-name-p subject-list__subject-name-p--blue"
-                        >{{subject.details.avg}}</p></div>
+                        >{{subject?.subject?.avg}}</p></div>
                     
-                    <a class="subject-list__details" 
+                    <a class="subject-list__details" *ngIf="subject?.marks || subject?.days"
                     (click)="this.editModeToggle(i)">{{editModeForIndex === i ? 'Cofnij' : 'Szczegóły'}}</a>
                 </div>
 

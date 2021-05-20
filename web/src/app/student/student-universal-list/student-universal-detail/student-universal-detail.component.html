@@ -1,15 +1,15 @@
 <div class="element">
-    <p class="ones-element__p--pc">Pozycja na tle grupy: {{parent?.details?.position}} 
-        <span *ngIf="parent?.details?.countAbandoned">Liczba opuszczonych dni: {{parent?.details?.countAbandoned}}</span></p>
+    <p class="ones-element__p--pc">Pozycja na tle grupy: {{parent?.subject?.position}} 
+        <span *ngIf="parent?.subject?.countAbandoned">Liczba opuszczonych dni: {{parent?.subject?.countAbandoned}}</span></p>
     
     <div *ngIf="parent?.marks else abandonedDays">
 
         <div class="ones-element"  *ngFor="let mark of parent?.marks">
-            <p class="ones-element__p--mobile">{{mark.mark}} - {{mark.kindOf}}</p>
+            <p class="ones-element__p--mobile">{{mark?.mark}} - {{mark?.kindOf}}</p>
             <p class="ones-element__p--pc">
-              <span>ocena: {{mark.mark}}</span>
-              <span>{{mark.topic}}</span>
-              <span>{{mark.kindOf}} {{mark.date}}</span>
+              <span>ocena: {{mark?.mark}}</span>
+              <span>{{mark?.topic}}</span>
+              <span>{{mark?.kindOf}} {{mark?.date}}</span>
             </p>
         </div>
 

@@ -12,6 +12,6 @@ export class StudentService {
   constructor(private http: HttpClient) { }
 
   getSubjects(): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'student/subjects');
+    return this.http.get<any>(this.baseUrl + 'student/subjects/marks');
   }
 }

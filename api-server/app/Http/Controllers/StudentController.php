@@ -285,7 +285,10 @@ class StudentController extends Controller
     }
 
     public function showFrequencyOfEachSubject () {
-        return "frequency here";
+
+        $subjectWithFrequency = $this->studentService->getStudentFrequencyOfEachSubject();
+
+        return ApiResponse::withSuccess($subjectWithFrequency);
     }
 
 }

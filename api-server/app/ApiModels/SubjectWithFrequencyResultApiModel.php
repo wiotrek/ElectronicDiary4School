@@ -27,7 +27,7 @@ class SubjectWithFrequencyResultApiModel  {
     /**
      * @return SubjectDetailsApiModel
      */
-    public function getSubjectDetails (): SubjectDetailsApiModel {
+    public function getSubjectDetails () {
         return $this -> subjectDetails;
     }
 

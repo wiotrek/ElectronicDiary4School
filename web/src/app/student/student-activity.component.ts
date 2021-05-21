@@ -1,94 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StudentUniversal } from 'src/app/_models/_student/student-universal';
 import { Subjects } from 'src/app/_models/_student/subjects';
 import { Card } from 'src/app/_models/_universal/card';
+import { StudentService } from '../_services/student.service';
 
 @Component({
   selector: 'app-student-activity',
   template: `
   <app-student-universal-list [dateFromParent]="toUniversal"></app-student-universal-list>`
 })
-export class StudentActivityComponent {
+export class StudentActivityComponent implements OnInit {
   toUniversal = {} as StudentUniversal;
   secondNav = {  title: 'Frekwencja' };
   toHeader: Card[];
-  list: Subjects[];
   themeColor = '#87CEFA';
 
-  constructor() {
+  constructor(private studentService: StudentService) {
     this.toHeader = this.fillHeader();
-    this.list = this.fillList();
-    this.toUniversal = {
-      nav: this.secondNav,
-      header: this.toHeader.reduce((total: Card[], curr: Card): Card[] => {
-        curr.color = this.themeColor;
-        total.push(curr);
-        return total; }, []),
-      mainList: this.list,
-      color: this.themeColor
-    };
    }
 
+  ngOnInit(): void {
+    this.toUniversal.color = this.themeColor;
+    this.toUniversal.nav = this.secondNav;
+    this.toUniversal.header = this.toHeader
+      .reduce((total: Card[], curr: Card): Card[] => {
+        curr.color = this.themeColor;
+        curr.readonly = true;
+        curr.listViewOff = true;
+        total.push(curr);
+        return total; }, []),
 
-  fillList = (): Subjects[] => [
-    {
-      subject: {
-        name: 'Matematyka',
-        icon: 'bi bi-patch-question',
-        avg: '96%',
-        position: 3,
-        countAbandoned: 3,
-      },
-      days: [
-        '2021-05-21',
-        '2021-04-21',
-        '2021-03-21'
-      ]
-    },
-    {
-      subject: {
-        name: 'Matematyka',
-        icon: 'bi bi-patch-question',
-        avg: '96%',
-        position: 3,
-        countAbandoned: 3,
-      },
-      days: [
-        '2021-05-21',
-        '2021-04-21',
-        '2021-03-21'
-      ]
-    },
-    {
-      subject: {
-        name: 'Matematyka',
-        icon: 'bi bi-patch-question',
-        avg: '96%',
-        position: 3,
-        countAbandoned: 3,
-      },
-      days: [
-        '2021-05-21',
-        '2021-04-21',
-        '2021-03-21'
-      ]
-    }
-  ]
-
+    this.studentService.getFrequencies()
+      .subscribe((res: Subjects[]) => this.toUniversal.mainList = res);
+  }
 
   fillHeader = (): Card[] => [
     {
       caption: '89%',
-      name: 'Twoja Frekwencja',
-      readonly: true,
-      listViewOff: true
+      name: 'Twoja Frekwencja'
     },
     {
       caption: '5',
-      name: 'Twoja pozycja w klasie',
-      readonly: true,
-      listViewOff: true
+      name: 'Twoja pozycja w klasie'
     }
   ]
-
 }

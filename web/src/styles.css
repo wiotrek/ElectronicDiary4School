@@ -51,6 +51,26 @@ a:visited {
   .global-list-element--unSelect {
     background-color: inherit;
   }
+
+  /* classes for mark kindOf */
+
+  .Sprawdzian {
+    color: #66CDAA;
+  }
+
+  .Kartkówka {
+    color: #F4A460;
+  }
+
+  .Odpowiedź {
+    color: #87CEFA;
+  }
+
+  .Praca.domowa {
+    color: #FF6347;
+  }
+
+  /* end of kindof */
 }
 
 @media (min-width: 769px) {

@@ -7,7 +7,8 @@
         <div class="ones-element"  *ngFor="let mark of parent?.marks">
             <p class="ones-element__p--mobile">{{mark?.mark}} - {{mark?.kindOf}}</p>
             <p class="ones-element__p--pc">
-              <span>ocena: {{mark?.mark}}</span>
+              <span>ocena: <span 
+                [ngClass]="mark.kindOf">{{mark?.mark}}</span></span>
               <span>{{mark?.topic}}</span>
               <span>{{mark?.kindOf}} {{mark?.date}}</span>
             </p>

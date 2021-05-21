@@ -4,5 +4,4 @@ export interface SubjectDetails {
     avg?: string;
     position?: number;
     countAbandoned?: number;
-    abandoned?: string[];
 }

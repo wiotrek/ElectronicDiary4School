@@ -17,6 +17,7 @@ export class AccountService {
   roles: DictionaryList<string> = {
     Nauczyciel: '/nauczyciel',
     Uczeń: '/uczen',
+    Rodzic: '/rodzic'
   };
 
   constructor(private http: HttpClient) { }

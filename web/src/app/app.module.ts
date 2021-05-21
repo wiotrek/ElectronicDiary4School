@@ -29,6 +29,7 @@ import { CardComponent } from './universal/card/card.component';
 import { StudentActivityComponent } from './student/student-activity.component';
 import { StudentUniversalListComponent } from './student/student-universal-list/student-universal-list.component';
 import { StudentUniversalDetailComponent } from './student/student-universal-list/student-universal-detail/student-universal-detail.component';
+import { ParentComponent } from './parent/parent.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { StudentUniversalDetailComponent } from './student/student-universal-lis
     CardComponent,
     StudentActivityComponent,
     StudentUniversalListComponent,
-    StudentUniversalDetailComponent
+    StudentUniversalDetailComponent,
+    ParentComponent
   ],
   imports: [
     BrowserModule,

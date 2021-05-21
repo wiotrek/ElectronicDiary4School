@@ -55,19 +55,19 @@ a:visited {
   /* classes for mark kindOf */
 
   .Sprawdzian {
-    color: #66CDAA;
+    color: #800000;
   }
 
   .Kartkówka {
-    color: #F4A460;
+    color: #008000;
   }
 
   .Odpowiedź {
-    color: #87CEFA;
+    color: #7B68EE;
   }
 
   .Praca.domowa {
-    color: #FF6347;
+    color: #BA55D3;
   }
 
   /* end of kindof */

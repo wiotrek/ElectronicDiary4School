@@ -15,6 +15,7 @@ use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Models\User;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\MarkRepository;
@@ -22,7 +23,7 @@ use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentService {
+class StudentService extends BaseRepository {
 
     #region Private Members
 
@@ -165,7 +166,10 @@ class StudentService {
     }
 
 
-    public function getStudentMarksOfEachSubject(  ) {
+    public function getStudentMarksOfEachSubject( $studentId = null ) {
+
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId();
 
         // This list contain all subject which student have
         $subjectList = $this->getStudentSubject();
@@ -178,7 +182,7 @@ class StudentService {
 
 
             // getting all marks from current subject
-            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name'], $this->studentRepository->getStudentId());
+            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name'], $studentId);
             // Translate marks for api model to studentMarks
             $studentMarks = $this->getStudentMarks($marks);
 
@@ -187,7 +191,7 @@ class StudentService {
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
             $subjectDetails->setMarksAverage($this->computeAverageMarks($studentMarks));
-            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage() ));
+            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage(), $studentId ));
 
 
             $subjectWithMarks->setSubjectDetails($subjectDetails);
@@ -258,6 +262,78 @@ class StudentService {
     #endregion
 
     #region Private Methods
+
+    public function computeGeneralAverageMarks ( $studentId = null ) {
+
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        // Get all data about marks of student
+        $avgMarks = $this->getStudentMarksOfEachSubject($studentId);
+
+
+        // Collect only avg marks from all subject
+        $avgCollecter = array();
+
+
+        // It's obvious
+        foreach ( $avgMarks as $avgMark )
+            foreach ( $avgMark as $item => $value )
+                if ( !is_null( $value ) && $item == 'subject' && isset( $value[ 'avg' ] ) ) $avgCollecter[] = $value['avg'];
+
+
+        $avgSum = 0;
+        foreach ( $avgCollecter as $avgItem )
+            $avgSum += $avgItem;
+
+
+        return count($avgCollecter) > 0 ? ($avgSum / count($avgCollecter)) : null;
+    }
+
+    public function computePositionOfGeneralAvgMarks ($studentId, $generalAvgMarks) {
+
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        $classId = $this->getStudentClassId($studentId);
+
+
+        // get list of all students from above class id
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // for each student get all marks
+        foreach ( $studentList as $student )
+            if(!is_null($this->computeGeneralAverageMarks($student)))
+                $generalAverageMarks[] = $this->computeGeneralAverageMarks($student);
+
+
+        // make sure that any avg mark is in avg marks list
+        if (!isset($generalAverageMarks))
+            return null;
+
+
+        // sort average marks in descending way
+        arsort($generalAverageMarks);
+
+
+        $count = 1;
+        foreach ( $generalAverageMarks as $generalAverageMark) {
+            if ( $generalAverageMark == $generalAvgMarks ) {
+                $position = $count;
+                break;
+            }
+
+            $count++;
+        }
+
+
+        return $position;
+    }
 
     private function getStudentMarks($marks){
         $subjectWithMarks = new SubjectWithMarksResultApiModel();
@@ -356,18 +432,14 @@ class StudentService {
         return $position;
     }
 
-    private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg ) {
+    private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg, $studentId ) {
 
         if (is_null($studentAvg))
             return 'brak ocen';
 
 
-        // get class id in which login student is
-        $studentIdentifier = $this->studentRepository->
-            findByColumn($this->studentRepository->getAuthId(), 'user_id', User::class)->
-            pluck('identifier')[0];
-
-        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+        // get class id in which student is
+        $classId = $this->getStudentClassId($studentId); //$this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
 
 
         // get list of all students from above class id
@@ -403,6 +475,19 @@ class StudentService {
 
 
         return $position;
+    }
+
+    private function getStudentClassId($studentId){
+        // get class id in which login student is
+        $userId = $this->studentRepository->
+        findByColumn($studentId, 'student_id', Student::class)->
+        pluck('user_id')[0];
+
+        $studentIdentifier = $this->studentRepository->
+        findByColumn($userId, 'user_id', User::class)->
+        pluck('identifier')[0];
+
+        return $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
     }
 
     #endregion

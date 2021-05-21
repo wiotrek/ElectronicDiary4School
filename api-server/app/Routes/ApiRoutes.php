@@ -32,6 +32,8 @@ class ApiRoutes {
 
     public const MARKS_OF_EACH_SUBJECT = '/student/subjects/marks';
 
+    public const MARKS_AVERAGE = '/student/marks/average';
+
     public const FREQUENCY_OF_EACH_SUBJECT = '/student/subjects/frequencies';
 
     #endregion

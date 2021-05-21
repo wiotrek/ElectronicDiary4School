@@ -291,4 +291,19 @@ class StudentController extends Controller
         return ApiResponse::withSuccess($subjectWithFrequency);
     }
 
+    public function showAverageMarks () {
+        $averageMarks = $this->studentService->computeGeneralAverageMarks();
+        $position = $this->studentService->computePositionOfGeneralAvgMarks(null, $averageMarks);
+
+        return array(
+            array(
+                'caption' => is_null($averageMarks) ? null : $averageMarks,
+                'name' => 'Średnia ze wszystkich przedmiotów'
+            ) ,
+            array(
+                'caption' => is_null($position) ? null : $position,
+                'name' => 'Pozycja na tle klasy'
+            ));
+    }
+
 }

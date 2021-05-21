@@ -17,7 +17,7 @@ export class ParentComponent {
   ];
 
   // colors for icons
-  colors = ['#BA55D3', '#20B2AA', '#F4A460'];
+  colors = ['#BA55D3', '#20B2AA', '#F4A460', '#66CDAA'];
 
   constructor()
   { this.dateToChild = {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ParentComponent } from './parent/parent.component';
 import { StudentActivityComponent } from './student/student-activity.component';
 import { StudentMarksComponent } from './student/student-marks.component';
 import { StudentComponent } from './student/student.component';
@@ -12,6 +13,7 @@ import { PresentListComponent } from './teacher/subject-list/class-list/class/pr
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { TeacherComponent } from './teacher/teacher.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { ParentGuard } from './_guards/parent.guard';
 import { StudentGuard } from './_guards/student.guard';
 import { TeacherGuard } from './_guards/teacher.guard';
 
@@ -66,6 +68,13 @@ const routes: Routes = [
               { path: '', component: StudentActivityComponent }
             ]
           }
+        ]
+      },
+      {
+        path: 'rodzic',
+        canActivate: [ParentGuard],
+        children: [
+          { path: '', component: ParentComponent },
         ]
       },
       { path: 'not-found', component: NotFoundComponent },

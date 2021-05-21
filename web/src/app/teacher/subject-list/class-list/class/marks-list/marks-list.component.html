@@ -38,7 +38,7 @@
 
                 <ng-template #showCurrentMarks>
                     <p class="students-list__list-marks" *ngIf="s.marks.length">
-                        <span *ngFor="let one of s.marks"
+                        <span *ngFor="let one of s.marks" title="{{one.kindOf}}"
                         class="students-list__mark" [ngClass]="one.kindOf">{{one.mark}}</span>
                     </p>
                 </ng-template>

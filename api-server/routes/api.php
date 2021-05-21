@@ -50,6 +50,11 @@ Route::middleware('auth:sanctum')->group(function() {
     // For each student subject listed frequency days
     Route::get(ApiRoutes::FREQUENCY_OF_EACH_SUBJECT, [StudentController::class, 'showFrequencyOfEachSubject']);
 
+    // Student average marks of all subject marks average
+    Route::get(ApiRoutes::TOTAL_AVERAGE_MARKS, [StudentController::class, 'showAverageMarks']);
+
+    // Student average frequency of all subject frequency average
+    Route::get(ApiRoutes::TOTAL_AVERAGE_FREQUENCY, [StudentController::class, 'showAverageFrequency']);
 
     #endregion
 

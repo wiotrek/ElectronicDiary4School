@@ -15,6 +15,7 @@ use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Models\User;
+use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\MarkRepository;
@@ -22,7 +23,7 @@ use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentService {
+class StudentService extends BaseRepository {
 
     #region Private Members
 
@@ -165,7 +166,10 @@ class StudentService {
     }
 
 
-    public function getStudentMarksOfEachSubject(  ) {
+    public function getStudentMarksOfEachSubject( $studentId = null ) {
+
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId();
 
         // This list contain all subject which student have
         $subjectList = $this->getStudentSubject();
@@ -178,7 +182,7 @@ class StudentService {
 
 
             // getting all marks from current subject
-            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name'], $this->studentRepository->getStudentId());
+            $marks = $this->studentRepository->readStudentMarksBySubjectName($subject['name'], $studentId);
             // Translate marks for api model to studentMarks
             $studentMarks = $this->getStudentMarks($marks);
 
@@ -187,7 +191,7 @@ class StudentService {
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
             $subjectDetails->setMarksAverage($this->computeAverageMarks($studentMarks));
-            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage() ));
+            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage(), $studentId ));
 
 
             $subjectWithMarks->setSubjectDetails($subjectDetails);
@@ -205,7 +209,10 @@ class StudentService {
         return $result;
     }
 
-    public function getStudentFrequencyOfEachSubject () {
+    public function getStudentFrequencyOfEachSubject ($studentId = null) {
+
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId();
 
         // This list contain all subject which student have
         $subjectList = $this->getStudentSubject();
@@ -218,7 +225,7 @@ class StudentService {
 
 
             // getting all frequency from current subject
-            $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subject['name'], $this->studentRepository->getStudentId());
+            $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subject['name'], $studentId);
 
             foreach ( $frequencies as $frequency ) {
 
@@ -255,9 +262,145 @@ class StudentService {
 
     }
 
+    #region General Stats
+
+    /**
+     * Taking all averages marks from each subject ant compute total average
+     */
+    public function computeGeneralAverageMarks ( $studentId = null ) {
+
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        // Get all data about marks of student
+        $avgMarks = $this->getStudentMarksOfEachSubject($studentId);
+
+
+        return $this->computeTotalAverage($avgMarks);
+    }
+
+    /**
+     * Taking general marks average from all student from class which student is and compute his avg marks position on class
+     * @param $studentId
+     * @param $generalAvgMarks float | null Total averages of marks by specific student
+     * @return int|null
+     */
+    public function computePositionOfGeneralAvgMarks ( $studentId, ?float $generalAvgMarks) {
+
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        $classId = $this->getStudentClassId($studentId);
+
+
+        // get list of all students from above class id
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // for each student get all marks
+        foreach ( $studentList as $student )
+            if(!is_null($this->computeGeneralAverageMarks($student)))
+                $generalAverageMarks[] = $this->computeGeneralAverageMarks($student);
+
+
+        // make sure that any avg mark is in avg marks list
+        if (!isset($generalAverageMarks))
+            return null;
+
+
+        // sort average marks in descending way
+        arsort($generalAverageMarks);
+
+
+        $count = 1;
+        foreach ( $generalAverageMarks as $generalAverageMark) {
+            if ( $generalAverageMark == $generalAvgMarks ) {
+                $position = $count;
+                break;
+            }
+
+            $count++;
+        }
+
+
+        return $position;
+    }
+
+    /**
+     * Taking frequency values from all subjects and compute average frequency
+     */
+    public function computeGeneralFrequency ($studentId = null) {
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        // Get all data about marks of student
+        $avgMarks = $this->getStudentFrequencyOfEachSubject($studentId);
+
+
+        return $this->computeTotalAverage($avgMarks);
+    }
+
+    /**
+     * Taking average frequency from all subjects of all students from class which student is and compute position of his averag on class
+     * @param $studentId
+     * @param $generalAvgFrequency mixed Average frequency from all subjects for specific student
+     * @return int|null
+     */
+    public function computePositionOfGeneralAvgFrequency ($studentId, $generalAvgFrequency) {
+
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
+
+
+        $classId = $this->getStudentClassId($studentId);
+
+
+        // get list of all students from above class id
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // for each student get all marks
+        foreach ( $studentList as $student )
+            if(!is_null($this->computeGeneralFrequency($student)))
+                $generalAverageFrequencies[] = $this->computeGeneralFrequency($student);
+
+
+        // make sure that any avg mark is in avg marks list
+        if (!isset($generalAverageFrequencies))
+            return null;
+
+
+        // sort average marks in descending way
+        arsort($generalAverageFrequencies);
+
+
+        $count = 1;
+        foreach ( $generalAverageFrequencies as $frequency) {
+            if ( $frequency == $generalAvgFrequency ) {
+                $position = $count;
+                break;
+            }
+
+            $count++;
+        }
+
+
+        return $position;
+    }
+
+    #endregion
+
     #endregion
 
     #region Private Methods
+
 
     private function getStudentMarks($marks){
         $subjectWithMarks = new SubjectWithMarksResultApiModel();
@@ -356,18 +499,14 @@ class StudentService {
         return $position;
     }
 
-    private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg ) {
+    private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg, $studentId ) {
 
         if (is_null($studentAvg))
             return 'brak ocen';
 
 
-        // get class id in which login student is
-        $studentIdentifier = $this->studentRepository->
-            findByColumn($this->studentRepository->getAuthId(), 'user_id', User::class)->
-            pluck('identifier')[0];
-
-        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+        // get class id in which student is
+        $classId = $this->getStudentClassId($studentId); //$this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
 
 
         // get list of all students from above class id
@@ -403,6 +542,45 @@ class StudentService {
 
 
         return $position;
+    }
+
+    private function getStudentClassId($studentId){
+        // get class id in which login student is
+        $userId = $this->studentRepository->
+        findByColumn($studentId, 'student_id', Student::class)->
+        pluck('user_id')[0];
+
+        $studentIdentifier = $this->studentRepository->
+        findByColumn($userId, 'user_id', User::class)->
+        pluck('identifier')[0];
+
+        return $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+    }
+
+    /**
+     * @param $averages array |null Array of all averages from each subject
+     * @return float|int|null
+     */
+    private function computeTotalAverage( ?array $averages) {
+        // Collect only avg marks from all subject
+        $avgCollecter = array();
+
+
+        // It's obvious
+        foreach ( $averages as $average )
+            foreach ( $average as $item => $value )
+                if ( !is_null( $value ) && $item == 'subject' && isset( $value[ 'avg' ] ) ) $avgCollecter[] = $value['avg'];
+
+
+        $avgSum = 0;
+        foreach ( $avgCollecter as $avgItem ) {
+            if (is_string($avgItem))
+                $avgSum += substr( $avgItem, 0, -1 );
+            else
+                $avgSum += $avgItem;
+        }
+
+        return count($avgCollecter) > 0 ? ($avgSum / count($avgCollecter)) : null;
     }
 
     #endregion

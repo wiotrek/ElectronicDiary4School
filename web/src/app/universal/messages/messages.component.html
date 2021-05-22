@@ -1,0 +1,74 @@
+<main>
+  <app-second-nav [parent]="nav"></app-second-nav>
+
+  <div class="message-menu">
+
+    <a class="message-menu__new-message">Nowa wiadomość</a>
+
+    <a class="message-menu__show-message"
+    (click)="showSenders = showSenders ? false : true">
+    {{showSenders ? 'Ukryj' : 'Pokaż'}}</a>
+
+  </div>
+
+
+
+  <div class="main-block">
+
+    <div class="senders" *ngIf="showSenders">
+
+      <div class="sender" *ngFor="let item of sendersObj">
+
+        <img class="sender__avatar" src="https://randomuser.me/api/portraits/lego/7.jpg"
+        alt="avatar">
+
+        <div class="sender__text">
+          <div class="sender__name">
+            {{item.name}} {{item.lastname}}
+          </div>
+
+          <div class="sender__last-message">
+            {{item.lastMessage}}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="message">
+
+      <div class="message__displayer">
+
+        <div class="message__one-message" *ngFor="let item of messagesObj">
+
+          <img class="sender__avatar" src="https://randomuser.me/api/portraits/lego/7.jpg"
+          alt="avatar">
+
+          <div class="sender__text">
+            <div class="sender__name">
+              {{item.name}}
+            </div>
+
+            <div class="sender__last-message">
+              {{item.message}}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="message__typing">
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+</main>

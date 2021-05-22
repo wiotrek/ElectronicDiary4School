@@ -14,6 +14,7 @@ import { NewMarkComponent } from './teacher/subject-list/class-list/class/marks-
 import { PresentListComponent } from './teacher/subject-list/class-list/class/present-list/present-list.component';
 import { SubjectListComponent } from './teacher/subject-list/subject-list.component';
 import { TeacherComponent } from './teacher/teacher.component';
+import { MessagesComponent } from './universal/messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { ParentGuard } from './_guards/parent.guard';
 import { StudentGuard } from './_guards/student.guard';
@@ -87,6 +88,12 @@ const routes: Routes = [
             path: 'zobacz-frekwencje',
             children: [
               { path: '', component: ChildActivityComponent }
+            ]
+          },
+          {
+            path: 'powiadomienia',
+            children: [
+              { path: '', component: MessagesComponent }
             ]
           }
         ]

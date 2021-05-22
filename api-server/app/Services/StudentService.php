@@ -9,6 +9,8 @@ use App\ApiModels\Marks\Design\MarkWithTagItem;
 use App\ApiModels\Subject\SubjectDetailsApiModel;
 use App\ApiModels\SubjectWithFrequencyResultApiModel;
 use App\ApiModels\SubjectWithMarksResultApiModel;
+use App\Events\ExampleEvent;
+use App\Events\StudentStatisticsEvent;
 use App\Helpers\KeyColumn;
 use App\Models\Mark;
 use App\Models\Student;
@@ -84,7 +86,10 @@ class StudentService extends BaseRepository {
             $studentMark->passing_date = $passing_date;
 
             // Store current row to database
-            $this->studentRepository->storeStudentMark($studentMark);
+//            $this->studentRepository->storeStudentMark($studentMark);
+
+
+            event(new StudentStatisticsEvent($student_id));
         }
 
     }
@@ -195,6 +200,9 @@ class StudentService extends BaseRepository {
 
 
             $subjectWithMarks->setSubjectDetails($subjectDetails);
+
+
+            // save or update information to student_statistics
 
 
             // collect data from current subject iterate

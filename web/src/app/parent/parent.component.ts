@@ -27,5 +27,4 @@ export class ParentComponent {
       hideBack: true,
       iconColors: this.colors
     }; }
-
 }

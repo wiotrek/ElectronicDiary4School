@@ -10,14 +10,12 @@ use App\Models\MarksType;
 use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
+use App\Models\StudentStatistics;
 use App\Models\Subject;
-use App\Models\SubjectClass;
 use App\Models\Teacher;
 use App\Models\User;
-use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
-use Defuse\Crypto\Key;
 
 class StudentRepository extends BaseRepository implements StudentRepositoryInterface {
 
@@ -48,6 +46,18 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ]);
     }
 
+    public function updateStudentStatistics ( $primaryKey, $primaryColumnName, $model ) {
+        $this->updateModel($primaryKey, $primaryColumnName, $model)->
+        update([
+            'average_marks' => $model->average_marks,
+            'average_position' => $model->average_position,
+            'frequency' => $model->frequency,
+            'frequency_position' => $model->frequency_position
+        ]);
+    }
+
+
+
     #endregion
 
     #region Reading
@@ -68,6 +78,11 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             'time_active' => $time
         ])->
         pluck(KeyColumn::fromModel(StudentActivity::class));
+    }
+
+    public function readSubjectIdByStudentActiveId ( $studentActiveId ) {
+        return $this->findByColumn($studentActiveId, KeyColumn::fromModel(StudentActivity::class), StudentActivity::class)->
+            pluck(KeyColumn::fromModel(Subject::class));
     }
 
     public function readStudentMarksBySubjectAndIdentifier( $identifier, $subjectName) {
@@ -146,6 +161,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
     }
 
     public function readStudentFrequencyBySubjectName ( string $subjectName, $studentId ){
+
         // subject id of becoming subject name
         $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
         pluck(KeyColumn::fromModel(Subject::class))[0];
@@ -161,6 +177,56 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         }
 
         return $frequency;
+    }
+
+    public function readStudentStatisticsId ( int $studentId, int $subjectId ) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+            pluck(KeyColumn::fromModel(StudentStatistics::class));
+    }
+
+    public function readAvgMarksBySubjectId($studentId, $subjectId) {
+
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('average_marks');
+    }
+
+    public function readAvgMarksPositionBySubjectName ( int $studentId, int $subjectId ) {
+
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('average_position');
+    }
+
+    public function readListAvgMarks ( int $studentId ) {
+        return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+            pluck('average_marks');
+    }
+
+
+    public function readFrequencyBySubjectId($studentId, $subjectId) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('frequency');
+    }
+
+
+    public function readFrequencyPositionBySubjectName ( int $studentId, int $subjectId ) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('frequency_position');
+    }
+
+
+    public function readListFrequency ( int $studentId ) {
+        return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+        pluck('frequency');
     }
 
     #endregion

@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\ApiModels\Marks\Design\MarkItem;
-use App\ApiModels\Marks\Design\MarkWithTagItem;
 use App\ApiModels\Subject\SubjectDetailsApiModel;
 use App\ApiModels\SubjectWithFrequencyResultApiModel;
 use App\ApiModels\SubjectWithMarksResultApiModel;
@@ -14,6 +13,7 @@ use App\Models\Mark;
 use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
+use App\Models\StudentStatistics;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
@@ -21,7 +21,6 @@ use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
-use Illuminate\Database\Eloquent\Model;
 
 class StudentService extends BaseRepository {
 
@@ -50,10 +49,6 @@ class StudentService extends BaseRepository {
 
     #region Public Methods
 
-    public function storeStudentActivity ( StudentActivity $studentActivity ) {
-        $this->studentRepository->saveStudentActivity($studentActivity);
-    }
-
 
     public function storeStudentMarks ( MarkListInsert $mlInsert ) {
 
@@ -70,6 +65,7 @@ class StudentService extends BaseRepository {
             // Declare eloquent model
             $studentMark = new StudentMark();
 
+
             // Initialize mark current mark data
             $student_id = $this->studentRepository->readStudentIdByIdentifier($mark->getIdentifier())[0];
             $marks_id = $this->markRepository->readMarkIdByDegree($mark->getMark());
@@ -83,9 +79,19 @@ class StudentService extends BaseRepository {
             $studentMark->topic = $topic;
             $studentMark->passing_date = $passing_date;
 
+
             // Store current row to database
             $this->studentRepository->storeStudentMark($studentMark);
+
+
+            // It's using for create or update student statistics
+            $collectStudentsId[] = $student_id;
+
         }
+
+
+        foreach ( $collectStudentsId as $studentId )
+            $this->createOrUpdateStudentStatistics($studentId, $mlInsert->getMarkRevision()->getSubject());
 
     }
 
@@ -112,10 +118,17 @@ class StudentService extends BaseRepository {
             // Get row to update
             $markToUpdate = $this->studentRepository->findByColumn($markItem->getStudentMarksId(), 'student_marks_id', StudentMark::class)->first();
 
+
             // change mark id value
             $markToUpdate->marks_id = $markIdByMarkFromClient;
 
+
+            // update student mark
             $this->studentRepository->updateStudentMarkModel($markItem->getStudentMarksId(), 'student_marks_id', $markToUpdate->marks_id);
+
+
+            // update student statistics
+            $this->createOrUpdateStudentStatistics($markToUpdate->student_id, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
         }
 
     }
@@ -135,7 +148,14 @@ class StudentService extends BaseRepository {
         // Set new value for this student
         $studentActiveToUpdate->active = $isActive;
 
+
         $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
+
+        $subjectId = $this->studentRepository->readSubjectIdByStudentActiveId($studentActiveId);
+
+        // update student statistics
+        $this->createOrUpdateStudentStatistics($studentId, $this->subjectRepository->readSubjectNameById($subjectId)[0]);
+
     }
 
 
@@ -187,12 +207,16 @@ class StudentService extends BaseRepository {
             $studentMarks = $this->getStudentMarks($marks);
 
 
+            // student statistics
+            $avgMarks = $this->studentRepository->readAvgMarksBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $avgMarksPosition = $this->studentRepository->readAvgMarksPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+
+
             // set subject details
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
-            $subjectDetails->setMarksAverage($this->computeAverageMarks($studentMarks));
-            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage(), $studentId ));
-
+            $subjectDetails->setMarksAverage(count($avgMarks) == 0 ? null : $avgMarks[0]);
+            $subjectDetails->setPosition(count($avgMarksPosition) == 0 ? null : $avgMarksPosition[0]);
 
             $subjectWithMarks->setSubjectDetails($subjectDetails);
 
@@ -204,7 +228,6 @@ class StudentService extends BaseRepository {
             );
 
         }
-
 
         return $result;
     }
@@ -229,21 +252,25 @@ class StudentService extends BaseRepository {
 
             foreach ( $frequencies as $frequency ) {
 
-
                 if ($frequency['active'] == 0) {
                     $countAbandoned++;
                     $subjectWithFrequency -> setDays( substr($frequency[ 'date_active' ], 0, 10) );
                 }
+
             }
 
-            $frequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
+
+            // student statistics
+            $frequency = $this->studentRepository->readFrequencyBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $frequencyPosition = $this->studentRepository->readFrequencyPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+
 
             // set subject details
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
-            $subjectDetails->setFrequency($frequency.'%');
+            $subjectDetails->setFrequency(count($frequency) == 0 ? null : $frequency[0]);
             $subjectDetails->setCountAbandoned($countAbandoned);
-            $subjectDetails->setPosition($this->computePositionOfFrequency($subjectDetails->getName(), $frequency));
+            $subjectDetails->setPosition(  count($frequencyPosition) == 0 ? null : $frequencyPosition[0] );
 
 
             $subjectWithFrequency->setSubjectDetails($subjectDetails);
@@ -298,13 +325,24 @@ class StudentService extends BaseRepository {
 
 
         // get list of all students from above class id
-        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+        $studentIds = $this->classRepository->readStudentsIdByClassId($classId);
 
 
-        // for each student get all marks
-        foreach ( $studentList as $student )
-            if(!is_null($this->computeGeneralAverageMarks($student)))
-                $generalAverageMarks[] = $this->computeGeneralAverageMarks($student);
+        // for each student get general avg marks
+        foreach ( $studentIds as $id )
+            if(count(($this->studentRepository->readListAvgMarks($id))) != 0) {
+
+                // list of avgs marks from each subject like [2.78 (subject 1), 3.24 (subject 2),...]
+                $listAverageMarks = $this -> studentRepository -> readListAvgMarks( $id );
+
+                $avgSum = 0;
+                // ...compute avg marks
+                foreach ( $listAverageMarks  as $averageMark )
+                    $avgSum += $averageMark;
+
+                // Collect every general avg marks from all subject from specific student
+                $generalAverageMarks[] = $avgSum / count($listAverageMarks);
+            }
 
 
         // make sure that any avg mark is in avg marks list
@@ -340,10 +378,10 @@ class StudentService extends BaseRepository {
 
 
         // Get all data about marks of student
-        $avgMarks = $this->getStudentFrequencyOfEachSubject($studentId);
+        $avgFrequency = $this->getStudentFrequencyOfEachSubject($studentId);
 
 
-        return $this->computeTotalAverage($avgMarks);
+        return $this->computeTotalAverage($avgFrequency);
     }
 
     /**
@@ -363,27 +401,40 @@ class StudentService extends BaseRepository {
 
 
         // get list of all students from above class id
-        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+        $studentIds = $this->classRepository->readStudentsIdByClassId($classId);
 
 
         // for each student get all marks
-        foreach ( $studentList as $student )
-            if(!is_null($this->computeGeneralFrequency($student)))
-                $generalAverageFrequencies[] = $this->computeGeneralFrequency($student);
+        foreach ( $studentIds as $id )
+            if(count($this->studentRepository->readListFrequency($id)) != 0) {
+
+                // list of frequencies from each subject like [94.46 (subject 1), 100.00 (subject 2),...]
+                $listFrequencies = $this -> studentRepository -> readListFrequency( $id );
+
+                $avgSum = 0;
+                // ...compute avg marks
+                foreach ( $listFrequencies  as $subjectFrequency )
+                    $avgSum += $subjectFrequency;
+
+                // Collect every general avg marks from all subject from specific student
+                $subjectFrequencies[] = $avgSum / count($listFrequencies);
+            }
 
 
         // make sure that any avg mark is in avg marks list
-        if (!isset($generalAverageFrequencies))
+        if (!isset($subjectFrequencies))
             return null;
 
 
         // sort average marks in descending way
-        arsort($generalAverageFrequencies);
+        arsort($subjectFrequencies);
 
 
         $count = 1;
-        foreach ( $generalAverageFrequencies as $frequency) {
-            if ( $frequency == $generalAvgFrequency ) {
+//        echo 'student freq: '.round($generalAvgFrequency, 2)."\n";
+        foreach ( $subjectFrequencies as $frequency) {
+//            echo 'freq: '.round($frequency, 2)."\n";
+            if ( round($frequency, 2) == round($generalAvgFrequency, 2) ) {
                 $position = $count;
                 break;
             }
@@ -392,7 +443,7 @@ class StudentService extends BaseRepository {
         }
 
 
-        return $position;
+        return $position ?? $count;
     }
 
     #endregion
@@ -449,14 +500,14 @@ class StudentService extends BaseRepository {
         return $weightSum == 0 ? null : round(($avg / $weightSum), 2);
     }
 
-    private function computePositionOfFrequency ( $subjectName, ?float $studentFrequency ) {
+    private function computePositionOfFrequency ( $subjectName, ?float $studentFrequency, $studentId = null ) {
 
-        // get class id in which login student is
-        $studentIdentifier = $this->studentRepository->
-        findByColumn($this->studentRepository->getAuthId(), 'user_id', User::class)->
-        pluck('identifier')[0];
+        // Get student id from param or from auth if is null
+        if (is_null($studentId))
+            $studentId = $this->studentRepository->getStudentId()[0];
 
-        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+
+        $classId = $this->getStudentClassId($studentId);
 
 
         // get list of all students from above class id
@@ -489,7 +540,7 @@ class StudentService extends BaseRepository {
 
         // get position where student percent frequencies is equal avg in array
         $count = 1;
-        foreach ($percentFrequencies as $key => $value) {
+        foreach ( $percentFrequencies as $value) {
 
             if ( $studentFrequency == $value[0] ) {  $position = $count; break; }
             $count++;
@@ -502,11 +553,11 @@ class StudentService extends BaseRepository {
     private function computePositionOfAverageMarks ( $subjectName, ?float $studentAvg, $studentId ) {
 
         if (is_null($studentAvg))
-            return 'brak ocen';
+            return null;
 
 
         // get class id in which student is
-        $classId = $this->getStudentClassId($studentId); //$this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+        $classId = $this->getStudentClassId($studentId);
 
 
         // get list of all students from above class id
@@ -521,6 +572,8 @@ class StudentService extends BaseRepository {
             $studentMarks = $this->getStudentMarks($marks);
             $avgStudentMarks = $this->computeAverageMarks($studentMarks);
 
+
+
             $averageMarks[] = array($avgStudentMarks);
         }
 
@@ -531,7 +584,7 @@ class StudentService extends BaseRepository {
 
         // get position where student avg marks is equal avg in array
         $count = 1;
-        foreach ($averageMarks as $key => $value) {
+        foreach ( $averageMarks as $value) {
             if ( $studentAvg == $value[ 0 ] ) {
                 $position = $count;
                 break;
@@ -574,13 +627,61 @@ class StudentService extends BaseRepository {
 
         $avgSum = 0;
         foreach ( $avgCollecter as $avgItem ) {
-            if (is_string($avgItem))
-                $avgSum += substr( $avgItem, 0, -1 );
+            if (is_string($avgItem)) {
+                if (strlen($avgItem) > 1) $avgSum += substr( $avgItem, 0, -1 ); }
             else
                 $avgSum += $avgItem;
         }
 
         return count($avgCollecter) > 0 ? ($avgSum / count($avgCollecter)) : null;
+    }
+
+    private function createOrUpdateStudentStatistics($studentId, $subjectName) {
+        $subjectId = $this->subjectRepository->readSubjectIdByName($subjectName)[0];
+
+        // getting all marks from current subject
+        $marks = $this->studentRepository->readStudentMarksBySubjectName($subjectName, $studentId);
+        // Translate marks for api model to studentMarks
+        $studentMarks = $this->getStudentMarks($marks);
+
+
+        $average = $this->computeAverageMarks($studentMarks);
+        $averagePosition = $this->computePositionOfAverageMarks($subjectName, $average, $studentId);
+
+
+        $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subjectName, $studentId);
+        $countAbandoned = 0;
+        if (count($frequencies) != 0) {
+            foreach ( $frequencies as $frequency ) {
+                if ( $frequency[ 'active' ] == 0 )
+                    $countAbandoned++;
+            }
+
+            $frequency = $this -> computeFrequencyPercent( $countAbandoned, count( $frequencies ) );
+            $frequencyPosition = $this -> computePositionOfFrequency( $subjectName, $frequency, $studentId );
+        }
+        else {
+            $frequency = null;
+            $frequencyPosition = null;
+        }
+
+
+        $studentStatistics = new StudentStatistics();
+
+        $studentStatistics->student_id = $studentId;
+        $studentStatistics->subject_id = $subjectId;
+        $studentStatistics->average_marks = $average;
+        $studentStatistics->average_position = $averagePosition;
+        $studentStatistics->frequency = $frequency;
+        $studentStatistics->frequency_position = $frequencyPosition;
+
+
+        $statisticsId = $this->studentRepository->readStudentStatisticsId($studentId, $subjectId);
+        if (count($statisticsId) == 0)
+            $this->storeModel($studentStatistics);
+        else
+            $this->studentRepository->updateStudentStatistics ( $statisticsId[0], KeyColumn::fromModel(StudentStatistics::class), $studentStatistics );
+
     }
 
     #endregion

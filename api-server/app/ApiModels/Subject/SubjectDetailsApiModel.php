@@ -63,17 +63,19 @@ class SubjectDetailsApiModel extends SubjectApiModel {
     }
 
     /**
-     * @return string
+     * @return string | null
      */
-    public function getFrequency (): string {
+    public function getFrequency (): ?string {
         return $this -> frequency;
     }
 
     /**
-     * @param string $frequency
+     * @param string | null $frequency
      */
-    public function setFrequency ( string $frequency ): void {
-        $this -> frequency = $frequency;
+    public function setFrequency ( ?string $frequency ): void {
+        is_null($frequency) ?
+            $this -> frequency = null :
+            $this->frequency = $frequency.'%';
     }
 
     /**

@@ -22,6 +22,10 @@ class BaseRepository implements BaseRepositoryInterface {
         where($primaryColumnName, '=', $primaryKey);
     }
 
+    public function storeModel ( object $model ) {
+        $model->save();
+    }
+
     public function findById ( int $id, $model ) {
         return $model::where(KeyColumn::fromModel($model), '=', $id)->get();
     }

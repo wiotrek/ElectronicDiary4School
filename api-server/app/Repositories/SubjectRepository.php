@@ -66,6 +66,11 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
             ->pluck('subject_id');
     }
 
+    public function readSubjectNameById ( $subjectId ) {
+        return $this->findByColumn($subjectId, KeyColumn::fromModel(Subject::class), Subject::class)
+            ->pluck('name');
+    }
+
     #endregion
 
 }

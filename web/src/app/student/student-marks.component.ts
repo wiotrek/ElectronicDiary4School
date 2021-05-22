@@ -11,38 +11,26 @@ import { StudentService } from 'src/app/_services/student.service';
 })
 export class StudentMarksComponent implements OnInit {
   toUniversal = {} as StudentUniversal;
-  secondNav = {  title: 'Oceny' };
-  toHeader: Card[];
   themeColor = '#F4A460';
 
-  constructor(private studentService: StudentService) {
-    this.toHeader = this.fillHeader();
-   }
+  constructor(private studentService: StudentService) {}
 
   ngOnInit(): void {
     this.toUniversal.color = this.themeColor;
-    this.toUniversal.nav = this.secondNav;
-    this.toUniversal.header = this.toHeader
-      .reduce((total: Card[], curr: Card): Card[] => {
-        curr.color = this.themeColor;
-        curr.readonly = true;
-        curr.listViewOff = true;
-        total.push(curr);
-        return total; }, []),
+    this.toUniversal.nav = {  title: 'Oceny' };
+
+    this.studentService.getAvgSubjectMarks()
+        .subscribe((res: Card[]) => {
+          this.toUniversal.header = res
+          .reduce((total: Card[], curr: Card): Card[] => {
+            curr.color = this.themeColor;
+            curr.readonly = true;
+            curr.listViewOff = true;
+            total.push(curr);
+            return total; }, []);
+        });
 
     this.studentService.getSubjects()
       .subscribe((res: Subjects[]) => this.toUniversal.mainList = res);
   }
-
-
-  fillHeader = (): Card[] => [
-    {
-      caption: '4.21',
-      name: 'Twoja średnia'
-    },
-    {
-      caption: '5',
-      name: 'Twoja pozycja w klasie'
-    }
-  ]
 }

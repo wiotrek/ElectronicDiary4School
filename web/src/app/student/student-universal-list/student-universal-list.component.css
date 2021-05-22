@@ -10,6 +10,7 @@
     }
 
     .header {
+        display: block;
         border-bottom: 2px solid var(--line-grey);
         padding-bottom: 20px;
         margin-bottom: 20px;
@@ -36,5 +37,12 @@
 
     .subject-list__details {
         font-weight: 400;
+    }
+}
+@media (min-width: 769px) {
+
+    .header {
+        display: flex;
+        justify-content: start;
     }
 }

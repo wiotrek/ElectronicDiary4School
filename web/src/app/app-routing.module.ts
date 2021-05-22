@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ChildActivityComponent } from './parent/child-activity.component';
+import { ChildMarksComponent } from './parent/child-marks.component';
 import { ParentComponent } from './parent/parent.component';
 import { StudentActivityComponent } from './student/student-activity.component';
 import { StudentMarksComponent } from './student/student-marks.component';
@@ -75,6 +77,18 @@ const routes: Routes = [
         canActivate: [ParentGuard],
         children: [
           { path: '', component: ParentComponent },
+          {
+            path: 'sprawdź-oceny',
+            children: [
+              { path: '', component: ChildMarksComponent }
+            ]
+          },
+          {
+            path: 'zobacz-frekwencje',
+            children: [
+              { path: '', component: ChildActivityComponent }
+            ]
+          }
         ]
       },
       { path: 'not-found', component: NotFoundComponent },

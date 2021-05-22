@@ -11,37 +11,26 @@ import { StudentService } from '../_services/student.service';
 })
 export class StudentActivityComponent implements OnInit {
   toUniversal = {} as StudentUniversal;
-  secondNav = {  title: 'Frekwencja' };
-  toHeader: Card[];
   themeColor = '#87CEFA';
 
-  constructor(private studentService: StudentService) {
-    this.toHeader = this.fillHeader();
-   }
+  constructor(private studentService: StudentService) {}
 
   ngOnInit(): void {
     this.toUniversal.color = this.themeColor;
-    this.toUniversal.nav = this.secondNav;
-    this.toUniversal.header = this.toHeader
-      .reduce((total: Card[], curr: Card): Card[] => {
-        curr.color = this.themeColor;
-        curr.readonly = true;
-        curr.listViewOff = true;
-        total.push(curr);
-        return total; }, []),
+    this.toUniversal.nav = {  title: 'Frekwencja' };
+
+    this.studentService.getAvgSubjectFrequencies()
+    .subscribe((res: Card[]) => {
+      this.toUniversal.header = res
+        .reduce((total: Card[], curr: Card): Card[] => {
+          curr.color = this.themeColor;
+          curr.readonly = true;
+          curr.listViewOff = true;
+          total.push(curr);
+          return total; }, []);
+      });
 
     this.studentService.getFrequencies()
       .subscribe((res: Subjects[]) => this.toUniversal.mainList = res);
   }
-
-  fillHeader = (): Card[] => [
-    {
-      caption: '89%',
-      name: 'Twoja Frekwencja'
-    },
-    {
-      caption: '5',
-      name: 'Twoja pozycja w klasie'
-    }
-  ]
 }

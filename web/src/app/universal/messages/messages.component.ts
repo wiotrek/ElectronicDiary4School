@@ -7,62 +7,66 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessagesComponent implements OnInit {
   nav = { title: 'Powiadomienia' };
-  showSenders = true;
+  wholeMessageMode = -1;
 
-  messagesObj;
+  messagesStart = 0;
+  messagesEnd = 5;
+
   sendersObj;
 
   constructor() {
     this.sendersObj = this.senders();
-    this.messagesObj = this.messages();
+    for (let index = 0; index < 5; index++) {
+      this.senders().forEach(x => this.sendersObj.push(x));
+    }
    }
 
   ngOnInit(): void {
   }
 
+  wholeMessageModeToggle(ind: number): void {
+    this.wholeMessageMode === ind
+    ? this.wholeMessageMode = -1
+    : this.wholeMessageMode = ind;
+  }
+
+  paginationOwn = (next: boolean) => {
+    if (next) {
+      this.messagesStart += 5;
+      this.messagesEnd += 5;
+    } else {
+      this.messagesStart -= 5;
+      this.messagesEnd -= 5;
+    }
+  }
+
   senders = () => [
     {
-      name: 'Marek',
-      lastname: 'Jóźwiak',
-      lastMessage: 'dzien dobry mam wazna wiadomosc dsaijdoi aosdjioasdj oasidjiasd asdos'
+      avatar: 'https://randomuser.me/api/portraits/lego/2.jpg',
+      name: 'Marek Jóźwiak',
+      date: '2021-03-03',
+      sender: true,
+      read: false,
+      subject: 'Język polski',
+      message: 'dzien dobry mam wazna wiadomosc dsaijdoi aosdjioasdj oasidjiasd asdos'
     },
     {
-      name: 'Jowita',
-      lastname: 'Jóźwiak',
-      lastMessage: 'dzien dobry mam wazna wiadomosc'
+      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+      name: 'Marek Jóźwiak',
+      date: '2021-03-03',
+      sender: true,
+      read: false,
+      subject: 'Język Polski',
+      message: 'Witam szanowny panie'
     },
     {
-      name: 'Jowita',
-      lastname: 'Jóźwiak',
-      lastMessage: 'dzien dobry mam wazna wiadomosc'
-    },
-    {
-      name: 'Jowita',
-      lastname: 'Jóźwiak',
-      lastMessage: 'dzien dobry mam wazna wiadomosc'
-    },
-    {
-      name: 'Jowita',
-      lastname: 'Jóźwiak',
-      lastMessage: 'dzien dobry mam wazna wiadomosc'
+      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
+      name: 'Bartek Majowy',
+      date: '2021-03-03',
+      sender: false,
+      read: true,
+      subject: 'Język Polski',
+      message: 'Witam szanowny panie'
     }
   ]
-
-  messages = () => [
-    {
-      name: 'Jowita',
-      message: 'co tam powiesz mordeczko'
-    },
-    {
-      name: 'Jowita',
-      message: 'dawno sie nie odzywałeś'
-    },
-    {
-      name: 'Ty',
-      message: 'ano dawno'
-    }
-  ]
-
-
-
 }

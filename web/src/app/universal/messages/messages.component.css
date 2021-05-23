@@ -9,21 +9,22 @@
     justify-content: space-between;
   }
 
-  /* all senders */
-
-  .senders {
-    max-height: 150px;
-    overflow: scroll;
-  }
-
-  .sender{
+  .sender {
     display: flex;
     min-height: 30px;
-    margin-top: 10px;
+    margin-top: 7px;
     border: 1px solid var(--primary-blue);
     font-size: 1.1rem;
     background-color: #FFF;
-    overflow: hidden;
+  }
+
+  .as-read {
+    background-color: inherit;
+    border: 1px solid var(--line-grey);
+  }
+
+  .sender__left-side {
+    position: relative;
   }
 
   .sender__avatar {
@@ -42,7 +43,12 @@
     font-weight: 600;
   }
 
-  .sender__last-message {
+  .sender__whoIsSender {
+    font-size: .6rem;
+    font-weight: 400;
+  }
+
+  .sender__current-message {
     font-size: .8rem;
     white-space: nowrap;
     overflow: hidden;
@@ -50,16 +56,55 @@
     max-width: 35ch;
   }
 
-  /* chat */
+  .whole-message__subject {
+    font-size: .9rem;
+  }
 
-  .message__one-message {
+  .whole-message__message {
+    font-size: .9rem;
+    margin: 10px 0;
+  }
+
+  .whole-message__bottom {
+    font-size: .8rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .sender__expand {
     display: flex;
-    min-height: 30px;
-    margin-top: 10px;
-    border: 1px solid var(--primary-blue);
-    font-size: 1.1rem;
-    background-color: #FFF;
+    justify-content: space-between;
+    font-size: .7rem;
+  }
+
+  .bi.bi-chat-right-text-fill {
+    position: absolute;
+    color: var(--primary-blue);
+    left: -10px;
+    top: -10px;
+  }
+}
+@media (min-width: 769px) {
+
+  .message-menu {
+    display: none;
+  }
+
+  .main-block {
+    margin: 50px 0;
+  }
+
+  .senders {
+    width: 35%;
+  }
+
+  .sender__current-message {
+    font-size: .8rem;
+    white-space: normal;
     overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: unset;
   }
 
 }
+

@@ -85,6 +85,9 @@ class StudentService extends BaseRepository {
             $studentMark->passing_date = $passing_date;
 
 
+            // Store current row to database
+            $this->studentRepository->storeStudentMark($studentMark);
+
 
             // It's using for create or update student statistics
             $collectStudentsId[] = $student_id;
@@ -144,6 +147,8 @@ class StudentService extends BaseRepository {
         $studentActiveToUpdate->active = $isActive;
 
         $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
+
+
     }
 
 
@@ -195,17 +200,18 @@ class StudentService extends BaseRepository {
             $studentMarks = $this->getStudentMarks($marks);
 
 
+            // student statistics
+            $avgMarks = $this->studentRepository->readAvgMarksBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $avgMarksPosition = $this->studentRepository->readAvgMarksPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+
+
             // set subject details
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
-            $subjectDetails->setMarksAverage($this->computeAverageMarks($studentMarks));
-            $subjectDetails->setPosition($this->computePositionOfAverageMarks ( $subjectDetails->getName(), $subjectDetails->getMarksAverage(), $studentId ));
-
+            $subjectDetails->setMarksAverage(count($avgMarks) == 0 ? null : $avgMarks[0]);
+            $subjectDetails->setPosition(count($avgMarksPosition) == 0 ? null : $avgMarksPosition[0]);
 
             $subjectWithMarks->setSubjectDetails($subjectDetails);
-
-
-            // save or update information to student_statistics
 
 
             // collect data from current subject iterate
@@ -517,7 +523,7 @@ class StudentService extends BaseRepository {
 
 
         // get class id in which student is
-        $classId = $this->getStudentClassId($studentId); //$this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+        $classId = $this->getStudentClassId($studentId);
 
 
         // get list of all students from above class id
@@ -531,6 +537,8 @@ class StudentService extends BaseRepository {
             // invoke computeAverageMarks method
             $studentMarks = $this->getStudentMarks($marks);
             $avgStudentMarks = $this->computeAverageMarks($studentMarks);
+
+
 
             $averageMarks[] = array($avgStudentMarks);
         }

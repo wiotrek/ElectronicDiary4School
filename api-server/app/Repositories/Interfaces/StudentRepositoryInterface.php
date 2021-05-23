@@ -98,6 +98,20 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentStatisticsId ( int $studentId, int $subjectId );
 
+    /**
+     * @param $studentId
+     * @param $subjectId
+     * @return mixed
+     */
+    public function readAvgMarksBySubjectId($studentId, $subjectId);
+
+    /**
+     * @param int $studentId
+     * @param int $subjectId
+     * @return mixed
+     */
+    public function readAvgMarksPositionBySubjectName ( int $studentId, int $subjectId );
+
     #endregion
 
 }

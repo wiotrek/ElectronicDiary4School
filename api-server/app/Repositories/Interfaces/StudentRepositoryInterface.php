@@ -98,24 +98,39 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readStudentStatisticsId ( int $studentId, int $subjectId );
 
+    #region Statistics Table
+
     /**
-     * @param $studentId
-     * @param $subjectId
-     * @return mixed
+    * @return float | null The avg marks from student_statistics table
      */
     public function readAvgMarksBySubjectId($studentId, $subjectId);
 
     /**
-     * @param int $studentId
-     * @param int $subjectId
-     * @return mixed
+     * @return int | null The position of the avg marks from student_statistics table
      */
     public function readAvgMarksPositionBySubjectName ( int $studentId, int $subjectId );
 
     /**
-     * Collect all avgs marks student have to list
+     * Collect all avgs marks student have to list from student_statistics_table
      */
     public function readListAvgMarks ( int $studentId );
+
+    /**
+     * @return float | null The frequency from student_statistics table
+     */
+    public function readFrequencyBySubjectId($studentId, $subjectId);
+
+    /**
+     * @return int | null The position of the frequency from student_statistics table
+     */
+    public function readFrequencyPositionBySubjectName ( int $studentId, int $subjectId );
+
+    /**
+     * Collect all frequencies  student have to list from student_statistics_table
+     */
+    public function readListFrequency ( int $studentId );
+
+    #endregion
 
     #endregion
 

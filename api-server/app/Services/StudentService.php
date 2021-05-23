@@ -146,12 +146,12 @@ class StudentService extends BaseRepository {
         // Set new value for this student
         $studentActiveToUpdate->active = $isActive;
 
-        $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
-
         echo 'id'.$studentActiveToUpdate->subject_id."\n";
 
         // update student statistics
         $this->createOrUpdateStudentStatistics($studentId, $studentActiveToUpdate->subject_id);
+        //        $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
+
     }
 
 
@@ -256,14 +256,20 @@ class StudentService extends BaseRepository {
                 }
             }
 
-            $frequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
+            // TODO: Move this to modify student activity
+//            $frequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
+
+            // student statistics
+            $frequency = $this->studentRepository->readFrequencyBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $frequencyPosition = $this->studentRepository->readFrequencyPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+
 
             // set subject details
             $subjectDetails->setName($subject['name']);
             $subjectDetails->setIcon($subject['icon']);
-            $subjectDetails->setFrequency($frequency.'%');
+            $subjectDetails->setFrequency(count($frequency) == 0 ? null : $frequency[0].'%');
             $subjectDetails->setCountAbandoned($countAbandoned);
-            $subjectDetails->setPosition($this->computePositionOfFrequency($subjectDetails->getName(), $frequency ));
+            $subjectDetails->setPosition(  count($frequencyPosition) == 0 ? null : $frequencyPosition[0] );
 
 
             $subjectWithFrequency->setSubjectDetails($subjectDetails);
@@ -607,6 +613,7 @@ class StudentService extends BaseRepository {
 
         $avgSum = 0;
         foreach ( $avgCollecter as $avgItem ) {
+//            echo 'avg: '.$avgItem."\n";
             if (is_string($avgItem))
                 $avgSum += substr( $avgItem, 0, -1 );
             else

@@ -193,5 +193,27 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             pluck('average_marks');
     }
 
+
+    public function readFrequencyBySubjectId($studentId, $subjectId) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('frequency');
+    }
+
+
+    public function readFrequencyPositionBySubjectName ( int $studentId, int $subjectId ) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        pluck('frequency_position');
+    }
+
+
+    public function readListFrequency ( int $studentId ) {
+        return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+        pluck('frequency');
+    }
+
     #endregion
 }

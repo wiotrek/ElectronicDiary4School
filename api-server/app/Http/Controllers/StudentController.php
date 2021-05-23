@@ -53,9 +53,9 @@ class StudentController extends Controller
 
 
         // Get time from harmonogram to set start time lesson for active list
-        $timeActive = $this->harmonogramService->setTimeActive( $subjectId, $classId );
-        if ($timeActive == 0)
-            return ApiResponse::badRequest(ApiCode::NOTSTORE_STUDENT_ACTIVE);
+//        $timeActive = $this->harmonogramService->setTimeActive( $subjectId, $classId );
+//        if ($timeActive == 0)
+//            return ApiResponse::badRequest(ApiCode::NOTSTORE_STUDENT_ACTIVE);
 
 
         // Go through all students from current class
@@ -124,8 +124,8 @@ class StudentController extends Controller
             $isActive = $this->studentService->getStudentActivityByStudentIdentifier($student->getIdentifier(), $subjectId, $date);
 
             // If no one founding return bad request message
-            if (is_null($isActive))
-                return ApiResponse::badRequest(ApiCode::STUDENT_ACTIVE_NOT_FOUND);
+//            if (is_null($isActive))
+//                return ApiResponse::badRequest(ApiCode::STUDENT_ACTIVE_NOT_FOUND);
 
 
             // student active information

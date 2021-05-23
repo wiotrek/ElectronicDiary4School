@@ -18,6 +18,6 @@ class UpdateStudentFrequency
      */
     public function handle( object $event)
     {
-        echo ('student id from frequency: '.$event->studentId)."\n";
+//        echo ('student id from frequency: '.$event->studentId)."\n";
     }
 }

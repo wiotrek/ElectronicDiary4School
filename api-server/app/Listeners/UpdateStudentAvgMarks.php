@@ -18,6 +18,6 @@ class UpdateStudentAvgMarks
      */
     public function handle( object $event)
     {
-        echo ('student id from avg marks: '.$event->studentId)."\n";
+//        echo ('student id from avg marks: '.$event->studentId)."\n";
     }
 }

@@ -20,6 +20,8 @@ interface BaseRepositoryInterface {
      */
     public function updateModel ( int $primaryKey, string $primaryColumnName, $fromModel);
 
+    public function storeModel ( object $model );
+
     /**
      * Select whatever from giving $modelName
      * @param $model string Eloquent model for retrieve data

@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StudentStatistic
- * 
+ *
  * @property int $student_statistics_id
  * @property int|null $student_id
  * @property int|null $subject_id
@@ -18,13 +18,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $average_position
  * @property float|null $frequency
  * @property int|null $frequency_position
- * 
+ *
  * @property Student|null $student
  * @property Subject|null $subject
  *
  * @package App\Models
  */
-class StudentStatistic extends Model
+class StudentStatistics extends Model
 {
 	protected $table = 'student_statistics';
 	protected $primaryKey = 'student_statistics_id';

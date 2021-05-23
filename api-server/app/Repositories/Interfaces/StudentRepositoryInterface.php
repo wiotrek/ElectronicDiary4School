@@ -24,6 +24,8 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function storeStudentMark ( StudentMark $studentMarkEloquent );
 
+//    public function storeStudentStatistics (  );
+
     #endregion
 
     #region Updating
@@ -88,6 +90,13 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed The is active column value from specific founding row
      */
     public function readStudentActive ( int $studentId, int $subjectId, string $date );
+
+    /**
+     * @param int $studentId
+     * @param int $subjectId
+     * @return mixed Primary key
+     */
+    public function readStudentStatisticsId ( int $studentId, int $subjectId );
 
     #endregion
 

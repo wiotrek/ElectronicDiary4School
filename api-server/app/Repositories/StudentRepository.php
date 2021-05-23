@@ -10,6 +10,7 @@ use App\Models\MarksType;
 use App\Models\Student;
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
+use App\Models\StudentStatistics;
 use App\Models\Subject;
 use App\Models\SubjectClass;
 use App\Models\Teacher;
@@ -132,7 +133,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         // subject id of becoming subject name
         $subjectId = $this->findByColumn($subjectName,  'name', Subject::class)->
         pluck(KeyColumn::fromModel(Subject::class))[0];
-
         // get list of marks for subject student have
         if (!is_null($subjectId)) {
             $marks = StudentMark ::query() ->
@@ -161,6 +161,13 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         }
 
         return $frequency;
+    }
+
+    public function readStudentStatisticsId ( int $studentId, int $subjectId ) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+            pluck(KeyColumn::fromModel(StudentStatistics::class));
     }
 
     #endregion

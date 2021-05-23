@@ -188,5 +188,10 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         pluck('average_position');
     }
 
+    public function readListAvgMarks ( int $studentId ) {
+        return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+            pluck('average_marks');
+    }
+
     #endregion
 }

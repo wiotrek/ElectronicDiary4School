@@ -148,7 +148,10 @@ class StudentService extends BaseRepository {
 
         $this->studentRepository->updateStudentActiveModel($studentActiveId, KeyColumn::fromModel(StudentActivity::class), $studentActiveToUpdate->active);
 
+        echo 'id'.$studentActiveToUpdate->subject_id."\n";
 
+        // update student statistics
+        $this->createOrUpdateStudentStatistics($studentId, $studentActiveToUpdate->subject_id);
     }
 
 
@@ -315,13 +318,24 @@ class StudentService extends BaseRepository {
 
 
         // get list of all students from above class id
-        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+        $studentIds = $this->classRepository->readStudentsIdByClassId($classId);
 
 
-        // for each student get all marks
-        foreach ( $studentList as $student )
-            if(!is_null($this->computeGeneralAverageMarks($student)))
-                $generalAverageMarks[] = $this->computeGeneralAverageMarks($student);
+        // for each student get general avg marks
+        foreach ( $studentIds as $id )
+            if(!is_null($this->studentRepository->readListAvgMarks($id))) {
+
+                // list of avgs marks from each subject like [2.78 (subject 1), 3.24 (subject 2),...]
+                $listAverageMarks = $this -> studentRepository -> readListAvgMarks( $id );
+
+                $avgSum = 0;
+                // ...compute avg marks
+                foreach ( $listAverageMarks  as $averageMark )
+                    $avgSum += $averageMark;
+
+                // Collect every general avg marks from all subject from specific student
+                $generalAverageMarks[] = $avgSum / count($listAverageMarks);
+            }
 
 
         // make sure that any avg mark is in avg marks list

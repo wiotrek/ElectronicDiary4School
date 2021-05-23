@@ -112,6 +112,11 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readAvgMarksPositionBySubjectName ( int $studentId, int $subjectId );
 
+    /**
+     * Collect all avgs marks student have to list
+     */
+    public function readListAvgMarks ( int $studentId );
+
     #endregion
 
 }

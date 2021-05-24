@@ -46,6 +46,8 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate );
 
+    public function updateStudentStatistics ( $primaryKey, $primaryColumnName, $model );
+
     #endregion
 
     #region Reading

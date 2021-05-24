@@ -12,13 +12,10 @@ use App\Models\StudentActivity;
 use App\Models\StudentMark;
 use App\Models\StudentStatistics;
 use App\Models\Subject;
-use App\Models\SubjectClass;
 use App\Models\Teacher;
 use App\Models\User;
-use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
-use Defuse\Crypto\Key;
 
 class StudentRepository extends BaseRepository implements StudentRepositoryInterface {
 
@@ -49,6 +46,18 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ]);
     }
 
+    public function updateStudentStatistics ( $primaryKey, $primaryColumnName, $model ) {
+        $this->updateModel($primaryKey, $primaryColumnName, $model)->
+        update([
+            'average_marks' => $model->average_marks,
+            'average_position' => $model->average_position,
+            'frequency' => $model->frequency,
+            'frequency_position' => $model->frequency_position
+        ]);
+    }
+
+
+
     #endregion
 
     #region Reading
@@ -69,6 +78,11 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             'time_active' => $time
         ])->
         pluck(KeyColumn::fromModel(StudentActivity::class));
+    }
+
+    public function readSubjectIdByStudentActiveId ( $studentActiveId ) {
+        return $this->findByColumn($studentActiveId, KeyColumn::fromModel(StudentActivity::class), StudentActivity::class)->
+            pluck(KeyColumn::fromModel(Subject::class));
     }
 
     public function readStudentMarksBySubjectAndIdentifier( $identifier, $subjectName) {

@@ -73,7 +73,9 @@ class SubjectDetailsApiModel extends SubjectApiModel {
      * @param string | null $frequency
      */
     public function setFrequency ( ?string $frequency ): void {
-        $this -> frequency = $frequency;
+        is_null($frequency) ?
+            $this -> frequency = null :
+            $this->frequency = $frequency.'%';
     }
 
     /**

@@ -13,8 +13,8 @@
 
     <div class="senders">
 
-      <div class="sender" *ngFor="let item of sendersObj | slice:messagesStart:messagesEnd;
-        index as i" [ngClass]="{'as-read': item.read}">
+      <div class="sender" *ngFor="let item of sendersObj | slice:senderFirst:senderLast"
+        [ngClass]="{'as-read': item.read}">
 
         <div class="sender__left-side">
           <i class="bi bi-chat-right-text-fill"
@@ -30,10 +30,10 @@
           </div>
 
           <div class="sender_expanded-message"
-          *ngIf="wholeMessageMode !== i else wholeMessage">
+          *ngIf="wholeMessageMode !== sendersObj.indexOf(item) else wholeMessage">
 
             <div class="sender__whoIsSender">
-              {{item.sender ? 'odebrana' : 'wysłana'}}
+              {{item.sender ? 'odebrana' : 'wysłana'}}, {{item.kindof}}
             </div>
 
             <div class="sender__current-message">
@@ -64,11 +64,11 @@
 
           <div class="sender__expand">
             <a class="sender__go-expand"
-            (click)="wholeMessageModeToggle(i); item.read = true">
-              {{wholeMessageMode !== i ? 'Odczytaj' : 'Zwiń'}}
+            (click)="wholeMessageModeToggle(sendersObj.indexOf(item)); item.read = true">
+              {{wholeMessageMode !== sendersObj.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
             </a>
             <a class="sender__go-expand" *ngIf="item.sender">
-              {{wholeMessageMode === i ? 'odpowiedz na wiadomość' : ''}}
+              {{wholeMessageMode === sendersObj.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
             </a>
           </div>
 
@@ -76,16 +76,20 @@
 
       </div>
 
-      <a class="button" *ngIf="messagesEnd - 5 > 0"
-        (click)="paginationOwn(false)">Back</a>
-
-      <a class="button" *ngIf="messagesStart + 5 < sendersObj.length"
-       (click)="paginationOwn(true)">Next</a>
-
+      <div class="senders__nav" *ngIf="sendersObj.length > 5">
+        <a class="button" *ngIf="senderLast - 5 > 0"
+          (click)="paginationOwn(false)">Back</a>
+  
+        <a class="button" *ngIf="senderFirst + 5 < sendersObj.length"
+         (click)="paginationOwn(true)">Next</a>
+      </div>
 
     </div>
 
     <div class="message">
+
+      <app-new-message></app-new-message>
+
     </div>
 
 

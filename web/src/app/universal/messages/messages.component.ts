@@ -9,8 +9,10 @@ export class MessagesComponent implements OnInit {
   nav = { title: 'Powiadomienia' };
   wholeMessageMode = -1;
 
-  messagesStart = 0;
-  messagesEnd = 5;
+  page = 0;
+  pageSize = 5;
+  senderFirst = 0;
+  senderLast = 5;
 
   sendersObj;
 
@@ -32,11 +34,11 @@ export class MessagesComponent implements OnInit {
 
   paginationOwn = (next: boolean) => {
     if (next) {
-      this.messagesStart += 5;
-      this.messagesEnd += 5;
+      this.senderFirst += 5;
+      this.senderLast += 5;
     } else {
-      this.messagesStart -= 5;
-      this.messagesEnd -= 5;
+      this.senderFirst -= 5;
+      this.senderLast -= 5;
     }
   }
 
@@ -45,15 +47,17 @@ export class MessagesComponent implements OnInit {
       avatar: 'https://randomuser.me/api/portraits/lego/2.jpg',
       name: 'Marek Jóźwiak',
       date: '2021-03-03',
+      kindof: 'Ogłoszenie',
       sender: true,
       read: false,
       subject: 'Język polski',
-      message: 'dzien dobry mam wazna wiadomosc dsaijdoi aosdjioasdj oasidjiasd asdos'
+      message: 'dzien dobry mam wazna wiadomosc dsaijdoi aosdjioasdj oasidjiasd asdos dsad ad asd asd asdasd ad asd asd ad asdaddasd addsa'
     },
     {
       avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
       name: 'Marek Jóźwiak',
       date: '2021-03-03',
+      kindof: 'Uwaga',
       sender: true,
       read: false,
       subject: 'Język Polski',
@@ -63,6 +67,7 @@ export class MessagesComponent implements OnInit {
       avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
       name: 'Bartek Majowy',
       date: '2021-03-03',
+      kindof: 'Ogłoszenie',
       sender: false,
       read: true,
       subject: 'Język Polski',

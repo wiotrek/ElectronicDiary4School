@@ -33,6 +33,7 @@ import { StudentUniversalDetailComponent } from './universal/student-universal-l
 import { ChildMarksComponent } from './parent/child-marks.component';
 import { ChildActivityComponent } from './parent/child-activity.component';
 import { MessagesComponent } from './universal/messages/messages.component';
+import { NewMessageComponent } from './universal/messages/new-message/new-message.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { MessagesComponent } from './universal/messages/messages.component';
     ParentComponent,
     ChildMarksComponent,
     ChildActivityComponent,
-    MessagesComponent
+    MessagesComponent,
+    NewMessageComponent
 
   ],
   imports: [

@@ -53,7 +53,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 35ch;
+    max-width: 30ch;
   }
 
   .whole-message__subject {
@@ -77,11 +77,21 @@
     font-size: .7rem;
   }
 
+  .senders__nav {
+    margin: 20px 0;
+    display: flex;
+    justify-content:space-evenly;
+  }
+
   .bi.bi-chat-right-text-fill {
     position: absolute;
     color: var(--primary-blue);
     left: -10px;
     top: -10px;
+  }
+
+  .message {
+    display: none;
   }
 }
 @media (min-width: 769px) {
@@ -91,20 +101,19 @@
   }
 
   .main-block {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     margin: 50px 0;
   }
 
   .senders {
-    width: 35%;
+    margin: 0 20px;
+    width: 300px;
   }
 
-  .sender__current-message {
-    font-size: .8rem;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: unset;
+  .message {
+    display: block;
   }
-
 }
 

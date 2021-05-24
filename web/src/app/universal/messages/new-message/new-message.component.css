@@ -1,0 +1,11 @@
+@media (min-width: 0) {
+
+    .message {
+        margin-left: 30px;
+    }
+
+    .kindOf-message {
+        display: flex;
+        justify-content: space-between;
+    }
+}

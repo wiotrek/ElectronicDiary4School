@@ -4,24 +4,25 @@
 
     <h2 class="title">Napisz wiadomość</h2>
 
-    <form (ngSubmit)="onSubmit()" #newMessage="ngForm">
+    <form #newMessage="ngForm" (ngSubmit)="onSubmit(newMessage)">
 
         <div class="reciver">
 
             <div class="reciver-teacher">
     
-                <select class="reciver__select" name="teacherSelected">
+                <select class="reciver__select" name="teacherAndSubject" ngModel="{{teachersObj[0].subjectName}}">
                     <option *ngFor="let subject of teachersObj"
-                    value="{{subject.subjectName}}">{{subject.subjectName}} - {{subject.teacherName}}</option>
+                    [value]="subject.subjectName">{{subject.subjectName}} - {{subject.teacherName}}</option>
                 </select>
     
             </div>
             
-            <div class="reciver-kindOf">
+
+            <!-- kind of message for parent is necessery. Throw out -->
+            <div class="reciver-kindOf"> 
     
-                <select class="reciver__select" name="teacherSelected">
-                    <option *ngFor="let kindOf of kindOfObj" name="model.kindOf" 
-                    >{{kindOf}}</option>
+                <select class="reciver__select" name="kindOfMessage" ngModel="{{kindOfObj[0]}}">
+                    <option *ngFor="let kindOf of kindOfObj">{{kindOf}}</option>
                 </select>
     
             </div>
@@ -29,11 +30,11 @@
         </div>
         
         <textarea class="textarea-message" cols="30" rows="10"
-        name="messageContent" required></textarea>
-    
-    
+        name="context" required ngModel></textarea>
+
         <div class="center-button">
-            <input class="btn btn-outline-primary" type="submit" value="Wyślij">
+            <input class="btn btn-outline-primary" type="submit" value="Wyślij"
+            [disabled]="!newMessage.valid">
         </div>
 
     </form>

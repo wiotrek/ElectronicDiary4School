@@ -7,8 +7,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./new-message.component.css']
 })
 export class NewMessageComponent implements OnInit {
-  @ViewChild('newMessage') newMessage!: NgForm;
   toNav = { title: 'Nowa wiadomość'};
+  subject = '';
 
   teachersObj;
   kindOfObj;
@@ -21,8 +21,8 @@ export class NewMessageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
-    console.log(this.newMessage.value);
+  onSubmit(message: NgForm): void {
+    console.log(message.value);
   }
 
   teachers = () => [
@@ -48,10 +48,4 @@ export class NewMessageComponent implements OnInit {
     'Ogłoszenie', 'Uwaga', 'Ogólna wiadomość'
   ]
 
-}
-export interface NewMessage {
-  from: string;
-  to: string;
-  content: string;
-  kindof: string;
 }

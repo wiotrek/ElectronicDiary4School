@@ -1,21 +1,37 @@
 <div class="message">
 
-    <h2>Napisz wiadomość</h2>
+    <app-second-nav [parent]="toNav"></app-second-nav>
 
-    <div class="reciver-name">
-        <input type="text" placeholder="wyślij do">
+    <h2 class="title">Napisz wiadomość</h2>
+
+    <div class="reciver">
+
+        <div class="reciver-teacher">
+
+            <select class="reciver__select" name="teacherSelected">
+                <option *ngFor="let subject of teachersObj"
+                value="{{subject.subjectName}}">{{subject.subjectName}} - {{subject.teacherName}}</option>
+            </select>
+
+        </div>
+        
+        <div class="reciver-kindOf">
+
+            <select class="reciver__select" name="teacherSelected">
+                <option *ngFor="let kindOf of kindOfObj"
+                value="{{kindOf}}">{{kindOf}}</option>
+            </select>
+
+        </div>
+
     </div>
     
-    <div class="kindOf-message">
-        <input type="radio" name="kindOf" id="waring" value="uwaga">
-        <label for="waring"> Uwaga</label>
-    
-        <input type="radio" name="kindOf" id="announcement" value="Ogłoszenie">
-        <label for="announcement"> Ogłoszenie</label>
-    
-        <input type="radio" name="kindOf" id="ordinary" value="Zwykła wiadomość">
-        <label for="ordinary"> Zwykła wiadomość</label>
-    </div>
+    <textarea class="textarea-message" name="" id="" cols="30" rows="10"></textarea>
 
+
+    <div class="center-button">
+        <input class="btn btn-outline-primary" type="submit" value="Wyślij">
+    </div>
+    
 </div>
 

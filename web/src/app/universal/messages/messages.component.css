@@ -14,7 +14,7 @@
     min-height: 30px;
     margin-top: 7px;
     border: 1px solid var(--primary-blue);
-    font-size: 1.1rem;
+    font-size: 1rem;
     background-color: #FFF;
   }
 
@@ -57,16 +57,16 @@
   }
 
   .whole-message__subject {
-    font-size: .9rem;
+    font-size: .6rem;
   }
 
   .whole-message__message {
-    font-size: .9rem;
+    font-size: .8rem;
     margin: 10px 0;
   }
 
   .whole-message__bottom {
-    font-size: .8rem;
+    font-size: .6rem;
     font-weight: 500;
     margin-bottom: 5px;
   }
@@ -74,7 +74,7 @@
   .sender__expand {
     display: flex;
     justify-content: space-between;
-    font-size: .7rem;
+    font-size: .6rem;
   }
 
   .senders__nav {
@@ -102,18 +102,55 @@
 
   .main-block {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
     align-items: flex-start;
     margin: 50px 0;
   }
 
   .senders {
-    margin: 0 20px;
-    width: 300px;
+    width: 400px;
+    margin-right: 20px;
+  }
+
+  .sender {
+    font-size: 1.2rem;
+  }
+
+  .sender__avatar {
+    height: 60px;
+    width: 60px;
+  }
+
+  .sender__text {
+    margin: 10px;
+  }
+
+  .sender__whoIsSender {
+    font-size: .8rem;
+  }
+
+  .sender__current-message {
+    font-size: 1rem;
+    max-width: 32ch;
+  }
+
+  .whole-message__subject {
+    font-size: .8rem;
+  }
+
+  .whole-message__message {
+    font-size: 1rem;
+  }
+
+  .whole-message__bottom {
+    font-size: .8rem;
+  }
+
+  .sender__expand {
+    font-size: .8rem;
   }
 
   .message {
     display: block;
   }
 }
-

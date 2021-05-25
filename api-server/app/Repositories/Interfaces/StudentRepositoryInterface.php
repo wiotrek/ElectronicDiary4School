@@ -24,6 +24,8 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      */
     public function storeStudentMark ( StudentMark $studentMarkEloquent );
 
+//    public function storeStudentStatistics (  );
+
     #endregion
 
     #region Updating
@@ -43,6 +45,8 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed
      */
     public function updateStudentActiveModel ( $primaryKey, $primaryColumnName, $valueToUpdate );
+
+    public function updateStudentStatistics ( $primaryKey, $primaryColumnName, $model );
 
     #endregion
 
@@ -88,6 +92,47 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed The is active column value from specific founding row
      */
     public function readStudentActive ( int $studentId, int $subjectId, string $date );
+
+    /**
+     * @param int $studentId
+     * @param int $subjectId
+     * @return mixed Primary key
+     */
+    public function readStudentStatisticsId ( int $studentId, int $subjectId );
+
+    #region Statistics Table
+
+    /**
+    * @return float | null The avg marks from student_statistics table
+     */
+    public function readAvgMarksBySubjectId($studentId, $subjectId);
+
+    /**
+     * @return int | null The position of the avg marks from student_statistics table
+     */
+    public function readAvgMarksPositionBySubjectName ( int $studentId, int $subjectId );
+
+    /**
+     * Collect all avgs marks student have to list from student_statistics_table
+     */
+    public function readListAvgMarks ( int $studentId );
+
+    /**
+     * @return float | null The frequency from student_statistics table
+     */
+    public function readFrequencyBySubjectId($studentId, $subjectId);
+
+    /**
+     * @return int | null The position of the frequency from student_statistics table
+     */
+    public function readFrequencyPositionBySubjectName ( int $studentId, int $subjectId );
+
+    /**
+     * Collect all frequencies  student have to list from student_statistics_table
+     */
+    public function readListFrequency ( int $studentId );
+
+    #endregion
 
     #endregion
 

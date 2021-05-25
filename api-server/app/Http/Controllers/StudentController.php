@@ -79,6 +79,7 @@ class StudentController extends Controller
 
 
     /**
+     * TODO: Bring method to TeacherController
      * @param $class string The class contains identifier number and number
      * @param $subjectName string The subject that student was active for
      * @param $date string The date contain information about student frequenties
@@ -313,7 +314,7 @@ class StudentController extends Controller
 
         return ApiResponse::withSuccess(array(
             array(
-                'caption' => is_null($averageFrequency) ? null : round($averageFrequency, 2),
+                'caption' => is_null($averageFrequency) ? null : round($averageFrequency, 2).'%',
                 'name' => 'Ogólna frekwencja'
             ) ,
             array(

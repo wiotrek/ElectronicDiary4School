@@ -9,6 +9,7 @@ use App\ApiModels\Subject\SubjectDetailsApiModel;
 use App\ApiModels\SubjectWithFrequencyResultApiModel;
 use App\ApiModels\SubjectWithMarksResultApiModel;
 use App\Helpers\KeyColumn;
+use App\Helpers\RoleDetecter;
 use App\Models\Mark;
 use App\Models\Student;
 use App\Models\StudentActivity;
@@ -189,7 +190,7 @@ class StudentService extends BaseRepository {
     public function getStudentMarksOfEachSubject( $studentId = null ) {
 
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId();
+            $studentId = RoleDetecter::convertToStudentId();
 
         // This list contain all subject which student have
         $subjectList = $this->getStudentSubject();
@@ -208,8 +209,8 @@ class StudentService extends BaseRepository {
 
 
             // student statistics
-            $avgMarks = $this->studentRepository->readAvgMarksBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
-            $avgMarksPosition = $this->studentRepository->readAvgMarksPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $avgMarks = $this->studentRepository->readAvgMarksBySubjectId(RoleDetecter::convertToStudentId(), $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $avgMarksPosition = $this->studentRepository->readAvgMarksPositionBySubjectName(RoleDetecter::convertToStudentId(), $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
 
 
             // set subject details
@@ -235,7 +236,7 @@ class StudentService extends BaseRepository {
     public function getStudentFrequencyOfEachSubject ($studentId = null) {
 
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId();
+            $studentId = RoleDetecter::convertToStudentId();
 
         // This list contain all subject which student have
         $subjectList = $this->getStudentSubject();
@@ -261,8 +262,8 @@ class StudentService extends BaseRepository {
 
 
             // student statistics
-            $frequency = $this->studentRepository->readFrequencyBySubjectId($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
-            $frequencyPosition = $this->studentRepository->readFrequencyPositionBySubjectName($this->getStudentId()[0], $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $frequency = $this->studentRepository->readFrequencyBySubjectId(RoleDetecter::convertToStudentId(), $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
+            $frequencyPosition = $this->studentRepository->readFrequencyPositionBySubjectName(RoleDetecter::convertToStudentId(), $this->subjectRepository->readSubjectIdByName($subject['name'])[0]);
 
 
             // set subject details
@@ -298,7 +299,7 @@ class StudentService extends BaseRepository {
 
         // Get student id from param or from auth if is null
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId()[0];
+            $studentId = RoleDetecter::convertToStudentId();
 
 
         // Get all data about marks of student
@@ -318,7 +319,7 @@ class StudentService extends BaseRepository {
 
         // Get student id from param or from auth if is null
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId()[0];
+            $studentId = RoleDetecter::convertToStudentId();
 
 
         $classId = $this->getStudentClassId($studentId);
@@ -374,7 +375,7 @@ class StudentService extends BaseRepository {
     public function computeGeneralFrequency ($studentId = null) {
         // Get student id from param or from auth if is null
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId()[0];
+            $studentId = RoleDetecter::convertToStudentId();
 
 
         // Get all data about marks of student
@@ -394,7 +395,7 @@ class StudentService extends BaseRepository {
 
         // Get student id from param or from auth if is null
         if (is_null($studentId))
-            $studentId = $this->studentRepository->getStudentId()[0];
+            $studentId = RoleDetecter::convertToStudentId();
 
 
         $classId = $this->getStudentClassId($studentId);

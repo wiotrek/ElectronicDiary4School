@@ -11,6 +11,7 @@ use App\ApiModels\Marks\MarksItemViewResultApiModel;
 use App\ApiModels\Marks\MarksListViewResultApiModel;
 use App\ApiModels\StudentResultApiModel;
 use App\ApiModels\Subject\SubjectApiModel;
+use App\Helpers\RoleDetecter;
 use App\Services\ClassService;
 use App\Services\HarmonogramService;
 use App\Services\StudentService;
@@ -251,11 +252,15 @@ class StudentController extends Controller
 
     public function studentSubjects () {
 
+        // If teacher trying view subjects for student and their parents, return no unauth
+        if (RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::IS_NOT_TEACHER_CONTENT);
+
+
         // Data from DB
         $result = $this->studentService->getStudentSubject();
 
 
-        // TODO: Change behaviour if no data found
         if  (is_null($result))
             return ApiResponse::badRequest(ApiCode::STUDENT_SUBJECTS_NOT_FOUND);
 
@@ -280,6 +285,9 @@ class StudentController extends Controller
 
     public function showMarksOfEachSubject (  ) {
 
+        if (RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::IS_NOT_TEACHER_CONTENT);
+
         $subjectWithMarks = $this->studentService->getStudentMarksOfEachSubject();
 
         return ApiResponse::withSuccess($subjectWithMarks);
@@ -287,39 +295,50 @@ class StudentController extends Controller
 
     public function showFrequencyOfEachSubject () {
 
+        if (RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::IS_NOT_TEACHER_CONTENT);
+
         $subjectWithFrequency = $this->studentService->getStudentFrequencyOfEachSubject();
 
         return ApiResponse::withSuccess($subjectWithFrequency);
     }
 
     public function showAverageMarks () {
+
+        if (RoleDetecter::isTeacher() == 1)
+            return ApiResponse ::unAuthenticated( ApiCode::IS_NOT_TEACHER_CONTENT );
+
         $averageMarks = $this->studentService->computeGeneralAverageMarks();
         $position = $this->studentService->computePositionOfGeneralAvgMarks(null, $averageMarks);
 
         return ApiResponse::withSuccess(array(
             array(
                 'caption' => is_null($averageMarks) ? null : round($averageMarks, 2),
-                'name' => 'Średnia ze wszystkich przedmiotów'
+                'name' => RoleDetecter::isStudent() ? 'Średnia ze wszystkich przedmiotów' : 'Średnia dziecka'
             ) ,
             array(
                 'caption' => is_null($position) ? null : $position,
-                'name' => 'Pozycja na tle klasy'
+                'name' => RoleDetecter::isStudent() ? 'Pozycja na tle klasy' : 'Pozycja na tle innych dzieci'
             ))
         );
     }
 
     public function showAverageFrequency () {
+
+        if (RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::IS_NOT_TEACHER_CONTENT);
+
         $averageFrequency = $this->studentService->computeGeneralFrequency();
         $position = $this->studentService->computePositionOfGeneralAvgFrequency(null, $averageFrequency);
 
         return ApiResponse::withSuccess(array(
             array(
                 'caption' => is_null($averageFrequency) ? null : round($averageFrequency, 2).'%',
-                'name' => 'Ogólna frekwencja'
+                'name' => RoleDetecter::isStudent() ?  'Ogólna frekwencja' : 'Frekwencja dziecka'
             ) ,
             array(
                 'caption' => is_null($position) ? null : $position,
-                'name' => 'Twoja pozycja w klasie'
+                'name' => RoleDetecter::isStudent() ?  'Twoja pozycja w klasie' : 'Pozycja na tle innych dzieci'
             ))
         );
     }

@@ -5,6 +5,7 @@ namespace App\Repositories\Base;
 
 use App\Helpers\KeyColumn;
 use App\Models\Student;
+use App\Models\StudentParent;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -81,6 +82,22 @@ class BaseRepository implements BaseRepositoryInterface {
             KeyColumn::fromModel(User::class),
             KeyColumn::fromModel(Student::class),
             Student::class);
+    }
+
+    public function getParentId () {
+        return $this->findIdByOtherId(
+            $this->getAuthId(),
+            KeyColumn::fromModel(User::class),
+            KeyColumn::fromModel(StudentParent::class),
+            StudentParent::class);
+    }
+
+    public function getStudentIdByParentId () {
+        if (count($this->getParentId()) != 0)
+            return $this->findIdByOtherId($this->getParentId()[0],
+                KeyColumn::fromModel(StudentParent::class),
+                KeyColumn::fromModel(Student::class),
+                StudentParent::class)[0];
     }
 
     #endregion

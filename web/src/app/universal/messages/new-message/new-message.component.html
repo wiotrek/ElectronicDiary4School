@@ -4,34 +4,41 @@
 
     <h2 class="title">Napisz wiadomość</h2>
 
-    <div class="reciver">
+    <form (ngSubmit)="onSubmit()" #newMessage="ngForm">
 
-        <div class="reciver-teacher">
+        <div class="reciver">
 
-            <select class="reciver__select" name="teacherSelected">
-                <option *ngFor="let subject of teachersObj"
-                value="{{subject.subjectName}}">{{subject.subjectName}} - {{subject.teacherName}}</option>
-            </select>
-
+            <div class="reciver-teacher">
+    
+                <select class="reciver__select" name="teacherSelected">
+                    <option *ngFor="let subject of teachersObj"
+                    value="{{subject.subjectName}}">{{subject.subjectName}} - {{subject.teacherName}}</option>
+                </select>
+    
+            </div>
+            
+            <div class="reciver-kindOf">
+    
+                <select class="reciver__select" name="teacherSelected">
+                    <option *ngFor="let kindOf of kindOfObj" name="model.kindOf" 
+                    >{{kindOf}}</option>
+                </select>
+    
+            </div>
+    
         </div>
         
-        <div class="reciver-kindOf">
-
-            <select class="reciver__select" name="teacherSelected">
-                <option *ngFor="let kindOf of kindOfObj"
-                value="{{kindOf}}">{{kindOf}}</option>
-            </select>
-
+        <textarea class="textarea-message" cols="30" rows="10"
+        name="messageContent" required></textarea>
+    
+    
+        <div class="center-button">
+            <input class="btn btn-outline-primary" type="submit" value="Wyślij">
         </div>
 
-    </div>
+    </form>
+
     
-    <textarea class="textarea-message" name="" id="" cols="30" rows="10"></textarea>
-
-
-    <div class="center-button">
-        <input class="btn btn-outline-primary" type="submit" value="Wyślij">
-    </div>
     
 </div>
 

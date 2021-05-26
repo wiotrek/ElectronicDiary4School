@@ -15,11 +15,11 @@ import { DateToChoiceCard } from '../../_models/_universal/date-to-choice-card';
 
   <ng-template #lackResource>
       <h5 class="error">
-        Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>S
+        Niestety, nie posiadasz żadnych {{this.dateFromParent.lackResource}}</h5>
   </ng-template>
 
   </main>`,
-   styles: ['.error { margin-top: 2vh; animation: appear 10s ease-in-out .5s backwards }']
+  styleUrls: ['./choice-card.component.css']
 })
 export class ChoiceCardComponent implements OnInit {
   @Input() dateFromParent = {} as DateToChoiceCard;

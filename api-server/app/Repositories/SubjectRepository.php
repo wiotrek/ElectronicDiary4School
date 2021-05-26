@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Helpers\KeyColumn;
 
+use App\Helpers\RoleDetecter;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\SubjectClass;
@@ -52,7 +53,7 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
 
     public function readStudentSubjects () {
 
-        $userClassId = $this->findIdByOtherId($this->getStudentId(), 'student_id', 'user_class_id', Student::class)->first();
+        $userClassId = $this->findIdByOtherId(RoleDetecter::convertToStudentId(), 'student_id', 'user_class_id', Student::class)->first();
         $subjectClassIds = $this->findIdByOtherId($userClassId, 'user_class_id', 'subject_id', SubjectClass::class);
 
         return Subject ::query()

@@ -16,10 +16,9 @@
                 </select>
     
             </div>
-            
 
-            <!-- kind of message for parent is necessery. Throw out -->
-            <div class="reciver-kindOf"> 
+            <!-- field available only for teacher -->
+            <div class="reciver-kindOf" *appHasRole='["Nauczyciel"]'> 
     
                 <select class="reciver__select" name="kindOfMessage" ngModel="{{kindOfObj[0]}}">
                     <option *ngFor="let kindOf of kindOfObj">{{kindOf}}</option>

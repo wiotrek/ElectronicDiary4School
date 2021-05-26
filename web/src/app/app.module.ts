@@ -34,6 +34,7 @@ import { ChildMarksComponent } from './parent/child-marks.component';
 import { ChildActivityComponent } from './parent/child-activity.component';
 import { MessagesComponent } from './universal/messages/messages.component';
 import { NewMessageComponent } from './universal/messages/new-message/new-message.component';
+import { HasRoleDirective } from './_directives/has-role.directive';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { NewMessageComponent } from './universal/messages/new-message/new-messag
     ChildMarksComponent,
     ChildActivityComponent,
     MessagesComponent,
-    NewMessageComponent
+    NewMessageComponent,
+    HasRoleDirective
 
   ],
   imports: [

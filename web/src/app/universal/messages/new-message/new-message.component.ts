@@ -12,10 +12,17 @@ export class NewMessageComponent implements OnInit {
 
   teachersObj;
   kindOfObj;
+  listOfClass: string[];
 
   constructor() {
     this.teachersObj = this.teachers();
     this.kindOfObj = this.kindof();
+    this.listOfClass = this.students().reduce((total: string[], curr: any): string[] => {
+      total.push(curr.class);
+      return [...new Set(total)];
+    }, []);
+
+    console.log(this.listOfClass);
   }
 
   ngOnInit(): void {
@@ -42,6 +49,34 @@ export class NewMessageComponent implements OnInit {
       teacherName: 'Zofia Kowalewska',
       subjectName: 'Język Angielski',
     }
+  ]
+
+  students = () => [
+    {
+      class: '4a',
+      name: 'Krystian',
+      lastName: 'Kowlaski'
+    },
+    {
+      class: '4b',
+      name: 'Krystian',
+      lastName: 'Wieczorek'
+    },
+    {
+      class: '4b',
+      name: 'Łukasz',
+      lastName: 'Dworek'
+    },
+    {
+      class: '5a',
+      name: 'Krystian',
+      lastName: 'Wieczorek'
+    },
+    {
+      class: '4a',
+      name: 'Krystian',
+      lastName: 'Wieczorek'
+    },
   ]
 
 

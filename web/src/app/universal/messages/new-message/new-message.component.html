@@ -26,8 +26,19 @@
             </div>
 
             <div class="reciver-checkbox" *appHasRole='["Nauczyciel"]'>
-                <label for="sendToAnyone">Wyślij do wszystkich</label>
-                <input type="checkbox" name="sendToAnyone" id="sendToAnyone">
+                
+                <label for="sendToAnyone">
+                    <input type="checkbox" name="sendToAnyone" id="sendToAnyone">
+                    Wyślij do wszystkich
+                </label>
+            </div>
+
+            <div class="reciver-class" *appHasRole='["Nauczyciel"]'> 
+    
+                <select class="reciver__select" name="kindOfMessage" ngModel="{{kindOfObj[0]}}">
+                    <option *ngFor="let kindOf of kindOfObj">{{kindOf}}</option>
+                </select>
+    
             </div>
             
     

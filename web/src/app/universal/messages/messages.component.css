@@ -152,5 +152,6 @@
 
   .message {
     display: block;
+    width: 500px;
   }
 }

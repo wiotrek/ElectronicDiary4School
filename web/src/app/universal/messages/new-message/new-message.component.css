@@ -52,7 +52,7 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        width: 45ch;
+        min-width: 45ch;
     }
 
     .reciver-kindOf .reciver__select{

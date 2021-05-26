@@ -8,7 +8,7 @@
 
         <div class="reciver">
 
-            <div class="reciver-teacher">
+            <div class="reciver-teacher" *appHasRole='["Rodzic"]'>
     
                 <select class="reciver__select" name="teacherAndSubject" ngModel="{{teachersObj[0].subjectName}}">
                     <option *ngFor="let subject of teachersObj"
@@ -17,7 +17,6 @@
     
             </div>
 
-            <!-- field available only for teacher -->
             <div class="reciver-kindOf" *appHasRole='["Nauczyciel"]'> 
     
                 <select class="reciver__select" name="kindOfMessage" ngModel="{{kindOfObj[0]}}">
@@ -25,6 +24,12 @@
                 </select>
     
             </div>
+
+            <div class="reciver-checkbox" *appHasRole='["Nauczyciel"]'>
+                <label for="sendToAnyone">Wyślij do wszystkich</label>
+                <input type="checkbox" name="sendToAnyone" id="sendToAnyone">
+            </div>
+            
     
         </div>
         

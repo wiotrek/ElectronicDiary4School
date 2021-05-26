@@ -52,6 +52,13 @@ const routes: Routes = [
                 ]
               }
             ]
+          },
+          {
+            path: 'powiadomienia',
+            children: [
+              { path: '', component: MessagesComponent },
+              { path: 'nowa-wiadomość', component: NewMessageComponent }
+            ]
           }
         ]
       },

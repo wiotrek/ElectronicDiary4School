@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
@@ -43,6 +43,7 @@ export class NewMessageComponent implements OnInit {
       subjectName: 'Język Angielski',
     }
   ]
+
 
   kindof = () => [
     'Ogłoszenie', 'Uwaga', 'Ogólna wiadomość'

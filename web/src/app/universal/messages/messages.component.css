@@ -1,0 +1,157 @@
+@media (min-width: 0) {
+
+  a {
+    cursor: pointer;
+  }
+
+  .message-menu {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .sender {
+    display: flex;
+    min-height: 30px;
+    margin-top: 7px;
+    border: 1px solid var(--primary-blue);
+    font-size: 1rem;
+    background-color: #FFF;
+  }
+
+  .as-read {
+    background-color: inherit;
+    border: 1px solid var(--line-grey);
+  }
+
+  .sender__left-side {
+    position: relative;
+  }
+
+  .sender__avatar {
+    display: block;
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+    border-radius: 30px;
+  }
+
+  .sender__text {
+    margin: 5px;
+  }
+
+  .sender__name {
+    font-weight: 600;
+  }
+
+  .sender__whoIsSender {
+    font-size: .6rem;
+    font-weight: 400;
+  }
+
+  .sender__current-message {
+    font-size: .8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 30ch;
+  }
+
+  .whole-message__subject {
+    font-size: .6rem;
+  }
+
+  .whole-message__message {
+    font-size: .8rem;
+    margin: 10px 0;
+  }
+
+  .whole-message__bottom {
+    font-size: .6rem;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+
+  .sender__expand {
+    display: flex;
+    justify-content: space-between;
+    font-size: .6rem;
+  }
+
+  .senders__nav {
+    margin: 20px 0;
+    display: flex;
+    justify-content:space-evenly;
+  }
+
+  .bi.bi-chat-right-text-fill {
+    position: absolute;
+    color: var(--primary-blue);
+    left: -10px;
+    top: -10px;
+  }
+
+  .message {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+
+  .message-menu {
+    display: none;
+  }
+
+  .main-block {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin: 50px 0;
+  }
+
+  .senders {
+    width: 400px;
+    margin-right: 20px;
+  }
+
+  .sender {
+    font-size: 1.2rem;
+  }
+
+  .sender__avatar {
+    height: 60px;
+    width: 60px;
+  }
+
+  .sender__text {
+    margin: 10px;
+  }
+
+  .sender__whoIsSender {
+    font-size: .8rem;
+  }
+
+  .sender__current-message {
+    font-size: 1rem;
+    max-width: 32ch;
+  }
+
+  .whole-message__subject {
+    font-size: .8rem;
+  }
+
+  .whole-message__message {
+    font-size: 1rem;
+  }
+
+  .whole-message__bottom {
+    font-size: .8rem;
+  }
+
+  .sender__expand {
+    font-size: .8rem;
+  }
+
+  .message {
+    display: block;
+    width: 500px;
+  }
+}

@@ -1,0 +1,98 @@
+<main>
+  <app-second-nav [parent]="nav"></app-second-nav>
+
+  <div class="message-menu">
+
+    <a class="message-menu__new-message"
+    (click)="goToNewMessage()">Nowa wiadomość</a>
+
+  </div>
+
+  <div class="main-block">
+
+    <div class="senders">
+
+      <div class="sender" *ngFor="let item of sendersObj | slice:senderFirst:senderLast"
+        [ngClass]="{'as-read': item.read}">
+
+        <div class="sender__left-side">
+          <i class="bi bi-chat-right-text-fill"
+          *ngIf="!item.read"></i>
+          <img class="sender__avatar" src="{{item.avatar}}"
+          alt="avatar">
+        </div>
+
+
+        <div class="sender__text">
+          <div class="sender__name">
+            {{item.name}}
+          </div>
+
+          <div class="sender_expanded-message"
+          *ngIf="wholeMessageMode !== sendersObj.indexOf(item) else wholeMessage">
+
+            <div class="sender__whoIsSender">
+              {{item.sender ? 'odebrana' : 'wysłana'}}, {{item.kindof}}
+            </div>
+
+            <div class="sender__current-message">
+              {{item.message}}
+            </div>
+
+          </div>
+
+          <ng-template #wholeMessage>
+
+            <div class="whole-message">
+
+              <div class="whole-message__subject">
+                {{item.subject}}
+              </div>
+
+              <div class="whole-message__message">
+                {{item.message}}
+              </div>
+
+              <div class="whole-message__bottom">
+                Wiadomość została {{item.sender ? 'odebrana' : 'wysłana'}} {{item.date}}
+              </div>
+
+            </div>
+
+          </ng-template>
+
+          <div class="sender__expand">
+            <a class="sender__go-expand"
+            (click)="wholeMessageModeToggle(sendersObj.indexOf(item)); item.read = true">
+              {{wholeMessageMode !== sendersObj.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
+            </a>
+            <a class="sender__go-expand" *ngIf="item.sender">
+              {{wholeMessageMode === sendersObj.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="senders__nav" *ngIf="sendersObj.length > 5">
+        <a class="button" *ngIf="senderLast - 5 > 0"
+          (click)="paginationOwn(false)">Back</a>
+  
+        <a class="button" *ngIf="senderFirst + 5 < sendersObj.length"
+         (click)="paginationOwn(true)">Next</a>
+      </div>
+
+    </div>
+
+    <div class="message">
+
+      <app-new-message></app-new-message>
+
+    </div>
+
+
+  </div>
+
+
+</main>

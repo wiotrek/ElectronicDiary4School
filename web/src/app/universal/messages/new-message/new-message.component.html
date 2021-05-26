@@ -1,0 +1,49 @@
+<div class="message">
+
+    <app-second-nav [parent]="toNav"></app-second-nav>
+
+    <h2 class="title">Napisz wiadomość</h2>
+
+    <form #newMessage="ngForm" (ngSubmit)="onSubmit(newMessage)">
+
+        <div class="reciver">
+
+            <div class="reciver-teacher" *appHasRole='["Rodzic"]'>
+    
+                <select class="reciver__select" name="teacherAndSubject" ngModel="{{teachersObj[0].subjectName}}">
+                    <option *ngFor="let subject of teachersObj"
+                    [value]="subject.subjectName">{{subject.subjectName}} - {{subject.teacherName}}</option>
+                </select>
+    
+            </div>
+
+            <div class="reciver-kindOf" *appHasRole='["Nauczyciel"]'> 
+    
+                <select class="reciver__select" name="kindOfMessage" ngModel="{{kindOfObj[0]}}">
+                    <option *ngFor="let kindOf of kindOfObj">{{kindOf}}</option>
+                </select>
+    
+            </div>
+
+            <div class="reciver-checkbox" *appHasRole='["Nauczyciel"]'>
+                <label for="sendToAnyone">Wyślij do wszystkich</label>
+                <input type="checkbox" name="sendToAnyone" id="sendToAnyone">
+            </div>
+            
+    
+        </div>
+        
+        <textarea class="textarea-message" cols="30" rows="10"
+        name="context" required ngModel></textarea>
+
+        <div class="center-button">
+            <input class="btn btn-outline-primary" type="submit" value="Wyślij"
+            [disabled]="!newMessage.valid">
+        </div>
+
+    </form>
+
+    
+    
+</div>
+

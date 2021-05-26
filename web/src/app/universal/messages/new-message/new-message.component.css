@@ -1,0 +1,76 @@
+@media (min-width: 0) {
+
+    .title {
+        display: none;
+    }
+
+    .reciver {
+        margin-top: 15px;
+    }
+
+    .reciver__select {
+        -moz-appearance: none; /* for Firefox */
+        -webkit-appearance: none; /* for Chrome */
+        background-color: white;
+        text-align: center;
+        font-size: 1rem;
+        cursor: pointer;
+        border: 1px solid var(--line-grey);
+        width: 100%;
+    }
+
+    .reciver__select:hover {
+        opacity: .7;
+    }
+
+    .reciver-kindOf .reciver__select{
+        margin-top: 5px;
+    }
+
+    .textarea-message {
+        margin: 30px 0;
+        width: 100%;
+    }
+
+    .btn.btn-outline-primary {
+        width: 100%;
+    }
+}
+
+@media (min-width: 769px) {
+
+    .title {
+        display: inline;
+    }
+
+    app-second-nav {
+        display: none;
+    }
+
+    .reciver__select {
+        font-size: 1.2rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 45ch;
+    }
+
+    .reciver-kindOf .reciver__select{
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .textarea-message {
+        margin: 30px 0;
+        width: 100%;
+    }
+
+    .center-button {
+        display: flex;
+        justify-content: center;
+    }
+
+    .btn.btn-outline-primary {
+        width: 100%;
+    }
+}

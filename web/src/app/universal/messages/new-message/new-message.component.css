@@ -23,8 +23,17 @@
         opacity: .7;
     }
 
+    .select-margin {
+        margin-top: 10px;
+    }
+
     .reciver-kindOf .reciver__select{
         margin-top: 5px;
+    }
+
+    .reciver-checkbox {
+        display: flex;
+        justify-content: center;
     }
 
     .textarea-message {

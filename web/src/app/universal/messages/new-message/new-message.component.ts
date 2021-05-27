@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { take } from 'rxjs/operators';
+import { User } from 'src/app/_models/user';
+import { Card } from 'src/app/_models/_universal/card';
+import { AccountService } from 'src/app/_services/account.service';
+import { TeacherService } from 'src/app/_services/teacher.service';
 
 @Component({
   selector: 'app-new-message',
@@ -7,25 +12,41 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./new-message.component.css']
 })
 export class NewMessageComponent implements OnInit {
+  user = {} as User | null;
   toNav = { title: 'Nowa wiadomość'};
   subject = '';
+  listOfSubjects = {} as string[];
+  sendToAnyOne = true;
 
+  obj = {
+    subject: 'Wybierz przedmiot'
+  };
   teachersObj;
   kindOfObj;
-  listOfClass: string[];
 
-  constructor() {
+  constructor(
+    private accountService: AccountService,
+    private teacherService: TeacherService
+  ) {
     this.teachersObj = this.teachers();
     this.kindOfObj = this.kindof();
-    this.listOfClass = this.students().reduce((total: string[], curr: any): string[] => {
-      total.push(curr.class);
-      return [...new Set(total)];
-    }, []);
 
-    console.log(this.listOfClass);
+    this.accountService.currentUser$.pipe(take(1))
+      .subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
+
+    if (this.user?.role === 'Nauczyciel') {
+      this.teacherService.getSubjects()
+        .subscribe((res: Card[]) => {
+          this.listOfSubjects = res.reduce((total: string[], curr: Card)
+          : string[] => {
+            total.push(curr.name);
+            return total;
+          }, []);
+        });
+    }
   }
 
   onSubmit(message: NgForm): void {
@@ -50,35 +71,6 @@ export class NewMessageComponent implements OnInit {
       subjectName: 'Język Angielski',
     }
   ]
-
-  students = () => [
-    {
-      class: '4a',
-      name: 'Krystian',
-      lastName: 'Kowlaski'
-    },
-    {
-      class: '4b',
-      name: 'Krystian',
-      lastName: 'Wieczorek'
-    },
-    {
-      class: '4b',
-      name: 'Łukasz',
-      lastName: 'Dworek'
-    },
-    {
-      class: '5a',
-      name: 'Krystian',
-      lastName: 'Wieczorek'
-    },
-    {
-      class: '4a',
-      name: 'Krystian',
-      lastName: 'Wieczorek'
-    },
-  ]
-
 
   kindof = () => [
     'Ogłoszenie', 'Uwaga', 'Ogólna wiadomość'

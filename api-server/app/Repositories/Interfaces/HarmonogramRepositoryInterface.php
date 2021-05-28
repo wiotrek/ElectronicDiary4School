@@ -26,4 +26,11 @@ interface HarmonogramRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readTeachersWhichHaveLessonNow (string $day, string $time);
 
+    /**
+     * Get all teachers which teach specify class
+     * @param int $userClassId
+     * @return mixed teacher name, teacher last name, teacher identifier, subject name
+     */
+    public function readTeacherListWhichClassTeach (int $userClassId);
+
 }

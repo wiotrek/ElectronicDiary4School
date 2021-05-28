@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Helpers\KeyColumn;
+use App\Helpers\RoleDetecter;
 use App\Models\Mark;
 use App\Models\MarksType;
 use App\Models\Student;
@@ -69,6 +70,7 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
         return $this->findIdByOtherId($user_id, KeyColumn::fromModel(User::class), KeyColumn::fromModel(Student::class), Student::class);
     }
+
 
     public function readStudentActiveIdByStudentIdAndDate ( $studentId, $date, $time ) {
         return StudentActivity::query()->

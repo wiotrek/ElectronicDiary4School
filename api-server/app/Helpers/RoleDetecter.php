@@ -4,6 +4,8 @@
 namespace App\Helpers;
 
 
+use App\Models\Student;
+use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 
 
@@ -32,6 +34,20 @@ class RoleDetecter extends BaseRepository {
         return (self :: isParent()) ?
             ( new self ) -> getStudentIdByParentId() :
             ( new self ) -> getStudentId()[ 0 ];
+    }
+
+    public static function convertParentIdToStudentUserId() {
+        if (self :: isParent()) {
+            $studentId  = self :: convertToStudentId();
+
+            // return user id of the parent child student
+            return ( new self ) -> findIdByOtherId($studentId,
+                KeyColumn::fromModel(Student::class),
+                KeyColumn::fromModel(User::class),
+                Student::class)[0];
+        }
+
+        return null;
     }
 
 }

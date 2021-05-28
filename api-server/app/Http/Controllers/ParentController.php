@@ -37,6 +37,7 @@ class ParentController extends Controller
             $teacherItem->setFirstName($teacher['first_name']);
             $teacherItem->setLastName($teacher['last_name']);
             $teacherItem->setSubjectName($teacher['name']);
+            $teacherItem->setIdentifier($teacher['identifier']);
 
             $teacherListApiModel->setTeacher($teacherItem);
         }

@@ -26,6 +26,7 @@ class TeacherListResultApiModel extends TeacherResultApiModel {
      */
     public function setTeacher ( TeacherResultApiModel $teacher ): void {
         $this -> teacher[] = array(
+            'identifier' => $teacher->getIdentifier(),
             'firstName' => $teacher->getFirstName(),
             'lastName' => $teacher->getLastName(),
             'subjectName' => $teacher->getSubjectName()

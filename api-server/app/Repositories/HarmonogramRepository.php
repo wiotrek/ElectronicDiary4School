@@ -42,7 +42,7 @@ class HarmonogramRepository extends BaseRepository implements HarmonogramReposit
             leftjoin('user', 'teacher.user_id', '=', 'user.user_id')->
             leftjoin('subject', 'class_harmonogram.subject_id', '=', 'subject.subject_id')->
             where('class_harmonogram.user_class_id', '=', $userClassId)->
-            select('user.first_name', 'user.last_name', 'user.identifier', 'subject.name')->
+            select('user.first_name', 'user.identifier', 'user.last_name', 'user.identifier', 'subject.name')->
             distinct('user.identifier')->
             get();
 

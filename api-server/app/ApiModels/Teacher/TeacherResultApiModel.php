@@ -8,6 +8,7 @@ class TeacherResultApiModel {
 
     #region Private Members
 
+    private $identifier;
     private $firstName;
     private $lastName;
 
@@ -19,6 +20,20 @@ class TeacherResultApiModel {
     #endregion
 
     #region Accessors
+
+    /**
+     * @return string
+     */
+    public function getIdentifier () {
+        return $this -> identifier;
+    }
+
+    /**
+     * @param string $identifier
+     */
+    public function setIdentifier ( string $identifier ): void {
+        $this -> identifier = $identifier;
+    }
 
     /**
      * @return string

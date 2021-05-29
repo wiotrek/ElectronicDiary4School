@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
@@ -75,6 +76,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Insert marks by teacher
     Route::post( WebRoutes::TEACHER_MARKS_INSERT, [StudentController::class, 'insertStudentMark'] );
+
+    // Insert notification by teacher or parent
+    Route::post( WebRoutes::NOTIFICATION_INSERT, [NotificationController::class, 'insertNotification'] );
 
     #endregion
 

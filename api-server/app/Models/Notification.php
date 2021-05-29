@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $notification_id
  * @property int $notification_type_id
  * @property string $content
- * @property int $sender
- * @property int $receiver
+ * @property string $sender
+ * @property string $receiver
  * @property Carbon $time_sended
  * @property bool|null $is_readed
  * 
@@ -32,8 +32,6 @@ class Notification extends Model
 
 	protected $casts = [
 		'notification_type_id' => 'int',
-		'sender' => 'int',
-		'receiver' => 'int',
 		'is_readed' => 'bool'
 	];
 

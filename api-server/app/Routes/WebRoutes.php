@@ -16,4 +16,6 @@ class WebRoutes {
 
     public const TEACHER_MARKS_INSERT = '/teacher-marks/insert/subject={name}/date={date}';
 
+    public const NOTIFICATION_INSERT = '/notification/send';
+
 }

@@ -24,7 +24,7 @@ class BaseRepository implements BaseRepositoryInterface {
     }
 
     public function storeModel ( object $model ) {
-        $model->save();
+        return $model->save();
     }
 
     public function findById ( int $id, $model ) {

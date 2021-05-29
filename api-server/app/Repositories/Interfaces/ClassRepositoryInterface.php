@@ -28,7 +28,7 @@ interface ClassRepositoryInterface extends BaseRepositoryInterface {
     /**
      * @param $number
      * @param $numberIdentifier
-     * @return mixed
+     * @return mixed student identifier, student name, student last name
      */
     public function readStudentsByClass ( $number, $numberIdentifier );
 
@@ -38,5 +38,23 @@ interface ClassRepositoryInterface extends BaseRepositoryInterface {
     public function readClassIdByStudentIdentifier ( string $identifier );
 
     public function readClassIdByIdentifierAndNumber($number, $identifier);
+
+    /**
+     * @param $teacherId
+     * @return mixed The list of all class which are assign to the teacher
+     */
+    public function readClassIdsByTeacherId ( $teacherId );
+
+    /**
+     * @param $classId
+     * @return string The name like '4a', '5b', ...
+     */
+    public function readClassNameByClassId ( $classId );
+
+    /**
+     * @param string | null $class Name of class like '4a', '7c',..
+     * @return boolean true if this class exist, false otherwise
+     */
+    public function isClassExist ( ?string $class );
 
 }

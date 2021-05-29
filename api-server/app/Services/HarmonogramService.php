@@ -77,8 +77,10 @@ class HarmonogramService extends BaseRepository {
 
         // Init data
         $getData = $this->harmonogramRepository->readTeachersWhichHaveLessonNow (( new DayTranslate ) -> fromEngToPl(date('l')), date('H:i'));
-        $active = 0;
-        $checked = 0;
+
+        // TODO: It's only debug mode. In production set values to 0
+        $active = random_int(1, 100) > 5 ? 1 : 0;
+        $checked = 1;
 
         // For each row from harmonogram
         foreach ( $getData as $data ) {

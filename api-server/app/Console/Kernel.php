@@ -57,7 +57,7 @@ class Kernel extends ConsoleKernel
 
 
         $schedule->command('generate:studentActiveList')->
-            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::FRIDAY])->
+            days([Schedule::MONDAY, Schedule::TUESDAY, Schedule::WEDNESDAY, Schedule::THURSDAY, Schedule::SATURDAY])->
             at('13:35');
 
 

@@ -11,6 +11,7 @@ class ApiCode {
     public const NO_DATA = 'Please provide all required details';
     public const INCORRECT_CREDS = 'Invalid identifier or password';
     public const IS_NOT_TEACHER_CONTENT = 'You are mistakes content. This content for student or parents only';
+    public const IS_NOT_STUDENT_OR_TEACHER_CONTENT = 'It is not your content. This content for parents only';
 
     public const STORE_STUDENT_ACTIVE = 'Student activities inserted successfully';
     public const LOGOUTOK = 'Logout with success';

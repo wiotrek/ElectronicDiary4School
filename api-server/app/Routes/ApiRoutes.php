@@ -39,4 +39,10 @@ class ApiRoutes {
     public const FREQUENCY_OF_EACH_SUBJECT = '/student/subjects/frequencies';
 
     #endregion
+
+    #region
+
+    public const TEACHER_LIST_OF_STUDENT = '/parent/teacher-list';
+
+    #endregion
 }

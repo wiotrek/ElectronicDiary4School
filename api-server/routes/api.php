@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\ParentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Routes\ApiRoutes;
@@ -55,6 +56,9 @@ Route::middleware('auth:sanctum')->group(function() {
 
     // Student average frequency of all subject frequency average
     Route::get(ApiRoutes::TOTAL_AVERAGE_FREQUENCY, [StudentController::class, 'showAverageFrequency']);
+
+    // Teacher list from parent view which teach specific student as child their parent
+    Route::get(ApiRoutes::TEACHER_LIST_OF_STUDENT, [ParentController::class, 'showTeacherListOfStudent']);
 
     #endregion
 

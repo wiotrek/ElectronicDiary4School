@@ -36,4 +36,18 @@ class HarmonogramRepository extends BaseRepository implements HarmonogramReposit
         ])->select('teacher_id', 'subject_id', 'user_class_id')->orderBy('teacher_id')->get();
     }
 
+    public function readTeacherListWhichClassTeach ( int $userClassId ) {
+        $teacherList = ClassHarmonogram::query()->
+            leftjoin('teacher', 'class_harmonogram.teacher_id', '=', 'teacher.teacher_id')->
+            leftjoin('user', 'teacher.user_id', '=', 'user.user_id')->
+            leftjoin('subject', 'class_harmonogram.subject_id', '=', 'subject.subject_id')->
+            where('class_harmonogram.user_class_id', '=', $userClassId)->
+            select('user.first_name', 'user.identifier', 'user.last_name', 'user.identifier', 'subject.name')->
+            distinct('user.identifier')->
+            get();
+
+        return $teacherList;
+    }
+
+
 }

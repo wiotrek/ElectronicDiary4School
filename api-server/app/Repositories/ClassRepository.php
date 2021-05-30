@@ -9,6 +9,7 @@ use App\Models\ClassHarmonogram;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
+use App\Models\TeacherClass;
 use App\Models\User;
 use App\Models\UserClass;
 use App\Repositories\Base\BaseRepository;
@@ -112,6 +113,28 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
         return $this->findByAndColumns($number, $identifier, 'number', 'identifier_number', UserClass::class)
             ->pluck(KeyColumn::fromModel(UserClass::class));
     }
+
+    public function readClassIdsByTeacherId ( $teacherId ) {
+        return $this->findByColumn($teacherId, KeyColumn::fromModel(Teacher::class), TeacherClass::class)->
+        pluck(KeyColumn::fromModel(UserClass::class));
+    }
+
+    public function readClassNameByClassId ( $classId ) {
+        return $this->findByColumn($classId, KeyColumn::fromModel(UserClass::class), UserClass::class)->
+            select('number', 'identifier_number')->
+            get();
+    }
+
+    public function isClassExist ( ?string $class ) {
+
+        if (is_null($class)) return false;
+
+        $class = $this -> findByAndColumns( $class[ 0 ], $class[ 1 ], 'number', 'identifier_number', UserClass::class ) ->
+            first();
+
+        return $class != null;
+    }
+
 
     #endregion
 

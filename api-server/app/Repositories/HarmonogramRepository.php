@@ -50,4 +50,18 @@ class HarmonogramRepository extends BaseRepository implements HarmonogramReposit
     }
 
 
+    public function readTeacherClassListBySubjectId ( int $subjectId, int $teacherId = null ) {
+
+        if (is_null($teacherId))
+            $teacherId = $this->getTeacherId();
+
+        return $this->findByAndColumns($subjectId, $teacherId,
+            KeyColumn::fromModel(Subject::class), KeyColumn::fromModel(Teacher::class),
+            ClassHarmonogram::class)->
+            select(KeyColumn::fromModel(UserClass::class))->
+            distinct(KeyColumn::fromModel(UserClass::class))->
+            get();
+    }
+
+
 }

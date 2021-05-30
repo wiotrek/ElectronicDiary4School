@@ -29,7 +29,6 @@ class NotificationController extends Controller
         $notificationWebModel = new NotificationSendWebModel();
         $notificationWebModel->setKindOf($request['kindOf']);
         $notificationWebModel->setContent($request['content']);
-        $notificationWebModel->setSender($request['sender']);
         $notificationWebModel->setReceiver($request['receiver']);
 
 

@@ -8,8 +8,8 @@ use App\Repositories\Base\BaseRepositoryInterface;
 
 interface NotificationRepositoryInterface extends BaseRepositoryInterface {
 
-    public function readNotificationIdByType ( string $type );
+    public function readNotificationIdByType ( ?string $type );
 
-    public function isNotificationTypeExist ( string $type );
+    public function isNotificationTypeExist ( ?string $type );
 
 }

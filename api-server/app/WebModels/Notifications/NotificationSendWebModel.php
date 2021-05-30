@@ -21,11 +21,6 @@ class NotificationSendWebModel {
     private $content;
 
     /**
-     * @var string | null The author message identifier
-     */
-    private $sender;
-
-    /**
      * @var string | null The identifier reader message person
      */
     private $receiver;
@@ -65,20 +60,6 @@ class NotificationSendWebModel {
      */
     public function setContent ( ?string $content ): void {
         $this -> content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSender (): ?string {
-        return $this -> sender;
-    }
-
-    /**
-     * @param string|null $sender
-     */
-    public function setSender ( ?string $sender ): void {
-        $this -> sender = $sender;
     }
 
     /**

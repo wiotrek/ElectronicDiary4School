@@ -77,7 +77,7 @@ class NotificationService extends BaseRepository {
 
         // Make sure that type of notification is exist in database
         if (is_null($notificationTypeId))
-            return ApiResponse::badRequest(ApiCode::NO_DATA);
+            return null;
 
         $senderIdentifier = $this->classRepository->findByColumn($this->getAuthId(), KeyColumn::fromModel(User::class), User::class) ->
             pluck('identifier')[0];

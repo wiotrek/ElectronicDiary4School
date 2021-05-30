@@ -11,7 +11,7 @@ use App\Repositories\Interfaces\NotificationRepositoryInterface;
 
 class NotificationRepository extends BaseRepository implements NotificationRepositoryInterface {
 
-    public function readNotificationIdByType ( string $type ) {
+    public function readNotificationIdByType ( ?string $type ) {
         if ($this->isNotificationTypeExist($type))
             return $this->findByColumn( $type, 'type', NotificationType::class ) ->
                 pluck (KeyColumn::fromModel(NotificationType::class))[0];
@@ -19,7 +19,7 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
         return null;
     }
 
-    public function isNotificationTypeExist ( string $type ) {
+    public function isNotificationTypeExist ( ?string $type ) {
         return $this -> findByColumn( $type, 'type', NotificationType::class ) -> first();
     }
 

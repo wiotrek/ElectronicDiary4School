@@ -72,6 +72,13 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
             ->pluck('name');
     }
 
+    public function isSubjectExistByTeacherId ( $teacherId, $subjectId ) {
+        return $this->findByAndColumns($teacherId, $subjectId,
+            KeyColumn::fromModel(Teacher::class), KeyColumn::fromModel(Subject::class),
+            TeacherSubject::class)->first();
+    }
+
+
     #endregion
 
 }

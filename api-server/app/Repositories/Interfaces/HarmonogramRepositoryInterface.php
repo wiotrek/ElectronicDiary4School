@@ -33,4 +33,6 @@ interface HarmonogramRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readTeacherListWhichClassTeach (int $userClassId);
 
+    public function readTeacherClassListBySubjectId ( int $subjectId, int $teacherId = null );
+
 }

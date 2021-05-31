@@ -4,8 +4,7 @@
 namespace App\Services;
 
 
-use App\ApiModels\Base\ApiResponse;
-use App\ApiModels\Data\ApiCode;
+
 use App\DataModels\RoleSenderNotification;
 use App\Helpers\KeyColumn;
 use App\Helpers\RoleDetecter;
@@ -67,10 +66,6 @@ class NotificationService extends BaseRepository {
             return null;
 
 
-        if ($this->isReceiverStudent($notificationWebModel -> getReceiver()))
-            return null;
-
-
         // Is need to notification eloquent model
         $notificationTypeId = $this->notificationRepository->readNotificationIdByType($notificationWebModel->getKindOf());
 
@@ -79,15 +74,22 @@ class NotificationService extends BaseRepository {
         if (is_null($notificationTypeId))
             return null;
 
+
         $senderIdentifier = $this->classRepository->findByColumn($this->getAuthId(), KeyColumn::fromModel(User::class), User::class) ->
             pluck('identifier')[0];
+
+
+        // Can't send message to self
+        if ($senderIdentifier == $notificationWebModel->getReceiver())
+            return null;
+
 
         // Fill data to eloquent properties before save
         $notificationToSave = new Notification([
             'notification_type_id' => $notificationTypeId,
             'content' => $notificationWebModel->getContent(),
             'sender' => $senderIdentifier,
-            'receiver' => $notificationWebModel->getReceiver(),
+            'receiver' => $this->isReceiverStudent($notificationWebModel -> getReceiver()) ? 'R'.$notificationWebModel -> getReceiver() : $notificationWebModel -> getReceiver(),
             'time_sended' => date('Y-m-d H:i' ),
             'is_readed' => false
         ]);

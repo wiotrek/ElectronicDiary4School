@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\Data\ApiCode;
+use App\ApiModels\Notification\NotificationListResultApiModel;
+use App\ApiModels\Notification\NotificationResultApiModel;
 use App\DataModels\RoleSenderNotification;
 use App\Helpers\RoleDetecter;
 use App\Services\NotificationService;
@@ -60,5 +62,10 @@ class NotificationController extends Controller
         return $result != null ?
             ApiResponse::withSuccess(null, ApiCode::NOTIFICATION_INSERT_SUCCESS) :
             ApiResponse::badRequest(ApiCode::NOTIFICATION_INSERT_FAIL);
+    }
+
+
+    public function showNotifications () {
+        return ApiResponse::withSuccess($this->notificationService->getNotification());
     }
 }

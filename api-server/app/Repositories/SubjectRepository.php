@@ -11,6 +11,7 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\SubjectClass;
 use App\Models\Teacher;
+use App\Models\TeacherClass;
 use App\Models\TeacherSubject;
 use App\Models\User;
 use App\Repositories\Base\BaseRepository;
@@ -70,6 +71,15 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
     public function readSubjectNameById ( $subjectId ) {
         return $this->findByColumn($subjectId, KeyColumn::fromModel(Subject::class), Subject::class)
             ->pluck('name');
+    }
+
+    public function readSubjectNameByTeacherId ( $teacherId ) {
+        $subjectId = $this->findByColumn($teacherId, KeyColumn::fromModel(Teacher::class), TeacherSubject::class) ->
+            pluck (KeyColumn::fromModel(Subject::class))[0];
+
+        return $this->findByColumn($subjectId, KeyColumn::fromModel(Subject::class), Subject::class) ->
+            pluck('name')[0];
+
     }
 
     public function isSubjectExistByTeacherId ( $teacherId, $subjectId ) {

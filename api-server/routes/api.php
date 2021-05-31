@@ -61,6 +61,9 @@ Route::middleware('auth:sanctum')->group(function() {
     // Teacher list from parent view which teach specific student as child their parent
     Route::get(ApiRoutes::TEACHER_LIST_OF_STUDENT, [ParentController::class, 'showTeacherListOfStudent']);
 
+    // Read notification by teacher or parent
+    Route::get(ApiRoutes::NOTIFICATION_READ, [NotificationController::class, 'showNotifications']);
+
     #endregion
 
     #region WEB

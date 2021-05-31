@@ -23,8 +23,15 @@
         opacity: .7;
     }
 
+    .select-margin {
+        margin-top: 10px;
+    }
+
     .reciver-kindOf .reciver__select{
         margin-top: 5px;
+    }
+
+    .reciver-checkbox {
     }
 
     .textarea-message {
@@ -48,7 +55,7 @@
     }
 
     .reciver__select {
-        font-size: 1.2rem;
+        font-size: 1rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -58,6 +65,10 @@
     .reciver-kindOf .reciver__select{
         margin: 10px 0;
         width: 100%;
+    }
+
+    .custom-control-label {
+        font-size: .9rem;
     }
 
     .textarea-message {

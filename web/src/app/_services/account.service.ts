@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { DictionaryList } from '../_models/dictionary-list';
+import { Message } from '../_models/_messages/message';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +40,9 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+  }
+
+  sendMessage(message: Message): any {
+    return this.http.post(this.baseUrl + 'notification/send', message);
   }
 }

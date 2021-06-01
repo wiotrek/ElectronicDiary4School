@@ -21,6 +21,8 @@ interface SubjectRepositoryInterface extends BaseRepositoryInterface {
 
     public function readSubjectNameById ( $subjectId );
 
+    public function readSubjectNameByTeacherId ( $teacherId );
+
     /**
      * @return boolean true if exist, false otherwise
      */

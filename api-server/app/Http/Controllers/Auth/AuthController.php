@@ -12,6 +12,7 @@ use App\Models\StudentParent;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Repositories\Base\BaseRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -30,7 +31,7 @@ class AuthController extends Controller
 
     #region DI Constructor
 
-    public function __construct (BaseRepositoryInterface $userRepository) {
+    public function __construct (UserRepositoryInterface $userRepository) {
 
         $this->userRepository = $userRepository;
 
@@ -54,9 +55,9 @@ class AuthController extends Controller
 
 
         // Get school status of the login user
-        $teacherRole =$this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Teacher::class)->pluck('role_id')->first();
-        $studentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", Student::class)->pluck('role_id')->first();
-        $parentRole = $this->userRepository->findByColumn($this->userRepository->getAuthId(), "user_id", StudentParent::class)->pluck('role_id')->first();
+        $teacherRole = $this->userRepository->isTeacher($this->userRepository->getAuthId());
+        $studentRole = $this->userRepository->isStudent($this->userRepository->getAuthId());
+        $parentRole = $this->userRepository->isParent($this->userRepository->getAuthId());
 
 
         if (!is_null($teacherRole))

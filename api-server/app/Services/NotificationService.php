@@ -4,8 +4,10 @@
 namespace App\Services;
 
 
-use App\ApiModels\Base\ApiResponse;
-use App\ApiModels\Data\ApiCode;
+
+use App\ApiModels\Notification\NotificationListResultApiModel;
+use App\ApiModels\Notification\NotificationResultApiModel;
+use App\DataModels\NotificationLogo;
 use App\DataModels\RoleSenderNotification;
 use App\Helpers\KeyColumn;
 use App\Helpers\RoleDetecter;
@@ -20,6 +22,7 @@ use App\Repositories\Interfaces\HarmonogramRepositoryInterface;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
 use App\Repositories\Interfaces\SubjectRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\WebModels\Notifications\NotificationSendWebModel;
 
 class NotificationService extends BaseRepository {
@@ -31,6 +34,7 @@ class NotificationService extends BaseRepository {
     private $subjectRepository;
     private $harmonogramRepository;
     private $studentRepository;
+    private $userRepository;
 
     #endregion
 
@@ -43,15 +47,21 @@ class NotificationService extends BaseRepository {
                                                        NotificationRepositoryInterface $notificationRepository,
                                                        SubjectRepositoryInterface $subjectRepository,
                                                        HarmonogramRepositoryInterface $harmonogramRepository,
-                                                       StudentRepositoryInterface $studentRepository) {
+                                                       StudentRepositoryInterface $studentRepository,
+                                                       UserRepositoryInterface $userRepository) {
+
         $this -> classRepository = $classRepository;
         $this -> notificationRepository = $notificationRepository;
         $this -> subjectRepository = $subjectRepository;
         $this -> harmonogramRepository = $harmonogramRepository;
         $this -> studentRepository = $studentRepository;
+        $this -> userRepository = $userRepository;
+
     }
 
     #endregion
+
+    #region Notification Sending
 
     #region Public Methods
 
@@ -67,10 +77,6 @@ class NotificationService extends BaseRepository {
             return null;
 
 
-        if ($this->isReceiverStudent($notificationWebModel -> getReceiver()))
-            return null;
-
-
         // Is need to notification eloquent model
         $notificationTypeId = $this->notificationRepository->readNotificationIdByType($notificationWebModel->getKindOf());
 
@@ -79,15 +85,22 @@ class NotificationService extends BaseRepository {
         if (is_null($notificationTypeId))
             return null;
 
+
         $senderIdentifier = $this->classRepository->findByColumn($this->getAuthId(), KeyColumn::fromModel(User::class), User::class) ->
             pluck('identifier')[0];
+
+
+        // Can't send message to self
+        if ($senderIdentifier == $notificationWebModel->getReceiver())
+            return null;
+
 
         // Fill data to eloquent properties before save
         $notificationToSave = new Notification([
             'notification_type_id' => $notificationTypeId,
             'content' => $notificationWebModel->getContent(),
             'sender' => $senderIdentifier,
-            'receiver' => $notificationWebModel->getReceiver(),
+            'receiver' => $this->isStudent($notificationWebModel -> getReceiver()) ? 'R'.$notificationWebModel -> getReceiver() : $notificationWebModel -> getReceiver(),
             'time_sended' => date('Y-m-d H:i' ),
             'is_readed' => false
         ]);
@@ -169,6 +182,42 @@ class NotificationService extends BaseRepository {
 
     #endregion
 
+    #endregion
+
+    #region Notification Reading
+
+    public function getNotification () {
+
+        $notificationList = new NotificationListResultApiModel();
+        $notificationItem = new NotificationResultApiModel();
+        $notificationListfromDB = $this->notificationRepository->readNotification();
+
+        if (count($notificationListfromDB) == 0)
+            return null;
+
+        foreach ( $notificationListfromDB as $notification ) {
+
+            // The flag indicating the sender is teacher or not. True if teacher
+            $isTeacher = $this->userRepository->isTeacher($this->userRepository->readUserIdByIdentifier($notification['sender']));
+
+            $notificationItem->setAvatar( $isTeacher ? NotificationLogo::FOR_TEACHER : NotificationLogo::FOR_PARENT  );
+            $notificationItem->setFullName($this->userRepository->readFullNameByIdentifier($notification['sender']));
+            $notificationItem->setDateTime($notification['time_sended']);
+            $notificationItem->setKindOf($this->notificationRepository->readNotificationTypeById($notification['notification_type_id']));
+            $notificationItem->setIsSender( $this->userRepository->readIdentifierByAuthId() == $notification['sender'] );
+            $notificationItem->setIsReaded($notification['is_readed']);
+            $notificationItem->setSubject($this->getSubject($isTeacher ? $notification['sender'] : $notification['receiver']));
+            $notificationItem->setMessage($notification['content']);
+            $notificationItem->setIdentifier($notification['sender']);
+
+            $notificationList->setNotification($notificationItem);
+        }
+
+        return $notificationList->getNotification();
+    }
+
+    #endregion
+
     #region Private Methods
 
     /**
@@ -192,7 +241,7 @@ class NotificationService extends BaseRepository {
         return $this->classRepository->findByColumn($identifier, 'identifier', User::class)->first() != null;
     }
 
-    private function isReceiverStudent($identifier) {
+    private function isStudent( $identifier) {
         return count($this->studentRepository->readStudentIdByIdentifier($identifier)) != 0;
     }
 
@@ -254,6 +303,23 @@ class NotificationService extends BaseRepository {
                 return true;
 
         return false;
+    }
+
+    /**
+     * @param string $teacherIdentifier The teacher identifier as sender or receiver
+     * @return string Subject name which is teached by teacher
+     */
+    private function getSubject(string $teacherIdentifier) {
+        $userId = $this->userRepository->readUserIdByIdentifier($teacherIdentifier);
+
+        // Get subject name depend on teacher is sender or receiver
+        if ($this->userRepository->isTeacher($userId)) {
+            $teacherId = $this -> userRepository -> readTeacherIdByIdentifier( $teacherIdentifier );
+            return $this->subjectRepository->readSubjectNameByTeacherId($teacherId);
+        }
+        else
+            return $this -> subjectRepository -> readSubjectNameByTeacherId( $this -> getTeacherId()[ 0 ] );
+
     }
 
     #endregion

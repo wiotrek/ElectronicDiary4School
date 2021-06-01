@@ -40,9 +40,15 @@ class ApiRoutes {
 
     #endregion
 
-    #region
+    #region Parent
 
     public const TEACHER_LIST_OF_STUDENT = '/parent/teacher-list';
+
+    #endregion
+
+    #region Notification
+
+    public const NOTIFICATION_READ = '/notification/read';
 
     #endregion
 }

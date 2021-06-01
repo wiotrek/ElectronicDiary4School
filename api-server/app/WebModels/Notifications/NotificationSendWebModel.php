@@ -25,11 +25,6 @@ class NotificationSendWebModel {
      */
     private $receiver;
 
-    /**
-     * @var string | null The time of  message which is sended by sender with format yyyy-MM-dd HH:mm
-     */
-    private $dateTime;
-
     #endregion
 
     #region Accessors
@@ -74,20 +69,6 @@ class NotificationSendWebModel {
      */
     public function setReceiver ( ?string $receiver ): void {
         $this -> receiver = $receiver;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDateTime (): ?string {
-        return $this -> dateTime;
-    }
-
-    /**
-     * @param string|null $dateTime
-     */
-    public function setDateTime ( ?string $dateTime ): void {
-        $this -> dateTime = $dateTime;
     }
 
     #endregion

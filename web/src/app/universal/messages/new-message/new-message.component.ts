@@ -125,7 +125,7 @@ export class NewMessageComponent implements OnInit {
 
     // send to all where exist specific subject
     else if (message.value.teacherGroup.messageToAllWhereIsSubject) {
-      messageToSend.receiver = 'all?' + message.value.teacherGroup.subjectMessage;
+      messageToSend.receiver = 'subject=' + message.value.teacherGroup.subjectMessage;
     }
 
     // send to specific class

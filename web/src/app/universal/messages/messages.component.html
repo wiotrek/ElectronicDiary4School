@@ -10,14 +10,14 @@
 
   <div class="main-block">
 
-    <div class="senders">
+    <div class="senders" *ngIf="listOfSenders.length else lackListOfSenders">
 
-      <div class="sender" *ngFor="let item of sendersObj | slice:senderFirst:senderLast"
-        [ngClass]="{'as-read': item.read}">
+      <div class="sender" *ngFor="let item of listOfSenders | slice:senderFirst:senderLast"
+        [ngClass]="{'as-read': item.isReaded}">
 
         <div class="sender__left-side">
           <i class="bi bi-chat-right-text-fill"
-          *ngIf="!item.read"></i>
+          *ngIf="!item.isReaded"></i>
           <img class="sender__avatar" src="{{item.avatar}}"
           alt="avatar">
         </div>
@@ -25,14 +25,14 @@
 
         <div class="sender__text">
           <div class="sender__name">
-            {{item.name}}
+            {{item.fullName}}
           </div>
 
           <div class="sender_expanded-message"
-          *ngIf="wholeMessageMode !== sendersObj.indexOf(item) else wholeMessage">
+          *ngIf="wholeMessageMode !== listOfSenders.indexOf(item) else wholeMessage">
 
             <div class="sender__whoIsSender">
-              {{item.sender ? 'odebrana' : 'wysłana'}}, {{item.kindof}}
+              {{item.isSender ? 'odebrana' : 'wysłana'}}, {{item.kindOf}}
             </div>
 
             <div class="sender__current-message">
@@ -54,7 +54,7 @@
               </div>
 
               <div class="whole-message__bottom">
-                Wiadomość została {{item.sender ? 'odebrana' : 'wysłana'}} {{item.date}}
+                Wiadomość została {{item.isSender ? 'odebrana' : 'wysłana'}} {{item.dateTime}}
               </div>
 
             </div>
@@ -63,11 +63,11 @@
 
           <div class="sender__expand">
             <a class="sender__go-expand"
-            (click)="wholeMessageModeToggle(sendersObj.indexOf(item)); item.read = true">
-              {{wholeMessageMode !== sendersObj.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
+            (click)="wholeMessageModeToggle(listOfSenders.indexOf(item)); item.isReaded= true">
+              {{wholeMessageMode !== listOfSenders.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
             </a>
-            <a class="sender__go-expand" *ngIf="item.sender">
-              {{wholeMessageMode === sendersObj.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
+            <a class="sender__go-expand" *ngIf="!item.isSender">
+              {{wholeMessageMode === listOfSenders.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
             </a>
           </div>
 
@@ -75,15 +75,19 @@
 
       </div>
 
-      <div class="senders__nav" *ngIf="sendersObj.length > 5">
-        <a class="button" *ngIf="senderLast - 5 > 0"
+      <div class="senders__nav" *ngIf="listOfSenders.length > this.pageSize">
+        <a class="button" *ngIf="senderLast - this.pageSize > 0"
           (click)="paginationOwn(false)">Back</a>
   
-        <a class="button" *ngIf="senderFirst + 5 < sendersObj.length"
+        <a class="button" *ngIf="senderFirst + this.pageSize < listOfSenders.length"
          (click)="paginationOwn(true)">Next</a>
       </div>
 
     </div>
+
+    <ng-template #lackListOfSenders>
+      <div class="senders"><h3>Brak wiadomości</h3></div>
+    </ng-template>
 
     <div class="message">
 

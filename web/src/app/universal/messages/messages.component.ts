@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReadMessage } from 'src/app/_models/_messages/read-message';
+import { AccountService } from 'src/app/_services/account.service';
 
 @Component({
   selector: 'app-messages',
@@ -11,22 +13,25 @@ export class MessagesComponent implements OnInit {
   wholeMessageMode = -1;
 
   page = 0;
-  pageSize = 5;
+  pageSize = 6;
   senderFirst = 0;
-  senderLast = 5;
+  senderLast = 6;
 
-  sendersObj;
+  listOfSenders: ReadMessage[] = [];
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute) {
-    this.sendersObj = this.senders();
-    for (let index = 0; index < 5; index++) {
-      this.senders().forEach(x => this.sendersObj.push(x));
-    }
-   }
+    private route: ActivatedRoute,
+    private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.accountService.getMessages()
+      .subscribe((res: ReadMessage[]) =>  {
+        if (res ?? 0) {
+          this.listOfSenders = res
+          .sort((a: ReadMessage, b: ReadMessage) => Date.parse(b.dateTime) - Date.parse(a.dateTime));
+        }
+      });
   }
 
   wholeMessageModeToggle(ind: number): void {
@@ -41,44 +46,11 @@ export class MessagesComponent implements OnInit {
 
   paginationOwn = (next: boolean) => {
     if (next) {
-      this.senderFirst += 5;
-      this.senderLast += 5;
+      this.senderFirst += this.pageSize;
+      this.senderLast += this.pageSize;
     } else {
-      this.senderFirst -= 5;
-      this.senderLast -= 5;
+      this.senderFirst -= this.pageSize;
+      this.senderLast -= this.pageSize;
     }
   }
-
-  senders = () => [
-    {
-      avatar: 'https://randomuser.me/api/portraits/lego/2.jpg',
-      name: 'Marek Jóźwiak',
-      date: '2021-03-03',
-      kindof: 'Ogłoszenie',
-      sender: true,
-      read: false,
-      subject: 'Język polski',
-      message: 'dzien dobry mam wazna wiadomosc dsaijdoi aosdjioasdj oasidjiasd asdos dsad ad asd asd asdasd ad asd asd ad asdaddasd addsa'
-    },
-    {
-      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
-      name: 'Marek Jóźwiak',
-      date: '2021-03-03',
-      kindof: 'Uwaga',
-      sender: true,
-      read: false,
-      subject: 'Język Polski',
-      message: 'Witam szanowny panie'
-    },
-    {
-      avatar: 'https://randomuser.me/api/portraits/lego/1.jpg',
-      name: 'Bartek Majowy',
-      date: '2021-03-03',
-      kindof: 'Ogłoszenie',
-      sender: false,
-      read: true,
-      subject: 'Język Polski',
-      message: 'Witam szanowny panie'
-    }
-  ]
 }

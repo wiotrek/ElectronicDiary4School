@@ -121,8 +121,9 @@ class ClassRepository extends BaseRepository implements ClassRepositoryInterface
 
     public function readClassNameByClassId ( $classId ) {
         return $this->findByColumn($classId, KeyColumn::fromModel(UserClass::class), UserClass::class)->
-            select('number', 'identifier_number')->
-            get();
+            selectRaw('CONCAT(number, identifier_number) as class_name')->
+            get() ->
+            pluck('class_name')[0];
     }
 
     public function isClassExist ( ?string $class ) {

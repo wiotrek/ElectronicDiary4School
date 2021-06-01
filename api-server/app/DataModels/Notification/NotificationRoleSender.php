@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\DataModels;
+namespace App\DataModels\Notification;
 
 
-class RoleSenderNotification {
+class NotificationRoleSender {
 
     public const TEACHER = 'teacher';
 

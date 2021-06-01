@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ApiModels\Base\ApiResponse;
 use App\ApiModels\Data\ApiCode;
-use App\ApiModels\Notification\NotificationListResultApiModel;
-use App\ApiModels\Notification\NotificationResultApiModel;
-use App\DataModels\RoleSenderNotification;
+use App\DataModels\Notification\NotificationRoleSender;
 use App\Helpers\RoleDetecter;
 use App\Services\NotificationService;
 use App\WebModels\Notifications\NotificationSendWebModel;
@@ -38,23 +36,28 @@ class NotificationController extends Controller
 
         // Sending message from parent
         if (RoleDetecter::isParent())
-            $result = $this->notificationService->sendToPersonalNotification($notificationWebModel,  RoleSenderNotification::PARENT);
+            $result = $this->notificationService->sendToPersonalNotification($notificationWebModel,  NotificationRoleSender::PARENT);
 
 
         // Sending message from teacher with match receiver type
         if (RoleDetecter::isTeacher()) {
 
-            if ( $notificationWebModel -> getReceiver() == 'all' && !is_null( $request[ 'subject' ] ) )
-                $result = $this -> notificationService -> sendToAllTeacherStudentsWithSpecificSubjectNotification( $notificationWebModel, $request[ 'subject' ] );
+            if ( !is_null( $request[ 'subject' ] ) ) {
+                if ( $notificationWebModel -> getReceiver() == 'all' )
+                    $result = $this -> notificationService -> sendToAllTeacherStudentsWithSpecificSubjectNotification( $notificationWebModel, $request[ 'subject' ] );
+            }
+            else {
 
-            else if ( strlen( $notificationWebModel -> getReceiver() ) == 2 )
-                $result = $this -> notificationService -> sendToClassNotification( $notificationWebModel );
+                if ( strlen( $notificationWebModel -> getReceiver() ) == 2 )
+                    $result = $this -> notificationService -> sendToClassNotification( $notificationWebModel );
 
-            else if ( $notificationWebModel -> getReceiver() == 'all' )
-                $result = $this -> notificationService -> sendToAllTeacherStudentsNotification( $notificationWebModel );
+                else if ( $notificationWebModel -> getReceiver() == 'all' )
+                    $result = $this -> notificationService -> sendToAllTeacherStudentsNotification( $notificationWebModel );
 
-            else
-                $result = $this->notificationService->sendToPersonalNotification($notificationWebModel);
+                else
+                    $result = $this -> notificationService -> sendToPersonalNotification( $notificationWebModel );
+
+            }
 
         }
 

@@ -51,6 +51,7 @@ interface ClassRepositoryInterface extends BaseRepositoryInterface {
      */
     public function readClassNameByClassId ( $classId );
 
+
     /**
      * @param string | null $class Name of class like '4a', '7c',..
      * @return boolean true if this class exist, false otherwise

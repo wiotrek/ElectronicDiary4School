@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\DataModels;
+namespace App\DataModels\Notification;
 
 
 class NotificationLogo {

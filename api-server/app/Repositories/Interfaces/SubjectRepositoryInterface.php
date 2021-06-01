@@ -13,7 +13,7 @@ interface SubjectRepositoryInterface extends BaseRepositoryInterface {
     public function readTeacherSubject ();
 
     /**
-     * @return mixed List of subjects which student have
+     * @return mixed subject name and icon
      */
     public function readStudentSubjects ();
 

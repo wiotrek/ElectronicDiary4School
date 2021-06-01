@@ -7,8 +7,9 @@ namespace App\Services;
 
 use App\ApiModels\Notification\NotificationListResultApiModel;
 use App\ApiModels\Notification\NotificationResultApiModel;
-use App\DataModels\NotificationLogo;
-use App\DataModels\RoleSenderNotification;
+use App\DataModels\Notification\NotificationLogo;
+use App\DataModels\Notification\NotificationReceiverType;
+use App\DataModels\Notification\NotificationRoleSender;
 use App\Helpers\KeyColumn;
 use App\Helpers\RoleDetecter;
 use App\Models\Notification;
@@ -65,17 +66,7 @@ class NotificationService extends BaseRepository {
 
     #region Public Methods
 
-    public function sendToPersonalNotification ( NotificationSendWebModel $notificationWebModel, string $from = RoleSenderNotification::TEACHER ) {
-
-        // Make sure that receiver is exist in database
-        if ( !$this->isIdentifierExist($notificationWebModel->getReceiver())  )
-            return null;
-
-
-        // For parents is possible sending message only to student Teachers
-        if ( ( $from == RoleSenderNotification::PARENT ) && !$this -> isCorrectTeacherReceiver( $notificationWebModel -> getReceiver() ) )
-            return null;
-
+    public function sendNotification ( NotificationSendWebModel $notificationWebModel ) {
 
         // Is need to notification eloquent model
         $notificationTypeId = $this->notificationRepository->readNotificationIdByType($notificationWebModel->getKindOf());
@@ -86,21 +77,12 @@ class NotificationService extends BaseRepository {
             return null;
 
 
-        $senderIdentifier = $this->classRepository->findByColumn($this->getAuthId(), KeyColumn::fromModel(User::class), User::class) ->
-            pluck('identifier')[0];
-
-
-        // Can't send message to self
-        if ($senderIdentifier == $notificationWebModel->getReceiver())
-            return null;
-
-
         // Fill data to eloquent properties before save
         $notificationToSave = new Notification([
             'notification_type_id' => $notificationTypeId,
             'content' => $notificationWebModel->getContent(),
-            'sender' => $senderIdentifier,
-            'receiver' => $this->isStudent($notificationWebModel -> getReceiver()) ? 'R'.$notificationWebModel -> getReceiver() : $notificationWebModel -> getReceiver(),
+            'sender' => $this->userRepository->readIdentifierByAuthId(),
+            'receiver' => $notificationWebModel->getReceiver(),
             'time_sended' => date('Y-m-d H:i' ),
             'is_readed' => false
         ]);
@@ -110,49 +92,52 @@ class NotificationService extends BaseRepository {
         return $this->notificationRepository->storeModel($notificationToSave);
     }
 
+    public function sendToPersonalNotification ( NotificationSendWebModel $notificationWebModel, string $from = NotificationRoleSender::TEACHER ) {
+
+
+        // Make sure that receiver is exist in database
+        if ( !$this->isIdentifierExist($notificationWebModel->getReceiver())  )
+            return null;
+
+
+        // For parents is possible sending message only to student Teachers
+        if ( ( $from == NotificationRoleSender::PARENT ) && !$this -> isStudentTeacher( $notificationWebModel -> getReceiver() ) )
+            return null;
+
+
+        $senderIdentifier = $this->userRepository->readIdentifierByAuthId();
+
+
+        // Can't send message to self
+        if ($senderIdentifier == $notificationWebModel->getReceiver())
+            return null;
+
+
+        // Set receiver depend on who is sending (teacher or parent)
+        $receiver = $this->isStudent($notificationWebModel -> getReceiver()) ? 'R'.$notificationWebModel -> getReceiver() : $notificationWebModel -> getReceiver();
+        $notificationWebModel -> setReceiver($receiver);
+
+
+        return $this->sendNotification ( $notificationWebModel );
+    }
+
 
     public function sendToClassNotification ( NotificationSendWebModel $notificationWebModel ) {
 
         // Make sure that receiver as class is exist
-        if ( !$this->isCorrectClassReceiver($notificationWebModel->getReceiver()) )
+        if ( !$this->isCorrectClassReceiver($notificationWebModel->getReceiver(), $this->getTeacherId()) )
             return null;
 
 
-        // Get all students from the class
-        $studentList = $this->classRepository->readStudentsByClass(
-                $notificationWebModel->getReceiver()[0], $notificationWebModel->getReceiver()[1]
-        );
-
-
-        // Send notification to each student chosen by teacher
-        foreach ( $studentList as $student ) {
-            $notificationWebModel->setReceiver('R'.$student['identifier']);
-            $this->sendToPersonalNotification($notificationWebModel);
-        }
-
-
-        // All notification has send so return true value
-        return 1;
+        return $this->sendNotification($notificationWebModel);
     }
 
 
     public function sendToAllTeacherStudentsNotification ( NotificationSendWebModel $notificationWebModel ) {
 
-        // Get all classes which are assign to teacher
-        $teacherClassIdsList = $this->classRepository->readClassIdsByTeacherId($this->getTeacherId());
+        $notificationWebModel->setReceiver('all');
+        return $this->sendNotification($notificationWebModel);
 
-        foreach ( $teacherClassIdsList as $classId ) {
-            $className = $this->classRepository->readClassNameByClassId($classId);
-
-            // set current receiver class
-            $notificationWebModel->setReceiver($className[0]['number'].$className[0]['identifier_number']);
-
-            // send notification to all student from current class
-            $this->sendToClassNotification($notificationWebModel);
-        }
-
-        // All notification has send so return true value
-        return 1;
     }
 
 
@@ -164,20 +149,9 @@ class NotificationService extends BaseRepository {
         if ( !$this->subjectRepository->isSubjectExistByTeacherId( $this->getTeacherId(), $subjectId ) )
             return null;
 
-        // List of all class ids which teacher is assign with the subject
-        $classIdsList = $this->harmonogramRepository->readTeacherClassListBySubjectId($subjectId);
+        $notificationWebModel->setReceiver($subjectName);
 
-        foreach ( $classIdsList as $classId ) {
-            $className = $this->classRepository->readClassNameByClassId($classId['user_Class_id']);
-
-            // set current receiver class
-            $notificationWebModel->setReceiver($className[0]['number'].$className[0]['identifier_number']);
-
-            // send notification to all student from current class
-            $this->sendToClassNotification($notificationWebModel);
-        }
-
-        return 1;
+        return $this->sendNotification($notificationWebModel);
     }
 
     #endregion
@@ -189,31 +163,118 @@ class NotificationService extends BaseRepository {
     public function getNotification () {
 
         $notificationList = new NotificationListResultApiModel();
-        $notificationItem = new NotificationResultApiModel();
-        $notificationListfromDB = $this->notificationRepository->readNotification();
 
-        if (count($notificationListfromDB) == 0)
-            return null;
+        $personNotifications = $this->notificationRepository->readNotificationDirectPerson($this->userRepository->readIdentifierByAuthId());
 
-        foreach ( $notificationListfromDB as $notification ) {
+        // Collect grouping messages for parent
+        if (RoleDetecter::isParent()) {
 
-            // The flag indicating the sender is teacher or not. True if teacher
-            $isTeacher = $this->userRepository->isTeacher($this->userRepository->readUserIdByIdentifier($notification['sender']));
+            // The notifications for specific class from teacher
+            $classNotifications = $this -> notificationRepository -> readNotificationDirectClass(
+                $this -> classRepository -> readClassNameByClassId(
+                    $this -> classRepository -> readClassIdByStudentIdentifier(
+                        substr( $this -> userRepository -> readIdentifierByAuthId(), 1 )
+                    )
+                )
+            );
 
-            $notificationItem->setAvatar( $isTeacher ? NotificationLogo::FOR_TEACHER : NotificationLogo::FOR_PARENT  );
-            $notificationItem->setFullName($this->userRepository->readFullNameByIdentifier($notification['sender']));
-            $notificationItem->setDateTime($notification['time_sended']);
-            $notificationItem->setKindOf($this->notificationRepository->readNotificationTypeById($notification['notification_type_id']));
-            $notificationItem->setIsSender( $this->userRepository->readIdentifierByAuthId() == $notification['sender'] );
-            $notificationItem->setIsReaded($notification['is_readed']);
-            $notificationItem->setSubject($this->getSubject($isTeacher ? $notification['sender'] : $notification['receiver']));
-            $notificationItem->setMessage($notification['content']);
-            $notificationItem->setIdentifier($notification['sender']);
 
-            $notificationList->setNotification($notificationItem);
+            // Collect all student subjects
+            foreach ( $this->subjectRepository->readStudentSubjects() as $subject )
+                $subjectList[] = $subject['name'];
+
+
+            // The notifications for all students having specific subject from teacher
+            $subjectNotifications = $this -> notificationRepository-> readNotificationDirectSubject($subjectList);
+
+
+            // The notifications for all students teached by teacher
+            $allNotifications = $this->notificationRepository -> readNotificationDirectAll();
+
+
+            foreach ( $classNotifications as $notification )
+                if ( !is_null( $this -> notificationItem( $notification, NotificationReceiverType::FOR_CLASS ) ) )
+                    $notificationList->setNotification($this -> notificationItem($notification, NotificationReceiverType::FOR_CLASS) );
+
+            foreach ( $subjectNotifications as $notification ) {
+                if ( !is_null( $this -> notificationItem( $notification, NotificationReceiverType::FOR_SUBJECT ) ) )
+                    $notificationList -> setNotification( $this -> notificationItem( $notification, NotificationReceiverType::FOR_SUBJECT ) );
+            }
+
+            foreach ( $allNotifications as $notification )
+                if ( !is_null( $this -> notificationItem( $notification, NotificationReceiverType::FOR_ALL ) ) )
+                    $notificationList -> setNotification( $this -> notificationItem( $notification, NotificationReceiverType::FOR_ALL ) );
         }
 
+
+        foreach ( $personNotifications as $notification )
+            if ( !is_null( $this -> notificationItem( $notification, NotificationReceiverType::FOR_PERSON ) ) )
+            $notificationList->setNotification($this -> notificationItem($notification, NotificationReceiverType::FOR_PERSON) );
+
+
         return $notificationList->getNotification();
+    }
+
+    public function notificationItem ( Notification $notification, string $receiverType ) {
+        $notificationItem = new NotificationResultApiModel();
+
+        // The flag indicating the sender is teacher or not. True if teacher
+        $isTeacher = $this->userRepository->isTeacher($this->userRepository->readUserIdByIdentifier($notification['sender']));
+        $receiver = null;
+
+
+        // Before setting receiver checking for example if receiver is exist in class as receiver
+        // or is having the subject as receiver and rest of necessery validation
+        switch ($receiverType) {
+
+
+            // Of course the receiver can be 'all' or subject name so set this
+            case NotificationReceiverType::FOR_PERSON:
+                $receiver = $this->isIdentifierExist($notification['receiver']) ?
+                    $this->userRepository->readFullNameByIdentifier($notification['receiver']) :
+                    $notification['receiver'];
+                break;
+
+
+            case NotificationReceiverType::FOR_CLASS:
+                $receiver = $notification['receiver'];
+                break;
+
+
+            case NotificationReceiverType::FOR_SUBJECT:
+
+                if ($this->isStudentTeacher($notification['sender']) )
+                    foreach ($this->subjectRepository->readStudentSubjects() as $subject)
+                        if ($subject['name'] == $notification['receiver'])
+                            $receiver = $notification[ 'receiver' ];
+
+                break;
+
+
+            case NotificationReceiverType::FOR_ALL:
+
+                if ($this->isStudentTeacher($notification['sender']) )
+                    $receiver = $notification[ 'receiver' ];
+
+                break;
+        }
+
+
+        if ($receiver == null)
+            return null;
+
+
+        $notificationItem->setAvatar( $isTeacher ? NotificationLogo::FOR_TEACHER : NotificationLogo::FOR_PARENT  );
+        $notificationItem->setFullName($receiver);
+        $notificationItem->setDateTime($notification['time_sended']);
+        $notificationItem->setKindOf($this->notificationRepository->readNotificationTypeById($notification['notification_type_id']));
+        $notificationItem->setIsSender( $this->userRepository->readIdentifierByAuthId() == $notification['sender'] );
+        $notificationItem->setIsReaded($notification['is_readed']);
+        $notificationItem->setSubject($this->getSubject($isTeacher ? $notification['sender'] : $notification['receiver']));
+        $notificationItem->setMessage($notification['content']);
+        $notificationItem->setIdentifier($notification['sender']);
+
+        return $notificationItem;
     }
 
     #endregion
@@ -246,10 +307,10 @@ class NotificationService extends BaseRepository {
     }
 
     /**
-     * Check if receiver has teacher role and also this teacher is assign to the parent student
-     * @param string $identifier The receiver identifier
+     * Check if teacher is assign to the parent student
+     * @param string $identifier The teacher identifier
      */
-    private function isCorrectTeacherReceiver(string $identifier) {
+    private function isStudentTeacher( string $identifier) {
 
         $receiverUserId = $this->classRepository->findByColumn($identifier, 'identifier', User::class) ->
             pluck(KeyColumn::fromModel(User::class))[0];
@@ -282,25 +343,29 @@ class NotificationService extends BaseRepository {
 
 
     /**
-     * Check if class which teacher sending message is assign to the teacher
+     * Check if class which teacher sending message is assign to the user
      * @param string $class The receiver class. Format: '4a', '7c', ...
      */
-    private function isCorrectClassReceiver(string $class) {
+    private function isCorrectClassReceiver(string $class, int $userId) {
+
 
         if (!$this->isClassExist($class))
             return false;
 
 
-        // Class ids of the teacher as sender
-        $classIdsList = $this->classRepository->readClassIdsByTeacherId($this->classRepository->getTeacherId());
+        // Class ids of the user
+        $classIdsList = $this->classRepository->readClassIdsByTeacherId($userId);
         // The class id of receiver
-        $receiverClassId = $this->classRepository->readClassIdByIdentifierAndNumber($class[0], $class[1])[0];
+        $userClassId = $this->classRepository->readClassIdByIdentifierAndNumber($class[0], $class[1])[0];
 
+        echo 'id klasy ucznia: '.$userClassId."\n".'id klasy z parametru: '.$userId."\n";
 
         // Check if class id of receiver is anywhere in the teacher class list
-        foreach ( $classIdsList as $classId )
-            if ($classId == $receiverClassId)
+        foreach ( $classIdsList as $classId ) {
+            echo 'id klasy ucznia: '.$classId."\n".'id klasy z parametru: '.$userClassId."\n";
+            if ( $classId == $userClassId )
                 return true;
+        }
 
         return false;
     }

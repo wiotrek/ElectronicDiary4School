@@ -7,21 +7,32 @@ namespace App\Repositories;
 use App\Helpers\KeyColumn;
 use App\Models\Notification;
 use App\Models\NotificationType;
-use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\NotificationRepositoryInterface;
 
 class NotificationRepository extends BaseRepository implements NotificationRepositoryInterface {
 
-    public function readNotification () {
-        $identifier = $this->findByColumn($this->getAuthId(), KeyColumn::fromModel(User::class), User::class) ->
-            pluck('identifier')[0];
-
-        return $this->findByColumn($identifier, 'sender', Notification::class) ->
-            orWhere('receiver', '=', $identifier) ->
+    public function readNotificationDirectPerson ( ?string $receiverIdentifier ) {
+        return $this->findByColumn($receiverIdentifier, 'sender', Notification::class) ->
+            orWhere('receiver', '=', $receiverIdentifier) ->
             get();
     }
 
+    public function readNotificationDirectClass ( ?string $class ) {
+        return $this->findByColumn($class, 'receiver', Notification::class) ->
+        get();
+    }
+
+    public function readNotificationDirectSubject ( ?array $subjectList ) {
+        return Notification::query()->
+            whereIn('receiver', $subjectList)->
+            get();
+    }
+
+    public function readNotificationDirectAll () {
+        return $this->findByColumn('all', 'receiver', Notification::class) ->
+        get();
+    }
 
     public function readNotificationIdByType ( ?string $type ) {
         if ($this->isNotificationTypeExist($type))

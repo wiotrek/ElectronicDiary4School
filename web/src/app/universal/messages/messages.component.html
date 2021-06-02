@@ -12,6 +12,8 @@
 
     <div class="senders" *ngIf="listOfSenders.length else lackListOfSenders">
 
+      <h4>Masz {{listOfSenders.length}} wiadomości</h4>
+
       <div class="sender" *ngFor="let item of listOfSenders | slice:senderFirst:senderLast"
         [ngClass]="{'as-read': item.isReaded}">
 
@@ -91,7 +93,7 @@
 
     <div class="message">
 
-      <app-new-message></app-new-message>
+      <app-new-message (refresh)="getMessages()"></app-new-message>
 
     </div>
 

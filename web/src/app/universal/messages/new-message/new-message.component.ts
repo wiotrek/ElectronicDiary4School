@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
@@ -20,6 +19,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
   styleUrls: ['./new-message.component.css']
 })
 export class NewMessageComponent implements OnInit {
+  @Output() refresh = new EventEmitter();
   user = {} as User | null;
 
   // filled child nav component
@@ -28,8 +28,6 @@ export class NewMessageComponent implements OnInit {
   // creating object only when message sent as teacher
   teacherGroup = {} as SendNewMessageAsTeacher;
 
-  // list of type as alert or announcement etc.
-  kindOfList: string[];
   kindOf: string;
 
   teacher = '';
@@ -44,20 +42,15 @@ export class NewMessageComponent implements OnInit {
     private accountService: AccountService,
     private teacherService: TeacherService,
     private parentService: ParentService,
-    private toastr: ToastrService,
-    private route: ActivatedRoute,
-    private router: Router
+    private toastr: ToastrService
   ) {
 
     // setting default true because we want hidding html elements
     // and we dont want unneccessery downloading object
-    this.teacherGroup.sendToAnyone = true;
-    this.teacherGroup.sendToAnyoneWhereIsSubject = true;
-    this.teacherGroup.sendToAnyoneWhereIsClass = true;
+    this.setAllBooleanInObjTrue();
 
-    // fill first list
-    this.kindOfList = this.kindof();
-    this.kindOf = this.kindOfList[0];
+    // fill first list element
+    this.kindOf = this.kindof()[0];
 
     // getting current user role
     this.accountService.currentUser$.pipe(take(1))
@@ -113,6 +106,8 @@ export class NewMessageComponent implements OnInit {
     if (!message.value.teacherGroup) {
       messageToSend.receiver = message.value.teacherWithSubjectMessage;
       this.send(messageToSend);
+      message.reset();
+      this.setAllBooleanInObjTrue();
       return;
     }
 
@@ -139,17 +134,25 @@ export class NewMessageComponent implements OnInit {
     }
 
     this.send(messageToSend);
+    message.reset();
+    this.setAllBooleanInObjTrue();
   }
 
-  send(messageToSend: Message): void {
+  private send(messageToSend: Message): void {
     this.accountService.sendMessage(messageToSend)
     .subscribe(() => {
       this.toastr.success('Wiadomość wysłana');
-      this.router.navigate(['../'], {
-        queryParams: { dodano: 'tak' },
-        relativeTo: this.route }); });
+      this.refresh.emit(true);
+    });
   }
 
+  private setAllBooleanInObjTrue(): void {
+    this.teacherGroup.sendToAnyone = true;
+    this.teacherGroup.sendToAnyoneWhereIsSubject = true;
+    this.teacherGroup.sendToAnyoneWhereIsClass = true;
+  }
+
+  // list of type as alert or announcement etc
   kindof = () => [
     'Informacja', 'Ogłoszenie', 'Pytanie', 'Uwaga', 'Wniosek'
   ]

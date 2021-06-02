@@ -25,13 +25,17 @@ export class MessagesComponent implements OnInit {
     private accountService: AccountService) {}
 
   ngOnInit(): void {
+    this.getMessages();
+  }
+
+  getMessages(): void {
     this.accountService.getMessages()
-      .subscribe((res: ReadMessage[]) =>  {
-        if (res ?? 0) {
-          this.listOfSenders = res
-          .sort((a: ReadMessage, b: ReadMessage) => Date.parse(b.dateTime) - Date.parse(a.dateTime));
-        }
-      });
+    .subscribe((res: ReadMessage[]) =>  {
+      if (res ?? 0) {
+        this.listOfSenders = res
+        .sort((a: ReadMessage, b: ReadMessage) => Date.parse(b.dateTime) - Date.parse(a.dateTime));
+      }
+    });
   }
 
   wholeMessageModeToggle(ind: number): void {

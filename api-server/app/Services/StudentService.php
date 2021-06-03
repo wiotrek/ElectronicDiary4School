@@ -341,6 +341,7 @@ class StudentService extends BaseRepository {
                 foreach ( $listAverageMarks  as $averageMark )
                     $avgSum += $averageMark;
 
+
                 // Collect every general avg marks from all subject from specific student
                 $generalAverageMarks[] = $avgSum / count($listAverageMarks);
             }

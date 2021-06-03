@@ -202,11 +202,14 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $this->findByAndColumns($studentId, $subjectId,
             KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
             StudentStatistics::class)->
-        pluck('average_position');
+            whereNotNull('average_position') ->
+            pluck('average_position');
     }
 
     public function readListAvgMarks ( int $studentId ) {
+
         return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+            whereNotNull('average_marks') ->
             pluck('average_marks');
     }
 
@@ -215,7 +218,8 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $this->findByAndColumns($studentId, $subjectId,
             KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
             StudentStatistics::class)->
-        pluck('frequency');
+            whereNotNull('frequency')->
+            pluck('frequency');
     }
 
 
@@ -223,12 +227,14 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         return $this->findByAndColumns($studentId, $subjectId,
             KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
             StudentStatistics::class)->
+        whereNotNull('frequency_position')->
         pluck('frequency_position');
     }
 
 
     public function readListFrequency ( int $studentId ) {
         return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->
+        whereNotNull('frequency')->
         pluck('frequency');
     }
 

@@ -34,7 +34,7 @@
           *ngIf="wholeMessageMode !== listOfSenders.indexOf(item) else wholeMessage">
 
             <div class="sender__whoIsSender">
-              {{item.isSender ? 'odebrana' : 'wysłana'}}, {{item.kindOf}}
+              {{item.isSender ? 'wysłana' : 'odebrana'}}, {{item.kindOf}}
             </div>
 
             <div class="sender__current-message">
@@ -56,7 +56,7 @@
               </div>
 
               <div class="whole-message__bottom">
-                Wiadomość została {{item.isSender ? 'odebrana' : 'wysłana'}} {{item.dateTime}}
+                Wiadomość została {{item.isSender ? 'wysłana' : 'odebrana'}} {{item.dateTime}}
               </div>
 
             </div>
@@ -68,7 +68,7 @@
             (click)="wholeMessageModeToggle(listOfSenders.indexOf(item)); item.isReaded= true">
               {{wholeMessageMode !== listOfSenders.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
             </a>
-            <a class="sender__go-expand" *ngIf="!item.isSender">
+            <a class="sender__go-expand mobileHide" *ngIf="!item.isSender" (click)="activeReplyMessage = !activeReplyMessage">
               {{wholeMessageMode === listOfSenders.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
             </a>
           </div>
@@ -80,7 +80,7 @@
       <div class="senders__nav" *ngIf="listOfSenders.length > this.pageSize">
         <a class="button" *ngIf="senderLast - this.pageSize > 0"
           (click)="paginationOwn(false)">Back</a>
-  
+
         <a class="button" *ngIf="senderFirst + this.pageSize < listOfSenders.length"
          (click)="paginationOwn(true)">Next</a>
       </div>
@@ -93,7 +93,12 @@
 
     <div class="message">
 
-      <app-new-message (refresh)="getMessages()"></app-new-message>
+      <app-reply-message *ngIf="activeReplyMessage else newMessage"></app-reply-message>
+
+      <ng-template #newMessage>
+        <app-new-message (refresh)="getMessages()"></app-new-message>
+      </ng-template>
+
 
     </div>
 

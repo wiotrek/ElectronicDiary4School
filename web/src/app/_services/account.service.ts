@@ -46,8 +46,12 @@ export class AccountService {
     this.currentUserSource.next(null);
   }
 
-  sendMessage(message: Message): any {
-    return this.http.post(this.baseUrl + 'notification/send', message);
+  sendMessage(message: Message, addToPath: string): any {
+    let path = 'notification/send';
+    if (!!addToPath.length) {
+      path += addToPath;
+    }
+    return this.http.post(this.baseUrl + path, message);
   }
 
   getMessages(): Observable<ReadMessage[]> {

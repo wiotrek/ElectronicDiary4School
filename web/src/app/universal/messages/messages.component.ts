@@ -11,6 +11,7 @@ import { AccountService } from 'src/app/_services/account.service';
 export class MessagesComponent implements OnInit {
   nav = { title: 'Powiadomienia' };
   wholeMessageMode = -1;
+  activeReplyMessage = false;
 
   page = 0;
   pageSize = 6;

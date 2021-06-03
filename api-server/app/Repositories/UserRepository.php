@@ -26,8 +26,18 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface {
             pluck('identifier')[0];
     }
 
+    public function readIdentifierByUserId ( $userId ){
+        return $this->findByColumn($userId, KeyColumn::fromModel(User::class), User::class) ->
+            pluck('identifier')[0];
+    }
+
     public function readUserIdByIdentifier ( string $identifier ) {
         return $this->findByColumn($identifier, 'identifier', User::class) ->
+            pluck(KeyColumn::fromModel(User::class))[0];
+    }
+
+    public function readUserIdByStudentId ( $studentId ) {
+        return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), Student::class) ->
         pluck(KeyColumn::fromModel(User::class))[0];
     }
 

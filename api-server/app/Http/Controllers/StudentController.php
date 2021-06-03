@@ -125,9 +125,10 @@ class StudentController extends Controller
 
             $isActive = $this->studentService->getStudentActivityByStudentIdentifier($student->getIdentifier(), $subjectId, $date);
 
+
             // If no one founding return bad request message
             if (is_null($isActive))
-                return ApiResponse::badRequest(ApiCode::STUDENT_ACTIVE_NOT_FOUND);
+            return ApiResponse::badRequest(ApiCode::STUDENT_ACTIVE_NOT_FOUND);
 
 
             // student active information

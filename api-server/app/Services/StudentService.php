@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Repositories\Base\BaseRepository;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
 use App\Repositories\Interfaces\StudentRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
@@ -31,19 +32,25 @@ class StudentService extends BaseRepository {
     private $subjectRepository;
     private $markRepository;
     private $classRepository;
+    private $userRepository;
 
     #endregion
 
     #region DI Constructor
 
+
     public function __construct (StudentRepositoryInterface $studentRepository,
                                  SubjectRepository $subjectRepository,
                                  MarkRepository $markRepository,
-                                 ClassRepositoryInterface $classRepository) {
+                                 ClassRepositoryInterface $classRepository,
+                                 UserRepositoryInterface $userRepository) {
+
         $this->studentRepository = $studentRepository;
         $this->subjectRepository = $subjectRepository;
         $this->markRepository = $markRepository;
         $this->classRepository = $classRepository;
+
+        $this -> userRepository = $userRepository;
     }
 
     #endregion
@@ -113,11 +120,11 @@ class StudentService extends BaseRepository {
         $markIdFromDb = $this->markRepository->readMarkIdByDegree($markFromDb);
 
 
+        // Get row to update
+        $markToUpdate = $this->studentRepository->findByColumn($markItem->getStudentMarksId(), 'student_marks_id', StudentMark::class)->first();
+
         // update if change has detected
         if ($markIdByMarkFromClient != $markIdFromDb && !is_null($markIdFromDb)){
-
-            // Get row to update
-            $markToUpdate = $this->studentRepository->findByColumn($markItem->getStudentMarksId(), 'student_marks_id', StudentMark::class)->first();
 
 
             // change mark id value
@@ -129,8 +136,19 @@ class StudentService extends BaseRepository {
 
 
             // update student statistics
-            $this->createOrUpdateStudentStatistics($markToUpdate->student_id, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
+            //$this->createOrUpdateStudentStatistics($markToUpdate->student_id, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
         }
+
+
+        $userId = $this->userRepository->readUserIdByStudentId($markToUpdate->student_id);
+        $studentIdentifier = $this->userRepository->readIdentifierByUserId($userId);
+        $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
+        $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
+
+        // TODO: It's take to much longer time. Move this to Sql procedure
+        foreach ( $studentList as $studentId )
+            $this->createOrUpdateStudentStatistics($studentId, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
 
     }
 
@@ -330,11 +348,17 @@ class StudentService extends BaseRepository {
 
 
         // for each student get general avg marks
+        $generalAverageMarks = array(); // Unique values
         foreach ( $studentIds as $id )
             if(count(($this->studentRepository->readListAvgMarks($id))) != 0) {
 
+                // If current avg is not exist inside list of general averake marks then keep flag on one
+                $avgMarkCanBeAdd = 1;
+
+
                 // list of avgs marks from each subject like [2.78 (subject 1), 3.24 (subject 2),...]
                 $listAverageMarks = $this -> studentRepository -> readListAvgMarks( $id );
+
 
                 $avgSum = 0;
                 // ...compute avg marks
@@ -342,8 +366,16 @@ class StudentService extends BaseRepository {
                     $avgSum += $averageMark;
 
 
-                // Collect every general avg marks from all subject from specific student
-                $generalAverageMarks[] = $avgSum / count($listAverageMarks);
+                // Set flag to 0 if avg mark from current student is exist in general list
+                foreach ( $generalAverageMarks as $generalAverageMark )
+                    if ($generalAverageMark == round($avgSum / count($listAverageMarks), 2))
+                        $avgMarkCanBeAdd = 0;
+
+
+                // Collect every general avg marks from all subject from specific student if the flag is 1
+                if ($avgMarkCanBeAdd)
+                    $generalAverageMarks[] = round($avgSum / count($listAverageMarks), 2);
+
             }
 
 
@@ -358,7 +390,7 @@ class StudentService extends BaseRepository {
 
         $count = 1;
         foreach ( $generalAverageMarks as $generalAverageMark) {
-            if ( $generalAverageMark == $generalAvgMarks ) {
+            if ( $generalAverageMark == round($generalAvgMarks, 2) ) {
                 $position = $count;
                 break;
             }
@@ -367,7 +399,7 @@ class StudentService extends BaseRepository {
         }
 
 
-        return $position;
+        return $position ?? null;
     }
 
     /**
@@ -406,36 +438,48 @@ class StudentService extends BaseRepository {
         $studentIds = $this->classRepository->readStudentsIdByClassId($classId);
 
 
-        // for each student get all marks
+        // for each student get all frequency
+        $subjectFrequencies = array(); // Unique values
         foreach ( $studentIds as $id )
             if(count($this->studentRepository->readListFrequency($id)) != 0) {
+
+                // If current frequency is not exist inside list of general frequencies then keep flag on one
+                $frequencyCanBeAdd = 1;
+
 
                 // list of frequencies from each subject like [94.46 (subject 1), 100.00 (subject 2),...]
                 $listFrequencies = $this -> studentRepository -> readListFrequency( $id );
 
-                $avgSum = 0;
-                // ...compute avg marks
+
+                $frequencySum = 0;
+                // ...get sum of each subject frequency
                 foreach ( $listFrequencies  as $subjectFrequency )
-                    $avgSum += $subjectFrequency;
+                    $frequencySum += $subjectFrequency;
+
+
+                // Set flag to 0 if frequency from current student is exist in general list
+                foreach ( $subjectFrequencies as $frequency )
+                    if ( round( $frequency, 2 ) == round( $frequencySum / count( $listFrequencies ), 2 ) )
+                        $frequencyCanBeAdd = 0;
+
 
                 // Collect every general avg marks from all subject from specific student
-                $subjectFrequencies[] = $avgSum / count($listFrequencies);
+                if ($frequencyCanBeAdd)
+                    $subjectFrequencies[] = $frequencySum / count($listFrequencies);
             }
 
 
-        // make sure that any avg mark is in avg marks list
+        // make sure that any avg frequency is in avg frequency list
         if (!isset($subjectFrequencies))
             return null;
 
 
-        // sort average marks in descending way
+        // sort average frequency in descending way
         arsort($subjectFrequencies);
 
 
         $count = 1;
-//        echo 'student freq: '.round($generalAvgFrequency, 2)."\n";
         foreach ( $subjectFrequencies as $frequency) {
-//            echo 'freq: '.round($frequency, 2)."\n";
             if ( round($frequency, 2) == round($generalAvgFrequency, 2) ) {
                 $position = $count;
                 break;
@@ -517,7 +561,9 @@ class StudentService extends BaseRepository {
 
 
         // for each student get all frequencies
+        $percentFrequencies = array();
         foreach ( $studentList as $student ) {
+            $frequencyCanBeAdd = 1;
 
             $frequencies = $this->studentRepository->readStudentFrequencyBySubjectName($subjectName, $student);
             $countAbandoned = 0;
@@ -531,10 +577,21 @@ class StudentService extends BaseRepository {
 
             }
 
+
             $percentFrequency = $this->computeFrequencyPercent($countAbandoned, count($frequencies));
-            $percentFrequencies[] = array($percentFrequency);
+
+
+            foreach ( $percentFrequencies as $frequency ) {
+                if ($frequency[0] == $percentFrequency)
+                    $frequencyCanBeAdd = 0;
+            }
+
+
+            if ($frequencyCanBeAdd)
+                $percentFrequencies[] = array($percentFrequency);
 
         }
+
 
         // sort frequencies in descending way
         arsort($percentFrequencies);
@@ -567,16 +624,27 @@ class StudentService extends BaseRepository {
 
 
         // for each student get all marks
+        $averageMarks = array(); // Unique values
         foreach ( $studentList as $student ) {
+            // If current mark is not exist inside list of general marks then keep flag on one
+            $markCanBeAdd = 1;
             $marks = $this->studentRepository->readStudentMarksBySubjectName($subjectName, $student);
 
-            // invoke computeAverageMarks method
+
+            // getting all marks from current subject
             $studentMarks = $this->getStudentMarks($marks);
+            // Translate marks for api model to studentMarks
             $avgStudentMarks = $this->computeAverageMarks($studentMarks);
 
 
+            // Set flag to 0 if duplicate is detected
+            foreach ( $averageMarks as $averageMark )
+                if ($avgStudentMarks == $averageMark[0])
+                    $markCanBeAdd = 0;
 
-            $averageMarks[] = array($avgStudentMarks);
+
+            if ($markCanBeAdd)
+                $averageMarks[] = array($avgStudentMarks);
         }
 
 

@@ -12,7 +12,11 @@ interface UserRepositoryInterface extends BaseRepositoryInterface {
 
     public function readIdentifierByAuthId ();
 
+    public function readIdentifierByUserId ( $userId );
+
     public function readUserIdByIdentifier ( string $identifier );
+
+    public function readUserIdByStudentId ( $studentId );
 
     public function readTeacherIdByIdentifier ( string $identifier );
 

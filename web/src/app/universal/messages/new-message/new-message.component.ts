@@ -112,6 +112,7 @@ export class NewMessageComponent implements OnInit {
     }
 
     // in teacher case goto this conditions
+    let addToPath = '';
 
     // send to all
     if (message.value.teacherGroup.messageToAll) {
@@ -120,7 +121,8 @@ export class NewMessageComponent implements OnInit {
 
     // send to all where exist specific subject
     else if (message.value.teacherGroup.messageToAllWhereIsSubject) {
-      messageToSend.receiver = 'subject=' + message.value.teacherGroup.subjectMessage;
+      messageToSend.receiver = 'all';
+      addToPath = '/?subject=' + message.value.teacherGroup.subjectMessage;
     }
 
     // send to specific class
@@ -133,13 +135,13 @@ export class NewMessageComponent implements OnInit {
       messageToSend.receiver = message.value.teacherGroup.studentMessage;
     }
 
-    this.send(messageToSend);
+    this.send(messageToSend, addToPath);
     message.reset();
     this.setAllBooleanInObjTrue();
   }
 
-  private send(messageToSend: Message): void {
-    this.accountService.sendMessage(messageToSend)
+  private send(messageToSend: Message, addToPath = ''): void {
+    this.accountService.sendMessage(messageToSend, addToPath)
     .subscribe(() => {
       this.toastr.success('Wiadomość wysłana');
       this.refresh.emit(true);

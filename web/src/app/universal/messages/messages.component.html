@@ -34,7 +34,7 @@
           *ngIf="wholeMessageMode !== listOfSenders.indexOf(item) else wholeMessage">
 
             <div class="sender__whoIsSender">
-              {{item.isSender ? 'odebrana' : 'wysłana'}}, {{item.kindOf}}
+              {{item.isSender ? 'wysłana' : 'odebrana'}}, {{item.kindOf}}
             </div>
 
             <div class="sender__current-message">
@@ -56,7 +56,7 @@
               </div>
 
               <div class="whole-message__bottom">
-                Wiadomość została {{item.isSender ? 'odebrana' : 'wysłana'}} {{item.dateTime}}
+                Wiadomość została {{item.isSender ? 'wysłana' : 'odebrana'}} {{item.dateTime}}
               </div>
 
             </div>
@@ -80,7 +80,7 @@
       <div class="senders__nav" *ngIf="listOfSenders.length > this.pageSize">
         <a class="button" *ngIf="senderLast - this.pageSize > 0"
           (click)="paginationOwn(false)">Back</a>
-  
+
         <a class="button" *ngIf="senderFirst + this.pageSize < listOfSenders.length"
          (click)="paginationOwn(true)">Next</a>
       </div>

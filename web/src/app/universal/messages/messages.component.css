@@ -77,6 +77,10 @@
     font-size: .6rem;
   }
 
+  .sender__go-expand.mobileHide {
+    
+  }
+
   .senders__nav {
     margin: 20px 0;
     display: flex;

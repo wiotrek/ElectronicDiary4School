@@ -35,6 +35,7 @@ import { ChildActivityComponent } from './parent/child-activity.component';
 import { MessagesComponent } from './universal/messages/messages.component';
 import { NewMessageComponent } from './universal/messages/new-message/new-message.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
+import { ReplyMessageComponent } from './universal/messages/reply-message/reply-message.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { HasRoleDirective } from './_directives/has-role.directive';
     ChildActivityComponent,
     MessagesComponent,
     NewMessageComponent,
-    HasRoleDirective
+    HasRoleDirective,
+    ReplyMessageComponent
 
   ],
   imports: [

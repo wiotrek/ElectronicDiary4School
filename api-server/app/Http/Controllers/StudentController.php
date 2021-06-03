@@ -290,6 +290,7 @@ class StudentController extends Controller
 
         $subjectWithMarks = $this->studentService->getStudentMarksOfEachSubject();
 
+
         return ApiResponse::withSuccess($subjectWithMarks);
     }
 

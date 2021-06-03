@@ -124,8 +124,10 @@ class NotificationService extends BaseRepository {
 
     public function sendToClassNotification ( NotificationSendWebModel $notificationWebModel ) {
 
+//        echo 'teacher id: '.$this->getTeacherId()[0]."\n";
+
         // Make sure that receiver as class is exist
-        if ( !$this->isCorrectClassReceiver($notificationWebModel->getReceiver(), $this->getTeacherId()) )
+        if ( !$this->isCorrectClassReceiver($notificationWebModel->getReceiver(), $this->getTeacherId()[0]) )
             return null;
 
 
@@ -348,7 +350,7 @@ class NotificationService extends BaseRepository {
      */
     private function isCorrectClassReceiver(string $class, int $userId) {
 
-
+//        echo 'user id: '."\n";
         if (!$this->isClassExist($class))
             return false;
 
@@ -358,11 +360,9 @@ class NotificationService extends BaseRepository {
         // The class id of receiver
         $userClassId = $this->classRepository->readClassIdByIdentifierAndNumber($class[0], $class[1])[0];
 
-        echo 'id klasy ucznia: '.$userClassId."\n".'id klasy z parametru: '.$userId."\n";
 
         // Check if class id of receiver is anywhere in the teacher class list
         foreach ( $classIdsList as $classId ) {
-            echo 'id klasy ucznia: '.$classId."\n".'id klasy z parametru: '.$userClassId."\n";
             if ( $classId == $userClassId )
                 return true;
         }

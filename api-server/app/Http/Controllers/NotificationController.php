@@ -45,13 +45,14 @@ class NotificationController extends Controller
             if ( !is_null( $request[ 'subject' ] ) ) {
                 if ( $notificationWebModel -> getReceiver() == 'all' )
                     $result = $this -> notificationService -> sendToAllTeacherStudentsWithSpecificSubjectNotification( $notificationWebModel, $request[ 'subject' ] );
+                if ( strlen( $notificationWebModel -> getReceiver() ) == 2 ) {
+
+                    $result = $this -> notificationService -> sendToClassNotification( $notificationWebModel );
+                }
             }
             else {
 
-                if ( strlen( $notificationWebModel -> getReceiver() ) == 2 )
-                    $result = $this -> notificationService -> sendToClassNotification( $notificationWebModel );
-
-                else if ( $notificationWebModel -> getReceiver() == 'all' )
+                if ( $notificationWebModel -> getReceiver() == 'all' )
                     $result = $this -> notificationService -> sendToAllTeacherStudentsNotification( $notificationWebModel );
 
                 else

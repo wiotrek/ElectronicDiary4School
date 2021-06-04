@@ -13,15 +13,15 @@
     <div class="senders" *ngIf="listOfSenders.length else lackListOfSenders">
 
       <h4>Masz {{listOfSenders.length}} wiadomości</h4>
+      <span *ngIf="!!countUnReadedMessage()">Nieprzeczytanch: {{countUnReadedMessage()}}</span>
+
 
       <div class="sender" *ngFor="let item of listOfSenders | slice:senderFirst:senderLast"
         [ngClass]="{'as-read': item.isReaded}">
 
         <div class="sender__left-side">
-          <i class="bi bi-chat-right-text-fill"
-          *ngIf="!item.isReaded"></i>
-          <img class="sender__avatar" src="{{item.avatar}}"
-          alt="avatar">
+          <i class="bi bi-chat-right-text-fill" *ngIf="!item.isReaded"></i>
+          <img class="sender__avatar" src="{{item.avatar}}" alt="avatar">
         </div>
 
 
@@ -68,7 +68,8 @@
             (click)="wholeMessageModeToggle(listOfSenders.indexOf(item)); item.isReaded= true">
               {{wholeMessageMode !== listOfSenders.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
             </a>
-            <a class="sender__go-expand mobileHide" *ngIf="!item.isSender" (click)="activeReplyMessage = !activeReplyMessage">
+            <a class="sender__go-expand mobileHide" *ngIf="!item.isSender" 
+            (click)="activeReplyMessage = !activeReplyMessage">
               {{wholeMessageMode === listOfSenders.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
             </a>
           </div>

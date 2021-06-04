@@ -41,9 +41,10 @@
                 <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyone">
 
                     <select class="reciver__select" name="subjectMessage"
-                    (change)="!teacherGroup.sendToAnyoneWhereIsSubject ? getClasses() : ''"
-                    (change)="!teacherGroup.sendToAnyoneWhereIsSubject
-                    && !teacherGroup.sendToAnyoneWhereIsClass ? getStudents() : ''"
+                    (change)="!teacherGroup.sendToAnyoneWhereIsSubject ? getClasses() : '';
+                            !teacherGroup.sendToAnyoneWhereIsSubject
+                            && !teacherGroup.sendToAnyoneWhereIsClass ? getStudents() : ''"
+
                     [(ngModel)]="teacherGroup.subjectName">
                         <option *ngFor="let subject of listOfSubjects">{{subject}}</option>
                     </select>

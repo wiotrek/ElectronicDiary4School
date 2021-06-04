@@ -65,4 +65,8 @@ export class MessagesComponent implements OnInit {
       this.senderLast -= this.pageSize;
     }
   }
+
+  countUnReadedMessage = () => {
+    return this.listOfSenders.filter(x => !x.isReaded).length
+  }
 }

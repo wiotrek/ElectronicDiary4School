@@ -33,8 +33,15 @@ export class MessagesComponent implements OnInit {
     this.accountService.getMessages()
     .subscribe((res: ReadMessage[]) =>  {
       if (res ?? 0) {
-        this.listOfSenders = res
-        .sort((a: ReadMessage, b: ReadMessage) => Date.parse(b.dateTime) - Date.parse(a.dateTime));
+        this.listOfSenders = res.reduce((total: ReadMessage[], curr: ReadMessage)
+        : ReadMessage[] => {
+
+          // anyone who is sender has read as true
+          curr.isReaded = !!curr.isSender;
+          total.push(curr);
+          return total.sort((a: ReadMessage, b: ReadMessage) =>
+          Date.parse(b.dateTime) - Date.parse(a.dateTime));
+        }, []);
       }
     });
   }

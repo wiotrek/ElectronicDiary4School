@@ -9,86 +9,96 @@
         <div class="reciver">
 
             <div class="reciver-teacher" *appHasRole='["Rodzic"]'>
-    
+
                 <select class="reciver__select" name="teacherWithSubjectMessage" [(ngModel)]="teacher">
                     <option *ngFor="let teacher of listOfTeachers"
                     [value]="teacher.identifier"
                     >{{teacher.subjectName}} - {{teacher.firstName | slice:0:1}} {{teacher.lastName}}</option>
                 </select>
-    
+
             </div>
 
-            <div class="reciver-kindOf"> 
-    
+            <div class="reciver-kindOf">
+
                 <select class="reciver__select" name="kindOfMessage" [(ngModel)]="kindOf">
                     <option *ngFor="let kindOf of kindof()">{{kindOf}}</option>
                 </select>
-    
+
             </div>
 
             <div class="for-teacher" *appHasRole='["Nauczyciel"]'
                 ngModelGroup="teacherGroup" #myTeacherGroup="ngModelGroup">
-    
+
                 <div class="reciver-checkbox select-margin">
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="customSwitch1"
-                        name="messageToAll" (change)="getSubjects()" checked [(ngModel)]="teacherGroup.sendToAnyone">
+                        name="messageToAll" (change)="getSubjects()" [(ngModel)]="teacherGroup.sendToAnyone">
                         <label class="custom-control-label" for="customSwitch1">Wyślij do wszystkich uczniów</label>
                       </div>
                 </div>
 
-                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyone"> 
-    
-                    <select class="reciver__select" name="subjectMessage" [(ngModel)]="teacherGroup.subjectName">
+                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyone">
+
+                    <select class="reciver__select" name="subjectMessage"
+                    (change)="!teacherGroup.sendToAnyoneWhereIsSubject ? getClasses() : ''"
+                    (change)="!teacherGroup.sendToAnyoneWhereIsSubject
+                    && !teacherGroup.sendToAnyoneWhereIsClass ? getStudents() : ''"
+                    [(ngModel)]="teacherGroup.subjectName">
                         <option *ngFor="let subject of listOfSubjects">{{subject}}</option>
                     </select>
-        
+
                 </div>
 
                 <div class="reciver-checkbox select-margin" *ngIf="!teacherGroup.sendToAnyone">
-    
+
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="anyone-where-subject" 
-                        name="messageToAllWhereIsSubject" [(ngModel)]="teacherGroup.sendToAnyoneWhereIsSubject" (change)="getClasses()">
+                        <input type="checkbox" class="custom-control-input" id="anyone-where-subject"
+                        name="messageToAllWhereIsSubject"
+                        (change)="getClasses()"
+                        [(ngModel)]="teacherGroup.sendToAnyoneWhereIsSubject"
+                        >
                         <label class="custom-control-label"
                         for="anyone-where-subject">Wyślij do wszystkich uczniów z przedmiotu {{teacherGroup.subjectName}}</label>
                     </div>
-    
+
                 </div>
 
-                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyoneWhereIsSubject"> 
-    
-                    <select class="reciver__select" name="classMessage" [(ngModel)]="teacherGroup.className">
+                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyoneWhereIsSubject">
+
+                    <select class="reciver__select" name="classMessage"
+                    (change)="!teacherGroup.sendToAnyoneWhereIsClass ? getStudents() : ''"
+                    [(ngModel)]="teacherGroup.className">
                         <option *ngFor="let classname of listOfClasses">{{classname}}</option>
                     </select>
-        
+
                 </div>
 
                 <div class="reciver-checkbox select-margin" *ngIf="!teacherGroup.sendToAnyoneWhereIsSubject">
-    
+
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="anyone-where-class" 
-                        name="messageToAllWhereIsClass" [(ngModel)]="teacherGroup.sendToAnyoneWhereIsClass" (change)="getStudents()">
+                        <input type="checkbox" class="custom-control-input" id="anyone-where-class"
+                        name="messageToAllWhereIsClass" [(ngModel)]="teacherGroup.sendToAnyoneWhereIsClass"
+                        (change)="getStudents()">
                         <label class="custom-control-label"
                         for="anyone-where-class">Wyślij do wszystkich uczniów klasy {{teacherGroup.className}}</label>
                     </div>
-    
+
                 </div>
 
-                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyoneWhereIsClass"> 
-    
+                <div class="reciver-class select-margin" *ngIf="!teacherGroup.sendToAnyoneWhereIsClass">
+
                     <select class="reciver__select" name="studentMessage" [(ngModel)]="teacherGroup.studentName">
                         <option *ngFor="let student of listOfStudents" [ngValue]="student.student.identifier"
                         >{{student.student.identifier}} {{student.student.first_name | slice:0:1}}. {{student.student.last_name}}</option>
                     </select>
-        
+
                 </div>
 
             </div>
-    
+
         </div>
-        
+
         <textarea class="textarea-message" cols="30" rows="10"
         name="context" required ngModel></textarea>
 
@@ -99,7 +109,7 @@
 
     </form>
 
-    
-    
+
+
 </div>
 

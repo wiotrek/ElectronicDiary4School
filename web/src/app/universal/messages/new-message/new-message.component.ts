@@ -158,5 +158,4 @@ export class NewMessageComponent implements OnInit {
   kindof = () => [
     'Informacja', 'Ogłoszenie', 'Pytanie', 'Uwaga', 'Wniosek'
   ]
-
 }

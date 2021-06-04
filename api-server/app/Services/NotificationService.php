@@ -264,9 +264,9 @@ class NotificationService extends BaseRepository {
 
         if ($receiver == null)
             return null;
+        
 
-
-        $notificationItem->setAvatar( $isTeacher ? NotificationLogo::FOR_TEACHER : NotificationLogo::FOR_PARENT  );
+        $notificationItem->setAvatar( $this->getAvatar( $isTeacher, $receiverType )  );
         $notificationItem->setFullName($receiver);
         $notificationItem->setDateTime($notification['time_sended']);
         $notificationItem->setKindOf($this->notificationRepository->readNotificationTypeById($notification['notification_type_id']));
@@ -385,6 +385,20 @@ class NotificationService extends BaseRepository {
         else
             return $this -> subjectRepository -> readSubjectNameByTeacherId( $this -> getTeacherId()[ 0 ] );
 
+    }
+
+    private function getAvatar( bool $isTeacher, string $receiverType ) {
+
+        if ($isTeacher) {
+            if ( $receiverType != NotificationReceiverType::FOR_PERSON )
+                $avatar = NotificationLogo::FOR_GROUP;
+            else
+                $avatar =  NotificationLogo::FOR_TEACHER;
+        }
+        else
+            $avatar = NotificationLogo::FOR_PARENT;
+
+        return $avatar;
     }
 
     #endregion

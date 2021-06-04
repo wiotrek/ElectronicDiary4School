@@ -9,6 +9,11 @@ class NotificationResultApiModel {
     #region Private Members
 
     /**
+     * @var int
+     */
+    private $notificationId;
+
+    /**
      * @var string
      */
     private $avatar;
@@ -56,6 +61,20 @@ class NotificationResultApiModel {
     #endregion
 
     #region Accessors
+
+    /**
+     * @return int
+     */
+    public function getNotificationId (): int {
+        return $this -> notificationId;
+    }
+
+    /**
+     * @param int $notificationId
+     */
+    public function setNotificationId ( int $notificationId ): void {
+        $this -> notificationId = $notificationId;
+    }
 
     /**
      * @return string

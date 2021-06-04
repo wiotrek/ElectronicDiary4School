@@ -266,6 +266,7 @@ class NotificationService extends BaseRepository {
             return null;
 
 
+        $notificationItem->setNotificationId($notification['notification_id']);
         $notificationItem->setAvatar( $this->getAvatar( $isTeacher, $receiverType )  );
         $notificationItem->setFullName($receiver);
         $notificationItem->setDateTime($notification['time_sended']);

@@ -24,6 +24,7 @@ class NotificationListResultApiModel extends NotificationResultApiModel {
      */
     public function setNotification ( NotificationResultApiModel $notificationItem ): void {
         $this->notification[] = array(
+            'id' => $notificationItem->getNotificationId(),
             'avatar' => $notificationItem->getAvatar(),
             'fullName' => $notificationItem->getFullName(),
             'dateTime' => $notificationItem->getDateTime(),

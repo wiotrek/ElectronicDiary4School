@@ -264,7 +264,7 @@ class NotificationService extends BaseRepository {
 
         if ($receiver == null)
             return null;
-        
+
 
         $notificationItem->setAvatar( $this->getAvatar( $isTeacher, $receiverType )  );
         $notificationItem->setFullName($receiver);
@@ -277,6 +277,25 @@ class NotificationService extends BaseRepository {
         $notificationItem->setIdentifier($notification['sender']);
 
         return $notificationItem;
+    }
+
+    #endregion
+
+    #region Notification Confirm
+
+    /**
+     * @param $notificationIds array|null The list ids of notification to update status message
+     */
+    public function putNotificationStatus ( ?array $notificationIds ) {
+
+        foreach ( $notificationIds as $notificationId ) {
+
+            // Update status if notification exist
+            if (!is_null($this->notificationRepository->readNotificationById($notificationId)))
+                return $this -> notificationRepository -> updateNotificationStatus( $notificationId );
+        }
+
+        return 1;
     }
 
     #endregion

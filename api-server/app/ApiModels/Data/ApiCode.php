@@ -25,6 +25,8 @@ class ApiCode {
     public const STUDENT_SUBJECTS_NOT_FOUND = 'Student subjects not found. Probably student not exist';
 
     public const NOTIFICATION_INSERT_SUCCESS = 'Notification has inserted successfully';
+    public const NOTIFICATION_UPDATE_STATUS_SUCCESS = 'Notification status has updated successfully';
     public const NOTIFICATION_INSERT_FAIL = 'Notification has not inserted successfully';
+    public const NOTIFICATION_UPDATE_STATUS_FAIL = 'Notification status has not updated successfully';
 
 }

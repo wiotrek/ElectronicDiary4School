@@ -18,4 +18,6 @@ class WebRoutes {
 
     public const NOTIFICATION_INSERT = '/notification/send';
 
+    public const NOTIFICATION_CONFIRM = '/notification/confirm';
+
 }

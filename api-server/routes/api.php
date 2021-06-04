@@ -83,6 +83,9 @@ Route::middleware('auth:sanctum')->group(function() {
     // Insert notification by teacher or parent
     Route::post( WebRoutes::NOTIFICATION_INSERT, [NotificationController::class, 'insertNotification'] );
 
+    // Change is readed of notification status to true
+    Route::put( WebRoutes::NOTIFICATION_CONFIRM, [NotificationController::class, 'confirmNotification'] );
+
     #endregion
 
 });

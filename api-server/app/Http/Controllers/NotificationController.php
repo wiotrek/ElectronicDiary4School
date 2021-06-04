@@ -72,4 +72,22 @@ class NotificationController extends Controller
     public function showNotifications () {
         return ApiResponse::withSuccess($this->notificationService->getNotification());
     }
+
+
+    /**
+     * @param Request $request The notification ids list
+     */
+    public function confirmNotification ( Request $request ) {
+
+        if ( ( !count( $request -> all() ) ) > 0 )
+            return ApiResponse::notFound(ApiCode::NO_DATA);
+
+        $result = $this->notificationService->putNotificationStatus($request->all());
+
+        return $result ?
+            ApiResponse::withSuccess(null, ApiCode::NOTIFICATION_UPDATE_STATUS_SUCCESS) :
+            ApiResponse::badRequest(ApiCode::NOTIFICATION_UPDATE_STATUS_FAIL);
+
+    }
+
 }

@@ -34,6 +34,11 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
         get();
     }
 
+    public function readNotificationById ( $notificationId ) {
+        return $this->findByColumn($notificationId, KeyColumn::fromModel(Notification::class), Notification::class) ->
+            first();
+    }
+
     public function readNotificationIdByType ( ?string $type ) {
         if ($this->isNotificationTypeExist($type))
             return $this->findByColumn( $type, 'type', NotificationType::class ) ->
@@ -42,15 +47,19 @@ class NotificationRepository extends BaseRepository implements NotificationRepos
         return null;
     }
 
-
     public function readNotificationTypeById ( int $id ) {
         return $this->findByColumn( $id, KeyColumn::fromModel(NotificationType::class), NotificationType::class ) ->
             pluck ('type')[0];
     }
 
-
     public function isNotificationTypeExist ( ?string $type ) {
         return $this -> findByColumn( $type, 'type', NotificationType::class ) -> first();
     }
 
+    public function updateNotificationStatus ( int $notificationId ) {
+        return $this->updateModel($notificationId, KeyColumn::fromModel(Notification::class), Notification::class) ->
+        update([
+            'is_readed' => 1,
+        ]);
+    }
 }

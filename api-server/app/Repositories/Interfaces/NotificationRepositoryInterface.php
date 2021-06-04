@@ -26,4 +26,6 @@ interface NotificationRepositoryInterface extends BaseRepositoryInterface {
 
     public function isNotificationTypeExist ( ?string $type );
 
+    public function updateNotificationStatus ( int $notificationId );
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReadMessage } from 'src/app/_models/_messages/read-message';
 import { AccountService } from 'src/app/_services/account.service';
@@ -8,7 +8,7 @@ import { AccountService } from 'src/app/_services/account.service';
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.css']
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
   nav = { title: 'Powiadomienia' };
   wholeMessageMode = -1;
   activeReplyMessage = false;
@@ -27,6 +27,18 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMessages();
+  }
+
+  ngOnDestroy(): void {
+    this.accountService.updatedReadMessage(
+      this.listOfSenders.reduce((total: number[], curr: ReadMessage)
+      : number[] => {
+        if (curr.isReaded) {
+          total.push(curr.id);
+        }
+        return total;
+      }, [])
+    ).subscribe();
   }
 
   getMessages(): void {
@@ -67,6 +79,6 @@ export class MessagesComponent implements OnInit {
   }
 
   countUnReadedMessage = () => {
-    return this.listOfSenders.filter(x => !x.isReaded).length
+    return this.listOfSenders.filter(x => !x.isReaded).length;
   }
 }

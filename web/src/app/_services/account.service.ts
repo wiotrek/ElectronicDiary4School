@@ -57,4 +57,8 @@ export class AccountService {
   getMessages(): Observable<ReadMessage[]> {
     return this.http.get<ReadMessage[]>(this.baseUrl + 'notification/read');
   }
+
+  updatedReadMessage(messageIdWhichIsread: number[]): any {
+    return this.http.put(this.baseUrl + 'notification/confirm', messageIdWhichIsread);
+  }
 }

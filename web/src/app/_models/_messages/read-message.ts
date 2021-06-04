@@ -1,4 +1,5 @@
 export interface ReadMessage {
+    id: number;
     avatar: string;
     fullName: string;
     dateTime: string;

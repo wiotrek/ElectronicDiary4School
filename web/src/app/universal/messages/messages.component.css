@@ -78,7 +78,7 @@
   }
 
   .sender__go-expand.mobileHide {
-    
+    display: none;
   }
 
   .senders__nav {
@@ -131,6 +131,10 @@
 
   .sender__whoIsSender {
     font-size: .8rem;
+  }
+
+  .sender__go-expand.mobileHide {
+    display: inline;
   }
 
   .sender__current-message {

@@ -407,7 +407,7 @@ class NotificationService extends BaseRepository {
 
     }
 
-    private function getAvatar( bool $isTeacher, string $receiverType ) {
+    private function getAvatar( $isTeacher, string $receiverType ) {
 
         if ($isTeacher) {
             if ( $receiverType != NotificationReceiverType::FOR_PERSON )

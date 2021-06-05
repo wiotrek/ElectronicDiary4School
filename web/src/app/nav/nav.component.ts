@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { AccountService } from '../_services/account.service';
 
 @Component({
@@ -7,11 +7,19 @@ import { AccountService } from '../_services/account.service';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent {
+  darkMode = false;
 
-  constructor(public accountService: AccountService) { }
+  constructor(
+    private elementRef: ElementRef,
+    private renderer: Renderer2,
+    public accountService: AccountService) { }
 
   logout(): void {
     this.accountService.logout();
     window.location.reload();
+  }
+
+  darkmodeToggle = () => {
+    this.renderer.setStyle(this.elementRef.nativeElement.ownerDocument.body,'backgroundColor', 'yourchoice color');
   }
 }

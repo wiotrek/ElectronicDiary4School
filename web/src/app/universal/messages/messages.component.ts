@@ -33,12 +33,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
     this.accountService.updatedReadMessage(
       this.listOfSenders.reduce((total: number[], curr: ReadMessage)
       : number[] => {
-        if (curr.isReaded) {
-          total.push(curr.id);
-        }
+        if (curr.isReaded) { total.push(curr.id); }
         return total;
-      }, [])
-    ).subscribe();
+      }, [])).subscribe();
   }
 
   getMessages(): void {
@@ -49,7 +46,10 @@ export class MessagesComponent implements OnInit, OnDestroy {
         : ReadMessage[] => {
 
           // anyone who is sender has read as true
-          curr.isReaded = !!curr.isSender;
+          if (curr.isSender && !curr.isReaded) {
+            curr.isReaded = !!curr.isSender;
+          }
+
           total.push(curr);
           return total.sort((a: ReadMessage, b: ReadMessage) =>
           Date.parse(b.dateTime) - Date.parse(a.dateTime));

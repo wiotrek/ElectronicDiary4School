@@ -10,6 +10,8 @@ Semi-bold 600*/
   --primary-blue: #2D9CDB;
   --primary-grey: #F7F8FC;
   --line-grey: #DFE0EB;
+  --primary-white: #FFFFFF;
+  --text-black: #000000;
   --rounded: 5px;
 }
 
@@ -21,6 +23,10 @@ Semi-bold 600*/
 
 body {
   background-color: var(--primary-grey);
+}
+
+text {
+  color: var(--text-black);
 }
 
 a:visited {
@@ -41,7 +47,7 @@ a:visited {
 
   .global-list-element {
     list-style: none;
-    background-color: white;
+    background-color: var(--primary-white);
     border: 1px solid var(--primary-blue);
     margin-top: 5px;
     padding: 5px 10px;

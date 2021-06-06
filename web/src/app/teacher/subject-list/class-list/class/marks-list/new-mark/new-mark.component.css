@@ -27,7 +27,7 @@
         text-align-last: center;
         font-size: .9rem;
         cursor: pointer;
-        background-color: white;
+        background-color: var(--primary-white);
         border: 1px solid var(--primary-blue);
         -moz-appearance:none; /* Firefox */
         -webkit-appearance:none; /* Safari and Chrome */

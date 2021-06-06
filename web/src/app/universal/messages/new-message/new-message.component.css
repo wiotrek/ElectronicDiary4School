@@ -11,7 +11,7 @@
     .reciver__select {
         -moz-appearance: none; /* for Firefox */
         -webkit-appearance: none; /* for Chrome */
-        background-color: white;
+        background-color: var(--primary-white);
         text-align: center;
         font-size: 1rem;
         cursor: pointer;
@@ -31,16 +31,16 @@
         margin-top: 5px;
     }
 
-    .reciver-checkbox {
-    }
-
     .textarea-message {
         margin: 30px 0;
         width: 100%;
+        background-color: var(--primary-white);
+        border: 1px solid var(--line-grey);
     }
 
     .btn.btn-outline-primary {
         width: 100%;
+        border: 1px solid var(--primary-blue);
     }
 }
 

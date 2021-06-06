@@ -40,8 +40,14 @@
         padding-right: 10px;
     }
 
-    .right-side__logout {
+    .right-side__logout, .custom-control.custom-switch {
         font-size: .8rem;
+        text-align: center;
+    }
+
+    .custom-control.custom-switch:hover {
+        cursor: pointer;
+        background-color: var(--line-grey);
     }
 
     .right-side__avatar {
@@ -75,7 +81,7 @@
         font-size: 1.2rem;
     }
 
-    .right-side__logout {
+    .right-side__logout, .custom-control.custom-switch {
         font-size: .9rem;
     }
 }

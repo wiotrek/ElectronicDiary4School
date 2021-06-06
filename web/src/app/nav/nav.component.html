@@ -2,7 +2,7 @@
   <ul class="main-nav__menu">
 
     <li class="left-side">
-      <a class="left-side__icon" routerLink="/">
+      <a class="left-side__icon" href="/">
         <i class="bi bi-house-door-fill"></i></a>
     </li>
 
@@ -12,8 +12,13 @@
         <p class="right-side__greeting" >
           Witaj, {{user.user.first_name}}</p>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input"
+            [(ngModel)]="darkMode" (change)="darkmodeToggle()" id="customSwitch1">
+            <label class="custom-control-label" for="customSwitch1">Tryb nocny</label></div>
+
           <button class="right-side__logout" (click)="logout()"
-                  ngbDropdownItem>Wyloguj się</button>
+            ngbDropdownItem>Wyloguj się</button>
         </div>
         <img class="right-side__avatar" src="{{user.profileUrl}}" alt="avatar">
       </a>

@@ -10,7 +10,7 @@ import { AccountService } from '../_services/account.service';
 export class NavComponent {
   darkMode = false;
 
-  darkModeListColor: DictionaryList<string> =  {
+  private darkModeListColor: DictionaryList<string> =  {
     '--primary-blue': '#20B2AA',
     '--primary-grey': '#708090',
     '--line-grey': '#B0C4DE',
@@ -18,7 +18,7 @@ export class NavComponent {
     '--text-black': '#E0FFFF'
   };
 
-  lightModeListColor: DictionaryList<string> = {
+  private lightModeListColor: DictionaryList<string> = {
     '--primary-blue': '#2D9CDB',
     '--primary-grey': '#F7F8FC',
     '--line-grey': '#DFE0EB',

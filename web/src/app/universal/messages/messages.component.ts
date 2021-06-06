@@ -12,6 +12,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
   nav = { title: 'Powiadomienia' };
   wholeMessageMode = -1;
   activeReplyMessage = false;
+  reciverReplyMessage = {} as ReadMessage;
 
   page = 0;
   pageSize = 6;

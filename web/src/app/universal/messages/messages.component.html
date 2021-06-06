@@ -68,8 +68,8 @@
             (click)="wholeMessageModeToggle(listOfSenders.indexOf(item)); item.isReaded= true">
               {{wholeMessageMode !== listOfSenders.indexOf(item) ? 'Odczytaj' : 'Zwiń'}}
             </a>
-            <a class="sender__go-expand mobileHide" *ngIf="!item.isSender" 
-            (click)="activeReplyMessage = !activeReplyMessage">
+            <a class="sender__go-expand mobileHide" *ngIf="!item.isSender"
+            (click)="activeReplyMessage = !activeReplyMessage; this.reciverReplyMessage = item">
               {{wholeMessageMode === listOfSenders.indexOf(item) ? 'odpowiedz na wiadomość' : ''}}
             </a>
           </div>
@@ -94,7 +94,8 @@
 
     <div class="message">
 
-      <app-reply-message *ngIf="activeReplyMessage else newMessage"></app-reply-message>
+      <app-reply-message *ngIf="activeReplyMessage else newMessage"
+      [reciver]="this.reciverReplyMessage"></app-reply-message>
 
       <ng-template #newMessage>
         <app-new-message (refresh)="getMessages()"></app-new-message>

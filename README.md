@@ -1,7 +1,7 @@
 # ElectronicDiary4School :joystick:
 Project on subject Programing Web Application for WSB Poznań
 
-## List
+## List :door:
 * [General info](#general-info)
 * [Contribution](#contribution)
 * [Functions](#functions)
@@ -16,15 +16,15 @@ Server on heroku is suspend, so it needed a few time to execute.
 
 https://szkolny-edziennik.netlify.app/
 
-Teacher <br>
+Teacher :information_desk_person: <br>
 login: IM7259 <br>
 password: dsa <br>
 
-Parent <br>
+Parent :couple: <br>
 login: R52247 <br>
 password: asd <br>
 
-Student <br>
+Student :raising_hand: <br>
 login: 71646 <br>
 password: dsa <br>
 
@@ -32,7 +32,7 @@ password: dsa <br>
 Created frontend by @Wiotrek, and backend by @Kipoderax.
 
 ## Technologies
-* Angular 2+/11 :triangular_ruler:
+* Angular 2+/11
 * Typescript
 * PHP 7.4
 * Laravel 8

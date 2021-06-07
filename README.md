@@ -16,13 +16,13 @@ Server on heroku is suspend, so it needed a few time to execute.
 
 https://szkolny-edziennik.netlify.app/
 
-Teacher
-login: IM7259
-password: dsa
+Teacher <br>
+login: IM7259 <br>
+password: dsa <br>
 
-Parent
-login: R52247
-password: asd
+Parent <br>
+login: R52247 <br>
+password: asd <br>
 
 Student
 login: 71646

@@ -9,7 +9,7 @@ Project on subject Programing Web Application for WSB Poznań
 * [Screens](#screens)
 
 ## General info :book:
-Simple app for management in school, for any size school. Available database on server has 14 classes with 1230 students, and 28 subjects.
+Simple app for management in school, for any size school. Curently database on server has 14 classes with 1230 students, and 28 subjects.
 Exist scripts which is ability generatetd schedule in specific time, if server doesnt have a limits.
 
 Server on heroku is suspend, so it needed a few time to execute.

@@ -57,8 +57,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         ]);
     }
 
-
-
     #endregion
 
     #region Reading
@@ -70,7 +68,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
 
         return $this->findIdByOtherId($user_id, KeyColumn::fromModel(User::class), KeyColumn::fromModel(Student::class), Student::class);
     }
-
 
     public function readStudentActiveIdByStudentIdAndDate ( $studentId, $date, $time ) {
         return StudentActivity::query()->
@@ -189,6 +186,13 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             pluck(KeyColumn::fromModel(StudentStatistics::class));
     }
 
+    public function readStudentStatisticsById ( int $studentId, int $subjectId ) {
+        return $this->findByAndColumns($studentId, $subjectId,
+            KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
+            StudentStatistics::class)->
+        first();
+    }
+
     public function readAvgMarksBySubjectId($studentId, $subjectId) {
 
         return $this->findByAndColumns($studentId, $subjectId,
@@ -213,7 +217,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             pluck('average_marks');
     }
 
-
     public function readFrequencyBySubjectId($studentId, $subjectId) {
         return $this->findByAndColumns($studentId, $subjectId,
             KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
@@ -222,7 +225,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
             pluck('frequency');
     }
 
-
     public function readFrequencyPositionBySubjectName ( int $studentId, int $subjectId ) {
         return $this->findByAndColumns($studentId, $subjectId,
             KeyColumn::fromModel(Student::class), KeyColumn::fromModel(Subject::class),
@@ -230,7 +232,6 @@ class StudentRepository extends BaseRepository implements StudentRepositoryInter
         whereNotNull('frequency_position')->
         pluck('frequency_position');
     }
-
 
     public function readListFrequency ( int $studentId ) {
         return $this->findByColumn($studentId, KeyColumn::fromModel(Student::class), StudentStatistics::class)->

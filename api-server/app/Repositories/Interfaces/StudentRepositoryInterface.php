@@ -6,6 +6,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\StudentActivity;
 use App\Models\StudentMark;
+use App\Models\StudentStatistics;
 use App\Repositories\Base\BaseRepositoryInterface;
 
 interface StudentRepositoryInterface extends BaseRepositoryInterface {
@@ -99,6 +100,13 @@ interface StudentRepositoryInterface extends BaseRepositoryInterface {
      * @return mixed Primary key
      */
     public function readStudentStatisticsId ( int $studentId, int $subjectId );
+
+    /**
+     * @param int $studentId
+     * @param int $subjectId
+     * @return StudentStatistics Row
+     */
+    public function readStudentStatisticsById ( int $studentId, int $subjectId );
 
     #region Statistics Table
 

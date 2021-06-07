@@ -16,7 +16,7 @@ import { TeacherService } from 'src/app/_services/teacher.service';
 @Component({
   selector: 'app-new-message',
   templateUrl: './new-message.component.html',
-  styleUrls: ['./new-message.component.css']
+  styleUrls: ['../reply&new-message.css']
 })
 export class NewMessageComponent implements OnInit {
   @Output() refresh = new EventEmitter();

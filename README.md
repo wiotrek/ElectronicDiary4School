@@ -2,11 +2,11 @@
 Project on subject Programing Web Application for WSB Poznań
 
 ## contents
-* [General info] (#general-info)
-* [Contribution] (#contribution)
-* [Functions] (#functions)
-* [Technologies] (#technologies)
-* [Screens] (#screens)
+* [General info](#general-info)
+* [Contribution](#contribution)
+* [Functions](#functions)
+* [Technologies](#technologies)
+* [Screens](#screens)
 
 ## General info
 Simple app for management in school, for any size school. Available database on server has 14 classes with 1230 students, and 28 subjects.

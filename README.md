@@ -24,9 +24,9 @@ Parent <br>
 login: R52247 <br>
 password: asd <br>
 
-Student
-login: 71646
-password: dsa
+Student <br>
+login: 71646 <br>
+password: dsa <br>
 
 ## Contribution
 Created frontend by @Wiotrek, and backend by @Kipoderax.

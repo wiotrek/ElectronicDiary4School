@@ -23,6 +23,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
+use Illuminate\Support\Collection;
 
 class StudentService extends BaseRepository {
 
@@ -754,10 +755,10 @@ class StudentService extends BaseRepository {
 
     /**
      * After each updating student marks, update average positions for rest students from the same class
-     * @param $studentList array | null The list of student ids
+     * @param Collection|null $studentList array | null The list of student ids
      * @param $subjectId int
      */
-    private function updatePositionOfMark( ?array $studentList, $subjectId) {
+    private function updatePositionOfMark( ?Collection $studentList, $subjectId) {
 
         // Keep average reference to student id from student list
         $markDetails = [];

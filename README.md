@@ -1,7 +1,7 @@
 # ElectronicDiary4School
 Project on subject Programing Web Application for WSB Poznań
 
-## contents
+## List
 * [General info](#general-info)
 * [Contribution](#contribution)
 * [Functions](#functions)
@@ -21,18 +21,15 @@ login: IM7259
 password: dsa
 
 Parent
-login: IM7259
-password: dsa
+login: R52247
+password: asd
 
 Student
-login: IM7259
+login: 71646
 password: dsa
 
 ## Contribution
 Created frontend by @Wiotrek, and backend by @Kipoderax.
-
-## Functions
-
 
 ## Technologies
 Angular 2+/11

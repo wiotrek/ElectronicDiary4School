@@ -32,7 +32,7 @@ password: dsa <br>
 Created frontend by @Wiotrek, and backend by @Kipoderax.
 
 ## Technologies
-Angular 2+/11
+* Angular 2+/11
 * Typescript
 * PHP 7.4
 * Laravel 8

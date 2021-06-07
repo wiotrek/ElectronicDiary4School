@@ -28,7 +28,7 @@ Student <br>
 login: 71646 <br>
 password: dsa <br>
 
-## Contribution
+## Contribution :rocket:
 Created frontend by @Wiotrek, and backend by @Kipoderax.
 
 ## Technologies
@@ -39,6 +39,8 @@ Created frontend by @Wiotrek, and backend by @Kipoderax.
 * Netlify
 * Heroku
 * Azure
+* Rest API
+* Bootstrap
 
 
 ## Screens

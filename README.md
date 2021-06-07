@@ -3,7 +3,7 @@ Project on subject Programing Web Application for WSB Poznań
 
 ## List :door:
 * [General info](#general-info)
-* [Contribution](#contribution)
+* [Contributors](#Contributors)
 * [Functions](#functions)
 * [Technologies](#technologies)
 * [Screens](#screens)
@@ -28,7 +28,7 @@ Student :raising_hand: <br>
 login: 71646 <br>
 password: dsa <br>
 
-## :rocket: Contribution
+## :rocket: Contributors
 Created frontend by @Wiotrek, and backend by @Kipoderax.
 
 ## Technologies

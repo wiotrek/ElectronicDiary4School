@@ -8,7 +8,7 @@ Project on subject Programing Web Application for WSB Poznań
 * [Technologies](#technologies)
 * [Screens](#screens)
 
-## General info
+## General info :book:
 Simple app for management in school, for any size school. Available database on server has 14 classes with 1230 students, and 28 subjects.
 Exist scripts which is ability generatetd schedule in specific time, if server doesnt have a limits.
 
@@ -28,7 +28,7 @@ Student <br>
 login: 71646 <br>
 password: dsa <br>
 
-## Contribution :rocket:
+## :rocket: Contribution
 Created frontend by @Wiotrek, and backend by @Kipoderax.
 
 ## Technologies

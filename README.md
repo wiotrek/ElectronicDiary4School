@@ -1,4 +1,4 @@
-# ElectronicDiary4School
+# ElectronicDiary4School :joystick:
 Project on subject Programing Web Application for WSB Poznań
 
 ## List
@@ -43,7 +43,7 @@ Created frontend by @Wiotrek, and backend by @Kipoderax.
 * Bootstrap
 
 
-## Screens
+## Screens :framed_picture:
 ![](https://user-images.githubusercontent.com/57100427/121034006-f7c33580-c7ac-11eb-84c8-21dd7ccf287a.png)
 ![](https://user-images.githubusercontent.com/57100427/121034169-1a554e80-c7ad-11eb-9c96-107a7b84ab7d.png)
 ![](https://user-images.githubusercontent.com/57100427/121034340-3a850d80-c7ad-11eb-812f-916d9d99089e.png)

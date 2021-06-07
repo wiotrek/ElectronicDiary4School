@@ -1,4 +1,4 @@
-# <h1> ElectronicDiary4School </h1>
+# ElectronicDiary4School
 Project on subject Programing Web Application for WSB Poznań
 
 ## contents
@@ -16,6 +16,15 @@ Server on heroku is suspend, so it needed a few time to execute.
 
 https://szkolny-edziennik.netlify.app/
 
+Teacher
+login: IM7259
+password: dsa
+
+Parent
+login: IM7259
+password: dsa
+
+Student
 login: IM7259
 password: dsa
 

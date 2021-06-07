@@ -82,10 +82,6 @@ class HarmonogramService extends BaseRepository {
         // For each row from harmonogram
         foreach ( $getData as $data ) {
 
-            // TODO: It's only debug mode. In production set values to 0 above loop
-            $activeChance = rand(0, 100);
-            $active = $activeChance > 15 ? 1 : 0;
-            $checked = 1;
 
             // Init main data
             $teacherId = $data['teacher_id'];
@@ -97,6 +93,11 @@ class HarmonogramService extends BaseRepository {
 
             // For each student
             foreach ( $studentIds as $studentId ) {
+
+                // TODO: It's only debug mode. In production set values to 0 above loop
+                $activeChance = rand(0, 100);
+                $active = $activeChance > 15 ? 1 : 0;
+                $checked = 1;
 
                 // Create single row of student_activity table
                 $studentActivity = new StudentActivity([

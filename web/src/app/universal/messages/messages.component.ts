@@ -15,9 +15,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
   reciverReplyMessage = {} as ReadMessage;
 
   page = 0;
-  pageSize = 6;
+  pageSize = 5;
   senderFirst = 0;
-  senderLast = 6;
+  senderLast = 5;
 
   listOfSenders: ReadMessage[] = [];
 

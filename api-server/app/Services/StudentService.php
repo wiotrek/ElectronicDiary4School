@@ -23,6 +23,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\MarkRepository;
 use App\Repositories\SubjectRepository;
 use App\WebModels\Marks\MarkListInsert;
+use Illuminate\Support\Collection;
 
 class StudentService extends BaseRepository {
 
@@ -119,9 +120,9 @@ class StudentService extends BaseRepository {
         // mark id from database represent by mark value from database
         $markIdFromDb = $this->markRepository->readMarkIdByDegree($markFromDb);
 
-
         // Get row to update
         $markToUpdate = $this->studentRepository->findByColumn($markItem->getStudentMarksId(), 'student_marks_id', StudentMark::class)->first();
+
 
         // update if change has detected
         if ($markIdByMarkFromClient != $markIdFromDb && !is_null($markIdFromDb)){
@@ -136,7 +137,7 @@ class StudentService extends BaseRepository {
 
 
             // update student statistics
-            //$this->createOrUpdateStudentStatistics($markToUpdate->student_id, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
+           $this->createOrUpdateStudentStatistics($markToUpdate->student_id, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
         }
 
 
@@ -146,9 +147,7 @@ class StudentService extends BaseRepository {
         $studentList = $this->classRepository->readStudentsIdByClassId($classId);
 
 
-        // TODO: It's take to much longer time. Move this to Sql procedure
-        foreach ( $studentList as $studentId )
-            $this->createOrUpdateStudentStatistics($studentId, $this->subjectRepository->readSubjectNameById($markToUpdate->subject_id)[0]);
+        $this->updatePositionOfMark( $studentList, $markToUpdate->subject_id );
 
     }
 
@@ -498,7 +497,6 @@ class StudentService extends BaseRepository {
 
     #region Private Methods
 
-
     private function getStudentMarks($marks){
         $subjectWithMarks = new SubjectWithMarksResultApiModel();
         if (count($marks) > 0 && !is_null($marks)) {
@@ -751,6 +749,81 @@ class StudentService extends BaseRepository {
             $this->storeModel($studentStatistics);
         else
             $this->studentRepository->updateStudentStatistics ( $statisticsId[0], KeyColumn::fromModel(StudentStatistics::class), $studentStatistics );
+
+    }
+
+
+    /**
+     * After each updating student marks, update average positions for rest students from the same class
+     * @param Collection|null $studentList array | null The list of student ids
+     * @param $subjectId int
+     */
+    private function updatePositionOfMark( ?Collection $studentList, $subjectId) {
+
+        // Keep average reference to student id from student list
+        $markDetails = [];
+
+
+        // Fill mark details of each student
+        foreach ( $studentList as $studentId ) {
+
+            // Read for this student his average by subject id
+            $statisticsModel = $this->studentRepository->readStudentStatisticsById($studentId, $subjectId);
+            $markDetails[] = array(
+                'studentId' => $studentId,
+                'average' =>$statisticsModel['average_marks']
+            );
+
+        }
+
+
+        // Sorting by average column
+        $averages = array_column($markDetails, 'average');
+        array_multisort($averages, SORT_DESC, $markDetails);
+
+
+        // Calculate position for average mark
+        $newPositions = array();
+        $count = 1; // Specific position
+        foreach ( $markDetails as $markDetail ) {
+            $markCanBeAdd = 1;
+
+            // Set flag to 0 if duplicate is detected
+            foreach ( $newPositions as $value )
+                if ($value['avg'] == $markDetail['average'])
+                    $markCanBeAdd = 0;
+
+            // For unique average set next position
+            if ($markCanBeAdd)
+                $newPositions[] = array(
+                    'pos' => $count++,
+                    'avg' => $markDetail['average']
+                );
+
+        }
+
+
+        // Finally, for each student update avg position with new
+        foreach ( $markDetails as $markDetail ) {
+
+            // Init data
+            $settingPosition = 0;
+            $statisticsModel = $this->studentRepository->readStudentStatisticsById($markDetail['studentId'], $subjectId);
+
+            // Set new position for right avg
+            foreach ( $newPositions as $value ) {
+                if ($markDetail['average'] == $value['avg'])
+                    $settingPosition = $value['pos'];
+            }
+
+            $statisticsModel->average_position = $settingPosition;
+
+            $statisticsId = $this->studentRepository->readStudentStatisticsId($markDetail['studentId'], $subjectId);
+            if (count($statisticsId) != 0)
+                $this->studentRepository->updateStudentStatistics ( $statisticsId[0], KeyColumn::fromModel(StudentStatistics::class), $statisticsModel );
+
+        }
+
 
     }
 

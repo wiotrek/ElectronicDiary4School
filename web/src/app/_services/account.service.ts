@@ -15,6 +15,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
   baseUrl = environment.apiUrl;
+  localhost = environment.url;
 
   // only for message comopnent
   receivedMessage = {} as ReadMessage[];
@@ -46,8 +47,7 @@ export class AccountService {
     this.currentUserSource.next(null);
 
     // return site to login component
-    window.location.href = '';
-    window.location.reload();
+    window.location.href = this.localhost;
   }
 
   sendMessage(message: Message, addToPath: string): any {

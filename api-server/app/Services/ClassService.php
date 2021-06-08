@@ -6,6 +6,8 @@ namespace App\Services;
 use App\Models\Student;
 use App\Models\User;
 use App\Repositories\Interfaces\ClassRepositoryInterface;
+use App\Repositories\Interfaces\StudentRepositoryInterface;
+use App\Repositories\Interfaces\SubjectRepositoryInterface;
 use App\Repositories\StudentRepository;
 
 class ClassService {
@@ -14,15 +16,19 @@ class ClassService {
 
     private $classRepository;
     private $studentRepository;
+    private $subjectRepository;
 
     #endregion
 
     #region DI Constructor
 
     public function __construct (ClassRepositoryInterface $classRepository,
-                                 StudentRepository $studentRepository) {
+                                                       StudentRepositoryInterface $studentRepository,
+                                                       SubjectRepositoryInterface $subjectRepository) {
+
         $this->classRepository = $classRepository;
         $this->studentRepository = $studentRepository;
+        $this -> subjectRepository = $subjectRepository;
     }
 
     #endregion
@@ -34,10 +40,12 @@ class ClassService {
      * @return mixed|null
      */
     public function getTeacherClasses ( string $subjectName ) {
-        if (!is_null($subjectName))
-            $teachersClasses = $this->classRepository->readTeacherClasses($subjectName);
-        else
+
+        if (!$this->subjectRepository->isSubjectExistBySubjectName($subjectName))
             return null;
+
+
+        $teachersClasses = $this->classRepository->readTeacherClasses($subjectName);
 
         if (is_null($teachersClasses))
             return null;

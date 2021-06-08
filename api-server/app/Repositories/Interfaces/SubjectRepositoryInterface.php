@@ -28,4 +28,10 @@ interface SubjectRepositoryInterface extends BaseRepositoryInterface {
      */
     public function isSubjectExistByTeacherId ( int $teacherId, int $subjectId );
 
+    /**
+     * @param string|null $subjectName
+     * @return mixed
+     */
+    public function isSubjectExistBySubjectName ( ?string $subjectName );
+
 }

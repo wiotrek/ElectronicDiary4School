@@ -12,7 +12,12 @@ use App\Repositories\Interfaces\MarkRepositoryInterface;
 class MarkRepository extends BaseRepository implements MarkRepositoryInterface {
 
     public function readMarkIdByDegree ( $degree ) {
-        return $this->findByColumn( $degree, 'degree', Mark::class )->pluck('marks_id')[0];
+        $markId = $this->findByColumn( $degree, 'degree', Mark::class )->pluck('marks_id');
+
+        if ( ( !count( $markId ) ) > 0 )
+            return null;
+
+        return $markId[0];
     }
 
     public function readMarkTypeIdByMarkFrom ( $markFrom ) {

@@ -79,6 +79,9 @@ class StudentService extends BaseRepository {
             $student_id = $this->studentRepository->readStudentIdByIdentifier($mark->getIdentifier())[0];
             $marks_id = $this->markRepository->readMarkIdByDegree($mark->getMark());
 
+            if (is_null($marks_id))
+                return null;
+
             // Fill eloquent columns
             $studentMark->student_id = $student_id;
             $studentMark->marks_id = $marks_id;
@@ -102,6 +105,7 @@ class StudentService extends BaseRepository {
         foreach ( $collectStudentsId as $studentId )
             $this->createOrUpdateStudentStatistics($studentId, $mlInsert->getMarkRevision()->getSubject());
 
+        return 1;
     }
 
 
@@ -145,6 +149,7 @@ class StudentService extends BaseRepository {
         $studentIdentifier = $this->userRepository->readIdentifierByUserId($userId);
         $classId = $this->classRepository->readClassIdByStudentIdentifier($studentIdentifier);
         $studentList = $this->classRepository->readStudentsIdByClassId($classId);
+
 
 
         $this->updatePositionOfMark( $studentList, $markToUpdate->subject_id );

@@ -36,9 +36,11 @@ class SubjectService {
     }
 
 
-
-
     public function getSubjectId ( $subjectName ) {
+
+        if (!$this->subjectRepository->isSubjectExistBySubjectName($subjectName))
+            return null;
+
         return $this->subjectRepository->findByColumn($subjectName, 'name', Subject::class)
             ->pluck('subject_id');
     }

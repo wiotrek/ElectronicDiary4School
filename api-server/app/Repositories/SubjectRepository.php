@@ -88,6 +88,17 @@ class SubjectRepository extends BaseRepository implements SubjectRepositoryInter
             TeacherSubject::class)->first();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function isSubjectExistBySubjectName ( ?string $subjectName ) {
+
+        $founded = $this->findByColumn($subjectName, 'name',
+            Subject::class)->first();
+
+        return !is_null( $founded );
+
+    }
 
     #endregion
 

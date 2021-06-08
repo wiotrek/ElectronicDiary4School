@@ -21,6 +21,16 @@ class ApiResponse {
     }
 
     /**
+     * @param null $message
+     * return status 204
+     */
+    public static function withEmpty($message = null) {
+        return !is_null($message) ?
+            response( ['message' => $message], ApiHttpCode::NO_CONTENT ) :
+            response( null, ApiHttpCode::NO_CONTENT );
+    }
+
+    /**
      * @param $api_code string The message to return about what was wrong
      * @param $http_code int The http status
      */

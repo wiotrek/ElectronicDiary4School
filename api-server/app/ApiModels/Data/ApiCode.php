@@ -9,10 +9,13 @@ namespace App\ApiModels\Data;
 class ApiCode {
 
     public const NO_DATA = 'Please provide all required details';
+    public const INCORRECT_DATA_REQUEST = 'Data from request is incorrect';
+    public const NO_CONTENT = 'Nothing exist to display';
     public const INCORRECT_CREDS = 'Invalid identifier or password';
     public const IS_NOT_TEACHER_CONTENT = 'You are mistakes content. This content for student or parents only';
     public const IS_NOT_STUDENT_OR_TEACHER_CONTENT = 'It is not your content. This content for parents only';
     public const IS_NOT_STUDENT_CONTENT = 'It is not your content. This content for teachers or parents only';
+    public const NOT_ALLOW_CONTENT = 'You are not allow to view this content.';
 
     public const STORE_STUDENT_ACTIVE = 'Student activities inserted successfully';
     public const LOGOUTOK = 'Logout with success';

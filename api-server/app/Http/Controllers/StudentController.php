@@ -21,6 +21,7 @@ use App\WebModels\Marks\MarkListEdit;
 use App\WebModels\Marks\MarkListInsert;
 use App\WebModels\Marks\MarkRevision;
 use App\WebModels\StudentFrequencyWebModel;
+use Facade\FlareClient\Api;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -44,6 +45,13 @@ class StudentController extends Controller
 
     // Save student activity data to student_activity table
     public function storeStudentActivity (Request $request, $subjectName) {
+
+        if (!RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::NOT_ALLOW_CONTENT);
+
+        if (is_null($this->subjectService->getSubjectId($subjectName)))
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
+
 
         // Get id of subject which for active students are saving
         $subjectId = $this->subjectService->getSubjectId($subjectName)[0];
@@ -86,6 +94,14 @@ class StudentController extends Controller
      * @param $date string The date contain information about student frequenties
      */
     public function showStudentFrequenty ( string $class, string $subjectName, string $date ) {
+
+        if (!RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::NOT_ALLOW_CONTENT);
+
+        if (is_null($this->subjectService->getSubjectId($subjectName)) || strlen($class) != 2)
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
+
+
         // Init list for collect student items with them active
         $studentFrequencyList = new StudentFrequencyListResultApiModel;
 
@@ -93,6 +109,9 @@ class StudentController extends Controller
         // what the class
         $classNumber = $class[0];
         $identifierClassNumber = $class[1];
+
+        if ( ( !count( $this -> classService -> getClassIdByClassName( $classNumber, $identifierClassNumber ) ) ) > 0 )
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
 
 
         // Get id of subject which for active students are displaying
@@ -153,7 +172,17 @@ class StudentController extends Controller
         return ApiResponse::withSuccess($response);
     }
 
-    public function showStudentMarksOfClassForSubject($subject, $class) {
+    public function showStudentMarksOfClassForSubject($subjectName, $class) {
+
+        if (!RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::NOT_ALLOW_CONTENT);
+
+        if (is_null($this->subjectService->getSubjectId($subjectName)) || strlen($class) != 2)
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
+
+        if ( ( !count( $this -> classService -> getClassIdByClassName( $class[0], $class[1] ) ) ) > 0 )
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
+
 
         // Collect all students with their marks
         $studentsWithMarks = new MarksListViewResultApiModel();
@@ -178,7 +207,7 @@ class StudentController extends Controller
             $student->setIdentifier($st['identifier']);
 
             // Get marks by current student identifier and subject
-            $markListItem = $this->studentService->getStudentMarksBySubject($student->getIdentifier(), $subject);
+            $markListItem = $this->studentService->getStudentMarksBySubject($student->getIdentifier(), $subjectName);
 
 
             // Initialize student with marks
@@ -195,9 +224,14 @@ class StudentController extends Controller
 
     public function editStudentMarks( Request $request ) {
 
+        if (!RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::NOT_ALLOW_CONTENT);
+
+
         // Initialize mark list with data
         $marksListToEdit = new MarkListEdit();
         $marksListToEdit->setMarkList($request->all());
+
 
         // For each item of list
         foreach ( $marksListToEdit->getMarkList() as $item ) {
@@ -214,6 +248,16 @@ class StudentController extends Controller
     }
 
     public function insertStudentMark(Request $request) {
+
+        #region Validate
+
+        if (!RoleDetecter::isTeacher())
+            return ApiResponse::unAuthenticated(ApiCode::NOT_ALLOW_CONTENT);
+
+        if (is_null($this->subjectService->getSubjectId($request['name'])))
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
+
+        #endregion
 
         #region Web Models Declare
 
@@ -246,7 +290,11 @@ class StudentController extends Controller
             $markListInsert->setMarks($markInsert);
         }
 
-        $this->studentService->storeStudentMarks($markListInsert);
+        $result = $this->studentService->storeStudentMarks($markListInsert);
+
+
+        if (is_null($result))
+            return ApiResponse::badRequest(ApiCode::INCORRECT_DATA_REQUEST);
 
         return ApiResponse::withSuccess(null, ApiCode::MARKS_INSERT_SUCCESS);
     }
@@ -285,6 +333,7 @@ class StudentController extends Controller
     }
 
     public function showMarksOfEachSubject (  ) {
+
 
         if (RoleDetecter::isTeacher())
             return ApiResponse::unAuthenticated(ApiCode::IS_NOT_TEACHER_CONTENT);

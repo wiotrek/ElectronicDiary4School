@@ -44,15 +44,15 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+
+    // return site to login component
     window.location.href = '';
     window.location.reload();
   }
 
   sendMessage(message: Message, addToPath: string): any {
     let path = 'notification/send';
-    if (!!addToPath.length) {
-      path += addToPath;
-    }
+    if (!!addToPath.length) { path += addToPath; }
     return this.http.post(this.baseUrl + path, message);
   }
 

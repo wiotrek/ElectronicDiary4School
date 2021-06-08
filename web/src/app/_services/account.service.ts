@@ -44,6 +44,8 @@ export class AccountService {
   logout(): void {
     localStorage.removeItem('user');
     this.currentUserSource.next(null);
+    window.location.href = '';
+    window.location.reload();
   }
 
   sendMessage(message: Message, addToPath: string): any {

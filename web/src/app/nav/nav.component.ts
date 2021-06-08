@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DictionaryList } from '../_models/dictionary-list';
 import { AccountService } from '../_services/account.service';
 
@@ -7,7 +7,7 @@ import { AccountService } from '../_services/account.service';
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css']
 })
-export class NavComponent {
+export class NavComponent implements OnInit{
   darkMode = false;
 
   private darkModeListColor: DictionaryList<string> =  {
@@ -28,13 +28,28 @@ export class NavComponent {
 
   constructor(public accountService: AccountService) { }
 
+  ngOnInit(): void {
+    this.darkModeIsExist();
+  }
+
   logout(): void {
     this.accountService.logout();
-    window.location.reload();
+  }
+
+  darkModeIsExist(): void {
+    this.darkMode = !!localStorage.getItem('darkMode');
+
+    if (this.darkMode) {
+      Object.keys(this.darkModeListColor).forEach(property => {
+        document.documentElement.style
+          .setProperty(property, this.darkModeListColor[property]);  });
+    }
   }
 
   // toggle dark mode on light mode and reverse
   darkmodeToggle = () => {
+
+    // setting styled
     this.darkMode
     ? Object.keys(this.darkModeListColor).forEach(property => {
         document.documentElement.style
@@ -42,5 +57,10 @@ export class NavComponent {
     : Object.keys(this.lightModeListColor).forEach(property => {
       document.documentElement.style
         .setProperty(property, this.lightModeListColor[property]); });
+
+    // setting local storage
+    this.darkMode
+    ? localStorage.setItem('darkMode', 'true')
+    : localStorage.removeItem('darkMode');
   }
 }

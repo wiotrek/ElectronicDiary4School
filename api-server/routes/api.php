@@ -7,6 +7,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ParentController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
 use App\Routes\ApiRoutes;
 use App\Routes\WebRoutes;
 use Illuminate\Support\Facades\Route;
@@ -38,10 +39,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get( ApiRoutes::TEACHER_CLASS_OF_SUBJECT, [ ClassController::class, 'showTeacherClassBySubject' ] );
 
     // Student list for class
-    Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ StudentController::class, 'showStudentFrequenty' ] );
+    Route::get( ApiRoutes::STUDENTS_OF_CLASS, [ TeacherController::class, 'showStudentFrequenty' ] );
 
     // Student marks of specific class
-    Route::get(ApiRoutes::MARKS_LIST_CLASS, [ StudentController::class, 'showStudentMarksOfClassForSubject' ] );
+    Route::get(ApiRoutes::MARKS_LIST_CLASS, [ TeacherController::class, 'showStudentMarksOfClassForSubject' ] );
 
     // Subjects list of the specific student
     Route::get(ApiRoutes::STUDENT_SUBJECTS, [StudentController::class, 'studentSubjects']);
@@ -72,13 +73,13 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::post( WebRoutes::LOGOUT, [ AuthController::class, 'logout' ] );
 
     // Student activity
-    Route::put( WebRoutes::STUDENT_ACTIVE, [ StudentController::class, 'storeStudentActivity' ] );
+    Route::put( WebRoutes::STUDENT_ACTIVE, [ TeacherController::class, 'storeStudentActivity' ] );
 
     // Edit marks by teacher
-    Route::put( WebRoutes::TEACHER_MARKS_EDIT, [StudentController::class, 'editStudentMarks'] );
+    Route::put( WebRoutes::TEACHER_MARKS_EDIT, [TeacherController::class, 'editStudentMarks'] );
 
     // Insert marks by teacher
-    Route::post( WebRoutes::TEACHER_MARKS_INSERT, [StudentController::class, 'insertStudentMark'] );
+    Route::post( WebRoutes::TEACHER_MARKS_INSERT, [TeacherController::class, 'insertStudentMark'] );
 
     // Insert notification by teacher or parent
     Route::post( WebRoutes::NOTIFICATION_INSERT, [NotificationController::class, 'insertNotification'] );

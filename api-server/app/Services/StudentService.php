@@ -104,7 +104,7 @@ class StudentService extends BaseRepository {
             // collect data from current subject iterate
             $result[] =  array(
                 'subject' => $subjectWithMarks->getSubjectDetails(),
-                'marks' => $studentMarks == null ? null : $studentMarks
+                'marks' => $studentMarks == null ? null : $studentMarks[0]
             );
 
         }

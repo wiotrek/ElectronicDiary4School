@@ -2,7 +2,12 @@ version: "3.7"
 services:
 
     web:
-      image: wiotrek/image
+      image: wiotrek/electronic-diary-web:latest
+      ports:
+      - "4200:80"
+      networks:
+        vpcbr:
+          ipv4_address: 10.10.0.3
 
     server:
       image: wiotrek/image

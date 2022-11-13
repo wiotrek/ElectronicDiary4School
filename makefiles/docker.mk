@@ -1,6 +1,6 @@
 
 # create docker image for web application and push to docker hub
-docker_web.build:
+docker-web.build:
 	docker build \
 		--no-cache \
 		-t \
@@ -10,7 +10,7 @@ docker_web.build:
 
 
 # create docker image for web application and push to docker hub
-docker_api-server.build:
+docker-api-server.build:
 	docker build \
 		--no-cache \
 		-t \

@@ -1,11 +1,17 @@
-FROM php:7.4.33-zts-bullseye
+FROM php:7.4
 
-RUN apt-get install curl
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN apt-get update
+# Install unzip utility and libs needed by zip PHP extension
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev \
+    libzip-dev \
+    unzip
+RUN docker-php-ext-install pdo pdo_mysql
 
-WORKDIR /app
-COPY . /app
+WORKDIR /var/www
+COPY . .
 
-CMD php artisan serve --host=0.0.0.0 --port=8181
-EXPOSE 8181
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
+ENV PORT=8000
+
+ENTRYPOINT [ "docker/entrypoint.sh" ]

@@ -9,7 +9,7 @@ RUN npm install --legacy-peer-deps
 
 COPY ./ /app/
 
-ARG configuration=production
+ARG configuration=productionLocal
 
 RUN npm run build -- --output-path=./dist/out --configuration $configuration
 

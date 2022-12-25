@@ -1,0 +1,49 @@
+version: '3.3'
+
+services:
+
+  angular:
+    container_name: electronic_diary_web
+    build:
+      context: ../web/.
+    ports:
+      - 4200:4200
+    networks:
+      - electronic_diary_network
+
+  php:
+    container_name: electronic_diary
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/var/www
+    networks:
+      - electronic_diary_network
+
+  mariadb:
+    container_name: electronic_diary_db
+    image: mariadb:latest
+    ports:
+      - '${DB_PORT}:3306'
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - electronic_diary_volume:/var/lib/mysql
+    networks:
+      - electronic_diary_network
+
+volumes:
+  electronic_diary_volume:
+
+networks:
+  electronic_diary_network:
+    driver: bridge
+
+
+# remeber first make command:
+# docker-compose build --no-cache
